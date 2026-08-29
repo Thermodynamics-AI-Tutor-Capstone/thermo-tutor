@@ -1,0 +1,30 @@
+# Secrets — never
+.env
+.env.*
+*.pem
+*.key
+*_token
+credentials.json
+
+# Student data — never, this repo is public
+research/student-interviews/raw/
+research/student-interviews/audio/
+research/student-interviews/transcripts/
+*.transcript
+*consent*signed*
+
+# Copyrighted course materials — cite, don't commit
+course-materials/
+*.pdf
+!docs/**/*.pdf
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Agent scratch
+.claude/.github-coordination.json
+.worktrees/
