@@ -59,6 +59,33 @@ programming course. Different populations may behave differently, and the K-12-f
 "5% already-advantaged power users" pattern may well hold there. But for *our* setting —
 university engineering — KAIST is the better evidence, and it is encouraging.
 
+## A second equity axis we had missed: access tier
+
+*FairTutor* (Qingyang Xu, arXiv:2606.20713) names a problem our node had not considered:
+**students with premium AI subscriptions get measurably better tutoring than students on free
+tiers.** They introduce an **"AIED Advantage Gap"** metric for exactly this — the quality
+difference between premium-access and budget-constrained tutoring — plus a benchmark,
+TutorAccessEval, spanning maths, reading, writing, science, and language learning.
+
+Their routing framework (query analysis → pedagogical planning → low-cost generation →
+evaluator-guided critique and revision → **selective escalation** to a premium model) reports
+**97.1% of premium pedagogical quality at 71.6% lower serving cost.**
+
+Two things follow for us:
+
+1. **This axis largely disappears at Penn State**, because
+   [AI Studio](psu-ai-landscape.md) gives every student Claude, ChatGPT, and Gemini for free.
+   Worth stating explicitly as an argument *for* institutional provision — PSU has already
+   closed a gap that exists elsewhere.
+2. **The critique-and-revise-then-escalate pattern is a cheap verification layer.** A small
+   model drafts, an evaluator critiques, and only hard cases escalate. That is a budget
+   version of the
+   [verification architecture](../concepts/grounding-and-verification.md) we want anyway, and
+   it comes with a published cost/quality frontier.
+
+*Caveat: single independent author, self-defined metric and benchmark. Interesting framing;
+not yet an established result.*
+
 ## The converging counter-case
 
 [Tutor CoPilot](../systems/tutor-copilot.md) found its **largest effect (+9%) for students of

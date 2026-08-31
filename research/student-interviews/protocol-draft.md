@@ -104,6 +104,33 @@ useful data is in the hesitations and the conditions they attach.*
 
 ---
 
+## Methodological precedent worth copying
+
+**Amoozadeh et al., "Student-AI Interaction: A Case Study of CS1 Students" (arXiv:2407.00305)**
+is the closest published analogue to what we are planning, and its design is directly
+reusable:
+
+- **15 students**, deliberately gender-balanced and majority non-white, **observed while
+  solving real programming tasks** with ChatGPT available
+- **Mixed methods triangulated three ways**: automated interaction logging, video analysis of
+  the session, and self-reported measures
+- Coded every prompt by the *information need* it served, and coded student *reactions* to AI
+  answers into "acceptance categories" (accepted / partial / hybrid / rejected)
+- Measured **self-efficacy before and after** — an outcome dimension our plan does not
+  currently include and probably should
+
+Their headline finding is a useful expectation-setter: participants *"extensively interacted
+with Generative AI, yet successfully provided correct answers only in 65% of the cases; the
+rest remained unsolved."*
+
+**Three things to take:** n=15 with observation beats n=50 with self-report; log + video +
+survey triangulation is the right instrument set; and coding *reactions* to AI output — not
+just prompts — is where the interesting behaviour lives.
+
+For transcript coding at scale, see also the LLM-open-coding pipeline in
+[Socratic tutoring](../../knowledge/concepts/socratic-tutoring.md), validated at Cohen's
+κ = 0.78.
+
 ## Analysis plan
 
 - Transcribe, then open-code the first 5 interviews independently by two team members.

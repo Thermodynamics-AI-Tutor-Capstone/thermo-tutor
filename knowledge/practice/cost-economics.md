@@ -40,6 +40,44 @@ means paying for a great many students who never open the thing. **Token pricing
 engagement problem is not also a cost problem** — which is a genuine and underappreciated
 advantage of building rather than buying.
 
+## ⚠ Latency is the real operational constraint, not cost
+
+Cost is settled. **Latency under classroom-scale concurrency is not**, and it is the thing
+that will actually break a deployment.
+
+*Latency and Cost of Multi-Agent Intelligent Tutoring at Scale* (Elhaimeur & Chrisochoides,
+**Old Dominion University**, arXiv:2604.24110) instrumented **ITAS**, a four-agent tutoring
+system on **Gemini 2.5 Flash / Google Vertex AI**, across three throughput tiers and eleven
+concurrency levels up to 50 simultaneous users — **3,000+ requests from a live graduate STEM
+deployment**.
+
+Architecture: three parallel specialist agents (video context, content, guidance) feeding a
+sequential synthesizer — **four API calls per student interaction**, all of which must
+complete before the student sees anything.
+
+| Tier | Behaviour |
+|---|---|
+| **Priority PayGo** | **Flat sub-4-second responses across the full load range** |
+| Standard PayGo | **Degrades substantially under classroom-scale concurrency** |
+| Provisioned Throughput | Lowest latency at low concurrency; **saturates above ~20 concurrent users** |
+
+Both pay-per-token tiers came in well below the alternatives on cost.
+
+**Why this matters to our architecture specifically.** Their named mechanism is the
+**"parallel-phase maximum effect"**: in a multi-agent system, latency is the *maximum* of the
+parallel calls, not the average — so the slowest agent sets the response time, and adding
+specialists makes the tail worse. Our
+[seven-layer design](../PAPER.md) is exactly this shape: retrieval, property tool calls,
+verification, and policy all sit between the student's question and the answer.
+
+And the concurrency profile of a course is adversarial: **everyone works the night before the
+problem set is due.** A tutor that is fast in testing and slow at 11pm on Wednesday is a tutor
+students abandon. → [engagement decay](../concepts/engagement-decay.md)
+
+**Action:** budget a latency envelope early, measure it under simulated concurrency, and
+treat the priority pricing tier as a requirement rather than an upgrade. The cost difference
+is trivial at our scale; the latency difference is not.
+
 ## What this means for us
 
 **1. Cost is not a design constraint at our scale.** Anchoring on KAIST, a 100-student
