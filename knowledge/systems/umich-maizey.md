@@ -20,29 +20,65 @@ Maizey lets faculty and staff build retrieval-grounded assistants over their own
 - Canvas integration: when enabled in a course, students reach the tutor from the Canvas
   side panel
 
-## The results — and how much to trust them
+## ⚠ The results — and one number we should stop repeating
 
-In a study of a **1,000-student class**:
+> **Corrected 2026-08-31.** This node previously reported a "5–9% grade improvement" as a
+> headline institutional result. **Two independent searches failed to locate the underlying
+> study, its methodology, or any control for selection effects.**
 
-- Students who used Maizey saw grades improve **5–9%**
-- The AI tutor answered questions **94% as effectively as, or better than,** the people
-  teaching the course, across qualitative and quantitative questions
+**The 5–9% grade claim: do not use it.** It circulates widely in trade coverage of a
+1,000-student class, but there is no locatable study behind it. Students who opt into an
+optional tutoring tool differ systematically from those who don't
+([equity](../practice/equity.md)), and without the methodology we cannot even tell whether
+that was addressed. This is precisely the kind of unvalidated headline figure that should not
+enter a capstone report — and a reviewer who chases the citation will find what we found.
 
-**Read the first number carefully.** "Students who used it" is self-selection, not
-assignment. Students who voluntarily use an optional study tool differ systematically from
-those who don't — they're the same ~5% power-user population documented in
-[equity](../practice/equity.md), skewing already-higher-performing. A 5–9% grade
-difference between users and non-users is consistent with a real tutoring effect **and**
-with the tutor doing nothing at all.
+**The 94% figure is different and more defensible**: a head-to-head answer-quality comparison
+against course staff across qualitative and quantitative questions — closer to the
+[CS50 TF-comparison method](cs50-duck.md). Still worth locating the methodology before citing.
 
-This isn't a knock on Michigan — it's the normal state of institutional evaluation, and
-they reported it plainly. But it's exactly the gap between a correlational deployment
-report and [Kestin's RCT](../evidence/kestin-2025-rct.md), and we should be clear which
-kind of evidence we're producing.
+## The architecture, and it is our design
 
-The 94% figure is different and more defensible: that's a head-to-head answer-quality
-comparison against course staff, closer to the
-[CS50 TF-comparison method](cs50-duck.md).
+Two details make Maizey the closest institutional precedent for what we are proposing:
+
+- It **"is based on an AI framework called retrieval-augmented generation (RAG)"** and indexes
+  **Dropbox, Google Drive, Canvas, and public web links simultaneously**, with **scheduled
+  reindexing**.
+- Per EdTech Magazine: *"Faculty can integrate Maizey with the university's learning management
+  system to set up **course-specific AI tutoring in just a few minutes**."*
+
+**A faculty member at Michigan can stand up a course-specific RAG tutor over their Canvas
+content in minutes.** That is roughly the product our project describes, already deployed at a
+peer institution — which sharpens rather than removes our contribution, but should change how
+we position it. Our differentiators have to be the layers Maizey does *not* have: a
+[student model](../concepts/knowledge-tracing.md),
+[property-data tools](../domain/property-data-tools.md), a
+[pedagogical policy outside the prompt](../concepts/guardrails.md), and evaluation.
+
+## ⭐ The API-access precedent — this answers our blocking question
+
+Michigan publishes the rule explicitly:
+
+> *"**Students cannot directly create U-M GPT Toolkit API keys** because access to the
+> self-service portal is restricted to faculty and staff, and API key creation requires an
+> approved U-M Shortcode due to associated costs. **Faculty or staff may sponsor eligible
+> student employees by creating and managing API keys on their behalf.**"*
+
+This is the documented norm at the peer institution whose stack Penn State's most closely
+mirrors. **Plan on needing a faculty sponsor who holds the account and the cost centre.** It
+converts our biggest open question from a blocker into a design constraint — we still confirm
+the PSU specifics, but we should expect this answer and plan the sponsor conversation around
+it. → [PSU AI landscape](../practice/psu-ai-landscape.md)
+
+## Cost signals — useful, and not a price sheet
+
+One procurement workload reportedly ran **~$65/year** on Maizey against a prior system costing
+**3 FTEs and "a few hundred thousand dollars a year,"** with accuracy going from ~30% to
+"nearly 100%." Pricing is **usage-based, not flat**, and Maizey is listed as **no-cost at U-M
+through 30 June 2027**.
+
+Treat $65 as a metered bill for one narrow workload, not as a rate card. It does corroborate
+the general finding that [cost is not our constraint](../practice/cost-economics.md).
 
 ## Why this is our institutional template
 
@@ -54,7 +90,8 @@ version of that looks like.
 
 ## Open questions
 
-- [ ] Which class was the 1,000-student study, and is the methodology published?
+- [ ] **Can anyone locate the 1,000-student study at all?** Two searches failed. Until someone
+      finds it, the 5–9% figure is unusable.
 - [ ] How was the 94% effectiveness comparison actually run — who judged, how many items?
 - [ ] Retention: do students keep using Maizey through the term?
 - [ ] What is the underlying model, and is it swappable?
@@ -70,7 +107,8 @@ version of that looks like.
 
 ## Sources
 
-- [EDUCAUSE Review, "How (and Why) the University of Michigan Built Its Own Closed Generative AI Tools" (Feb 2024)](https://er.educause.edu/articles/2024/2/how-and-why-the-university-of-michigan-built-its-own-closed-generative-ai-tools) `[skimmed]`
+- [EDUCAUSE Review, "How (and Why) the University of Michigan Built Its Own Closed Generative AI Tools" (Feb 2024)](https://er.educause.edu/articles/2024/2/how-and-why-the-university-of-michigan-built-its-own-closed-generative-ai-tools) `[found]` — **hard-blocked by Cloudflare to every automated route.** Opens fine in a browser, or via [this Wayback snapshot](https://web.archive.org/web/20251228083017/https://er.educause.edu/articles/2024/2/how-and-why-the-university-of-michigan-built-its-own-closed-generative-ai-tools). **Nothing in this node is sourced from it.**
+- [U-M ITS — AI FAQ](https://its.umich.edu/computing/ai/faq) `[read]` — **the API key sponsorship rule**
 - [EdTech Magazine, "How Three Universities Developed Their Chatbots" (May 2025)](https://edtechmagazine.com/higher/article/2025/05/how-three-universities-developed-their-chatbots) `[skimmed]` — scale and grade figures
 - [Michigan Ross, "U-M GPT's Maizey tool guides students to success"](https://michiganross.umich.edu/news/u-m-gpt-s-maizey-tool-guides-students-success) `[found]`
 - [U-M ITS AI release notes](https://its.umich.edu/computing/ai/release-notes) `[found]`

@@ -8,9 +8,15 @@ question is no longer *whether* to deploy AI but what to deploy and how to know 
 
 ## The state of play (2026)
 
+- **37%** of institutions provide institution-wide chatbot licences; **14%** have built their
+  own (EDUCAUSE). **57%** of leaders call AI a strategic priority, up from 49%.
 - **~74%** of US institutions have at least one production AI deployment touching students
-  directly (EDUCAUSE 2026 reporting)
+  directly (EDUCAUSE 2026 reporting, via secondary coverage)
 - **88%** of students and **77%** of faculty use AI → [faculty adoption](faculty-adoption.md)
+- But penetration into actual teaching is thin: only **15%** of students say AI is integrated
+  into many of their courses, only **5%** say it has transformed how they learn, and **24%**
+  report **no clear learning value**. **43% of US/Canada students support an institution-wide
+  AI ban.**
 - [CS50's Duck](../systems/cs50-duck.md) answered **800,000+** student questions in 2024–25
 - [Jill Watson](../systems/jill-watson.md) has expanded into a multi-course platform
 - [U-M Maizey](../systems/umich-maizey.md): **3,500+** instances, **~15,000** users/day
@@ -22,6 +28,18 @@ question is no longer *whether* to deploy AI but what to deploy and how to know 
 | **Buy access for everyone** | [ASU + OpenAI](../systems/asu-openai.md) | Distribution over design. Hand out frontier models, see what emerges |
 | **Build a platform** | [U-M Maizey](../systems/umich-maizey.md), [Cogniti](../systems/cogniti-sydney.md) | Governance and control. Faculty build their own agents on institution-owned infrastructure |
 | **Build one great course tutor** | [CS50 Duck](../systems/cs50-duck.md), [PeteChat](../systems/petechat-purdue.md), [Stan](../systems/stan-udel.md) | Depth over breadth. One course, done properly |
+
+**A fourth is emerging: the course-tutor-as-a-feature.** [U-M Maizey](../systems/umich-maizey.md)
+lets faculty *"set up course-specific AI tutoring in just a few minutes"* over Canvas content,
+and **UC Irvine's ZotGPT ClassChat** (launched January 2025) *"allows instructors to incorporate
+course materials with LLMs for students at much higher detail than a standard chatbot."* UCI
+also offers API access to researchers.
+
+**This is the most important competitive fact in this node.** What our project proposes as a
+build is increasingly a *checkbox* at peer institutions. That does not kill the project — those
+platforms are RAG-over-course-content with no student model, no domain tools, no pedagogical
+policy layer, and no evaluation — but it does mean **"we built a course-specific AI tutor" is
+not a contribution in 2026**, and our framing has to be about the layers above that.
 
 [Penn State appears to be running strategies 1 and 2 simultaneously](psu-ai-landscape.md):
 AI Studio provides broad access to Claude/ChatGPT/Gemini, and the AI Center of Excellence

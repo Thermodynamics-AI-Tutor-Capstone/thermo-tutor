@@ -25,6 +25,18 @@ From the Digital Education Council's Global AI in Higher Education Survey (45,00
 **The trend is the alarming part:** faculty intent to use AI in the US and Canada **fell from
 76% in 2025 to 67% in 2026** — the lowest future-adoption intent of any region.
 
+**And students are not the uncomplicated enthusiasts they are often presented as.** From the
+same survey: only **15%** say AI is integrated into many of their courses, only **5%** say it
+transformed how they learn, **24%** report no clear learning value — and **43% of US/Canada
+students support an institution-wide AI ban.**
+
+That last figure is worth carrying into the sponsor conversation. It is close to the
+[38.9% of Trinity students who opposed allowing an AI-TA in exams](../systems/codeaid-toronto.md)
+even while 89% said it improved their own exam experience, and to the
+[Corvinus backlash](../evidence/corvinus-2025-overreliance.md). **Student opinion on AI in
+coursework is genuinely divided, not uniformly positive**, and a project that assumes
+enthusiasm will be surprised.
+
 A related gap: 64% of faculty report having done AI literacy training, yet fewer than three in
 ten students see the results.
 
@@ -88,6 +100,6 @@ don't want to build anything are the majority. Our sponsor should be able to hel
 ## Sources
 
 - [Digital Education Council, AI in Higher Education Global Survey 2026](https://www.digitaleducationcouncil.com/resource-library-items/ai-in-higher-education-global-survey-2026) `[skimmed]`
-- [Inside Higher Ed, "Survey: Faculty Say AI Is Impactful, but Not In a Good Way" (Jan 2026)](https://www.insidehighered.com/news/faculty/teaching/2026/01/21/survey-faculty-say-ai-impactful-not-good-way) `[skimmed]`
+- [Inside Higher Ed, "Survey: Faculty Say AI Is Impactful, but Not In a Good Way" (Jan 2026)](https://www.insidehighered.com/news/faculty/teaching/2026/01/21/survey-faculty-say-ai-impactful-not-good-way) `[read]` — ⚠ the article gives a **fielding month with no year** and no institution count or recruitment methodology. Verify against the AAC&U/Elon primary report before citing the fielding date.
 - [ETIH, "AI in higher education survey 2026: student AI use hits 88%, faculty lag"](https://www.edtechinnovationhub.com/news/q6zw9wco2mttajdbd1jyeonjnpiovu) `[skimmed]`
 - [Forbes, "50,000 Students And Faculty Just Revealed Higher Ed's Top AI Challenge"](https://www.forbes.com/sites/avivalegatt/2026/07/07/50000-students-and-faculty-just-revealed-higher-eds-top-ai-challenge/) `[found]`

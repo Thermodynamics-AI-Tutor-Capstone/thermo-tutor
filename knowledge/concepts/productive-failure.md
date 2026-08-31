@@ -45,6 +45,89 @@ roughly half of [step-based ITS's d = 0.76](vanlehn-2011.md) and well under
 - **Effects scale with fidelity to the PF design principles.** Which makes the next section
   the important one.
 
+## ⭐ The collaboration question — resolved, and in our favour
+
+This node's biggest open question was whether productive failure's effect depends on the
+**small-group collaboration** component, since a 1:1 AI tutor has none. If it did, a large part
+of our pedagogical rationale would collapse.
+
+**It does not. Kapur (2014) and Sinha & Kapur (*Learning and Instruction*) both ran the
+generation phase individually**, and the effect held. Collaboration is a common implementation,
+not a load-bearing requirement.
+
+**A solo tutor is a legitimate vehicle for productive failure.** That is the single most
+useful thing this literature has told us.
+
+## ⭐ The university-level anchor: Chowrira et al. (2019)
+
+Our other open question was whether PF evidence reaches university level at all, given that
+domain specificity is a named boundary condition. It does — once.
+
+**Chowrira et al. (2019): d = 0.32 [0.15, 0.49], at university scale, against an
+*active-learning* control, with the intervention built by the instructor.**
+
+That comparison condition matters enormously. It is the same demanding bar
+[Kestin](../evidence/kestin-2025-rct.md) cleared, not a lecture strawman.
+
+**⚠ But it is the weakest-designed study we are leaning on, and the capstone should say so:**
+
+- **Quasi-experiment, not an RCT.** Students self-selected into sections; assignment was by
+  section, not by student.
+- **Pre-existing group differences.** The PF section had significantly more Faculty of Science
+  students (χ²(1, N = 574) = 10.85, p < 0.001) and was **already higher before the
+  manipulation** — on Midterm 1 (d = 0.44) and on final-exam non-study items (d = 0.44). The
+  ~5-point effect survives heavy covariate control, but it is *controlled for*, not randomized
+  away.
+- **Weak scale reliability**: Cronbach's α = **0.574** and **0.555** on the primary outcome
+  measures. That is poor.
+- **One instructor taught the PF section**, so instructor effects are fully confounded with
+  condition.
+- The ability proxy is a single midterm "of limited scope."
+
+**The low-prior-knowledge result needs the heaviest hedge.** A subgroup effect favouring
+low-achievers (b = 8.28) is the most reassuring finding available for our
+[equity](../practice/equity.md) concern — and it rests on a **post-hoc ternary split of a
+quasi-experiment with α ≈ 0.56**. The authors themselves call the subgroup splits
+*"more suggestive than conclusive."* **Present it as suggestive. Do not build the equity case
+on it.**
+
+## ⚠ The negative result we must not ignore
+
+**Scaffolded problem-solving-before-instruction has failed on average in meta-analysis:
+g = −0.08 across N = 60 comparisons.**
+
+That is not a small caveat. It means the specific thing we are proposing — a tutor that
+*scaffolds* the struggle phase — is, on the current evidence, the version of PF that does
+**not** work. Unscaffolded generation followed by consolidation works; adding support during
+generation appears to neutralize it.
+
+**This is simultaneously the strongest argument against our design and the clearest statement
+of the gap we would be addressing.** It should be in the capstone's motivation section, stated
+plainly, because a reviewer who knows this literature will raise it.
+
+## The design position that follows
+
+Drawn directly from the evidence rather than from intuition:
+
+1. **Build the solo tutor.** Collaboration is not required.
+2. **Preserve student generation.** Never substitute other students' failed solutions for the
+   student's own attempt.
+3. **Supply suboptimal representations only as on-demand scaffolds** — during a *second*
+   attempt, or during consolidation. Not during first generation.
+4. **Keep hints principle-based or metacognitive, never step-level.** Step-level hints are what
+   turns generation into guided practice, and plausibly what produced g = −0.08.
+5. **Make consolidation mandatory**, and build it on an **explicit pairwise contrast list**
+   between what the student produced and the canonical solution.
+6. **Escalate on stalled solution count, not on the clock.** A student still generating is still
+   in the productive phase; a student who has stopped generating is not.
+
+## ⚠ The two standing risks
+
+- **Undergraduates are the least-supported adult band in this literature, with zero engineering
+  and zero thermodynamics coverage.** Chowrira is one quasi-experiment.
+- **Scaffolded PS-I has failed on average.** We would be betting that better scaffolding design
+  reverses a meta-analytic null.
+
 ## ⚠ The two core design components a Socratic tutor doesn't have
 
 This is the finding that most changes our design, and it directly answers a question this
@@ -122,11 +205,14 @@ be the most interesting question we're positioned to ask.
       the canonical solution is one of the two core components. **Design accordingly.**
 - [ ] **Read Sinha & Kapur (2021) in full**, plus Kapur's original studies. This node is
       built from the meta-analysis abstract and secondary summaries.
-- [ ] How much of the d = 0.36 depends on the **collaboration** component that a 1:1 tutor
-      lacks? Possibly decomposable from the meta-analysis moderators. **Important before we
-      build on PF.**
-- [ ] Does it hold in university *engineering* specifically? The age moderator is
-      encouraging; domain specificity is a named boundary condition.
+- [x] ~~How much depends on collaboration?~~ **Not load-bearing.** Kapur 2014 and Sinha &
+      Kapur (*L&I*) both ran generation individually.
+- [x] ~~Does it reach university level?~~ Yes — **Chowrira et al. 2019, d = 0.32 against an
+      active-learning control**, with substantial design caveats above.
+- [ ] Does it hold in university *engineering* specifically? **Still no coverage at all.**
+- [ ] **Read the scaffolded-PS-I meta-analysis (g = −0.08) in full.** What counted as
+      "scaffolded," and is our hint-ladder design inside or outside that definition? This is
+      the most consequential unresolved question on this node.
 - [ ] How long is productive before it becomes destructive? Still unanswered anywhere.
 - [ ] Do the students who most need help have the least tolerance for a budget?
       → [equity](../practice/equity.md). Note [KAIST](../evidence/kaist-vta-2025.md) found

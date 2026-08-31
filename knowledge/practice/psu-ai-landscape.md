@@ -50,10 +50,21 @@ fundamentally different compliance posture than calling a commercial API ourselv
 
 ## Three consequences for our project
 
-**1. The compliance path may already exist.** Confirm with the instructor sponsor and PSU IT
-whether AI Studio can be used for a course tutor handling student coursework, and whether it
-exposes an API or only a chat UI. **If there's no API, this advantage largely evaporates for
-a custom application** — that's the question that decides it.
+**1. The compliance path may already exist — and we now have a strong presumptive answer on
+the API question.**
+
+Michigan, whose stack PSU's most closely mirrors, publishes this rule:
+
+> *"**Students cannot directly create U-M GPT Toolkit API keys**… API key creation requires an
+> approved U-M Shortcode due to associated costs. **Faculty or staff may sponsor eligible
+> student employees by creating and managing API keys on their behalf.**"*
+
+**Expect the same shape at Penn State: an API exists, students cannot hold keys, and a faculty
+sponsor must hold the account and the cost centre.** That converts our biggest blocker into a
+design constraint and a specific ask for the sponsor conversation — *"would you be willing to
+hold an AI Studio API key and cost centre for this project?"* — rather than an open question we
+have to resolve before planning. Confirm the PSU specifics, but stop treating it as blocking.
+→ [U-M Maizey](../systems/umich-maizey.md)
 
 **2. It defines our comparison condition, and it's a hard one.** Every PSU student already
 has free, sanctioned access to Claude, ChatGPT, and Gemini. Our tutor is not competing with
@@ -78,7 +89,8 @@ both.
 
 ## Open questions — all week 1
 
-- [ ] **Does AI Studio expose an API, or only a chat interface?** This decides everything.
+- [ ] **Does AI Studio expose an API?** Presumptive answer: yes, but faculty-held. Confirm, and
+      ask the sponsor directly whether they would hold the key and cost centre.
 - [ ] Can AI Studio be used for a research pilot handling student coursework? Who approves?
 - [ ] What exactly do the AI Studio terms say? Read the actual acknowledgement text, not the
       press release.
