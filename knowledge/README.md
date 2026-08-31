@@ -94,6 +94,16 @@ findings toward their headline. That is why the `[read]` / `[skimmed]` / `[found
 
 **Current source status: 54 `[read]`, 86 `[skimmed]`, 80 `[found]`.**
 
-Remaining priority reads are listed at the end of [`PAPER.md`](PAPER.md) §IX. The biggest
-outstanding one is **[Kestin et al.](evidence/kestin-2025-rct.md)** — the field's best
-positive result and the basis for our study design, still behind a paywall and unread.
+Remaining priority reads are listed at the end of [`PAPER.md`](PAPER.md) §IX.
+
+**A note on access, because it cost us a day of wrong assumptions:** we recorded
+[Kestin et al.](evidence/kestin-2025-rct.md) as paywalled. It is **gold open access** —
+the earlier failure was a cookie-consent redirect, not a paywall. Before assuming a paper is
+inaccessible, check **OpenAlex** for an OA location:
+
+```bash
+curl -s "https://api.openalex.org/works/doi:<DOI>" | python3 -m json.tool | grep -A3 best_oa_location
+```
+
+It returns the free PDF URL when one exists, and also surfaces PubMed Central and DOAJ
+mirrors. Most of what looks paywalled in this field is not.

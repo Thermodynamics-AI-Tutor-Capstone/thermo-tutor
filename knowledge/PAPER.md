@@ -41,10 +41,18 @@ If you read nothing else:
    [Cognitive Tutor](systems/cognitive-tutor.md), [ALEKS](systems/aleks.md) — are the
    incumbents, not ChatGPT.
 
-3. **The single best result for LLM tutoring is real, and narrow.** A Harvard RCT
-   (n = 194) found roughly **2× the learning gains** of an excellent active-learning
-   classroom, in less time ([Kestin et al. 2025](evidence/kestin-2025-rct.md)). One
-   course, one physics-education-researcher instructor, heavily hand-built scaffolds.
+3. **The single best result for LLM tutoring is real, well-run, and explicitly does not
+   claim our case.** A Harvard crossover RCT (n = 194) found **0.73–1.3 SD** greater learning
+   than an excellent active-learning classroom, in **less time** (median 49 min vs. 60), with
+   higher engagement ([Kestin et al. 2025](evidence/kestin-2025-rct.md)). Its
+   generalizability case is stronger than usually credited — the effect held for students
+   both below and above 40% on the FCI (p < 0.001 each).
+
+   ⚠ **But its lessons targeted Bloom's understanding/applying/analyzing levels**, which the
+   authors describe as *"particularly well suited for current generative AI tutors"* — and
+   they explicitly decline to claim contexts *"requiring complex synthesis of multiple
+   concepts and higher-order critical thinking."* **Engineering thermodynamics is that
+   excluded category.** Expect less than 2×.
 
 4. **The single most important negative result is also real, and larger.** In a
    ~1,000-student RCT, students given an unguarded GPT-4 interface did **48% better
@@ -672,6 +680,11 @@ The literature points somewhere more specific than "build an AI tutor":
   expert hand-work on one course's content. Our differentiator is the PSU thermodynamics
   course itself — its problems, its notation, its misconceptions — not our architecture.
   → [skill graph](../research/domain/skill-graph-draft.md)
+- **Copy Kestin's study design, not his effect size.** The crossover — every student gets
+  both conditions, each is their own control — is statistically efficient at our n, ethically
+  clean, and (per [Corvinus](evidence/corvinus-2025-overreliance.md)) the design least likely
+  to provoke a backlash over withheld AI access. Report an FCI/TTCI-T-stratified subgroup
+  analysis, which is what makes his generalizability claim credible.
 - **Design for the defection, not the ideal student.** "What do I do next" is the
   second-most-common thing students say. Build the hint ladder that answers it *well*
   rather than the refusal that doesn't.

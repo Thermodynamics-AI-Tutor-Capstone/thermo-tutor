@@ -1,115 +1,153 @@
 # Kestin et al. 2025 — AI tutoring outperforms in-class active learning
 
-**Type:** study (RCT)
-**One line:** Harvard physics, n=194. An AI tutor produced roughly **2× the learning gains**
-of an active-learning classroom, in less time, with higher engagement.
-**Why we care:** The field's best result, the strongest argument that this is worth doing,
-and — read carefully — a much narrower claim than it's usually quoted as.
+**Type:** study (RCT, within-subject crossover)
+**One line:** Harvard PS2, 194 students. An AI tutor produced **0.73–1.3 SD** greater
+learning than an excellent active-learning classroom, in **less time**, with higher
+engagement.
+**Why we care:** The field's best result, the template for our study design — and, read in
+full, it carries a limitation that lands directly on thermodynamics.
+
+> **Verification: `[read]` — full text, 2026-08-31.** It is **gold open access**; an earlier
+> fetch failure was a cookie-consent redirect, not a paywall.
+> [Direct PDF](https://www.nature.com/articles/s41598-025-97652-6.pdf).
 
 ## The study
 
-Greg Kestin, Kelly Miller, Anna Klales, Timothy Milbourne, Gregorio Ponti.
-**Scientific Reports, June 2025.** Harvard **Physical Sciences 2**, Fall 2023, ~180–194
-students.
+Greg Kestin, Kelly Miller (equal contribution), Anna Klales, Timothy Milbourne, Gregorio
+Ponti — Harvard Physics and SEAS. *Scientific Reports* **15:17458**, 3 June 2025.
 
-**Design — the part worth copying.** Within-subject alternating: students switched weekly
-between two conditions. One week, an in-class session using refined active-learning methods.
-The next, at home with a purpose-built AI tutor.
-
-This design does three things well:
-- Every student gets both conditions, so nobody is denied the tool — which dissolves the
-  ethical objection to withholding
-- Each student is their own control, which is enormously statistically efficient at n=194
-- It's realistic — the tutor is used how a tutor would actually be used
-
-**We should copy this design.** → [our roadmap](../../admin/roadmap.md)
+- **Physical Sciences 2 (PS2)**, Harvard's largest physics class — introductory physics for
+  the life sciences. **233 enrolled; 194 eligible** (consent + participation in both
+  conditions + all pre/post tests). ~316 student-lesson observations.
+- **Fall 2023**, weeks 9 and 10 of the course. Sessions are 75 minutes.
+- **Within-subject crossover**: students randomly assigned to two groups. Group 1 got the
+  AI lesson in week 1 and the in-class lesson in week 2; group 2 the reverse. Topics:
+  **surface tension** (week 1) and **fluid flow** (week 2). Pre-test before each lesson,
+  post-test after.
+- Randomization **respected existing peer-instruction working groups**, keeping regular
+  collaborators together so the in-class condition wasn't degraded. A thoughtful detail.
+- **The two lessons were taught by different instructors**, deliberately, to show the effect
+  wasn't instructor-specific.
 
 ## The results
 
-- **Effect size 0.73 – 1.3 standard deviations**, estimated by **quantile regression** to
-  avoid ceiling effects compressing the upper range of scores. (In education research, >0.4
-  SD is the conventional threshold for "educationally significant." This is very large.)
-- Commonly reported as **~2× the learning gains** of the active-learning condition
-- **Less time**: median AI-group student spent **49 minutes** on task versus the ~60 minutes
-  of classroom time; **70% finished in under an hour**
-- Higher self-reported engagement, motivation, and satisfaction
+| Measure | Result |
+|---|---|
+| Median learning gain, AI vs. in-class | **more than double** |
+| Rank-sum test | z = −5.6, **p < 10⁻⁸** |
+| Effect size, linear regression | **0.63** — the authors call this an underestimate |
+| Effect size, **quantile regression** (avoids ceiling effects) | **0.73 – 1.3** |
+| Median time on task, AI group | **49 minutes** vs. 60 assumed in class; 70% finished under an hour |
+| Engagement (5-pt) | AI **4.1** (SD 0.98) vs. in-class 3.6 (SD 0.92), t(311) = −4.5, p < 0.0001 |
+| Motivation | AI **3.4** (SD 1.0) vs. in-class 3.1 (SD 0.86), t(311) = −3.4, p < 0.001 |
 
-Published **3 June 2025**.
+Two other statements about perceived learning showed **no** significant difference — worth
+noting, since "students loved it" is often over-claimed from this paper.
 
-**The ceiling-effect detail matters.** Needing quantile regression means raw scores were
-bunching at the top — which is itself informative about the assessment, and means the headline
-range (0.73–1.3) depends on a modelling choice. Not a flaw, but a reason the single number
-"2×" should be quoted carefully.
+**There was no correlation between time on task and post-test score**, across a wide range of
+times. The authors attribute the benefit to *self-pacing* rather than to more time.
 
-## The design of the tutor
+## ⚠ The generalizability case is stronger than I previously credited
 
-Reported features: **expert-authored scaffolds**, enforced step-by-step reasoning, and
-built-in guardrails against hallucination.
+My earlier note dismissed this as "Harvard undergrads, not a general population." The authors
+anticipated that and ran the subgroup analysis:
 
-Note what's *not* in that list: no novel model, no fine-tuning, no knowledge tracing. The
-described innovation is **hand-built pedagogical structure for specific problems**, by a
-physics-education researcher who knew where students get stuck.
+- Students with **FCI pre-test below 40%** and **above 40%** *both* showed significantly
+  better post-test performance with AI tutoring (**p < 0.001** for each).
+- The same held below and above the 65% benchmark on the **CLASS** scientific-attitudes
+  survey.
+- Typical pre-instruction FCI scores nationally run ~30–50%; this sample spans that range,
+  and PS2's FCI scores are comparable to students at other universities.
 
-## Reading it honestly
+Controls in the regression: pre-test score, prior physics knowledge (FCI), prior ChatGPT
+experience, and other factors.
 
-**What makes it strong:**
+**And the comparison condition is genuinely hard.** PS2's active learning is a documented,
+optimized implementation; the authors note that the literature establishing its
+effectiveness overlaps with the present author list, and both instructors scored above
+departmental averages on evaluations. This is not "AI beats a bad lecture."
 
-The comparison condition was **active learning**, not lecture. Active learning is the
-well-evidenced gold standard in physics education; beating it 2× is a serious result.
-Substituting "lecture" here would make the finding far less impressive, and many secondary
-write-ups blur this.
+## ⚠ The limitation that lands on us
 
-**What makes it narrow:**
+The authors are unusually forthright, and one caveat is directly relevant:
 
-- **n = 194, one course, one semester, one institution.** Harvard undergraduates in a
-  physical sciences course are not a general population.
-- **One instructor, who is a physics education researcher.** Kestin built the tutor. The
-  intervention and the expertise are confounded, and probably inseparably.
-- **The scaffolds were hand-authored per problem.** This is the part that doesn't transfer
-  by copying a prompt, and it's plausibly where the entire effect lives.
-- Effect sizes in education technology reliably shrink as studies scale. Compare
-  [Tutor CoPilot](../systems/tutor-copilot.md) (n=1,800, +4pp) and
-  [Bastani](bastani-2025-harm.md) (n=1,000, ≈0).
+> *"we do not presume that structured AI tutoring will always outperform in-class active
+> learning in all contexts, for example, **those requiring complex synthesis of multiple
+> concepts and higher-order critical thinking**."*
 
-## The lesson we should actually take
+Their lessons targeted the **understanding, applying, and analyzing** levels of Bloom's
+taxonomy — a stage *"characterized by a meaningful degree of information delivery"* that they
+describe as *"particularly well suited for current generative AI tutors."*
 
-Not "AI tutors produce 2× gains." The defensible reading is:
+**Engineering thermodynamics is largely the opposite kind of subject.** The
+[RPTU exam](../domain/superstudent-thermodynamics.md) is explicitly designed so that
+*"problems… cannot be solved by relying on pattern learning but only by knowledgeably and
+creatively applying the principles"* — i.e. synthesis and higher-order reasoning, the case
+Kestin explicitly declines to claim.
 
-> **An AI tutor, built by a domain expert with hand-authored scaffolds for specific
-> problems in a specific course, outperformed an excellent classroom in that course.**
+**This should temper our expectations directly.** The field's best result comes from
+information-delivery-heavy content, and our subject is the category its authors carved out.
+Not a reason to abandon the design — a reason not to promise 2×.
 
-Which tells us where to spend our effort: **the thermodynamics domain work — the problems,
-the misconceptions, the hint ladders — is the project.** The architecture is plumbing.
+## What the tutor actually was, and the design lesson
 
-It also tells us what our comparison condition should be, and that the honest one is hard.
-→ [open question C4](../../docs/03-open-questions.md)
+Seven pedagogical best practices were targeted: active learning, managing cognitive load,
+promoting a growth mindset, **scaffolding content**, ensuring accuracy, timely feedback, and
+self-pacing.
+
+**Two implementation findings that confirm this knowledge base's central architectural claim
+— stated by the authors of the field's best result:**
+
+1. **The system prompt wasn't enough.** They found *"that a system prompt could not reliably
+   provide enough structure to scaffold problems with multiple parts,"* so the **platform**
+   was built to guide students sequentially through each part of each problem. Structure
+   moved out of the prompt and into code.
+   → [guardrails](../concepts/guardrails.md), [the paper §V](../PAPER.md)
+2. **They didn't trust GPT-4 to generate the answers.** *"we avoided relying solely on GPT-4
+   to generate… we enriched our prompts with comprehensive, step-by-step answers."*
+   Pre-authored correct solutions in the prompt — **exactly what
+   [Bastani's guardrailed arm did](bastani-2025-harm.md)**, independently. **83%** of students
+   reported the tutor's explanations were accurate.
+
+The authors also list what the result *depended on*: a heterogeneous student population,
+**high-quality instructional videos**, an LLM able to follow complex prompts (GPT-4),
+**expert-crafted, question-specific prompts written by instructors experienced with the
+content**, a carefully structured scaffolding framework, and content suited to the format.
+
+That video dependency is worth flagging: Kestin is a professional science-video producer.
+**Some of this effect may rest on production resources a capstone team does not have.**
+
+## What to copy
+
+- **The crossover design.** Every student gets both conditions; each is their own control;
+  statistically efficient at small n; and — per [Corvinus](corvinus-2025-overreliance.md) —
+  the design least likely to provoke a student revolt over withheld AI access.
+- **Randomize while preserving collaboration groups.**
+- **Two lessons, two instructors**, to show instructor-independence.
+- **Quantile regression** if post-test scores hit a ceiling.
+- **Report the FCI/CLASS-stratified subgroup analysis** — it is what makes their
+  generalizability claim credible, and the [TTCI-T](../evaluation/concept-inventories.md)
+  could play the FCI's role for us.
 
 ## Open questions
 
-> **Verification: still `[skimmed]`.** *Scientific Reports* is behind an auth redirect and
-> ResearchGate returns 403. The figures above come from detailed secondary coverage
-> (Hechinger Report, ETC Journal review) and are consistent across sources, but **nobody on
-> this team has read the paper.** It is the field's most-cited positive result and the basis
-> for our study design — **get it through PSU library access.**
-
-- [ ] **Read the full paper via PSU library.** Effect sizes, instruments, what the scaffolds
-      actually were.
-- [ ] Is the tutor or its prompts published anywhere?
-- [ ] How much authoring effort per problem? This sets our achievable scope.
-- [ ] What was the outcome measure — a concept inventory, or course-specific items?
-      → [concept inventories](../evaluation/concept-inventories.md)
-- [ ] Has anyone replicated it in another course or institution?
+- [ ] Read the Supplementary Material — the system prompt guidelines are in there, and that
+      is the single most reusable artifact in the paper.
+- [ ] Is the tutor platform itself available?
+- [ ] How much authoring effort per problem? Still unstated, and it sets our scope.
+- [ ] Their suggested future directions are a menu of adjacent projects: **homework,
+      recitation, exam studying, pre-class assignments, laboratory**, plus systematic
+      integration of **spacing** and the effect on **collaboration skills**.
+      → [spaced repetition](../concepts/spaced-repetition.md)
 
 ## Connects to
 
-- [Bastani 2025](bastani-2025-harm.md) — the contrasting null result, and the reconciliation
-- [Bloom's 2 sigma](../concepts/blooms-two-sigma.md) / [VanLehn 2011](../concepts/vanlehn-2011.md) — the baselines to read this against
-- [concept inventories](../evaluation/concept-inventories.md) — how to measure gains
-- [our roadmap](../../admin/roadmap.md) — the alternating design is directly reusable
+- [Bastani 2025](bastani-2025-harm.md) — the contrasting null, and the shared mechanism
+- [Corvinus 2025](corvinus-2025-overreliance.md) — why the crossover design also protects us
+- [Superstudent](../domain/superstudent-thermodynamics.md) — why our subject is the harder case
+- [guardrails](../concepts/guardrails.md) — they found the system prompt insufficient too
+- [concept inventories](../evaluation/concept-inventories.md) — the FCI-stratified approach
 
 ## Sources
 
-- [Kestin et al., "AI tutoring outperforms in-class active learning," *Scientific Reports* (2025)](https://www.nature.com/articles/s41598-025-97652-6) `[skimmed]` — **priority full read**
-- [Hechinger Report coverage](https://hechingerreport.org/proof-points-ai-tutor-harvard-physics/) `[skimmed]`
-- [Harvard Gazette, "Professor tailored AI tutor to physics course. Engagement doubled."](https://news.harvard.edu/gazette/story/2024/09/professor-tailored-ai-tutor-to-physics-course-engagement-doubled/) `[skimmed]`
-- [ETC Journal critical review of the study](https://etcjournal.com/2025/11/10/review-of-kestin-et-al-s-june-2025-harvard-study-on-ai-tutoring/) `[found]` — read this for the critiques
+- [Kestin, Miller, Klales, Milbourne & Ponti, "AI tutoring outperforms in-class active learning: an RCT introducing a novel research-based design in an authentic educational setting," *Scientific Reports* 15:17458 (2025)](https://doi.org/10.1038/s41598-025-97652-6) `[read]` — **gold open access**, [direct PDF](https://www.nature.com/articles/s41598-025-97652-6.pdf)
