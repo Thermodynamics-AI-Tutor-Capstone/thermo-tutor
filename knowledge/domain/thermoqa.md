@@ -61,6 +61,62 @@ MiniMax M2.5.
 
 **Cross-tier degradation: 2.8 pp (Opus) to 32.5 pp (MiniMax).**
 
+## ⚠ What the dataset itself reveals — two caveats the paper does not state
+
+**Downloaded and analysed 2026-08-31** (CC-BY-4.0, `olivenet/thermoqa`, 104 downloads). The
+repo ships `questions.jsonl` per tier **plus full per-model result files** for all six
+providers — so the published scores are independently checkable, which is unusually good
+practice.
+
+**Caveat 1 — the 293 questions come from only 92 unique templates.**
+
+| Tier | Questions | Unique templates | Questions per template |
+|---|---|---|---|
+| 1 — properties | 110 | 28 | 3.9 |
+| 2 — components | 101 | 35 | 2.9 |
+| 3 — cycles | 82 | 29 | 2.8 |
+| **Total** | **293** | **92** | **3.2** |
+
+Each record carries a `template_id` and a `generated_at` timestamp: the problems are
+**procedurally generated with varied parameters**, not independently authored. That is a
+legitimate design — it is how you get programmatic ground truth at scale — but it means the
+**effective number of independent items is closer to 92 than 293**, and a model that
+recognizes one template's pattern gets roughly three questions for the price of one.
+Treat the headline count accordingly, and if we cite this benchmark, cite the template count
+too.
+
+**Caveat 2 — the R-134a finding rests on 25 questions.**
+
+Fluid coverage by tier, from the data:
+
+| Tier | Fluids |
+|---|---|
+| 1 | **Water only** (110/110) |
+| 2 | Water 74, Air 17, **R-134a 10** |
+| 3 | Air 28, Water 27, **R-134a 15**, Air+Water 12 |
+
+So "all models collapse on R-134a (44–63%)" is measured on **25 items total**, none of them
+in the property-lookup tier. The finding is still striking and consistent with a
+training-data-bias explanation — but it is not a large sample, and **we should verify it
+ourselves before building an architectural argument on it.** Conveniently, that is now a
+cheap thing to do: the questions and the grading tolerances are both in the file.
+
+Difficulty is reasonably spread (Tier 1: 52 easy / 30 medium / 28 hard; Tier 3 skews hard at
+41/26/15), and Tier 1 categories are sensible: superheated vapor 20, wet steam 18, phase
+determination 15, inverse lookups 15, saturated liquid 12, subcooled liquid 10, saturated
+vapor 10, **supercritical 10**.
+
+Sample record, showing the machine-gradable structure:
+
+```json
+{"id": "T1-SL-001", "tier": 1, "category": "subcooled_liquid", "difficulty": "easy",
+ "question": "Determine the specific enthalpy (h), specific entropy (s), and specific
+              volume (v) of compressed liquid water at 291.0 C and 11200.0 kPa...",
+ "given": {"fluid": "Water", "T_C": 291.0, "P_kPa": 11200.0},
+ "expected": {"h_kJ_kg": {"value": 1292.49, "tolerance_pct": 2.0, "abs_tolerance": 0.5}, ...},
+ "metadata": {"template_id": "SL-MULTI-001", "coolprop_version": "7.2.0", "verified": true}}
+```
+
 ## The scoring scheme — steal this
 
 Their grading design solves a problem we will otherwise solve badly:
@@ -125,8 +181,11 @@ programmatic ground truth is better methodology than we'd likely have achieved b
 ## Open questions
 
 - [x] ~~Is the dataset public?~~ **Yes** — [huggingface.co/datasets/olivenet/thermoqa](https://huggingface.co/datasets/olivenet/thermoqa), dataset *and* code.
-- [ ] **Spot-check the ground truth ourselves** against textbook tables before relying on it.
-      Single-author, non-academic provenance warrants it, and it's an afternoon's work.
+- [x] ~~Is the dataset public?~~ Yes, downloaded, CC-BY-4.0, includes per-model results.
+- [ ] **Spot-check the ground truth** against textbook tables. Single-author, non-academic
+      provenance plus template generation both warrant it, and it's an afternoon's work.
+- [ ] **Re-verify the R-134a result on its 25 items ourselves** before citing it as an
+      architectural justification.
 - [ ] **Does tool-calling for properties close the R-134a gap?** Their harness makes this
       directly testable. **Highest-value experiment on this node** — it validates or kills
       our property-tools layer with real numbers.

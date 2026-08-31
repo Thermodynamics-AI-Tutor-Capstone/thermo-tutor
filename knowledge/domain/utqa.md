@@ -18,8 +18,21 @@ and Theoretical Chemistry, **Julius-Maximilian University Würzburg**.
 **50 single-choice items**, each with one correct answer and three distractors:
 **33 text-only, 17 diagram-based**. Temperature 0.7, single-shot. **19 models** evaluated.
 
-**The dataset is public: [huggingface.co/datasets/herteltm/UTQA](https://huggingface.co/datasets/herteltm/UTQA)** —
-question texts, diagrams, answer keys, and solutions.
+**The dataset is on HuggingFace at
+[herteltm/UTQA](https://huggingface.co/datasets/herteltm/UTQA) — but it is *gated*.**
+Checked 2026-08-31: the repo listing and README are public, and `data.csv` returns **HTTP
+401** without authentication. The licence is `utqa25-eval-only`.
+
+**Action required to use it:** someone with a HuggingFace account must open the dataset page,
+accept the licence, and generate a read token (`huggingface-cli login`). Note the licence name
+— **evaluation only**. We can almost certainly benchmark against it; we should assume we
+*cannot* redistribute it, include it in a published dataset of our own, or train on it.
+Read the LICENSE file before doing anything beyond evaluation.
+
+Schema (from the public README): `question_number, question, option_a, option_b, option_c,
+option_d, image, correct_answer, explanation, image_explain` — so it ships **worked
+explanations and separate explanation images**, not just answer keys. The repo carries ~25+
+PNG figures, several suffixed `expl` (explanation diagrams).
 
 Item design is careful in a way worth copying: each stem isolates one construct, supplies
 only necessary context, and **distractors encode real misconceptions** — the paper names
@@ -133,8 +146,10 @@ verification, and scoping — not a better system prompt.
 ## Open questions
 
 - [x] ~~Read the full paper~~ — done 2026-08-31
-- [x] ~~Is the item set public?~~ **Yes** — [huggingface.co/datasets/herteltm/UTQA](https://huggingface.co/datasets/herteltm/UTQA).
-      **Download it and inspect the 17 diagram items.**
+- [x] ~~Is the item set public?~~ On HuggingFace but **gated (401)** and
+      **evaluation-only licensed**. Accept the licence and authenticate to get it.
+- [ ] **Do that, then run current models on the 17 diagram items ourselves.** Still the
+      cheapest high-value experiment we have, and it decides whether we scope diagrams in.
 - [ ] Where does 95% come from? The paper cites it (ref 17) but calls it "provisional."
       Chase the citation — we need a defensible threshold of our own.
 - [ ] What is a "finite-rate/irreversible scenario" here, concretely? These map onto
