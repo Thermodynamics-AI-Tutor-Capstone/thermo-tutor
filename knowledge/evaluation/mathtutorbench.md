@@ -72,15 +72,48 @@ This is the empirical backbone of the argument running through this whole knowle
 - **Model capability is not our lever.** Architecture and domain work are.
   → [grounding and verification](../concepts/grounding-and-verification.md)
 
-## MRBench and the BEA shared task
+## MRBench and its eight-dimension rubric `[read]`
 
-**MRBench** — from *"Unifying AI Tutor Evaluation: An Evaluation Taxonomy for Pedagogical
-Ability Assessment of LLM-Powered AI Tutors"* (arXiv:2412.09416). Built from **MathDial** and
-**Bridge**. Each instance is a partial tutor-student conversation **cut at the moment the
+*"Unifying AI Tutor Evaluation: An Evaluation Taxonomy for Pedagogical Ability Assessment of
+LLM-Powered AI Tutors"* (arXiv:2412.09416).
+[Code](https://github.com/kaushal0494/UnifyingAITutorEvaluation). Built from **MathDial** and
+**Bridge**. Each instance is a partial tutor–student conversation **cut at the moment the
 student errs or shows confusion** — then you evaluate what the tutor says next.
 
 That construction is the key idea and it's directly portable: **the interesting moment in
 tutoring is the turn right after a mistake.** Everything before it is chat.
+
+**Their eight dimensions are the most usable rubric we have found**, and a thermodynamics
+version could adopt them almost unchanged:
+
+| # | Dimension | Question | Desired |
+|---|---|---|---|
+| 1 | **Mistake identification** | Did the tutor notice a mistake was made? | Yes |
+| 2 | **Mistake location** | Did it identify *where*? | Yes |
+| 3 | **Revealing of the answer** | Does the tutor reveal the final answer? | **No** |
+| 4 | **Providing guidance** | Does it offer substantive help? | Yes |
+| 5 | **Actionability** | Is it clear what the student should do next? | **Yes** |
+| 6 | **Coherence** | Logically consistent with the student's prior turns? | Yes |
+| 7 | **Tutor tone** | Encouraging / neutral / offensive | Encouraging |
+| 8 | **Human-likeness** | Human-like rather than robotic? | Yes |
+
+**Note dimensions 3 and 5 together.** A good tutor *withholds the answer* **and** *makes the
+next step clear.* Those are not in tension in this rubric — which is a direct rebuttal to the
+reading that students asking "what do I do next" are misusing a Socratic tutor.
+**Actionability is a desired tutor property.** → [Socratic tutoring](../concepts/socratic-tutoring.md)
+
+**Their headline measurement, and it is the third independent leakage number we now have:**
+Macina et al. (2023) found ChatGPT as a tutor **reveals the solution 66% of the time and
+provides incorrect feedback 59% of the time.**
+
+Alongside [CS50's 48% conversation-level leakage](../systems/cs50-duck.md) and
+[TutorGym's chance-level mistake detection](tutorgym.md), the picture is consistent:
+**LLMs are competent question-answering systems and poor tutors.** The paper's own phrasing:
+*"while state-of-the-art LLMs like GPT-4 are effective question-answering systems, they are
+often not as competent as tutors."*
+
+They also test **Prometheus2 and Llama-3.1-8B as automated judges** — the same
+LLM-as-judge reliability question MathTutorBench answers pessimistically.
 
 **BEA 2025 Shared Task** — pedagogical ability assessment of AI tutors, at the 20th Workshop
 on Innovative Use of NLP for Building Educational Applications. A community-scale effort with
@@ -108,7 +141,11 @@ Constructing one is well-suited to a capstone:
 3. **Have thermodynamics instructors and experienced TAs write the expert next turn.**
 4. **Score candidate tutor responses** by expert preference — the
    [CS50 TF pairwise-comparison method](../systems/cs50-duck.md) — and/or a trained reward
-   model as MathTutorBench does.
+   model as MathTutorBench does. **Do not use a generic LLM judge**: MathTutorBench measured
+   prompted GPT-4o-mini and Llama-3.1-70B judges at **below 0.7 accuracy** on pedagogical
+   preference, and CS50 found that even *human* raters disagree by experience level.
+5. **Rate against MRBench's eight dimensions**, which give a ready-made codebook and make
+   our results comparable to the maths literature.
 
 Note what this needs: instructors and TAs, not students. **The expert-judgment portion has a
 much lighter IRB path than student-facing work**, so it can run while the student protocol is
@@ -133,7 +170,7 @@ still in review. → [roadmap](../../admin/roadmap.md)
 ## Sources
 
 - [MathTutorBench, arXiv:2502.18940](https://arxiv.org/abs/2502.18940) `[skimmed]` · [code](https://github.com/eth-lre/mathtutorbench) `[found]`
-- [Unifying AI Tutor Evaluation (MRBench), arXiv:2412.09416](https://arxiv.org/html/2412.09416v1) `[skimmed]`
+- [Maurya et al., "Unifying AI Tutor Evaluation: An Evaluation Taxonomy for Pedagogical Ability Assessment of LLM-Powered AI Tutors" (MRBench), arXiv:2412.09416](https://arxiv.org/abs/2412.09416) `[read]` · [code](https://github.com/kaushal0494/UnifyingAITutorEvaluation)
 - [NeuralNexus at BEA 2025 Shared Task, arXiv:2506.10627](https://arxiv.org/pdf/2506.10627) `[found]`
 - [AITutor-EvalKit, arXiv:2512.03688](https://arxiv.org/pdf/2512.03688) `[found]`
 - [TutorGym, arXiv:2505.01563](https://arxiv.org/pdf/2505.01563) `[found]`
