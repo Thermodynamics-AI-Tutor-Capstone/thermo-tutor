@@ -149,12 +149,18 @@ The design that follows from the evidence:
    orienting question → strategic hint → conceptual hint → worked step → **explicit
    contrast between what the student tried and the canonical solution.**
 
-   That last rung is not a failure state, and this is the correction most worth internalizing:
-   [productive failure's](productive-failure.md) two core design components are the struggle
-   **and** a subsequent instructional phase that contrasts student-generated solutions against
-   the canonical one. Effect size scales with fidelity to those components. **A tutor that
-   only ever asks questions delivers the failure and skips the instruction — which is
-   productive failure done at low fidelity.**
+   That last rung is not a failure state.
+   [Productive failure](productive-failure.md) ranks *"instruction building on student
+   solutions"* as the **#1 of seven** fidelity criteria (g = 0.56 vs 0.20, p = .02), and effect
+   size scales with fidelity. **A tutor that only ever asks questions delivers the failure and
+   skips the instruction — which is productive failure done at low fidelity.**
+
+   ⚠ **And the hints in between must be principle-based or metacognitive, never step-level.**
+   Scaffolded problem-solving-before-instruction has failed on average in meta-analysis
+   (**g = −0.08, 60 comparisons**), with hint-sequence systems named explicitly. A working
+   university script: *"what information do you have in the problem?"* → *"what other kind of
+   information would you need to continue?"* → *"where might you find this?"* — prompts that
+   focus attention **without providing additional information**.
 2. **A productive-failure budget.** Time or attempts must be spent before the ladder
    advances. [Productive failure](productive-failure.md) says the struggle is where learning
    happens — but *bounded* struggle, not unbounded.

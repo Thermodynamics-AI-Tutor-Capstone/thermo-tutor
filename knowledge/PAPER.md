@@ -477,13 +477,30 @@ guardrailed arm got *more* messages per problem than the unguarded one, the gap 
 four sessions, and superficial "just give me the answer" openers fell from 42% to 37% while
 *rising* from 56% to 67% in the unguarded arm.
 
-**One design constraint that follows from the productive-failure literature and is easy to
-get wrong:** its meta-analysis (166 comparisons, 12,000+ participants, **d = 0.36**) shows
-the effect depends on **two** components — the struggle *and* a subsequent instructional
-phase that **contrasts student-generated solutions against the canonical one**. Effect size
-scales with fidelity to those components. So the hint ladder must **terminate in an explicit
-contrast**, not in refusal. Reaching the bottom of the ladder is the instructional phase, not
-a failure state. → [productive failure](concepts/productive-failure.md)
+**Three design constraints follow from the productive-failure literature** (Sinha & Kapur,
+166 comparisons, **Hedge's g = 0.36 [0.20, 0.51]**), and all three are easy to get wrong:
+
+1. **The ladder must terminate in an explicit contrast against the canonical solution**, not in
+   refusal. "Instruction building on student solutions" is the **#1 ranked** of seven fidelity
+   criteria (g = 0.56 vs 0.20, p = .02). Reaching the bottom of the ladder *is* the
+   instructional phase.
+2. **Students will not invent the productive wrong answers on their own.** In the university
+   replication, *"only **one** student"* in the unscaffolded condition generated one of the
+   three target suboptimal representations — and unscaffolded PF was **worst on transfer**. The
+   tutor must actively steer students into pre-authored wrong representations, on demand, one
+   at a time.
+3. **But it must never show them instead of eliciting them.** A vicarious-failure condition
+   that replaced generation with studying six peer-generated failed solutions lost badly:
+   **PF > VF, conceptual d = 1.35, transfer d = 1.23**, and VF gained **no transfer advantage
+   at all** over direct instruction.
+
+⚠ **And the argument against us, which belongs in our own introduction:** *scaffolded*
+problem-solving-before-instruction has **failed on average in meta-analysis — g = −0.08 across
+60 comparisons**, with Khan-Academy/ASSISTments-style hint sequences named explicitly. The
+known exception is support that is **principle-based or metacognitive** rather than
+step-level. That exception is our design space, and the *Learning and Instruction* authors name
+adaptive conversational scaffolding as the next step — **which is exactly our project.**
+→ [productive failure](concepts/productive-failure.md)
 → [Socratic tutoring](concepts/socratic-tutoring.md),
 [productive failure](concepts/productive-failure.md),
 [guardrails](concepts/guardrails.md)

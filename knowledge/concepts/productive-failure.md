@@ -1,240 +1,342 @@
 # Productive Failure
 
 **Type:** concept
-**One line:** The finding that struggling unsuccessfully with a problem *before* receiving
-instruction produces better learning than being taught first — the theoretical basis for
-making a tutor wait.
-**Why we care:** It's the justification for a hint budget rather than instant help, and it
-explains the mechanism behind [the crutch effect](../evidence/bastani-2025-harm.md).
+**One line:** Struggling unsuccessfully with a problem *before* instruction produces better
+conceptual understanding and transfer — **g = 0.36** — provided the struggle is followed by
+instruction that contrasts the student's solutions against the canonical one.
+**Why we care:** It is the theoretical basis for making a tutor wait, and the evidence is
+specific enough to design against. It also contains the sharpest argument *against* what we are
+proposing.
 
-> **Searched and substantially rewritten 2026-08-31.** This node previously carried a
-> warning that the literature had never been searched. It has now. The concept holds, the
-> effect is smaller than the enthusiasm around it, and — importantly — **two of its core
-> design components are things a pure question-asking tutor does not do.**
+> **Fully rewritten 2026-08-31 from the primary literature.** This node previously named "two
+> core design components: contrast-and-compare **and collaboration**." That framing was
+> **substantially wrong** and has been replaced. Corrections marked ⚠.
 
-## The core idea
+## The meta-analysis, verified
 
-The intuitive design is: student gets stuck → tutor helps immediately. Minimize frustration,
-maximize progress.
+**Sinha & Kapur (2021), *Review of Educational Research* 91(5):761–798.**
+**53 studies / 166 comparisons** drawn from 45 articles (1,212 screened).
 
-Productive failure (PF) says this is backwards for conceptual learning. Students who attempt
-a problem they *cannot yet solve*, generate wrong approaches, and **only then** receive
-instruction, outperform students taught the canonical method first — even though their
-performance during the struggle is far worse.
+> *"a significant effect (Hedge's g) of **0.36 [95% CI 0.20, 0.51]** in favor of PS-I (compared
+> to I-PS) for conceptual knowledge and transfer, and a nonsignificant effect of
+> **−0.03 [−0.20, 0.15] for procedural knowledge**."*
 
-The mechanism: failed attempts activate and expose prior knowledge, creating the gaps that
-subsequent instruction fills. Being told first gives you nowhere to put the telling.
+⚠ **Four corrections to how this node used to cite it:**
 
-## The evidence
+1. It is **Hedge's g**, not Cohen's d.
+2. **The "12,000+ participants" figure is not in the meta-analysis.** No total N is stated
+   anywhere in it. That number comes from the Kapur & Roll book chapter — cite it there or drop
+   it.
+3. **"Up to g = 0.58" is not a composite.** It is the top of a range of seven subgroup point
+   estimates, and *that particular row is marked non-significant*. Do not repeat the derived
+   gloss that PF is "three times the effect a good teacher has in a year" — it is uncited and
+   rides on a null subgroup.
+4. ⚠ **Data-quality defect worth flagging in the capstone.** Tables 3–5 contain rows where the
+   point estimate falls **outside its own confidence interval** (e.g. undergraduates
+   `0.28 [−0.46, 0.24]`). This is in the published PDF, not a transcription artifact.
+   **Treat every subgroup CI in this paper as unusable**; only point estimates and significance
+   markers are trustworthy.
 
-**Sinha & Kapur (2021), *Review of Educational Research*** — meta-analysis of
-**166 experimental comparisons, 12,000+ participants**:
+Heterogeneity Q(165) = 295.91, p < .0001; I² = 42.01%. Egger's test n.s.; p-curve right-skewed,
+estimated power 94%, bias-corrected true effect **g = 0.87**.
 
-> **Cohen's d = 0.36** [95% CI 0.20, 0.51] for **conceptual understanding and transfer**,
-> **without compromising procedural knowledge**.
+## ⚠ Correction: seven design criteria, not two — and collaboration isn't one of the essential ones
 
-Read that honestly. It is a **real, replicated, moderate** effect — not the transformative
-one the phrase "productive failure" tends to imply in design conversations. For scale, it is
-roughly half of [step-based ITS's d = 0.76](vanlehn-2011.md) and well under
-[human tutoring's d = 0.79](blooms-two-sigma.md).
+The seven fidelity criteria, with their subgroup effects:
 
-**Two moderators that favour us:**
-- **Effects are stronger for older students** (secondary onwards), plausibly because they
-  have the problem-solving skills to fail *productively*. University engineering is the
-  favourable end of this range.
-- **Effects scale with fidelity to the PF design principles.** Which makes the next section
-  the important one.
+| Criterion | High | Low | Sig |
+|---|---|---|---|
+| **Instruction building on student solutions** | **0.56** | **0.20** | **p = .02** |
+| Social surround, instruction phase (dialogue vs monologue) | 0.55 | 0.24 | p = .05 |
+| **Group work as participation structure** | 0.49 | 0.19 | p = .04 |
+| **Evidence of multiple solution generation** | **0.47** | **0.16** | **p = .05** |
+| Affective draw of the problem | 0.44 | 0.19 | n.s. |
+| Problems affording multiple solutions | 0.37 | −0.11 | n.s. |
+| Social surround, problem-solving phase | 0.58 | 0.36 | n.s. |
 
-## ⭐ The collaboration question — resolved, and in our favour
+**Overall fidelity is a significant predictor: β = 0.0065, p < .001** — about 0.65 g across the
+full range. By stepwise ranking, **instruction building on student solutions is #1** and
+**evidence of multiple solution generation is the genuine #2**.
 
-This node's biggest open question was whether productive failure's effect depends on the
-**small-group collaboration** component, since a 1:1 AI tutor has none. If it did, a large part
-of our pedagogical rationale would collapse.
+The old "contrast-and-compare + collaboration" pairing came from Mazziotti et al. (2019) — a
+paper whose own experiment supported **neither** (collaboration effect F(1,224) = 1.16, p = .28).
 
-**It does not. Kapur (2014) and Sinha & Kapur (*Learning and Instruction*) both ran the
-generation phase individually**, and the effect held. Collaboration is a common implementation,
-not a load-bearing requirement.
+## ⭐ Collaboration is not required — build the solo tutor
 
-**A solo tutor is a legitimate vehicle for productive failure.** That is the single most
-useful thing this literature has told us.
+This was our biggest open question. It is settled.
 
-## ⭐ The university-level anchor: Chowrira et al. (2019)
+| Study | Level | Generation structure | Effect |
+|---|---|---|---|
+| **Kapur 2014, Study 1** | Grade 9 | **Individual, no help** | **conceptual d = 2.00**, transfer d = 1.52 |
+| **Kapur 2014, Study 2** | Grade 9 | **Individual, no help** | **conceptual d = 2.25**, transfer d = 1.29 |
+| **Sinha & Kapur 2021 (*L&I*)** | **University** | **Individual, computer-mediated (Jupyter)** | transfer **d = 0.56 [0.03, 1.08]** |
+| Chowrira 2019 | University | Groups of 2–4 | d = 0.32 |
+| Mazziotti 2019 | Grade 5 | **Dyads vs individual, directly contrasted** | **collaboration effect null** |
 
-Our other open question was whether PF evidence reaches university level at all, given that
-domain specificity is a named boundary condition. It does — once.
+**Kapur 2014 ran generation individually and unguided, and produced the largest effects in the
+entire literature.** In his words: *"Students worked individually without any help as indeed one
+would in an examination setting"* — and he frames this as the point, *"an important
+demonstration of the effectiveness of unguided problem solving prior to instruction."*
 
-**Chowrira et al. (2019): d = 0.32 [0.15, 0.49], at university scale, against an
-*active-learning* control, with the intervention built by the instructor.**
+**Why the significant group-work moderator doesn't overturn this:** it is confounded with
+overall fidelity. Classroom (quasi-experimental) studies use groups and average **76.78%**
+fidelity; lab experiments use individuals and average **32.36%**. And a meta-regression finds
+that **for short interventions, individual work predicts better outcomes** (β = 0.7395,
+p = .0023) — which is exactly our session length.
 
-That comparison condition matters enormously. It is the same demanding bar
-[Kestin](../evidence/kestin-2025-rct.md) cleared, not a lecture strawman.
+*Citation warning:* Kapur & Roll cite Mazziotti 2019 for "PF is effective in both
+configurations." The claim is defensible; that citation is not. **Cite Kapur 2014.**
 
-**⚠ But it is the weakest-designed study we are leaning on, and the capstone should say so:**
+## ⭐ The hard constraint: generation cannot be replaced by showing wrong answers
 
-- **Quasi-experiment, not an RCT.** Students self-selected into sections; assignment was by
-  section, not by student.
-- **Pre-existing group differences.** The PF section had significantly more Faculty of Science
-  students (χ²(1, N = 574) = 10.85, p < 0.001) and was **already higher before the
-  manipulation** — on Midterm 1 (d = 0.44) and on final-exam non-study items (d = 0.44). The
-  ~5-point effect survives heavy covariate control, but it is *controlled for*, not randomized
-  away.
-- **Weak scale reliability**: Cronbach's α = **0.574** and **0.555** on the primary outcome
-  measures. That is poor.
-- **One instructor taught the PF section**, so instructor effects are fully confounded with
-  condition.
-- The ability proxy is a single midterm "of limited scope."
+Kapur 2014 **Study 2** tested exactly the shortcut a 1:1 tutor is tempted to take. A
+**vicarious failure** condition replaced generation with an hour studying and evaluating six
+peer-generated failed solutions, rendered as well-designed worked examples.
 
-**The low-prior-knowledge result needs the heaviest hedge.** A subgroup effect favouring
-low-achievers (b = 8.28) is the most reassuring finding available for our
-[equity](../practice/equity.md) concern — and it rests on a **post-hoc ternary split of a
-quasi-experiment with α ≈ 0.56**. The authors themselves call the subgroup splits
-*"more suggestive than conclusive."* **Present it as suggestive. Do not build the equity case
-on it.**
+- **PF > VF: conceptual d = 1.35, transfer d = 1.23**
+- **VF > DI on conceptual only (d = 0.80) — no transfer advantage at all**
+- Solutions **generated** correlated r = .82 / .88 with outcomes. **Evaluations performed
+  correlated with nothing.**
 
-## ⚠ The negative result we must not ignore
+> *"students must themselves generate and explore solutions and **not simply be presented with
+> peers' solutions**."*
 
-**Scaffolded problem-solving-before-instruction has failed on average in meta-analysis:
-g = −0.08 across N = 60 comparisons.**
+**Rule: suboptimal representations may scaffold generation or feed consolidation, but must
+never substitute for the student's own generation.** A tutor that opens with "here are three
+common mistakes" has built the vicarious-failure condition and forfeited the transfer effect.
 
-That is not a small caveat. It means the specific thing we are proposing — a tutor that
-*scaffolds* the struggle phase — is, on the current evidence, the version of PF that does
-**not** work. Unscaffolded generation followed by consolidation works; adding support during
-generation appears to neutralize it.
-
-**This is simultaneously the strongest argument against our design and the clearest statement
-of the gap we would be addressing.** It should be in the capstone's motivation section, stated
-plainly, because a reviewer who knows this literature will raise it.
-
-## The design position that follows
-
-Drawn directly from the evidence rather than from intuition:
-
-1. **Build the solo tutor.** Collaboration is not required.
-2. **Preserve student generation.** Never substitute other students' failed solutions for the
-   student's own attempt.
-3. **Supply suboptimal representations only as on-demand scaffolds** — during a *second*
-   attempt, or during consolidation. Not during first generation.
-4. **Keep hints principle-based or metacognitive, never step-level.** Step-level hints are what
-   turns generation into guided practice, and plausibly what produced g = −0.08.
-5. **Make consolidation mandatory**, and build it on an **explicit pairwise contrast list**
-   between what the student produced and the canonical solution.
-6. **Escalate on stalled solution count, not on the clock.** A student still generating is still
-   in the productive phase; a student who has stopped generating is not.
-
-## ⚠ The two standing risks
-
-- **Undergraduates are the least-supported adult band in this literature, with zero engineering
-  and zero thermodynamics coverage.** Chowrira is one quasi-experiment.
-- **Scaffolded PS-I has failed on average.** We would be betting that better scaffolding design
-  reverses a meta-analytic null.
-
-## ⚠ The two core design components a Socratic tutor doesn't have
-
-This is the finding that most changes our design, and it directly answers a question this
-node previously left open.
-
-PF is **not** "leave the student to struggle." Its two core components are:
-
-1. **Contrasting and comparing student-generated solutions against the canonical solution
-   during a subsequent instructional phase.** The failure is only half of it. **Consolidation
-   is mandatory** — and it involves *showing the student the right answer*, deliberately,
-   after they have generated wrong ones.
-2. **Collaboration in small groups** during the initial problem-solving phase.
-
-Both are awkward for a 1:1 AI tutor built around never giving answers:
-
-- **A tutor that only ever asks questions delivers the failure and skips the consolidation.**
-  On this literature, that is PF done at low fidelity — and fidelity is the main moderator of
-  effect size. The design implication is concrete: **our hint ladder must terminate in an
-  explicit contrast between what the student tried and the canonical solution.** Reaching the
-  bottom of the ladder is not a failure state; it is the instructional phase.
-- **The collaboration component has no analogue in 1:1 tutoring at all.** Some fraction of
-  the measured PF effect may depend on it. Nobody has decomposed this. It is a real reason to
-  be cautious about importing the d = 0.36 figure into a solo-tutor design.
-
-**Boundary conditions** the literature names: PF fidelity; incoming student characteristics
-(e.g. mastery orientation); the nature of the task (domain specificity); how student
-solutions are scaffolded during the problem-solving phase; and the surrounding learning
-design (e.g. additional practice).
-
-## Why this reframes everything in our design
-
-**Practice performance and learning are not the same variable, and can move in opposite
-directions.**
-
-This is exactly what [Bastani et al.](../evidence/bastani-2025-harm.md) measured:
-
-| Arm | During practice | Later, unassisted |
+| Move | Timing | Verdict |
 |---|---|---|
-| Unguarded GPT-4 | **+48%** | **−17%** |
-| Guardrailed tutor | **+127%** | ≈ 0 |
+| Student generates unaided | Attempt 1, ~20 min | **Required** |
+| Tutor nudges toward specific suboptimal representations | Attempt 2, on demand, one at a time | **Do this** |
+| Tutor replays typical wrong solutions | Consolidation | Fine (may be pre-authored) |
+| Tutor presents others' failed solutions *instead of* generating | Replaces attempt 1 | **Never** |
 
-The arm that looked best while working did worst afterward. Productive failure predicts
-precisely that. An AI that removes struggle removes the mechanism.
+## ⭐ The finding that most changes our design
 
-It also explains [VanLehn's substep anomaly](vanlehn-2011.md) — substep-based tutoring
-(d = 0.40) underperforming step-based (d = 0.76). Decomposing a step into sub-steps removes
-the difficulty that made taking the step generative.
+From the *L&I* university replication:
 
-**And it means our most obvious success metric is dangerous.** "Students solve more problems
-with our tutor" is compatible with students learning *less*. Any evaluation that measures
-only assisted performance will mislead us in the direction we want to be misled.
-→ [open question C3](../../docs/03-open-questions.md)
+> *"across both attempts, only **one** student in the Productive Failure condition generated a
+> one-dimensional histogram (one of the three suboptimal scaffolds explicitly offered to the
+> Failure-driven condition students)… students in the Productive Failure condition were **not
+> likely to naturally come up with suboptimal representations**."*
 
-## What it implies for the hint ladder
+**Students left to struggle unaided do not spontaneously produce the productive wrong answers.**
+Unscaffolded PF was **worst on transfer** (0.39 vs 0.60) and left students **over-confident**.
 
-- Hints should be **earned by time or attempts**, not granted on request
-- The budget should be **explicit and visible** — a student who knows why they're waiting
-  tolerates it far better than one who thinks the tutor is broken
-- Failure should be **captured, not discarded**. A student's wrong approach is the most
-  valuable diagnostic signal in the session and should feed the
-  [student model](knowledge-tracing.md) and the misconception catalogue
-- **Bounded, not unbounded.** Productive failure is not "leave them stuck." Unbounded
-  struggle produces quitting → [engagement decay](engagement-decay.md)
+So the tutor's job is not to wait quietly. It is to **actively steer students into specific,
+pre-authored suboptimal representations** — released **moderately-wrong → extremely-wrong →
+nearly-right**, on demand, one at a time, with the student required to declare the previous one
+unhelpful to unlock the next. That ordering is deliberate: it stops students settling early and
+defeats hint-abuse.
 
-The unresolved tension: productive failure argues for withholding help, and
-[engagement data](../evidence/khanmigo-engagement-2026.md) says students who don't get help
-stop coming back. **The budget is where those two forces are balanced, and we do not know
-the right value.** That is an empirical question our pilot could actually answer, and it may
-be the most interesting question we're positioned to ask.
+The authors close by naming our system as the next step: *"Such personalization, which can
+iteratively and naturally gauge students' understanding (e.g., by holding casual
+conversations)… is likely to improve students' metacognition."*
+
+## Consolidation is strictly required — and Kapur 2008 is miscited for it
+
+**Kapur 2016** defines failure without subsequent instruction as **unproductive failure**:
+*"there is an efficacy of unguided problem solving, **but only if some form of consolidation and
+instruction follows**."*
+
+⚠ **Kapur (2008) is routinely cited as evidence for the two-phase design. It has no
+consolidation or instruction phase at all** — the word "consolidation" appears zero times in
+48 pages. Its design is ill-structured group problem solving → post-tests. **Cite Kapur 2016 for
+the requirement, Kapur & Bielaczyc 2012 for the teacher moves, Kapur 2012 for the contrast
+list.** Cite Kapur 2008 only for what it shows: unguided ill-structured problem solving has
+latent preparatory value *even when the solutions produced are worse* (F = 7.200, p = .009).
+
+**The teacher-move sequence** (Kapur & Bielaczyc 2012): students share their solutions →
+**compare and contrast the affordances and constraints of the student-generated solutions
+against each other** → present the canonical solution → *"drew comparisons and contrasts between
+the canonical and student-generated"* solutions → practice problems.
+
+During generation the teacher's role is explicitly **non-cognitive**: *"not to provide any
+cognitive or content-related support but mainly to manage the classroom and provide affective
+support"* — assuring students *"that it was okay not to be able to solve the complex problems as
+long as they tried various ways."*
+
+**⭐ The single most copyable artifact in this literature** is Kapur 2012's **pairwise contrast
+list** for teaching variance — each contrast mapped to the deep feature it teaches (central
+tendency vs qualitative → same mean, different variance; signed vs absolute deviations → why
+signs must not cancel; sum vs average → why dividing by n enables cross-sample comparison; and
+so on). **Build the thermodynamics equivalent for our target concept.** That list *is* the
+consolidation design.
+
+Practical relief: Mazziotti used **canned** typical wrong solutions from prior cohorts rather
+than live student work, *"to keep the instruction constant."* We can pre-author a bank.
+
+## ⚠ The strongest argument against our design
+
+**Scaffolded PS-I has failed on average: Hedge's g = −0.08 [−0.20, 0.04], N = 60 comparisons.**
+Undergraduate subset: **g = −0.08 [−0.34, 0.28]**.
+
+"Scaffolded PS-I" means support added *during* the problem-solving phase — accuracy feedback,
+cognitive hints toward correct steps, question prompts, self-explanation prompts, and
+**Khan-Academy / Carnegie-Learning / ASSISTments-style hint sequences**, which the source names
+explicitly.
+
+**That is the thing we are proposing to build.** The converging explanation is that guidance
+during generation improves *solutions* without improving *learning*:
+
+- Kapur 2011: guided generation produced correct solutions where PF students produced none —
+  and PF beat both guided generation and direct instruction on the post-test, while *"the
+  differences between guided-generation and direct instruction were not significant."*
+- Loibl & Rummel 2013 replicated it.
+- Chowrira's mechanism: *"Having a solution may encourage students to accept it 'at face value',
+  without dissecting its deep structure."*
+
+**The known exception is what defines our design space.** PF matches scaffolded PS-I when
+support is **principle-based** (definitions, conditions of applicability, relevant equations)
+or **metacognitive** — never *"clarifications and hints regarding correct solution steps,
+accuracy feedback."*
+
+Two field-tested scripts:
+
+- **Metacognitive (Chowrira, university):** *"what information do you have in the problem?"* →
+  *"what other kind of information would you need to continue?"* → *"where might you find
+  this?"* — *"prompts to focus students' attention **without providing additional
+  information**."*
+- **Failure-driven on demand (*L&I*):** three suboptimal representations, pull not push.
+
+⚠ **And a warning about our likely outcome measure:** success-driven (canonical-directed)
+scaffolding **beat** failure-driven scaffolding on the isomorphic post-test, **d = −0.50**.
+Guidance wins when the test resembles training. **If the course is assessed on near-isomorphic
+problem sets, PF may not show up in grades at all.**
+
+## The university anchor, and its caveats
+
+**Chowrira et al. (2019), *npj Science of Learning* 4:1.** N = 574 first-year UBC Cell Biology
+students (PF 295, AL 279), two topics, **designed and implemented by the course instructors —
+"DIY," directly analogous to our position.**
+
+- PF: ~25 min small-group exploration with *"minimal or no introduction,"* responses **not
+  marked for correctness** → ~5 min feedback using student responses as clicker options →
+  ~20 min instructor walkthrough building on student mistakes.
+- Control: **active learning**, not lecture — *"better instruction than passively listening."*
+- **Midterm 2: b = 4.78 [2.19, 7.36], p < 0.001, effect size 0.32 [0.15, 0.49]**
+- **Final exam overall: b = 0.78, p = 0.668 — null**
+
+⚠ **Design caveats:** quasi-experiment with self-selected sections; the PF section was
+**already higher before the manipulation** (d = 0.44 on Midterm 1 and on final non-study items);
+**Cronbach's α = 0.574 and 0.555** on the outcome measures; **one instructor taught PF**, so
+instructor effects are confounded with condition.
+
+## Equity — the evidence runs *toward* us
+
+Chowrira's ternary ability split:
+
+| Ability | Midterm 2 | Final exam |
+|---|---|---|
+| **Low** | **b = 8.28 [3.68, 12.89], p < 0.001** | b = 6.83, p = 0.060 |
+| Medium | b = 3.26, p = 0.193 | n.s. |
+| High | b = 3.37, p = 0.105 | n.s. |
+
+**Low-prior-knowledge students gained more than twice as much, and were the only group with
+durable gains.** No subgroup was harmed. Kapur & Bielaczyc likewise found PF **never worse than
+direct instruction on any measure in any school**, including below-average-ability schools.
+
+⚠ Hedge it: post-hoc split of a quasi-experiment with α ≈ 0.56; the authors call the subgroup
+splits *"more suggestive than conclusive."*
+
+**The at-risk profile is not low ability — it is performance-orientation.** Students who
+*"primarily seek to demonstrate ability… may view challenging task situations as a threat and
+withdraw effort."* **That is measurable up front with a goal-orientation instrument**, and it is
+a far better screen than prior grades.
+
+Other genuine losses: **grades 2–5 (g = −0.09, p < .01)**; **domain-general skills
+(g = −0.17, p = .05)**; non-STEM (Nachtigall, both studies null — *"effectiveness may only
+emerge for learning in structured domains"*; thermodynamics qualifies); repeated failure
+demoralizes; and over-generation can backfire.
+
+**The affective ceiling is real and both university teams hit it.** Chowrira's students *"gave
+up out of sheer frustration"* until moderate support was added. Kapur & Bielaczyc removed
+extension problems in a lower-frustration-threshold school and reallocated the time to **extra
+consolidation**. **Lower prior knowledge → shorter struggle and more consolidation, never a
+reversion to direct instruction.**
+
+## The struggle budget
+
+| Study | Level | Generation | Consolidation |
+|---|---|---|---|
+| **Sinha & Kapur (*L&I*)** | **University** | **20 min unscaffolded + 20 min on-demand hints** | **20 min** (5 concept / **10 contrast** / 5 canonical) |
+| **Chowrira 2019** | **University** | **~25 min** | ~5 min feedback + ~20 min walkthrough |
+| Kapur 2014 | Grade 9 | 60 min | 60 min |
+
+**The two university studies converge: ~20–25 min unscaffolded generation, then hints, then
+~20–25 min consolidation — one class period.**
+
+⚠ **Nobody in this literature ever measured optimal struggle duration.** Every number is a
+timetable, not an optimization. The meta-analysis offers no phase-level guidance.
+
+**Escalate on stalled solution generation, not the clock.** Solution count is the mechanism and
+it is measurable: r = .65–.88 with conceptual understanding and transfer; solution diversity
+partial η² = .80, *"about 9 times stronger than the pretest."* PF students produce ~6 distinct
+solutions vs ~3 for direct instruction. **Count solutions the student *produced* — not solutions
+they saw.**
+
+## ⚠ Two standing risks
+
+1. **Undergraduates are the weakest-supported adult band.** Grades 6–10 g = 0.50 (p = .05);
+   postgraduate g = 1.03 (p = .05, only 5 comparisons); **undergraduates g = 0.28, not
+   significant.** And of 166 comparisons: **zero engineering, zero thermodynamics.** Physics
+   topics are "average speed, density, collision, electricity, mechanics."
+2. **Element interactivity.** Ashman et al. (2020), flagged in the meta-analysis's own
+   limitations: *"advantages of PS-I over I-PS may diminish with increasing complexity."*
+   **Thermodynamics is high element-interactivity.** State this extrapolation explicitly rather
+   than letting a reviewer find it.
+
+Also worth stating honestly: **"PF doesn't hurt procedural knowledge" is weaker than it sounds.**
+The nulls come from measures at ceiling — Kapur 2014's procedural means were 9.24/10 vs 9.47/10,
+and he flags it himself. Say **"no evidence of harm," not "demonstrated equivalence."**
+
+## What this all adds up to for us
+
+**Design spec the evidence supports:** ~20–25 min individual generation on a problem with
+invariant surface features and variant deep structure → tutor supplies **pre-authored
+suboptimal representations** on demand, one at a time, moderate → extreme → near-miss → hints
+restricted to **principle-based and metacognitive** content, never step-level → **mandatory
+~20–25 min consolidation built on an explicit pairwise contrast list** ending in the canonical
+solution. Escalate on stalled solution count. Cap consecutive failures. Screen for
+performance-orientation.
+
+**And frame the contribution honestly:** scaffolded PS-I usually fails, the failure-driven
+design is the known exception, and the *L&I* authors explicitly name adaptive conversational
+scaffolding as the next step. **That gap is our capstone's contribution — it should be presented
+as an open question we are addressing, not as settled ground.**
 
 ## Open questions
 
-- [x] ~~Do the literature search~~ — done. d = 0.36, 166 comparisons, 12,000+ participants.
-- [x] ~~Does it require instruction after the failure?~~ **Yes.** Contrast-and-compare against
-      the canonical solution is one of the two core components. **Design accordingly.**
-- [ ] **Read Sinha & Kapur (2021) in full**, plus Kapur's original studies. This node is
-      built from the meta-analysis abstract and secondary summaries.
-- [x] ~~How much depends on collaboration?~~ **Not load-bearing.** Kapur 2014 and Sinha &
-      Kapur (*L&I*) both ran generation individually.
-- [x] ~~Does it reach university level?~~ Yes — **Chowrira et al. 2019, d = 0.32 against an
-      active-learning control**, with substantial design caveats above.
-- [ ] Does it hold in university *engineering* specifically? **Still no coverage at all.**
-- [ ] **Read the scaffolded-PS-I meta-analysis (g = −0.08) in full.** What counted as
-      "scaffolded," and is our hint-ladder design inside or outside that definition? This is
-      the most consequential unresolved question on this node.
-- [ ] How long is productive before it becomes destructive? Still unanswered anywhere.
-- [ ] Do the students who most need help have the least tolerance for a budget?
-      → [equity](../practice/equity.md). Note [KAIST](../evidence/kaist-vta-2025.md) found
-      least-prepared students used the tutor *most*, which cuts against the worry.
-- [ ] **Ask Manu Kapur.** He is a co-author on
-      [MathTutorBench](../evaluation/mathtutorbench.md) — i.e. the productive-failure
-      researcher is already working on LLM tutor evaluation. That is an unusually direct line
-      into both of our open questions.
+- [ ] **Verify Darabi et al. 2018 at source** (g = 0.43 [0.19, 0.68] reaches us only
+      second-hand). Needs library proxy. Note only 12 experimental studies met inclusion, and
+      all three of its moderators were non-significant — read that as underpowered, not as
+      "PF works everywhere."
+- [ ] Get Kapur 2012's journal version for exact statistics and the full contrast list.
+- [ ] **Build the thermodynamics pairwise contrast list.** Highest-value single artifact.
+- [ ] Which thermodynamics problems afford multiple solution representations? That is criterion
+      #1 and it constrains problem selection.
 
 ## Connects to
 
-- [Bastani 2025](../evidence/bastani-2025-harm.md) — the crutch effect, explained
-- [Socratic tutoring](socratic-tutoring.md) — the budget is what makes graduated hints work
-- [engagement decay](engagement-decay.md) — the force pulling the other way
-- [VanLehn 2011](vanlehn-2011.md) — the substep anomaly
-- [Betty's Brain](../systems/bettys-brain.md) — failure as the designed centerpiece
+- [Socratic tutoring](socratic-tutoring.md) — why the ladder must terminate in contrast
+- [Bastani 2025](../evidence/bastani-2025-harm.md) — the crutch effect this explains
+- [engagement decay](engagement-decay.md) — the force pulling against the struggle budget
+- [equity](../practice/equity.md) — the low-ability finding
+- [Betty's Brain](../systems/bettys-brain.md) — failure as the designed centrepiece
+- [VanLehn 2011](vanlehn-2011.md) — the substep anomaly this may explain
 
 ## Sources
 
-- **Sinha, T. & Kapur, M. (2021). "When Problem Solving Followed by Instruction Works: Evidence for Productive Failure." *Review of Educational Research*.** [SAGE](https://journals.sagepub.com/doi/10.3102/00346543211019105) `[skimmed]` — the meta-analysis: d = 0.36, 166 comparisons, 12,000+ participants. **Priority full read.**
-- [Kapur & Roll, "Productive Failure" (chapter PDF)](https://boldscience.org/wp-content/uploads/2025/04/Productive-Failure.pdf) `[found]`
-- [Probing boundary conditions of Productive Failure, *npj Science of Learning* (2019)](https://www.nature.com/articles/s41539-019-0041-5) `[found]` — the collaboration component
-- ["Robust effects of explicit failure-driven scaffolding in problem-solving prior to instruction: A replication and extension" (2021)](https://www.sciencedirect.com/science/article/pii/S0959475221000475) `[found]`
-- [Darabi et al., "Learning from failure: a meta-analysis"](https://www.researchgate.net/publication/323349721_Learning_from_failure_a_meta-analysis_of_the_empirical_studies) `[found]`
-- [Bastani et al., PNAS 2025](https://www.pnas.org/doi/10.1073/pnas.2422633122) `[skimmed]` — the empirical shadow of the concept
+- [Sinha & Kapur (2021), "When Problem Solving Followed by Instruction Works," *RER* 91(5)](https://journals.sagepub.com/doi/10.3102/00346543211019105) `[read]` — the meta-analysis
+- **Sinha & Kapur (2021), "Robust effects of explicit failure-driven scaffolding," *Learning and Instruction* 75:101488** `[read]` — **the university, individual, computer-mediated replication; source of the g = −0.08 scaffolded-PS-I null**
+- [Chowrira, Smith, Dubois & Roll (2019), "DIY productive failure," *npj Science of Learning* 4:1](https://www.nature.com/articles/s41539-019-0040-6) `[read]`
+- Kapur (2014), *Cognitive Science* 38(5):1008–1022 `[read]` — **individual generation; the vicarious-failure comparison**
+- Kapur (2016), *Educational Psychologist* 51(2):289–299 `[read]` — unproductive failure; the 2×2
+- Kapur & Bielaczyc (2012), *JLS* 21(1):45–83 `[read]` — teacher-move sequence
+- Kapur (2008), *Cognition and Instruction* 26(3):379–424 `[read]` — ⚠ **has no consolidation phase; commonly miscited**
+- Mazziotti, Rummel, Deiglmayr & Loibl (2019), *npj Science of Learning* 4:2 `[read]` — the direct collaboration test, null
+- Nachtigall, Serova & Rummel (2020), *Instructional Science* 48:651–697 `[read]` — non-STEM nulls
+- Sinha & Kapur (2019), "When Productive Failure Fails," CogSci `[read]` — the boundary-conditions list
+- Darabi, Arrington & Sayilir (2018), *ETR&D* 66(5) `[abstract only]` — **unverified at source**
+- Loibl, Roll & Rummel (2017), *Educational Psychology Review* `[inaccessible]` — triangulated via quotations
