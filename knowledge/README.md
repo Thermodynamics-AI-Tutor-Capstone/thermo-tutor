@@ -92,7 +92,31 @@ flagged with ⚠ in the affected nodes and summarised at the top of
 the claim *weaker and more specific*. Summaries — including good ones — systematically round
 findings toward their headline. That is why the `[read]` / `[skimmed]` / `[found]` tags exist.
 
-**Current source status: 54 `[read]`, 86 `[skimmed]`, 80 `[found]`.**
+**Current source status: 105 `[read]`, 73 `[skimmed]`, 71 `[found]`** (plus 2 abstract-only and
+2 confirmed inaccessible).
+
+**Second correction pass, 31 Aug 2026** — nine parallel readers worked through the classical
+ITS literature, productive failure, engineering RAG deployments, diagrams, the evaluation
+ecosystem, and the institutional sources. That produced roughly twenty further corrections. The
+ones that changed a design decision:
+
+| What we had said | What the source says |
+|---|---|
+| BKT can't work at ~3 observations per component | Conflated two counts. Parameters are fit on the **pooled cohort**; our per-student density is ~10× the standard benchmarks |
+| Andes used Bayesian networks | **Removed before the results were produced.** *"not the source of Andes1's power"* — an accurate student model is useless if nothing can act on it |
+| Productive failure needs collaboration | **It doesn't.** Kapur's largest effects came from individual, unguided generation |
+| PF's two core components | There are **seven** criteria; collaboration isn't essential; *instruction building on student solutions* ranks #1 |
+| Substep tutoring is worse than step | **Not comparable numbers.** Substep ≈ step ≈ human > answer-only |
+| ITS meta-analyses give g ≈ 0.32–0.37 | That's Steenbergen-Hu & Cooper. **Kulik & Fletcher: 0.66. Ma: 0.43** |
+| The TCI is our outcome instrument | Never finished; developers discourage use. **Use STPFaSL** |
+| Maizey improved grades 5–9% | **No locatable study.** Retracted |
+| ASSISTments: two studies, ~a year of gains | **One study**, ~two-thirds of a year — and the **independent replication was null** |
+| Stan is the only thermodynamics tutor | **[CyclePad](systems/cyclepad-cycletalk.md) has been in the USNA curriculum since 1996** |
+
+**The through-line:** nearly every correction made a claim *weaker and more specific*.
+Summaries — including good ones — round findings toward their headline, and secondary sources
+propagate misattributions. Two numbers we were citing turned out not to exist in their cited
+sources at all.
 
 Remaining priority reads are listed at the end of [`PAPER.md`](PAPER.md) §IX.
 

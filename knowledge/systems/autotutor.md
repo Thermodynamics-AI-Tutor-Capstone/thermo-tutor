@@ -130,11 +130,32 @@ Direct comparisons found human tutors *"have not differed greatly from AutoTutor
 intelligent tutoring systems with natural language interaction"*, with gains
 *"virtually equivalent"* on topics including Newtonian physics.
 
-**Context from the broader meta-analytic literature**, which tempers
-[VanLehn's 0.76](../concepts/vanlehn-2011.md): meta-analyses of ITS effects on **college
-students** report **g ≈ 0.32–0.37** (Ma et al. 2014; Kulik & Fletcher 2016). The honest
-summary is a **moderate** effect, with 0.76 at the optimistic end of a range running down to
-~0.32. Nye et al. add the sobering note that **no AutoTutor study exceeded 1.5σ**, and that
+⚠ **Correction to this node's earlier framing of the meta-analytic literature.** It previously
+said "meta-analyses report g ≈ 0.32–0.37 (Ma et al. 2014; Kulik & Fletcher 2016)."
+**That attribution was wrong.** The corrected picture:
+
+| Review | Headline ITS effect |
+|---|---|
+| **Kulik & Fletcher (2016)**, 50 evaluations | **median 0.66** (Winsorized), mean 0.61, range −0.34 to 3.18; 46/50 favoured ITS, 39/50 significant |
+| **Ma et al. (2014)**, postsecondary | **0.43** |
+| **Steenbergen-Hu & Cooper (2014)** | **0.32–0.37** ← *this is where our number came from* |
+| [VanLehn (2011)](../concepts/vanlehn-2011.md), step-based | 0.76 |
+
+**And the spread between them is not about tutor quality — it is about the comparison condition
+and the test.** Inside a *single* review (Steenbergen-Hu & Cooper): ITS scores **0.90 against no
+treatment, 0.37 against a classroom, and −0.25 against a human tutor.** Inside Kulik & Fletcher:
+**0.73 on locally-developed tests versus 0.13 on standardized ones.**
+
+> **Fix the comparison condition and the outcome measure before building, because those two
+> choices will determine the number we report more than the tutor will.**
+
+That is the sharpest methodological warning in this knowledge base, and it converges with
+[Andes' subscore decomposition](andes.md) — which found +1.21 on drawings and **−0.08 on
+answers** in the same students on the same exams.
+
+Note also that Kulik & Fletcher put **human tutoring at ~0.40** (Cohen, Kulik & Kulik 1982) —
+well below VanLehn's 0.79, and nowhere near Bloom's 2σ, which their own Table 1 labels
+*"Bloom's challenge."* Nye et al. add the sobering note that **no AutoTutor study exceeded 1.5σ**, and that
 *"studies with gains over 0.8σ tended to be short (<4 weeks) and structured interventions."*
 
 ## ⭐⭐ The lesion result that should worry us most

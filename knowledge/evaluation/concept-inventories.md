@@ -132,6 +132,24 @@ test security is the point. Our instructor sponsor is the path.
 
 **This is slow. Request it in Phase 0.** → [roadmap](../../admin/roadmap.md)
 
+## ⭐ Why this decision outranks the tutor itself
+
+Two independent findings say the outcome measure will drive our reported effect more than the
+system will:
+
+- **Kulik & Fletcher (50 ITS evaluations): 0.73 on locally-developed tests vs 0.13 on
+  standardized ones.** Same systems.
+- **Steenbergen-Hu & Cooper: 0.90 against no treatment, 0.37 against a classroom, −0.25 against
+  a human tutor.** Same systems.
+- And [Andes](../systems/andes.md), within the same students on the same exams: **+1.21 on
+  drawings, +0.69 on variable definitions, −0.08 on final answers.**
+
+**Decide the comparison condition and the outcome measure first, then build.** And note what
+Andes implies specifically: **a step-based tutor's effect does not show up in answer-only
+scores.** If we measure only whether students got the right number, we should expect zero — which
+makes STPFaSL's **Representation** subscale (process, P–V diagrams) more important than its
+total.
+
 ## The measurement choice we have to make
 
 Concept inventories measure **conceptual understanding**. Course grades measure

@@ -37,19 +37,27 @@ Two counterintuitive readings:
 **Granularity beats intelligence.** The strongest predictor of learning was not how clever
 the tutor's feedback was, but **how much of their reasoning the student had to externalize.**
 
-**Finer is not better — the "interaction plateau."** VanLehn's framing is that effectiveness
-*rises and then plateaus* at the step-based level: **human tutoring ≈ substep-based ≈
-step-based > answer-based.** More granularity past "each step" buys nothing.
+**⭐ The "interaction plateau" — and the ambiguity is now resolved.**
 
-⚠ *Unresolved reading:* the 2011 paper reports substep-based at **d = 0.40** against no
-tutoring, which reads as substep being *worse* — while the plateau hypothesis says it should
-be equivalent. The likely explanation is that the substep comparisons rest on fewer and
-weaker studies rather than substep genuinely underperforming. **This node cannot resolve it
-without the actual paper.** Don't assert "finer is worse" until someone reads it; assert only
-"finer is not better," which both readings support.
+This node previously flagged an unresolved question: does substep-based tutoring genuinely
+*underperform* step-based (d = 0.40 vs 0.76), or are those numbers not comparable? **Resolved:
+they are not comparable, and substep is not worse.**
 
-Either way, the design implication is the same: aim for step-level externalization and stop
-there. → [productive failure](productive-failure.md)
+Three independent lines converge:
+
+1. **VanLehn's own head-to-head comparisons run the other way.** Against *human tutoring*,
+   **substep-based scored d = −0.12** (i.e. substep slightly *beat* the human tutors) while
+   step-based scored d = +0.21 (human tutors slightly ahead).
+2. **Kulik & Fletcher independently found step 0.60 ≈ substep 0.63.**
+3. The plateau hypothesis asserts equivalence: **human ≈ substep ≈ step > answer-based.**
+
+The 0.76 / 0.40 pair are **separate small-k comparisons against no tutoring**, not a
+granularity contrast. Reading them as one was the error.
+
+**Design implication, now clean:** a **step-level inner loop is non-negotiable**; finer-than-step
+is **open, not disfavoured**; and **answer-only (~0.31) is the tier to avoid.** That last point
+is the one that matters for a chat interface.
+→ [Andes](../systems/andes.md), [productive failure](productive-failure.md)
 
 ## Why this is uncomfortable for our project
 
@@ -75,10 +83,13 @@ can't (mandatory externalization).
 
 ## Open questions
 
-- [ ] **Read the actual paper.** Everything here is from summaries, and there is a live
-      ambiguity (above) that only the primary source settles. **Highest-priority classical
-      read.** Also see VanLehn's companion piece *"The Interaction Plateau: Answer-Based
-      Tutoring < Step-Based Tutoring = Natural Tutoring."*
+- [ ] **Still not read in full.** Two independent attempts failed: the paper is closed at the
+      publisher with no repository copy, the ASU faculty copy moved behind Cloudflare Access,
+      and the Internet Archive was down during both attempts. **A confirmed-good Wayback URL
+      exists** — retry `https://web.archive.org/web/20240802132649id_/https://www.public.asu.edu/~kvanlehn/Stringent/PDF/EffectivenessOfTutoring_Vanlehn.pdf`
+      when IA recovers, or use the **PSU library proxy**, which is the fast path.
+- [ ] Still genuinely unknown and **not to be filled from secondary sources**: VanLehn's
+      per-condition study counts and confidence intervals.
 - [ ] Has anyone re-run this analysis including LLM-era systems?
 - [ ] What exactly counts as a "step" in a thermodynamics problem?
       → [knowledge components](knowledge-components.md),

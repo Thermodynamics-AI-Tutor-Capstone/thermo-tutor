@@ -29,8 +29,14 @@ thinking, not free generation.
 **Preregistered analysis plan.**
 
 - Students of tutors with Tutor CoPilot were **+4 percentage points** more likely to master
-  topics (**p < 0.01**)
-- **+9 p.p. for students of lower-rated tutors**
+  topics (**p < 0.01**) on per-session exit tickets
+- **+9 p.p. for the lowest tercile of tutor *quality rating*** (56% → 65%) — and separately
+  **+7 p.p. for the lowest tercile of tutor *experience*** (61% → 68%). ⚠ Two different
+  measures, two different numbers; don't merge them.
+- ⚠ **The distal outcome was null.** End-of-year Math MAP **−0.35 (trending negative)**,
+  Reading +1.44, neither significant. The +4pp is a **proximal** measure.
+- ⚠ **Adoption was low: only 29% of treatment sessions used the tool at least once**, and more
+  experienced tutors used it *less*. TOT (2SLS) was +14pp — the ITT is diluted by non-use.
 - Analysis of **550,000+ messages** with classifiers: tutors with access **asked more guiding
   questions and gave away fewer answers**
 - **Cost: $20 per tutor per year**, based on actual study usage
@@ -42,7 +48,33 @@ incumbent intervention. That is the strongest cost-effectiveness argument anywhe
 knowledge base.
 
 **Their honest limitation:** tutors flagged that suggestions were sometimes **not
-grade-level appropriate** — the system knows pedagogy better than it knows the student.
+grade-level appropriate** — *"too smart."* The system knows pedagogy better than it knows the
+student.
+
+## ⭐ The artifact to lift: their talk-move taxonomy
+
+They labelled all 550,000 messages via GPT-4 → human verification → a fine-tuned RoBERTa
+classifier. **This is the most directly reusable instrument in the batch for grading our own
+tutor's output**, with reported F1:
+
+| Quality | Move | F1 |
+|---|---|---|
+| **High** | Ask Question to Guide Thinking | .90 |
+| **High** | Prompt Student to Explain | .89 |
+| **High** | Affirm Correct Attempt | .65 |
+| **Low** | Encourage Generically | .81 |
+| **Low** | Give Away the Solution Strategy | .79 |
+| **Low** | Give Away the Answer/Explanation | .76 |
+| **Low** | Ask Student to Retry | .73 |
+
+Treatment tutors used the top two roughly **2 SD more often**. Usage concentrated **during** a
+problem attempt (49.5%) and **after** it (42.1%).
+
+⚠ **An unreconciled tension in their own paper:** the UI's strategy menu offers *"provide a
+solution"* and *"affirm the correct answer"* — which map onto categories its own taxonomy
+penalizes. Worth resolving deliberately in our own design rather than inheriting.
+
+**Cost detail:** $1,419.66 total API spend for 429 tutors over 2 months.
 
 ## Why this is the most interesting result for a capstone team
 
