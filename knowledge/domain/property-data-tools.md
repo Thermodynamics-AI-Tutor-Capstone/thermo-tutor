@@ -6,6 +6,63 @@ thermodynamic property values, because the model cannot be trusted to.
 **Why we care:** This is the most concrete, most immediately buildable architectural decision
 in the project, and the evidence for it is unusually direct.
 
+## ⭐ The transcoding principle — the strongest single design finding in our source set
+
+Three research teams independently converged on the same answer to "how do you make a
+non-embeddable engineering artifact usable by an LLM," without citing each other. **Do not
+caption it, do not OCR it, do not send it to a vision model. Transcode it into its native,
+complete, machine-readable text representation and index that.**
+
+| Team | Artifact | Their solution |
+|---|---|---|
+| **UC Davis (ASEE 2025)** | Circuit schematics | **SPICE netlists** |
+| **Stan (U. Delaware)** | Textbook content | The book's own **back-of-book index as structured JSON** |
+| **CodeAid (Toronto, CHI 2024)** | C standard library | **Scraped documentation parsed into a JSON key-value store** |
+
+**The evidence that forced it — and this is our exact problem in a different domain.** UC Davis
+tested an AI TA on junior-level Microelectronic Circuits with Claude 3.5 Sonnet. On homework
+whose answers are formula-based: **accuracy 5.0/5**. On homework whose answer lives *in a
+figure*: **accuracy 1.6/5**. Same model, same course, same textbook. The only variable is that
+the information was in a schematic.
+
+Their three catalogued failure modes translate directly:
+
+1. The model states it cannot view the figure
+2. It "sees wrong component values or names in a figure"
+3. It "answers the questions for a different circuit than the one in the figure"
+
+The verified case is the one to internalize: given a common-source amplifier with a cascoded
+load, the tutor *"answered as if the circuit was a cascode transistor M2 above common-source
+M1 — **apparently it read the figure caption and then found information about a different but
+similarly named circuit**."*
+
+**The steam-table analogue is exact.** A model retrieves *"Table A-4: Saturated water —
+temperature table"* **by its caption**, then generates plausible values it never read. That is
+the single most dangerous failure available to a thermodynamics tutor, because every number
+will look right.
+
+**Their fix worked:** *"we wrote a SPICE netlist for this amplifier… A SPICE netlist is a
+complete description of a circuit, using only text. After feeding the SPICE netlist into a
+newly released LLM, it understood the circuit and its elements, and it correctly answered
+questions about the circuit."* Their conclusion: *"providing the AI TA with a SPICE netlist
+for each schematic is a good and effective option. However, generating a SPICE netlist for
+every schematic in a circuits textbook would be a big job."*
+
+**What this means concretely for us:**
+
+- **Do not embed steam tables.** Transcode them into structured records — substance, table id,
+  state variables, every property column, units, source page — and serve them through a
+  **deterministic property-lookup tool the model calls**, with interpolation done **in code**.
+- That is cheaper for us than for them: CoolProp already *is* the transcoded form. We don't
+  have to hand-author netlists; we have to pin the reference state and wrap the library.
+- **Reserve vector retrieval for prose**: lecture notes, worked-example narratives, sign
+  conventions, definitions.
+- **⚠ The corollary is uncomfortable.** A P–v or T–s *diagram* has **no lossless text form** the
+  way a circuit or a table does. Expect diagrams to behave like Ethel's process diagrams —
+  *"substantially less reliable than grading mathematical derivations"* — rather than like
+  tables. Transcoding solves the table problem and does **not** solve the diagram problem.
+  → [diagram reading](diagram-reading.md)
+
 ## Why this layer is non-negotiable
 
 [ThermoQA](thermoqa.md): every frontier model scores **44–63% on R-134a** property problems,
@@ -21,6 +78,13 @@ prompting, more reasoning, or a bigger model. They're fixed by looking the value
 a separate math agent to verify every calculation.
 
 **Rule: no thermodynamic property value reaches a student unless it came from a tool call.**
+
+And a second rule that follows from the verification literature: **a grounding checker cannot
+catch a wrong property value.** NLI-based verification demonstrably fails on claims involving
+temporal reference, negation, and quantifiers — and a numeric table lookup is structurally
+that same class of claim. Asking an entailment model whether a table entails
+*"h_f = 191.83 kJ/kg at 45 °C"* is asking it to perform lookup and arithmetic, which is what
+it cannot do. **Property values need a deterministic value-checker, not entailment.**
 → [grounding and verification](../concepts/grounding-and-verification.md)
 
 ## The libraries

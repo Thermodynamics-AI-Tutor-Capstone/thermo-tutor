@@ -52,9 +52,63 @@ every frontier model scoring **44–63% on R-134a** property problems.
 Check the generated response before it reaches the student.
 
 **Textual entailment / NLI** is the standard technique: a natural language inference model
-checks whether the retrieved context *entails* the generated claim. Long responses get split
-into sentences, each checked separately. Lightweight models (fine-tuned DeBERTa-v3-base)
-are adequate and cheap.
+checks whether the retrieved context *entails* the generated claim.
+
+### ⭐ How to configure it — measured, and the defaults are wrong
+
+From GASP (arXiv:2607.04223), span-level AUC on RAGTruth with a Qwen2.5-1.5B scorer. **This is
+the most directly actionable table in the knowledge base:**
+
+| Verifier configuration | Span AUC |
+|---|---|
+| Perplexity baseline | 0.565 |
+| NLI `deberta-v3-**small**`, **whole context** | **0.532** — barely above chance |
+| NLI `deberta-v3-**large**`, whole context | 0.605 |
+| **NLI `deberta-v3-large`, max over K=5 chunks** | **0.677** ← best measured |
+| SelfCheckGPT-NLI (N=4 regenerations) | **0.486** — *at chance*, at 4× the cost |
+
+**Three findings to build on:**
+
+1. **Never run NLI over the whole retrieved context.** Run it **per chunk and take the max**:
+   +0.072 AUC, same model, zero extra research. The cause is mundane — a cross-encoder's
+   **512-token limit truncates away the supporting evidence**.
+2. **Model size is worth another +0.073.** `deberta-v3-small` over whole context scores 0.532,
+   which means **a verification layer configured that way does essentially nothing** while
+   appearing to work. This node previously recommended exactly that configuration; it was
+   wrong.
+3. **Do not build self-consistency checking.** SelfCheckGPT-style resampling is at chance in a
+   grounded setting and costs N full regenerations.
+
+Useful free signal: *"does any retrieved chunk entail this sentence at all"* separates grounded
+from hallucinated spans at **0.56 vs 0.28** best-chunk entailment. And max-likelihood-drop
+attribution agrees with the NLI-top-ranked chunk **69% of the time against a 20% chance rate** —
+so the verifier gives you per-claim citations for free.
+
+**Latency cost is unmeasured anywhere in this literature.** Every paper describes sentence-level
+entailment as "costly" without a number. If we need a latency budget, **we have to measure it
+ourselves** — and given that
+[multi-agent latency compounds as the max of parallel calls](../practice/cost-economics.md),
+we should.
+
+### ⚠ What entailment verification cannot do
+
+The grounding survey (KDD 2024) names three claim types where NLI models fail: **temporal
+statements, negation, and quantifiers.** A numeric lookup out of a table is structurally the
+first case — asking an NLI model whether a table entails *"h_f = 191.83 kJ/kg"* is asking it to
+perform lookup and arithmetic.
+
+**So an NLI layer will not catch a wrong steam-table value.** Property numbers need a
+**deterministic value-checker** against structured data.
+→ [property data tools](../domain/property-data-tools.md)
+
+Also worth adopting: the survey's distinction between **grounding** (*"attribution to a
+user-specific knowledge base"*) and **factuality** (*"attribution to commonly agreed world
+knowledge"*). A claim can be perfectly true and still **ungrounded**. For us that is exactly
+right — an answer using a *different textbook's sign convention for work* is correct in the
+world and wrong in this course, and should be flagged.
+
+Off-the-shelf production services worth benchmarking before building: **Google Vertex AI
+"Check grounding"** and **Azure AI Content Safety "Groundedness detection."**
 
 The architectural principle — worth stating plainly because it's easy to violate —
 **separate the generating logic from the validating logic.** A model checking its own work
