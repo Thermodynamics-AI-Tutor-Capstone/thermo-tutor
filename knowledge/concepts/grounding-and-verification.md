@@ -48,6 +48,27 @@ evidence for the necessity is unusually direct: [ThermoQA](../domain/thermoqa.md
 every frontier model scoring **44–63% on R-134a** property problems.
 → [property data tools](../domain/property-data-tools.md)
 
+### 2b. ⭐ Constraint violation as verification — what NLI cannot do
+
+[CyclePad](../systems/cyclepad-cycletalk.md) verified differently, and better for our domain: it
+encoded physical law as **sign and ordinal constraints on reified processes**, so that a pump
+producing work or heat flowing cold-to-hot is a *detectable contradiction*, not a plausible
+sentence.
+
+```lisp
+(defProcessEpisode (heat-flow ?src-start ?src-end ?dst-start ?dst-end)
+  (> (T ?src-start) (T ?dst-start)))     ; the second law as an ordinal constraint
+```
+
+On violation it **halted**, showed the violated constraint in raw form, and **named the specific
+assumptions jointly responsible**, requiring the student to retract one.
+
+**An NLI verifier cannot do any of this.** It checks whether a claim is entailed by retrieved
+text; it has no notion of thermodynamic possibility. A checker that says *which physical
+constraint was violated and which of the student's own commitments are jointly responsible* is a
+different and more useful instrument — and for a domain with hard conservation laws, it is
+buildable.
+
 ### 3. Output verification
 Check the generated response before it reaches the student.
 

@@ -118,6 +118,20 @@ to the student's table.** Differences (Δh, Δu) are unaffected, so many problem
 right — which is precisely what makes this dangerous. It will pass casual testing and then
 produce confidently wrong absolute values on exactly the problems where absolute *h* matters.
 
+⭐ **And a second, subtler trap that CyclePad hit and solved — numerical noise is a *trust* bug.**
+CyclePad deliberately **suppressed logically valid inference paths through its property tables**,
+preferring analytic propagation, for two reasons: accumulated interpolation error triggered false
+contradictions, and —
+
+> *"the results of constraint propagation **look more like the work a student would do**, and thus
+> the explanations provided are a better model for the student… CyclePad may display 6.60 kJ/kg at
+> the inlet and 6.60001 kJ/kg at the outlet… **We found that if CyclePad did not do the "obvious"
+> propagation in preference to interpolation, students trusted it less.**"*
+
+CoolProp will happily hand us more precision than the student's tables carry, and more paths to a
+value than the textbook would take. **Round to the table's precision, and follow the route the
+course teaches even when a shortcut exists.** → [CyclePad](../systems/cyclepad-cycletalk.md)
+
 **Actions:**
 - Decide the reference convention explicitly and pin it in configuration
 - Match the textbook the course actually uses
