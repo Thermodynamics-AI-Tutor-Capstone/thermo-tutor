@@ -34,9 +34,34 @@ directly — potentially interesting given
 ## The settled question: don't use an LLM for this
 
 *Faster, Cheaper, More Accurate: Specialised Knowledge Tracing Models Outperform LLMs*
-(arXiv:2603.02830) tested specialized KT models against GPT-3.5/4 on standard benchmarks.
-Specialized models won on **accuracy and AUC**, at **millisecond latency**, at **orders of
-magnitude lower cost per prediction**.
+(Bhattacharyya, Mitton, Abboud & Woodhead — **Eedi** and the Learning Engineering Virtual
+Institute; arXiv:2603.02830). Real-world Eedi data, binary next-response prediction, with
+*different students* in train and validation so the test is generalization to new learners.
+
+| | Specialised KT (DKT, SAKT) | LLMs |
+|---|---|---|
+| **Accuracy** | **73%** | 58–66% |
+| **Latency** | **<0.25 s per student** | 3.1 s – **55 minutes** per student |
+| **Annual deployment cost** | **<$2** | $1,000 – $25,000+ |
+
+**600–12,000× cheaper** to deploy at scale.
+
+**Two honesty caveats this node must carry:**
+
+1. **The dataset's majority-class bias is 65.8–66.5%.** So an LLM scoring 58–66% is
+   performing **at or below the trivial baseline of always guessing the majority class**.
+   They are not merely worse — several are useless. And KT's 73% is a real but *modest*
+   ~7-point improvement on guessing. Knowledge tracing is a hard, low-ceiling problem, and
+   nobody should promise precision it can't deliver.
+2. **The LLMs tested were small and cheap**: GPT-4o-mini, Gemini-2.5-flash-lite,
+   Qwen2.5-7B-Instruct, Llama-1B, and a LoRA fine-tuned Llama-1B. **No frontier model was
+   tested.** The latency and cost conclusions would only get worse for frontier models, but
+   the accuracy conclusion is not established for them.
+
+The architectural conclusion still holds, and holds easily: **the LLM converses; a
+statistical model owns mastery state.** Asking an LLM "how well does this student understand
+entropy?" is worse, far slower, vastly more expensive, and non-deterministic — which also
+makes it unpublishable.
 
 Which settles a design question cleanly: **the LLM converses; a statistical model owns
 mastery state.** Asking the model "how well does this student understand entropy?" is
@@ -94,7 +119,7 @@ Three ways out, none free:
 
 ## Sources
 
-- [Faster, Cheaper, More Accurate: Specialised KT Models Outperform LLMs, arXiv:2603.02830](https://arxiv.org/pdf/2603.02830) `[skimmed]`
+- [Bhattacharyya, Mitton, Abboud & Woodhead, "Faster, Cheaper, More Accurate: Specialised Knowledge Tracing Models Outperform LLMs," arXiv:2603.02830](https://arxiv.org/abs/2603.02830) `[read]` — full text. Note the authors are from **Eedi**, the same platform [LearnLM's UK RCT](../systems/learnlm.md) ran on.
 - [Bayesian Knowledge Tracing overview](https://www.emergentmind.com/topics/bayesian-knowledge-tracing) `[skimmed]`
 - [Deep Learning vs. Bayesian Knowledge Tracing: Student Models for Interventions, JEDM 2018](https://eric.ed.gov/?id=EJ1195512) `[found]`
 - [BKT-LSTM, arXiv:2012.12218](https://arxiv.org/pdf/2012.12218) `[found]`

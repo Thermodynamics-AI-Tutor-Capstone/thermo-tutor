@@ -7,48 +7,98 @@ LLMs on course data, deployed in Purdue's ECE 20875 in Spring 2025.
 single-course tutor with published design rationale and an explicit "tutor, not solver"
 stance.
 
+> **Verification: `[read]` — full text, 2026-08-31.** Important correction: this is a
+> **design case, not an experimental study.** The evidence base is four expert interview
+> sessions and a 284-message baseline corpus. It has **no student outcome data**. This node
+> previously implied a large-scale deployment evaluation; it isn't one.
+
 ## What it is
 
-Purdue built PeteChat by collecting course-specific data and fine-tuning open-source LLMs,
-deploying via Gradio/Hugging Face to undergraduates in **ECE 20875** (a Python programming
-course). Spring 2025 was the first large-scale test. By **Spring 2026** a
-"stable, preference-aligned version" extended into additional large undergraduate Python
-courses — the paper frames this as the transition "from course-specific innovation to
-broader, campus-level integration."
+Belle Li, Lily Tan, Wei Zakharov, Qiang Qiu, Colby Ben Acton — Purdue University
+(Learning Design & Technology, Libraries, Engineering Education, ECE). arXiv:2606.09845.
 
-## The framing worth stealing
+A **course-aligned AI tutor** built on a **locally hosted Llama-3 family model**,
+fine-tuned on Purdue content with **LoRA/QLoRA** on Purdue's **Gilbreth GPU cluster**, plus
+RAG over course materials.
 
-The paper's title is the thesis: **"Tutor, Not Solver."** That phrase does more work than
-most system prompts. It names a design constraint that can be tested, argued about, and
-violated — as opposed to "be Socratic," which is a vibe.
+Architecture: a **mixture-of-experts-inspired router** dispatches each query to one of four
+modes — **exam generation, MCP tools, multimodal support, or RAG Q&A**. The RAG pipeline runs
+query rewriting → multimodal retrieval → shared-vector embedding → generation with tutor
+guardrails.
 
-Reported design principles (from the abstract-level reading):
-- Prevent direct answer provision
-- Encourage metacognitive engagement
-- Limit solution shortcuts
-- Promote self-directed learning
+Framed as **design-based research (DBR)** across four development phases, explicitly
+prioritizing "situated design reasoning" over outcome measurement.
 
-## Why the trajectory matters to us
+Institutionally: funded by Purdue's **Innovation Hub Funding Program: Teaching & Learning in
+an AI-Rich Environment**, with the Center for Instructional Excellence, Purdue Libraries, and
+RCAC. That funding-and-partners pattern is a useful template for the
+[PSU AI Center of Excellence](../practice/psu-ai-landscape.md) route.
 
-PeteChat is the only system found that documents the path **one course → several courses →
-campus platform**. That's the arc a successful capstone would follow, and the paper
-presumably discusses what broke along the way. Worth reading specifically for that.
+## The eight design principles — the actual deliverable
 
-Also note: **fine-tuning + preference alignment**, not just prompting. That's a heavier
-approach than most course tutors take and a distinctly different bet from
-[Stan's](stan-udel.md) local-RAG design or [Cogniti's](cogniti-sydney.md)
-instructor-configured agents.
+These are concrete, transferable, and the reason to read this paper:
+
+1. **Tutor, not solver.** Default to hinting and scaffolding; avoid direct answers. Teach
+   *how to think* — debug explanations, step-by-step reasoning.
+2. **Align to the course.** Ground responses in instructor-provided materials **and show
+   provenance**; add freshness disclaimers for logistics to protect instructors.
+3. **Respect academic integrity.** Guardrails and reminders on homework; encourage students
+   to read and follow instructions.
+4. **Reduce TA overhead.** Automate clarity (summaries of instructions), regrade explanations
+   from rubrics, handle repeat questions consistently.
+5. **Design for clarity and momentum.** Open sidebar with per-assignment *"Try asking…"*
+   cards; concise, visual, readable answers.
+6. **Flexible control for staff.** Instructors upload/update content, set tone, review
+   alignment metrics — **without code**.
+7. **Trust through transparency.** Show sources, note uncertainty, offer share/confirm
+   actions so students can verify with peers or TAs.
+8. **Time-aware support.** Study plans and mock quizzes scoped to available time and
+   upcoming exams.
+
+**The starter-prompt mechanism (5) is quietly clever**: *"Try asking…"* cards are
+**auto-generated from syllabus metadata** — assignment names, due dates, topic tags — and
+instructors can override them. A usage-analytics layer tracks which prompts get picked and
+feeds that back. That's a cheap, concrete answer to the
+[first-session problem](../concepts/engagement-decay.md), where KAIST's disappointed
+low-frequency users are lost.
+
+## Two mechanisms worth stealing beyond the list
+
+**Reverse prompting and judgment-of-learning (JOL) micro-checks.** PeteChat periodically
+turns the question back on the student and asks them to rate their own understanding.
+Explicitly framed as metacognitive support and part of the assessment-aware guardrails. This
+is one of very few concrete implementations of metacognitive scaffolding we have found in a
+deployed LLM tutor.
+
+**Uncertainty expression as hallucination mitigation.** Early trials showed the model
+hallucinating references and overconfidently stating incorrect facts. Their fix: prompt it to
+**cite knowledge-base sources when possible and to say "I'm not sure"** or point at where to
+look, rather than fabricate. They report this "reduced blatantly incorrect answers" without
+eliminating them. Compare CS50's observation that
+[AI's confident tone when wrong is the real problem](cs50-duck.md).
+
+## What it does not have
+
+- **No student outcome data.** None. It is a design case.
+- Evidence base: **four expert sessions (n=4)** with TAs and UX/developer stakeholders, plus
+  a directed content analysis of a **284-message pre-guardrail baseline corpus**
+- No knowledge tracing, no mastery model
+- Deployment scale and retention are not reported in this paper
+
+## Revised position
+
+PeteChat is **the best available source of design principles** for a course-aligned
+guardrailed tutor, and **not** a source of evidence that such tutors work. Cite it for the
+eight principles and the JOL idea; do not cite it for effectiveness.
 
 ## Open questions
 
-- [ ] Which base models, and what did fine-tuning actually buy over prompting?
-- [ ] What is "preference-aligned" here — DPO? RLHF on TA judgments? On what data?
-- [ ] Usage numbers and retention from Spring 2025
-- [ ] Did the guardrails hold under pressure? Any measured defection?
-- [ ] What broke when scaling from one course to several?
-
-> The PDF did not text-extract cleanly. Everything above is from the abstract and search
-> summaries. **Needs a proper read.**
+- [x] ~~Which base models?~~ Llama-3 family, LoRA/QLoRA fine-tuned on Purdue content.
+- [ ] What did the fine-tuning actually buy over prompting alone? Unmeasured.
+- [ ] Are there follow-up papers with Spring 2025/2026 deployment data? **Search — that's
+      where the outcome evidence would be.**
+- [ ] Did the guardrails hold under pressure? No defection testing reported.
+- [ ] Do the JOL micro-checks change behaviour, or are they ignored?
 
 ## Connects to
 
@@ -59,4 +109,4 @@ instructor-configured agents.
 
 ## Sources
 
-- ["Tutor, Not Solver: Designing a Guardrailed AI Assistant for Learning in Higher Education: A Design Case of PeteChat," arXiv:2606.09845](https://arxiv.org/pdf/2606.09845) `[skimmed]` — PDF cached locally
+- [Li, Tan, Zakharov, Qiu & Acton, "Tutor, Not Solver: Designing a Guardrailed AI Assistant for Learning in Higher Education: A Design Case of PeteChat," arXiv:2606.09845](https://arxiv.org/abs/2606.09845) `[read]` — full text

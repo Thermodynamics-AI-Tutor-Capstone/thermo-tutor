@@ -1,4 +1,9 @@
-# Hoffmann et al. — Using LLMs for Solving Thermodynamic Problems
+# Loubet et al. — Using LLMs for Solving Thermodynamic Problems
+
+> **Name corrected 2026-08-31.** This node was filed under "Hoffmann et al." The first
+> author is **Rébecca Loubet**; Marco Hoffmann is a co-author. Same group as
+> [Superstudent](superstudent-thermodynamics.md): Hans Hasse's Laboratory of Engineering
+> Thermodynamics, **RPTU Kaiserslautern**.
 
 **Type:** study / benchmark
 **One line:** A 22-problem thermodynamics benchmark whose most useful result is a single
@@ -9,17 +14,39 @@ onto the most valuable thing a thermodynamics tutor could teach.
 
 ## The study
 
-arXiv:2502.05195. **22 thermodynamic problems**, simple and advanced. Five models:
-GPT-3.5, GPT-4, GPT-4o, Llama 3.1, and Mistral's le Chat. **Three repetitions each.**
+Loubet, Zittlau, Vollmer, Hoffmann, Fellenz, Jirasek, Leitte & Hasse.
+arXiv:2502.05195; published in **Computers & Chemical Engineering 204, 109333 (2026)**.
+
+**22 thermodynamic problems** in two sets — simple and advanced. Five models: GPT-3.5,
+GPT-4, GPT-4o, **Llama 3.1 70B**, and le Chat (Mistral Large 2). Zero-shot,
+**three repetitions each**, late 2024.
+
+**Design note that matters:** the problems were *"tuned for LLMs, e.g., by removing
+graphical input and not asking questions that require graphical output, such as
+diagrams."* So this benchmark deliberately excludes the modality that
+[UTQA](utqa.md) found most damaging. Its scores are an upper bound.
 
 ## Results
 
-- **Simple problems:** handled well. Large improvement GPT-3.5 → GPT-4; no significant
-  difference GPT-4 → GPT-4o.
-- **Advanced problems:** GPT-3.5 consistently failed to produce meaningful responses.
-- **Problem 12 — the important one.** An adiabatic process where the text does *not* state
-  whether the process is reversible. Assuming reversibility is incorrect. **Every studied
-  model made that assumption, in all three repetitions.**
+Exact scores (average % of maximum achievable points), as reported in the
+[follow-up paper](superstudent-thermodynamics.md):
+
+| Test set | GPT-3.5 | GPT-4 | GPT-4o | Llama 3.1 70B | Le Chat |
+|---|---|---|---|---|---|
+| **Simple** | 45.8% | **88.6%** | 87.1% | 75.9% | 72.8% |
+| **Advanced** | n.a. | 47.5% | **55.2%** | 40.7% | 51.9% |
+
+The headline: **on advanced problems, the best model managed 55.2%.** No model in late 2024
+could satisfactorily solve advanced thermodynamics problems. (This changed abruptly with
+reasoning models six months later — see [Superstudent](superstudent-thermodynamics.md).)
+
+Note **Llama 3.1 70B at 40.7%** on advanced problems. [Stan](../systems/stan-udel.md) runs
+Llama 3.1 **8B** — a far smaller model — which is defensible for its Level-1/2 scope and
+would be indefensible for problem solving.
+
+**Problem 12 — the important one.** An adiabatic process where the text does *not* state
+whether the process is reversible. Assuming reversibility is incorrect. **Every studied
+model made that assumption, in all three repetitions.**
 
 Other reported weak spots: property-table lookup, entropy calculations, symbolic handling of
 van der Waals.
@@ -71,8 +98,11 @@ candidate for our project's distinctive pedagogical contribution.
 
 ## Open questions
 
-- [ ] **Read the full paper.** All 22 problems, and per-model per-problem results.
-- [ ] Is the problem set public? 22 problems with known traps is directly reusable.
+- [ ] **Read the journal version** (Comput. Chem. Eng. 204, 109333). This node is built from
+      the arXiv abstract plus the detailed score table reported in the follow-up paper.
+- [ ] Is the problem set public? 22 problems with known traps would be directly reusable.
+      The group publishes their exam material as supplementary information elsewhere, so
+      it's worth asking. Contact: `hans.hasse@rptu.de`
 - [ ] Do reasoning models (o3, extended thinking) fix Problem 12, or just fail more
       elaborately? **Testable today, cheaply, and worth doing early.**
 - [ ] Does explicit assumption-extraction prompting help? (UTQA says prompt phrasing
@@ -90,4 +120,5 @@ candidate for our project's distinctive pedagogical contribution.
 
 ## Sources
 
-- [Using Large Language Models for Solving Thermodynamic Problems, arXiv:2502.05195](https://arxiv.org/abs/2502.05195) `[skimmed]` — **priority read; it's short**
+- [Loubet et al., "Using Large Language Models for Solving Thermodynamic Problems," arXiv:2502.05195 / Computers & Chemical Engineering 204, 109333 (2026)](https://arxiv.org/abs/2502.05195) `[skimmed]` — abstract; the score table above comes from the group's follow-up paper, read in full
+- [Loubet et al., "Superstudent intelligence in thermodynamics," arXiv:2506.09822](https://arxiv.org/abs/2506.09822) `[read]` — source of Table 1 reproduced above

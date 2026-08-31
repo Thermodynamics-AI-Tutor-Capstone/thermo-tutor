@@ -6,20 +6,27 @@ student** in API spend.
 **Why we care:** It closes an open question in our plan and removes cost as a design
 constraint. Stop optimizing for it.
 
-## The numbers
+## The measured number
 
-A typical tutoring turn (~1,000 input tokens, ~1,500 output) costs about **2.5 cents** on
-standard frontier pricing — as little as **0.2 cents** on cheaper hosted models.
+**The best figure is not an estimate — it's from a real deployment.**
 
-At a plausible usage rate of ~15 questions per class day (~**675 questions per semester**):
+[KAIST](../evidence/kaist-vta-2025.md) ran an LLM teaching assistant for **477 students over
+14 weeks** at a total operational cost of **$180**, covering API usage *and* conversation-log
+storage.
 
-| Pricing tier | Cost per student per semester |
+| Basis | Cost |
 |---|---|
-| Priority | **~$4.79** |
-| Standard | **~$2.63** |
+| Per enrolled student | **$0.38** |
+| Per student who actually used it (235 of 472) | **$0.76** |
+| Total, full course, full semester | **$180** |
 
-Even at an extreme **10,000 questions per semester**, cost stays well below a STEM textbook
-($100–200).
+For comparison, the modelled estimates from vendor analysis — ~2.5 cents per turn on
+frontier pricing, ~$2.63–4.79 per student per semester at ~675 questions — are **roughly an
+order of magnitude higher** than what KAIST actually spent. The gap is mostly the
+[engagement reality](../concepts/engagement-decay.md): half the class never used it, so
+half the modelled cost never materialized.
+
+Even the pessimistic modelled figure stays far below a STEM textbook ($100–200).
 
 ## Why the structure matters more than the number
 
@@ -35,8 +42,10 @@ advantage of building rather than buying.
 
 ## What this means for us
 
-**1. Cost is not a design constraint at our scale.** A 100-student pilot for a semester is on
-the order of **$300–500**. That is a departmental line item, not a funding application.
+**1. Cost is not a design constraint at our scale.** Anchoring on KAIST, a 100-student
+semester pilot is **$40–80**; on the conservative modelled figure, $300–500. Either way it is
+a departmental line item, not a funding application, and possibly a rounding error if
+[PSU AI Studio](psu-ai-landscape.md) covers it.
 [Open question D4](../../docs/03-open-questions.md) is answered.
 
 **2. Don't compromise architecture to save tokens.** Verification passes, multi-step
@@ -76,6 +85,7 @@ and person-weeks are what a capstone team is short of.
 
 ## Sources
 
-- [ibl.ai, "What AI Tutoring Actually Costs in 2026"](https://ibl.ai/blog/what-ai-tutoring-actually-costs-2026) `[skimmed]` — the per-student figures. Vendor blog; treat with appropriate caution and re-derive from current API pricing before quoting.
+- [Kweon et al., KAIST VTA deployment, arXiv:2506.17363](https://arxiv.org/abs/2506.17363) `[read]` — **the $180 / 477 students figure. Use this one.**
+- [ibl.ai, "What AI Tutoring Actually Costs in 2026"](https://ibl.ai/blog/what-ai-tutoring-actually-costs-2026) `[skimmed]` — the modelled per-student figures. Vendor blog; runs ~10× above measured reality.
 - [Latency and Cost of Multi-Agent Intelligent Tutoring at Scale, arXiv:2604.24110](https://arxiv.org/html/2604.24110v1) `[found]`
 - [FairTutor: Equity-Aware Pedagogical LLM Routing for Budget-Constrained AI Tutoring, arXiv:2606.20713](https://arxiv.org/pdf/2606.20713) `[found]`

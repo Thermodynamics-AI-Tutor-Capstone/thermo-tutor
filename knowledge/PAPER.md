@@ -1,7 +1,7 @@
 # The State of the Art in AI Tutoring for College Courses
 
 **A survey for the Penn State AI Thermodynamics Tutor capstone**
-*Compiled August 2026 · Living document · Entry point to the [knowledge brain](README.md)*
+*Compiled August 2026 · Revised 31 August 2026 after full reads · Entry point to the [knowledge brain](README.md)*
 
 ---
 
@@ -10,10 +10,11 @@
 Every claim below links to a node with the primary sources behind it. Follow the links
 when you want depth; the paper itself is the argument, not the archive.
 
-Verification status is marked honestly throughout. Most sources here are `[skimmed]` —
-abstract or secondary coverage. Where a number matters and we have only skimmed it, the
-paper says so. **Do not cite anything from this document in a graded deliverable until
-someone has upgraded it to `[read]`.**
+Verification status is marked honestly throughout. **Nine of the highest-priority papers
+have now been read in full** (31 Aug 2026) — Stan, Bastani, UTQA, Superstudent, PeteChat,
+CS50, TutorGym, the KAIST deployment, and the knowledge-tracing comparison. Those reads
+produced **four factual corrections to this paper**, flagged inline below with ⚠. Everything
+else remains `[skimmed]` or `[found]`; check the node before citing.
 
 ---
 
@@ -22,13 +23,16 @@ someone has upgraded it to `[read]`.**
 If you read nothing else:
 
 1. **The subject-matter problem is solved. The teaching problem is not.** OpenAI's o3,
-   zero-shot, solved every problem on a university thermodynamics exam correctly —
-   better than every human student, scoring in the range of the best results across
-   10,000+ administrations of that exam since 1985
-   ([superstudent](domain/superstudent-thermodynamics.md)). In the same period,
+   zero-shot, outscored **all 90 students** on a real German engineering thermodynamics exam
+   — diagrams included — where the student failure rate was 58% and exactly one student
+   earned an A ([superstudent](domain/superstudent-thermodynamics.md)). In the same period,
    a purpose-built benchmark found **no** 2025-era model clears a 95% reliability bar for
    unsupervised thermodynamics tutoring ([UTQA](domain/utqa.md)). Both are true. §VI
    explains why.
+
+   ⚠ *Correction: this paper previously said o3 "solved every problem correctly." The
+   study's own body reports it lost points on graphical representations and made one major
+   error. It won because the students did worse.*
 
 2. **The pre-LLM field already set a high bar, and the LLM era has mostly not cleared
    it.** Step-based intelligent tutoring systems achieved **d = 0.76** against no
@@ -49,16 +53,26 @@ If you read nothing else:
    controls** on the exam ([Bastani et al., PNAS 2025](evidence/bastani-2025-harm.md)).
    Read that again: the best-designed arm's effect on actual learning was *zero*.
 
+   Two details the coverage omits. **GPT-4 was correct only 51% of the time** on those
+   problems (42% logical errors, 8% arithmetic). And **students did not perceive any
+   reduction in their own learning** — self-report is worthless as an outcome here.
+
 5. **The honest state of the art is "no proven harm," not "proven benefit."** Outside a
    handful of expertly hand-built single-course deployments, nobody has demonstrated a
    robust positive learning effect from a chatbot tutor at scale. Guardrails are
    currently doing damage control, not producing gains.
 
-6. **The field's real failure mode is engagement, not quality.** 96% of students tried
-   Khanmigo at least once; the median student used it in **17% of practice sessions**
-   ([Khanmigo engagement study](evidence/khanmigo-engagement-2026.md)). Roughly 5% of
-   students account for most benefit from voluntary digital tools, and that 5% skews
-   already-high-performing and higher-income ([equity](practice/equity.md)).
+6. **The field's real failure mode is engagement, not quality — and the spread is enormous.**
+   Khanmigo: median student used it in **17% of practice sessions**. KAIST: **50% of 477
+   students never used it once**, and 1.3% generated 30% of all traffic. CS50: **only 3%
+   never used it.** The difference is design and policy, not luck — see §V.
+
+   ⚠ *Correction: this paper previously claimed voluntary-tool power users "skew
+   already-high-performing and higher-income." At university level the best data says the
+   opposite: at KAIST, students with **no prior coding experience averaged 62.2
+   interactions** against **4.5** for advanced students, and 58% of students said they had
+   previously avoided asking a human out of embarrassment.
+   → [equity](practice/equity.md), [KAIST](evidence/kaist-vta-2025.md)*
 
 7. **Students route around Socratic design.** In 2,874 coded student turns with a
    Socratic AI physics tutor, "what do I do next" was the **second-most-common move**
@@ -75,19 +89,36 @@ If you read nothing else:
    of the time with **2.7%** harmful errors. OpenAI's own Assistant on the same task:
    **30.7%** correct, **14.4%** harmful.
 
-10. **Cost is not the constraint.** Realistic full-semester usage runs roughly
-    **$2.63–$4.79 per student** in API spend ([cost](practice/cost-economics.md)). The
-    constraints are pedagogy, engagement, compliance, and faculty trust.
+10. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
+    total** — **$0.38 per student** ([cost](practice/cost-economics.md)). The constraints are
+    pedagogy, engagement, compliance, and faculty trust.
 
-11. **For thermodynamics specifically, the diagram gap is the wall.** Across 19 models,
-    mean accuracy on thermodynamic diagram items was **32%**, versus **67%** on text-only
-    items — often at chance ([diagram reading](domain/diagram-reading.md)). P-v and T-s
-    diagrams are not a nice-to-have in this subject.
+11. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
+    **no model exceeded chance at labeling incorrect student actions**, and models best at
+    confirming correct work were worst at catching errors ([TutorGym](evaluation/tutorgym.md)).
+    Diagnosis is the atomic act of tutoring, and it is the thing that must be handled outside
+    the model.
 
-12. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
+12. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
+    diagram items is **32%** against **67%** text-only — but the range across 19 models runs
+    from **6%** (gpt-4.1, *below* the 25% chance baseline) to **76%** (gpt-o3)
+    ([diagram reading](domain/diagram-reading.md)).
+
+    ⚠ *Correction: this paper previously framed 32% as a uniform "wall." It isn't. Reasoning
+    models substantially clear it, and o3 handled a real exam's diagrams. Model choice is
+    load-bearing here in a way it is nowhere else in the architecture.*
+
+13. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
     (293 open-ended problems, three tiers, CoolProp ground truth, six frontier models) and
-    [UTQA](domain/utqa.md) (50 items, 19 models) both landed before us. This changes our
-    contribution story — see §VIII.
+    [UTQA](domain/utqa.md) (50 items, 19 models, **dataset public on HuggingFace**) both
+    landed before us. This changes our contribution story — see §VIII.
+
+14. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
+    assistant targets **Levels 1–2 of its own six-level scale** — "resource pointer" and
+    "content summarizer." Tutoring, guided problem solving, and Socratic dialogue are
+    explicitly *out of scope*, it has **no property tools, no student model, no LMS
+    integration, and no evaluation of any kind.** Its real contribution is instructor-facing
+    lecture analytics. → [Stan](systems/stan-udel.md)
 
 ---
 
@@ -236,9 +267,13 @@ methodological sibling to our project: a course-specific tutor built by fine-tun
 open-source LLMs on course data, deployed Spring 2025, explicitly framed as *"Tutor, Not
 Solver."* It scaled to additional Python courses in Spring 2026.
 
-**[Stan](systems/stan-udel.md)** (Delaware, ChemE thermodynamics) is the closest *domain*
-sibling — local Ollama models, RAG over Sandler, Socratic refusal, voice I/O, Fall 2025.
-**Read this one first.**
+**[Stan](systems/stan-udel.md)** (Delaware, CHEG231 thermodynamics, Fall 2025) is the
+closest *domain* sibling — Whisper large-v3 transcription of 39 lectures, Llama 3.1 8B via
+Ollama, retrieval over the textbook's own back-of-book index rather than embeddings. ⚠ It is
+**not** a Socratic tutor: it deliberately stops at Levels 1–2 (point to the page, summarize
+the lecture), and its actual thesis is that **instructor-facing** lecture analytics — question
+mining, confusion detection — are the neglected opportunity. It reports no outcome data. Its
+failure-mode taxonomy for local structured extraction is excellent and worth reading.
 
 ### Pattern 2 — The institutional platform
 
@@ -345,8 +380,17 @@ The contradiction dissolves under three observations:
 
 2. **Positive results come from expert hand-crafted scaffolds in a single course.**
    Kestin's tutor was built by a physics-education researcher with expert-authored
-   scaffolds for specific problems. That does not generalize by copying the prompt.
-   **The unit of success in this literature is the course, not the model.**
+   scaffolds for specific problems. **So were Bastani's guardrails** — read in full, "GPT
+   Tutor" meant a prompt containing *the correct solution to that specific problem* plus
+   *teacher-authored common mistakes with matched hints*, per problem, which the authors
+   call "labor-intensive." That is [AutoTutor's EMT structure](systems/autotutor.md) rebuilt
+   by hand.
+
+   So hand-authoring is necessary and not sufficient: both studies did it, one got 2× and one
+   got zero. The residual differences are **dose and integration** — Kestin's tutor *was* the
+   course activity for half a semester; Bastani's was four sessions bolted on, covering 15%
+   of the curriculum. Nobody has run the experiment that isolates which factor carries the
+   effect. **The unit of success in this literature is the course, not the model.**
 
 3. **Measured effects shrink as sample size and setting realism grow.** Kestin: n=194,
    one course, ~2×. Tutor CoPilot: n=1,800, +4pp. Khanmigo: statewide, engagement
@@ -390,6 +434,18 @@ The weakest layer in almost every deployed system, and the one the evidence says
 most. "Be Socratic" in a system prompt is defeated by a student typing "just give me the
 answer." What's needed is graduated hint levels with a productive-failure budget,
 selected by deterministic code with access to the student's attempt history.
+
+**One system has shipped a version of this at scale.** CS50's **"hearts"** throttle gives
+each student 10 interactions, regenerating one every three minutes — explicitly framed as
+pedagogy, not just cost control: it "encourages students to carefully consider their
+questions" and "foster[s] independent problem-solving skills." Students asked for it to be
+relaxed; the team declined. That is a productive-failure budget implemented as a rate limit,
+running across 200,000 users. → [CS50 Duck](systems/cs50-duck.md)
+
+And a correction to the intuition that guardrails repel students: **they don't.** Bastani's
+guardrailed arm got *more* messages per problem than the unguarded one, the gap widened over
+four sessions, and superficial "just give me the answer" openers fell from 42% to 37% while
+*rising* from 56% to 67% in the unguarded arm.
 → [Socratic tutoring](concepts/socratic-tutoring.md),
 [productive failure](concepts/productive-failure.md),
 [guardrails](concepts/guardrails.md)
@@ -434,9 +490,10 @@ Three 2025–26 results that appear to contradict each other:
 
 | Study | Finding |
 |---|---|
-| [Superstudent](domain/superstudent-thermodynamics.md) | o3 zero-shot solved **all** problems on a university thermo exam — better than every student, in the range of the best scores across 10,000+ exams since 1985 |
+| [Superstudent](domain/superstudent-thermodynamics.md) | o3 zero-shot **outscored all 90 students** on a real German thermo exam *including diagrams*. Student failure rate 58%; one A. o3 lost minor points on graphics and made one major error |
 | [ThermoQA](domain/thermoqa.md) | 293 open-ended problems, CoolProp ground truth. Best composite **94.1%** (Claude Opus 4.6). But R-134a items: **44–63%** for *every* model. Supercritical water: 45–90% |
-| [UTQA](domain/utqa.md) | 50 items, 19 models. Best **82%** (o3). **No model** clears the authors' 95% threshold for unsupervised tutoring |
+| [UTQA](domain/utqa.md) | 50 items, 19 models. Text-only mean **67%**, diagram mean **32%**, best overall **82%**. **No model** clears the authors' 95% threshold |
+| [Loubet et al.](domain/thermo-problem-benchmark.md) | 22 problems, diagrams *removed*. Advanced set: best **55.2%** (GPT-4o), Llama 3.1 70B **40.7%**. Every model assumed reversibility where unstated, every run |
 
 They are all correct, and together they say something precise:
 
@@ -460,22 +517,42 @@ different capabilities, and property tables are memorized.
    Not hallucination: a plausible, standard, unwarranted engineering assumption, stated
    confidently. A tutor that does this *validates the exact error our students make.*
 
-2. **Diagrams.** Mean accuracy across 19 models on thermodynamic diagram items: **32%**,
-   versus **67%** text-only. Often at chance. Errors are in *binding visual features to
-   thermodynamic meaning*, not in low-level recognition — models find the axes and then
-   misread what they mean. Since P-v and T-s diagrams are load-bearing in this subject,
-   this is a wall, not a rough edge. → [diagram reading](domain/diagram-reading.md)
+2. **Diagrams — a large gap, but model-specific.** Mean accuracy across 19 models on
+   diagram items is **32%** against **67%** text-only. But the range is **6% (gpt-4.1, below
+   the 25% chance baseline) to 76% (gpt-o3)**, and o3 handled the diagram questions on a
+   real exam. Errors occur at the *binding* stage — models parse axes, endpoints and
+   curvature correctly, then fail to compute signed areas ∫p dV with the right orientation,
+   bind leg types to axes, or propagate state limits around a cycle.
+   → [diagram reading](domain/diagram-reading.md)
+
+   **The cheapest high-value experiment available to us:** the
+   [UTQA dataset is public](https://huggingface.co/datasets/herteltm/UTQA) with 17 diagram
+   items. Running current models on it ourselves is a few hours' work and decides whether we
+   scope diagrams in or out.
 
 3. **Real fluids and edge regions.** R-134a at 44–63% versus water at 75–98% is a
    training-data bias with direct curricular consequences: the refrigeration unit is
    where the tutor will be least reliable, and vapor-compression cycles are ubiquitous.
 
+### The five named error patterns
+
+UTQA's list, which maps almost one-to-one onto
+[our misconception catalogue](../research/domain/skill-graph-draft.md) and should seed it:
+
+1. Misuse of quasistatic templates despite explicit finite-rate cues
+2. Entropy bookkeeping errors — confusing transferred entropy with entropy *production*
+3. Path-dependence blind spots for work — unoriented areas, mixed sign conventions
+4. Missed invariants and feasibility constraints in optimization
+5. Numeric anchoring to textbook constants without checking applicability
+
 ### The one existing thermodynamics tutor
 
-**[Stan](systems/stan-udel.md)**, Delaware ChemE, Fall 2025. Local Ollama models, RAG over
-Sandler, Socratic refusal, Faster-Whisper + Silero VAD voice, Sphinx/Jupyter delivery.
-Reported limitations: failures on complex problem types and constrained reasoning on
-multi-step calculations — consistent with everything above.
+**[Stan](systems/stan-udel.md)**, Delaware CHEG231, Fall 2025 — and, read in full, it leaves
+our space largely open. Levels 1–2 only, no property tools, no student model, no LMS
+integration, no evaluation. Its genuinely good contribution is instructor-facing: automated
+**question mining and confusion detection** from lecture transcripts. Notably, its confusion
+detector flagged *"entropy and its relation to disorder or randomness"* on the entropy
+lecture — surfacing, automatically, the exact misconception in our own catalogue.
 
 ---
 
@@ -522,10 +599,15 @@ Where the field is actually stuck. These are the places a capstone could contrib
 Our earlier plan named "build a thermodynamics tutoring benchmark" as the most likely
 publishable output. [ThermoQA](domain/thermoqa.md) and [UTQA](domain/utqa.md) got there
 first, and ThermoQA in particular is well-built — 293 problems, programmatic CoolProp
-ground truth, six frontier models, three runs each. **We should use them as instruments,
-not rebuild them.** What does *not* exist is a thermodynamics **pedagogy** benchmark — the
-[MathTutorBench](evaluation/mathtutorbench.md) axis, not the correctness axis. That gap
-is still open.
+ground truth, six frontier models, three runs each. UTQA's dataset is public. **Use them as
+instruments; don't rebuild them.**
+
+What does *not* exist is a thermodynamics **pedagogy** benchmark. Two viable templates now:
+the open-ended expert-preference approach of [MathTutorBench](evaluation/mathtutorbench.md),
+or — probably more tractable — [TutorGym's](evaluation/tutorgym.md) **correct/incorrect
+student-action labeling task**, which has ground truth and where *no model beats chance*.
+A thermodynamics version of that is buildable by a capstone team, needs no student data, and
+targets a documented, striking failure.
 
 **2. Penn State has already solved our biggest compliance obstacle.**
 PSU offers **AI Studio** to all students — a suite including **Claude, Gemini, and
@@ -557,8 +639,16 @@ The literature points somewhere more specific than "build an AI tutor":
   strongest effect by improving human tutors, especially weak ones. A tool that makes PSU
   thermo TAs better in office hours is a smaller, more tractable, better-evidenced project
   than a standalone tutor — and nobody has done it for engineering.
-- **Own the diagram problem or scope it out explicitly.** At 32% accuracy this is the
-  single biggest technical risk in our domain, and it is not solved by a better prompt.
+- **Own the diagram problem or scope it out explicitly.** Test it on the public UTQA items
+  first — the answer may be "pick a reasoning model," which is far cheaper than the
+  render-don't-read architecture we'd otherwise need.
+- **Diagnosis, not explanation, is the hard part.** [TutorGym](evaluation/tutorgym.md) says
+  no model reliably recognizes a wrong step. Everything a tutor does downstream of "is this
+  right?" inherits that error. Our verification layer has to answer that question with a
+  solver, not an opinion.
+- **The first two interactions decide everything.** KAIST's students who used the tutor five
+  times or fewer rated it *worse* afterward (3.72 → 3.26), while frequent users rated it
+  *better*. Onboarding is not polish; it is the retention mechanism.
 
 ### Honest risk assessment
 
@@ -587,11 +677,20 @@ capstone with findings and one with a demo.
 3. [LLM capability in thermodynamics](domain/llm-thermodynamics-capability.md)
 4. [Socratic tutoring and how students subvert it](concepts/socratic-tutoring.md)
 
-**Highest-priority reading not yet done by anyone on this team:**
-- [Stan](systems/stan-udel.md) — our closest competitor, full text
+**Read in full so far (31 Aug 2026):** [Stan](systems/stan-udel.md),
+[Bastani](evidence/bastani-2025-harm.md), [UTQA](domain/utqa.md),
+[Superstudent](domain/superstudent-thermodynamics.md), [PeteChat](systems/petechat-purdue.md),
+[CS50](systems/cs50-duck.md), [TutorGym](evaluation/tutorgym.md),
+[KAIST](evidence/kaist-vta-2025.md), and the
+[knowledge-tracing comparison](concepts/knowledge-tracing.md).
+
+**Highest-priority reading still outstanding:**
 - [ThermoQA](domain/thermoqa.md) — the instrument we should be using
-- The [Socratic discourse taxonomy](concepts/socratic-tutoring.md) — full text
-- [PeteChat](systems/petechat-purdue.md) — the closest methodological sibling
+- The [Socratic discourse taxonomy](concepts/socratic-tutoring.md) — the design-critical paper
+- [Kestin](evidence/kestin-2025-rct.md) — the field's best result, still only skimmed
+- [Khanmigo's two-year study](evidence/khanmigo-engagement-2026.md) — the engagement numbers
+- [Productive failure](concepts/productive-failure.md) — **never searched at all**; the
+  weakest node in this base
 
 ---
 

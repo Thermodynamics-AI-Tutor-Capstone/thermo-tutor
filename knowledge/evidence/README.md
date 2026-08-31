@@ -6,7 +6,8 @@ produced it.
 | Study | Design | n | Result |
 |---|---|---|---|
 | [Kestin et al. 2025](kestin-2025-rct.md) | RCT, within-subject alternating | 194 | **~2× learning gains** vs. active-learning classroom |
-| [Bastani et al. 2025](bastani-2025-harm.md) | RCT, 3 arms | ~1,000 | Unguarded AI **−17%**; guardrailed **≈ 0** |
+| [Bastani et al. 2025](bastani-2025-harm.md) `[read]` | RCT, 3 arms | ~1,000 | Unguarded AI **−17%**; guardrailed **≈ 0** |
+| [KAIST VTA 2025](kaist-vta-2025.md) `[read]` | Deployment + 3 surveys | 477 | **50% never used it**; least-prepared students used it **14× more** |
 | [Khanmigo engagement 2026](khanmigo-engagement-2026.md) | Two-year observational | school-scale | 96% tried it; **17% of practice sessions** |
 
 Also relevant, currently covered inside their system nodes rather than here:
@@ -24,7 +25,8 @@ both well-run RCTs that appear to contradict each other, and the reconciliation 
 useful thing in this directory: **the effect lives in hand-authored, course-specific
 scaffolding, not in the model and not in the guardrails.**
 
-Then read [Khanmigo](khanmigo-engagement-2026.md) and notice that all of it is conditional
-on students showing up.
+Then read [KAIST](kaist-vta-2025.md) and [Khanmigo](khanmigo-engagement-2026.md) and notice
+that all of it is conditional on students showing up — and that at university level, the
+students who *do* show up are the least-prepared ones, not the most-advantaged.
 
 ← back to [the paper](../PAPER.md) · [knowledge brain index](../README.md)

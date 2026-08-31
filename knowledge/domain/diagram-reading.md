@@ -6,13 +6,40 @@ text — often at chance. P-v and T-s diagrams are load-bearing in our subject.
 **Why we care:** This is the single biggest technical risk in our domain, it isn't fixed by
 a better prompt, and it needs an explicit decision rather than a hope.
 
+> **Substantially revised 2026-08-31 after reading [UTQA](utqa.md) and
+> [Superstudent](superstudent-thermodynamics.md) in full.** The "32% wall" framing was too
+> strong: the gap is real and large, but it is **model-specific**, and the best reasoning
+> models substantially clear it.
+
 ## The numbers
 
-**Thermodynamics specifically:** across **19 models**, mean accuracy on thermodynamic
-diagram tasks was **32%** — less than half the text-only mean of **67%**. Errors arise
-*"chiefly in binding visual features to thermodynamic meaning rather than in low-level
-recognition"*: models identify axes, reference markers, and basic curve characteristics, and
-then misread what they mean. → [UTQA](utqa.md)
+**Thermodynamics specifically** ([UTQA](utqa.md), 17 diagram items, 19 models):
+
+| | Accuracy |
+|---|---|
+| Mean across 19 models | **32%** |
+| Text-only mean, same benchmark | **67%** |
+| Random-guessing baseline | 25% |
+| Weakest (gpt-4.1) | **6%** — *below chance*, i.e. systematically picking distractors |
+| **Strongest (gpt-o3)** | **76%** |
+| Gemini 2.5 Pro / gpt-o1 | 54% / 53% |
+
+**The spread is the story, not the mean.** A 6%-to-76% range across contemporaneous models
+is not a uniform capability ceiling — it is a capability that some models have and most
+don't. UTQA's own wording: gpt-o3 is *"the notable exception, which consistently handles
+diagram-centric tasks better than other models."*
+
+**Corroborating evidence that the wall is passable:** in
+[Superstudent](superstudent-thermodynamics.md), o3 sat a real German thermodynamics exam
+that **included graphical input and required graphical output** — and outscored all 90
+students, losing only *"minor"* points on graphical representations.
+
+Errors, where they occur, arise *"chiefly in binding visual features to thermodynamic
+meaning rather than in low-level recognition"*: models identify axes, reference markers,
+segmentation, and curvature correctly, then fail to map them to physics. The recurring
+binding failures are computing and comparing **signed** areas ∫p dV with correct
+orientation, binding leg types to axes (isochoric ↔ vertical in p–V), enforcing feasibility
+across concatenated legs, and propagating state limits around a cycle.
 
 **Engineering diagrams generally:** questions with images are significantly harder than
 text-only, and **visual data extraction accounts for 68.9% of errors** (MechVQA and related
@@ -55,8 +82,10 @@ generate the picture. Loses the pedagogical value of sketching, which is real.
 **3. Scope it out.** Declare diagram interpretation out of scope, say so plainly in the
 report, and cite the 32% figure as the reason. Honest and defensible.
 
-**What is not an option is assuming multimodal models handle it.** They don't, and the
-literature is unambiguous.
+**What is not an option is assuming *any* multimodal model handles it.** Most don't. The
+model choice is load-bearing here in a way it isn't elsewhere in our architecture — which is
+itself notable, since [everywhere else](../concepts/grounding-and-verification.md)
+architecture beats model choice. Diagrams are the exception.
 
 ## The research opportunity
 
@@ -69,8 +98,13 @@ and it's technically modest: CoolProp plus a plotting library plus structured st
 
 ## Open questions
 
-- [ ] Do the newest multimodal models close the gap? **The 19-model figure will age; re-run
-      it ourselves on a handful of real P-v/T-s items.** Cheap, and it's our own data.
+- [ ] **Re-run the diagram items ourselves.** The
+      [UTQA dataset is public](https://huggingface.co/datasets/herteltm/UTQA) and has 17
+      diagram items. Testing current Claude/GPT/Gemini on them is a few hours' work, gives
+      us our own data, and directly decides whether we scope diagrams in or out.
+      **Highest-value cheap experiment in the whole project.**
+- [ ] Is o3's advantage reproducible in its successors, and does it hold on *student*
+      hand-sketched diagrams rather than clean rendered ones?
 - [ ] Does higher image resolution or a cropped region help?
 - [ ] Can a model read a *generated* clean diagram better than a textbook scan or a phone
       photo of a hand sketch? (Likely yes, and it changes the design.)

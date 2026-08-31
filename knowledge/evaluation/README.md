@@ -4,6 +4,7 @@ How to measure a tutor, and how to measure a student.
 
 | Node | Measures | Key point |
 |---|---|---|
+| [TutorGym](tutorgym.md) `[read]` | The **tutor**, inside real ITSs | **No LLM beats chance at spotting an incorrect student step.** 223 domains |
 | [MathTutorBench and pedagogy benchmarks](mathtutorbench.md) | The **tutor** | Subject expertise and teaching ability **trade off**. No thermo equivalent exists — **our opening** |
 | [Concept inventories](concept-inventories.md) | The **student** | TCI was developed at Penn State. Access is slow — request in Phase 0 |
 
@@ -12,7 +13,9 @@ How to measure a tutor, and how to measure a student.
 Correctness in thermodynamics is covered ([ThermoQA](../domain/thermoqa.md),
 [UTQA](../domain/utqa.md)). Learning is measurable ([TCI](concept-inventories.md)).
 
-**Tutoring quality in thermodynamics is measured by nothing.** That gap is the clearest
+**Tutoring quality in thermodynamics is measured by nothing.** And the general-domain result
+from [TutorGym](tutorgym.md) is the sharpest constraint on our design: models cannot reliably
+tell a wrong step from a right one, which is the atomic act of tutoring. That gap is the clearest
 novel contribution available to this project, and — because the judges are instructors and
 TAs rather than students — it has a much lighter compliance path than anything student-facing.
 
