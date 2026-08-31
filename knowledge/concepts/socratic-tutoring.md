@@ -19,30 +19,109 @@ Claude Learning Mode, Gemini Guided Learning.
 It's the right instinct. [Bastani](../evidence/bastani-2025-harm.md) shows what happens
 without it: unguarded AI made students **17% worse** on unassisted exams.
 
-## The evidence that it doesn't work as intended
+## The evidence that it doesn't work as intended — and its real weight
 
-A 2026 bottom-up taxonomy coded **2,874 student turns across 221 sessions** with a Socratic
-AI physics tutor into 357 categories. The top 25 categories account for roughly half of all
-turns, clustering into two bands:
+> **Verification: `[read]` — full text, 2026-08-31. This node previously overstated the
+> paper.** Corrections are marked ⚠ below. The headline finding survives; the sweeping
+> claims around it do not.
 
-**Band 1 — equation handling** (~1/3 of the top categories). Writing energy equations
-(8.3%), solving for velocity (2.8%), computing heights (2.3%), algebraic simplification
-(1.7%). The authors name this "epistemic games": symbol manipulation with limited
-conceptual engagement.
+Hashmi & Rebello (Purdue, arXiv:2608.07373) built a bottom-up taxonomy of student discourse
+with a Socratic AI physics tutor.
 
-**Band 2 — meta-procedural requests.** Asking the tutor **"what do I do next"** was the
-**second-most-common student move overall, at 4.4% of all turns.** Plus requests for the
-relevant principle (1.5%) and the problem's assumptions (1.3%).
+**The setting, precisely:** an introductory calculus-based mechanics course for engineers at
+a large US midwestern public research university, Fall 2025, 1,508 enrolled. The tutor
+(Django + Postgres + RAG over course materials, system-prompted to use Socratic prompting
+and *"scaffold conceptual setup before symbolic execution"*) ran in **5 of 34 recitation
+sections**, during **Week 8 of a 16-week semester**, on essentially **one multi-step
+problem** (a ramp-into-loop problem requiring the critical condition at the top of the loop
+plus energy conservation). Students used it **for extra credit** — so this is compelled, not
+voluntary, use.
 
-The top 20 categories contained **virtually no** conceptual reasoning, prediction, or
-critical engagement with the tutor's suggestions.
+**Corpus:** 5,513 messages from **240 students** across **221 sessions**, of which **2,874
+are student turns**.
+
+**Method** (reusable — see below): GPT-5.4-mini assigned each turn an emergent free-text
+label with four turns of prior context; 833 raw labels were consolidated by embedding
+(`text-embedding-3-small`) + agglomerative clustering into **357 categories**; validated
+against a human expert on a stratified 10% sample at **Cohen's κ = 0.78** (84% raw
+agreement).
+
+**The distribution.** Top 20 categories = **47.2%** of turns; top 25 ≈ 52%; categories with
+≥5 messages cover 86%.
+
+| Category | n | % of student turns |
+|---|---|---|
+| Writing Energy Equation | 239 | **8.3%** |
+| **Next Step Guidance** | 127 | **4.4%** |
+| Presenting Problem Statement | 107 | 3.7% |
+| Velocity Solving | 80 | 2.8% |
+| Solving for Height | 68 | 2.4% |
+| Computing Heights | 65 | 2.3% |
+| Tutor Interaction Checks | 63 | 2.2% |
+| Restating Problem | 61 | 2.1% |
+| Centripetal Relation Setup | 50 | 1.7% |
+| Substitution & Simplification | 49 | 1.7% |
+| Requesting Solution Help | 47 | 1.6% |
+| Asking for Principles | 42 | 1.5% |
+| Assumptions About Problem | 37 | 1.3% |
+
+**Band 1 — equation handling and symbolic execution.** Roughly a third of top-20 turns:
+writing relationships, manipulating them, substituting, reporting numbers. Consistent with
+Sherin's symbolic forms and Tuminaro & Redish's *epistemic games*.
+
+**Band 2 — meta-procedural requests**, where the student asks the tutor what to do rather
+than advancing the problem: Next Step Guidance (4.4%) + Requesting Solution Help (1.6%) +
+Asking for Principles (1.5%) + Assumptions About Problem (1.3%) ≈ **8.8% of all turns**.
 
 The authors' summary, worth quoting exactly:
 
 > *"a tutor explicitly designed not to direct students nevertheless elicits a discourse in
 > which directing is the second-most-requested service."*
 
-## Why it fails
+## ⚠ How much weight this can actually bear
+
+Three corrections to how this knowledge base previously used the paper:
+
+**⚠ 1. "Second-most-common" means 4.4%, not a majority.** What makes it notable is its
+*rank* in a tutor built never to direct — not its share. The finding is real and pointed;
+it is not evidence that most students most of the time are trying to extract direction.
+
+**⚠ 2. The claim that conceptual reasoning was "virtually absent" is the authors' own
+hedge, not their finding.** Their words: the absence at the top *"is suggestive but should
+be interpreted with care: it may reflect what students actually do, or it may reflect that
+conceptual moves are spread thinly across many low-count categories in the long tail rather
+than absent."* 357 categories with a long tail is exactly the shape in which thinly-spread
+conceptual moves would hide. **Do not assert that students weren't reasoning conceptually.**
+
+**⚠ 3. It cannot support causal claims about Socratic design.** Stated plainly by the
+authors: *"The analysis is observational; nothing here licenses causal claims about what the
+tutor's design contributes to the patterns we observe."* There is no comparison condition. A
+non-Socratic tutor might elicit *more* meta-procedural requests, not fewer — nobody has
+checked.
+
+**Scope limits, also theirs:** single site, single course, single tutor, one week, and
+dominated by one problem. Category names like *Centripetal Relation Setup* obviously do not
+transfer. Step 2's coherence audit had a single rater.
+
+**What survives, and it is enough to design around:** in a real deployment of a genuinely
+Socratic tutor, asking the tutor what to do next was the single most common thing students
+did other than write equations. That is a phenomenon worth designing for, whatever its
+cause.
+
+## A methodological gift, separate from the finding
+
+The pipeline — **LLM open-coding with rolling context → embedding-based consolidation →
+κ-validated against a human-coded stratified sample** — is directly reusable for our own
+[student interview](../../research/student-interviews/protocol-draft.md) and think-aloud
+transcripts, and for tutor session logs later. It converts qualitative coding from a
+multi-week team effort into something a capstone can actually complete, *with a defensible
+reliability statistic attached*. Their parameters (4-turn context window, distance threshold
+0.40 chosen by sweep with manual coherence inspection, κ = 0.78) are a working starting
+point.
+
+**Adopt this method.** It is arguably more valuable to us than the finding.
+
+## Why the stance fails
 
 A stance is not a mechanism. "Be Socratic" is an instruction to the model about how to
 behave; it has no representation of *why* a given question is the right move now, no memory
@@ -66,9 +145,16 @@ is obstruction dressed as pedagogy. See
 
 The design that follows from the evidence:
 
-1. **Hint levels, not refusal.** A ladder from elicit → orienting question → strategic hint
-   → conceptual hint → worked step → full reveal. The student can always get more; getting
-   more costs something and is recorded.
+1. **Hint levels, not refusal — and the ladder must *terminate*.** A ladder from elicit →
+   orienting question → strategic hint → conceptual hint → worked step → **explicit
+   contrast between what the student tried and the canonical solution.**
+
+   That last rung is not a failure state, and this is the correction most worth internalizing:
+   [productive failure's](productive-failure.md) two core design components are the struggle
+   **and** a subsequent instructional phase that contrasts student-generated solutions against
+   the canonical one. Effect size scales with fidelity to those components. **A tutor that
+   only ever asks questions delivers the failure and skips the instruction — which is
+   productive failure done at low fidelity.**
 2. **A productive-failure budget.** Time or attempts must be spent before the ladder
    advances. [Productive failure](productive-failure.md) says the struggle is where learning
    happens — but *bounded* struggle, not unbounded.
@@ -85,6 +171,10 @@ The design that follows from the evidence:
 
 - [ ] Is "what do I do next" pathology or legitimate need? Distinguishable from the log?
       (Think-alouds → [open questions A4](../../docs/03-open-questions.md))
+- [ ] **Does a non-Socratic tutor elicit fewer meta-procedural requests, or more?** Nobody
+      has run the comparison. It is a clean, cheap experiment and it would convert this
+      paper's observation into an actual finding about Socratic design.
+- [ ] Does the pattern hold outside a single heavily-scaffolded recitation problem?
 - [ ] Does a hint ladder with a budget actually beat refusal? **Testable in a
       Wizard-of-Oz prototype with no engineering.**
 - [ ] What does the *human* thermo TA do when asked "what do I do next"? Observe office
@@ -101,6 +191,6 @@ The design that follows from the evidence:
 
 ## Sources
 
-- [A bottom-up taxonomy of student discourse with a Socratic AI physics tutor, arXiv:2608.07373](https://arxiv.org/html/2608.07373v1) `[skimmed]` — **the key source. Needs a full read by someone on the team.**
+- [Hashmi & Rebello, "A bottom-up taxonomy of student discourse with a Socratic AI physics tutor," arXiv:2608.07373](https://arxiv.org/abs/2608.07373) `[read]` — full text. NSF grants 2111138, 2300645.
 - [Bastani et al., PNAS 2025](../evidence/bastani-2025-harm.md) `[skimmed]` — the guardrail necessity argument
 - Practitioner comparisons of study modes (ChatGPT "trigger-happy", Gemini "patronizing") — see [docs/00-landscape-review.md](../../docs/00-landscape-review.md)

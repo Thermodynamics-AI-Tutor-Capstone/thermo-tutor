@@ -6,27 +6,63 @@ finding that the two trade off against each other.
 **Why we care:** It's the methodological template for the thermodynamics **pedagogy**
 benchmark that doesn't exist, which is now our clearest novel contribution.
 
+> **Verification: `[read]` — full text, 2026-08-31.**
+
 ## MathTutorBench
 
-ETH Zurich Language, Reasoning and Education lab. **EMNLP 2025 (oral).**
-[Code on GitHub](https://github.com/eth-lre/mathtutorbench).
+Jakub Macina, Nico Daheim, Ido Hakimi, **Manu Kapur**, Iryna Gurevych, Mrinmaya Sachan —
+ETH Zurich (CS + ETH AI Center + Professorship for Learning Sciences), with TU Darmstadt's
+UKP Lab. **EMNLP 2025 (oral).** [Code](https://github.com/eth-lre/mathtutorbench).
 
-Three axes, derived from learning-sciences research on dialogue-based teaching:
+*(Note: **Manu Kapur**, the [productive failure](../concepts/productive-failure.md)
+researcher, is a co-author. That's a direct route into the literature that is our biggest
+remaining gap.)*
 
-| Axis | What it measures |
-|---|---|
-| **Math expertise** | Can the model solve the problem? |
-| **Student understanding** | Can it verify, locate, and correct a student's solution? |
-| **Teacher response generation** | Can it scaffold — the open-ended tutoring move? |
+**Seven tasks across three axes:**
 
-The clever part is scoring the third axis. Open-ended teacher responses have no ground truth,
-so they trained a **reward model to discriminate expert from novice teacher responses**, with
-high accuracy, and use it as the judge.
+| Axis | Tasks | Dataset | Instances |
+|---|---|---|---|
+| **Math expertise** | Problem solving; Socratic questioning | GSM8k | 1,319 each |
+| **Student understanding** | Solution correctness; mistake location; mistake correction | StepVerify | 2,004 / 2,004 / 1,002 |
+| **Teacher response generation** | Scaffolding generation + pedagogical instruction following, standard and `[hard]` | MathDial + Bridge | 1,150 / 327 |
+
+The `[hard]` variant simply uses a **longer conversation history** (avg. 5.78 turns vs.
+3.08) — and that alone separates models, see below.
+
+Their stated pedagogical principles, drawn from effective-teaching research: **(a)
+correctness** — guide to the right answer without stating incorrect facts; **(b) scaffolding
+instead of giving away the answer**; **(c)** encouraging cognitive engagement.
+
+Scoring the open-ended axis is the clever part: they train a **reward model to discriminate
+expert from novice teacher responses**, and use it as judge.
+
+**Critically — generic LLM-as-judge does not work here.** They tried prompting
+Llama-3.1-70B-Instruct and GPT-4o-mini with detailed pedagogical guidelines and got
+**accuracy below 0.7**; off-the-shelf RewardBench reward models were barely better on
+pedagogical preferences. **If we build a thermodynamics pedagogy benchmark, "just ask GPT to
+judge it" is not a viable methodology.** That's an expensive lesson to learn late.
 
 ## The headline finding
 
 > **Subject expertise does not translate into good teaching.** Pedagogy and subject expertise
 > form a trade-off, navigated by how tutoring-specialized the model is.
+
+Their sharper phrasing: *"high problem-solving accuracy often means that the LLM lacks
+pedagogy."*
+
+**Two further findings that matter more for design than the headline:**
+
+**1. General models degrade pedagogically as the conversation goes on.** *"More specialized
+tutoring models tend to retain their teaching abilities even further into a dialog with a
+student, while general models quickly become worse."* This is why the `[hard]` split exists,
+and it is a direct warning about our architecture: a frontier model with a good system prompt
+may tutor well for three turns and poorly by turn eight. **Multi-turn degradation should be
+something we actively test, not assume away.**
+
+**2. Specialization costs subject ability.** SocraticLM (Qwen2.5-Math base) gained strongly
+on scaffolding for its size — and **degraded on all Student Understanding tasks**. You cannot
+currently have both. Given [TutorGym's](tutorgym.md) finding that no model reliably spots an
+incorrect step, trading *away* student-understanding ability is a bad trade for us.
 
 This is the empirical backbone of the argument running through this whole knowledge base:
 

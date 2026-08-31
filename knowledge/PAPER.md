@@ -63,9 +63,11 @@ If you read nothing else:
    currently doing damage control, not producing gains.
 
 6. **The field's real failure mode is engagement, not quality — and the spread is enormous.**
-   Khanmigo: median student used it in **17% of practice sessions**. KAIST: **50% of 477
-   students never used it once**, and 1.3% generated 30% of all traffic. CS50: **only 3%
-   never used it.** The difference is design and policy, not luck — see §V.
+   Khanmigo (two-year cluster RCT, 18 schools): the median student engaged it in **17% of
+   exercise sessions in which they made a mistake**, and the AI added **no** detectable
+   learning over the platform alone. KAIST: **50% of 477 students never used it once**; 1.3%
+   generated 30% of traffic. CS50: **only 3% never used it.** The difference is design and
+   policy, not luck — see §V.
 
    ⚠ *Correction: this paper previously claimed voluntary-tool power users "skew
    already-high-performing and higher-income." At university level the best data says the
@@ -357,9 +359,15 @@ Here is where the field's public story and its empirical record come apart.
   measurably *worse* without it. Students used it as a crutch. Guardrails eliminated the
   harm — **and produced no learning benefit.**
 
-- **[Khanmigo engagement](evidence/khanmigo-engagement-2026.md)** — two-year school
-  study. 96% tried it; median student messaged it on a third of practice days and in
-  **17% of practice sessions.** Near-universal access, thin engagement.
+- **[Oreopoulos & Low 2026](evidence/khanmigo-engagement-2026.md)** — a **two-year cluster
+  RCT** across 18 Tennessee middle schools, and the most important null result in the field.
+  Khan Academy raised achievement 0.06–0.08 SD over a school year, but those gains
+  *"resemble those from Khan Academy practice without AI assistance."* **The AI tutor added
+  nothing detectable.** Why: 96% tried it, but the median student engaged it in only **17% of
+  exercise sessions in which they made a mistake**, and the messages were *"mostly bare
+  answers or clicks on suggested prompts."* Their conclusion: *"The binding constraint appears
+  to be engagement: realizing the promise of AI tutoring will require getting students to use
+  it, not just giving them access."*
 
 - **[Equity](practice/equity.md)** — roughly **5%** of students account for most benefit
   from voluntary digital learning tools, and that 5% is disproportionately already-high-
@@ -446,6 +454,14 @@ And a correction to the intuition that guardrails repel students: **they don't.*
 guardrailed arm got *more* messages per problem than the unguarded one, the gap widened over
 four sessions, and superficial "just give me the answer" openers fell from 42% to 37% while
 *rising* from 56% to 67% in the unguarded arm.
+
+**One design constraint that follows from the productive-failure literature and is easy to
+get wrong:** its meta-analysis (166 comparisons, 12,000+ participants, **d = 0.36**) shows
+the effect depends on **two** components — the struggle *and* a subsequent instructional
+phase that **contrasts student-generated solutions against the canonical one**. Effect size
+scales with fidelity to those components. So the hint ladder must **terminate in an explicit
+contrast**, not in refusal. Reaching the bottom of the ladder is the instructional phase, not
+a failure state. → [productive failure](concepts/productive-failure.md)
 → [Socratic tutoring](concepts/socratic-tutoring.md),
 [productive failure](concepts/productive-failure.md),
 [guardrails](concepts/guardrails.md)

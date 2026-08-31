@@ -13,18 +13,36 @@ Every other system in [`systems/`](.) puts the AI between the student and the ma
 Tutor CoPilot puts the AI **behind the human tutor**, suggesting how to respond to a
 student's mistake while a live session is happening.
 
-Built by Stanford's **EduNLP Lab**. Suggestions are **educator-curated**, not free
-generation. Open source, embeddable in any tutoring platform. Piloted with **FEV Tutor**.
+> **Verification: `[read]` — full text, 2026-08-31.**
+
+Rose E. Wang, Ana T. Ribeiro, Carly D. Robinson, Susanna Loeb, Dora Demszky — **Stanford**.
+arXiv:2410.03017.
+
+The method is worth noting: they use structured protocols to **extract the latent reasoning
+of experienced educators** and adapt an LM to it. Suggestions are grounded in expert
+thinking, not free generation.
 
 ## Results
 
-RCT: ~**900 tutors**, ~**1,800** elementary and secondary students in a large southern US
-school district.
+**The first randomized controlled trial of a Human-AI system in live tutoring.**
+**900 tutors, 1,800 K-12 students** from historically under-served communities.
+**Preregistered analysis plan.**
 
-- Students of tutors using Tutor CoPilot were **4 percentage points** more likely to
-  master topics
-- **+9%** for students of the **least-skilled** tutors
-- Tutors using it **asked more guiding questions** and **gave away fewer answers**
+- Students of tutors with Tutor CoPilot were **+4 percentage points** more likely to master
+  topics (**p < 0.01**)
+- **+9 p.p. for students of lower-rated tutors**
+- Analysis of **550,000+ messages** with classifiers: tutors with access **asked more guiding
+  questions and gave away fewer answers**
+- **Cost: $20 per tutor per year**, based on actual study usage
+
+**Put that cost figure against the alternative:** conventional professional development for
+educators runs **$3,300 per teacher annually** and demands hours outside teaching time. Tutor
+CoPilot delivered a measurable student outcome at roughly **1/165th** the cost of the
+incumbent intervention. That is the strongest cost-effectiveness argument anywhere in this
+knowledge base.
+
+**Their honest limitation:** tutors flagged that suggestions were sometimes **not
+grade-level appropriate** — the system knows pedagogy better than it knows the student.
 
 ## Why this is the most interesting result for a capstone team
 
@@ -62,7 +80,11 @@ alternative or as a second arm. See
 ## Open questions
 
 - [ ] Does the effect hold for university-level content, or is it K-12-bound?
-- [ ] What do the educator-curated suggestions look like? Is the library public?
+- [ ] What are the "protocols to extract latent expert reasoning"? That method is the
+      transferable part — it is how we would build a thermodynamics version.
+- [ ] Grade-level inappropriateness was their reported failure. In our domain the analogue is
+      *course*-level appropriateness — suggesting a method the course hasn't covered yet.
+      A tutor with the syllabus could avoid that; theirs couldn't.
 - [ ] What's the tutor-side UX? Latency requirements in a live session?
 - [ ] Would PSU thermo TAs accept real-time AI suggestions? (Ask them.)
 
@@ -76,7 +98,7 @@ alternative or as a second arm. See
 
 ## Sources
 
-- [Tutor CoPilot: A Human-AI Approach for Scaling Real-Time Expertise, arXiv:2410.03017](https://arxiv.org/pdf/2410.03017) `[skimmed]` — the paper
+- [Wang, Ribeiro, Robinson, Loeb & Demszky, "Tutor CoPilot: A Human-AI Approach for Scaling Real-Time Expertise," arXiv:2410.03017](https://arxiv.org/abs/2410.03017) `[read]` — full text
 - [Stanford EduNLP Lab project page](https://edunlp.stanford.edu/projects/tutor-copilot) `[found]`
 - [Stanford NSSA, "Tutor CoPilot Transforms Real-Time Tutoring"](https://nssa.stanford.edu/news/stanford-us-tutor-copilot-transforms-real-time-tutoring-ai-driven-expert-guidance) `[skimmed]`
 - [K-12 Dive, "How AI can improve tutor effectiveness"](https://www.k12dive.com/news/ai-tutor-effectiveness-stanford-university/728980/) `[skimmed]`

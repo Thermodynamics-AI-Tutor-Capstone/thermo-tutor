@@ -6,10 +6,31 @@ serious attempt to move teaching ability into the weights rather than the prompt
 **Why we care:** It's the direct test of whether pedagogy is a prompting problem or a
 training problem. The answer appears to be: training helps, and not as much as you'd hope.
 
-## The bet
+> **Verification: `[read]` — full text (LearnLM: Improving Gemini for Learning,
+> arXiv:2412.16429), 2026-08-31. The framing in this node was subtly wrong — corrected below.**
 
-Everyone else encodes pedagogy as instructions ("be Socratic, don't give answers"). LearnLM
-trains on **pedagogical instruction following**, so the behavior is in the model.
+## The bet — and it is not "pedagogy in the weights"
+
+The obvious reading is "fine-tune a model to be Socratic." That is **not** what they did, and
+the distinction matters.
+
+Their framing is **pedagogical instruction following**: train the model to *follow
+pedagogical system instructions well*, rather than to embody one fixed pedagogy. Each
+training conversation is seeded with a **different** pedagogical System Instruction, sampled
+from the kinds of instruction developers actually write when building tutors. The model
+learns to obey the pedagogy it is given.
+
+**This preserves developer control instead of removing it** — which is exactly what we would
+want, since our pedagogy needs to be decided by our
+[policy layer](../concepts/guardrails.md), not by a model vendor.
+
+Method: SFT plus **RLHF**. Their finding on the two: *"While SFT seems to improve pedagogical
+instruction following somewhat, RL is significantly more effective, as preference judgements
+often contain subtle distinctions in how instructions are interpreted."*
+
+**Their five-category rubric** is a usable evaluation taxonomy in its own right:
+inspires **active learning** · manages **cognitive load** · deepens **metacognition** ·
+stimulates **curiosity** · **adapts to the learner** (goals, needs, affect).
 
 ## Results
 
