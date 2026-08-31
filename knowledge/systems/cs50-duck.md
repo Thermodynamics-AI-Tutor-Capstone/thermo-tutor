@@ -137,22 +137,104 @@ independently](../evidence/kaist-vta-2025.md).
 Scale caveat: CS50's online population is enormous and self-selected. These are not the
 engagement numbers of a required course.
 
+## ⚠ The guardrail leakage measurement — the most important number in this node
+
+CS50's own follow-up paper (SIGCSE TS 2025) analysed **10 million chat messages** and
+measured how often the Duck did the thing it is explicitly designed not to do — hand over
+code:
+
+| | Share containing code blocks |
+|---|---|
+| **All responses** (~2.1M of 10M) | **22%** |
+| **Conversations** (~635k of 1.3M) | **48%** |
+
+**Roughly half of all conversations with the reference implementation of "won't spoil the
+answer" involved the tutor generating code.**
+
+And it got *worse* with a model upgrade:
+
+| Model | Messages | Message-level | Conversation-level |
+|---|---|---|---|
+| GPT-4 | 6,487,201 | 20% | 44% |
+| **GPT-4o** | 3,203,702 | **25%** | **56%** |
+
+Their diagnosis is a named failure mode worth adopting: **"instruction dilution"** — the
+model's difficulty adhering to guidelines buried in a long, complex system prompt.
+
+**Two conclusions, both load-bearing for our architecture:**
+
+1. **A system prompt is not a guardrail.** This is the best-resourced, most-studied,
+   most-carefully-designed course tutor in existence, with course policy behind it, and its
+   pedagogical constraint leaks in ~half of conversations. Our
+   [policy layer](../concepts/guardrails.md) cannot live in the prompt.
+2. **Guardrail behaviour is not stable across model versions.** Upgrading GPT-4 → GPT-4o
+   silently cost **12 percentage points** of conversation-level compliance. Whatever we
+   build must **re-measure pedagogical compliance on every model change**, as a regression
+   test. Nobody does this; it should be one of our
+   [guardrail metrics](../concepts/grounding-and-verification.md).
+
+Their own worry, stated plainly: *"students might rely too much on the CS50 Duck for
+answers, without writing as much code of their own, which could potentially prevent them
+from fully engaging with the problem-solving process"* — i.e.
+[the crutch effect](../evidence/bastani-2025-harm.md), suspected in their own logs.
+
+## Their fix, and what it cost
+
+- **Few-shot prompting** — rejected as a primary solution: examples inflate every request
+  and therefore *worsen* instruction dilution. A genuinely useful negative result.
+- **Fine-tuning on a small, curated dataset** — **just 50 student–tutor conversations**,
+  7 of them multi-turn (up to 5 exchanges). Deliberately spanning code-generation requests
+  (where the Duck should *tactfully decline*), debugging (guide to self-diagnosis), and
+  conceptual questions (answer informatively). Reported to produce "significant improvements
+  in aligning with teaching goals," confirmed in multi-turn evaluation.
+
+**50 examples.** That is a capstone-sized dataset, and it is the most encouraging
+engineering fact in this knowledge base.
+
 ## Published evaluation
 
 Two SIGCSE papers, both worth reading for methodology:
 
 - **Liu, Zenke, Liu, Holmes, Thornton, Malan, "Teaching CS50 with AI" (SIGCSE 2024)** —
   the system, the tools, the design decisions.
-- **Liu, Zhao, Xu, Perez, Zhukovets, Malan, "Improving AI in CS50: Leveraging Human
-  Feedback for Better Learning" (SIGCSE TS 2025)** — evaluation using **29 teaching
-  fellows**, 24 completing all 50 comparisons, **1,309 pairwise comparisons** total, 801
-  from TFs with 2+ semesters of experience. More-experienced TFs preferred the newer
-  version more strongly.
+- **Liu, Zhao, Xu, Perez, Zhukovets & Malan, "Improving AI in CS50: Leveraging Human
+  Feedback for Better Learning" (SIGCSE TS 2025)** `[read]`
 
-**The TF-pairwise-comparison method is directly reusable for us.** It converts "is this
-tutor response good?" — which is otherwise unanswerable — into a measurable preference
-judgment by domain experts. It needs no student data and therefore no IRB gate on the
-tutor-quality question.
+Their evaluation design, which we should copy almost verbatim:
+
+- A **50-query dataset** sampled from a year of real student queries, deliberately
+  stratified: 15 code generation, 15 debugging, 10 error messages, 5 introductory concepts,
+  5 conceptual CS.
+- Two system-prompt versions compared blind: **V0** (production) vs **V1** (more
+  interactive — *"do not diagnose errors or provide future steps, but rather provide some
+  encouragement and ask them leading questions or hints that could help them diagnose the
+  error… by themselves"*).
+- **29 teaching fellows**, 24 completing all 50 comparisons; **1,309 pairwise comparisons**,
+  801 from TFs with 2+ semesters of experience.
+
+**The result is more interesting than "V1 won":**
+
+| Query type | All TFs (V0 / V1 / no diff) | **2+ semesters** (V0 / V1 / no diff) |
+|---|---|---|
+| Generate code | 41 / **54** / 5 | 38 / **58** / 4 |
+| Debug code | **53** / 46 / 2 | 46 / **52** / 3 |
+| Error messages | 46 / **47** / 7 | 40 / **53** / 7 |
+| Intro coding | 33 / **46** / 21 | 35 / **45** / 19 |
+
+**Experienced TFs preferred the more Socratic version consistently — and on debugging, the
+preference *flipped* with experience** (53% for the directive V0 among all TFs, 52% for the
+Socratic V1 among experienced ones).
+
+That is direct evidence that **judging tutor quality requires expertise**, and a warning
+that novice raters — and by extension student satisfaction surveys — will systematically
+prefer a more directive tutor than the evidence supports. It also validates
+[MathTutorBench's](../evaluation/mathtutorbench.md) finding that generic LLM judges score
+below 0.7 on pedagogy: this is a judgment where who is judging changes the answer.
+
+**This method is directly reusable for us.** It converts "is this tutor response good?" into
+a measurable expert preference, needs **no student data**, and therefore has no IRB gate.
+Our version: 50 stratified thermodynamics queries, judged pairwise by PSU thermo TAs and
+instructors. → [MathTutorBench](../evaluation/mathtutorbench.md)
 
 ## Open questions
 
@@ -165,8 +247,13 @@ tutor-quality question.
       benefit; nobody measured it. **Testable, and a genuinely novel small study.**
 - [ ] How does the Duck handle a student who explicitly demands the answer?
       (Our [defection script](../../research/competitive-teardown/README.md) should test this.)
-- [ ] Read the 2025 follow-up ("Improving AI in CS50: Leveraging Human Feedback") for the
-      TF-comparison methodology in detail.
+- [x] ~~Read the 2025 follow-up~~ — done 2026-08-31.
+- [ ] What did the fine-tuned model's compliance rate become? The paper reports "significant
+      improvement" qualitatively; the post-fine-tuning code-block percentage is the number
+      we actually want.
+- [ ] **CodeAid (University of Toronto)** — cited here as a comparable system with 79%
+      technical correctness that "struggles with complex debugging tasks and maintaining
+      consistent pedagogical approaches." Not yet in this knowledge base. **Add it.**
 
 ## Connects to
 
@@ -179,6 +266,7 @@ tutor-quality question.
 ## Sources
 
 - [Liu, Zenke, Liu, Holmes, Thornton & Malan, "Teaching CS50 with AI" (SIGCSE 2024)](https://cs.harvard.edu/malan/publications/V1fp0567-liu.pdf) `[read]` — full text
+- [Liu, Zhao, Xu, Perez, Zhukovets & Malan, "Improving AI in CS50: Leveraging Human Feedback for Better Learning" (SIGCSE TS 2025)](https://cs.harvard.edu/malan/publications/fp0627-liu.pdf) `[read]` — full text; the leakage measurement and TF comparison
 - [Liu et al., "Improving AI in CS50: Leveraging Human Feedback" (SIGCSE TS 2025)](https://cs.harvard.edu/malan/publications/fp0627-liu.pdf) `[found]` — the TF comparison methodology
 - ["Assessment in CS50 with AI" (SIGCSE TS 2025)](https://doi.org/10.1145/3641555.3705061) `[found]`
 - [CS50.ai documentation](https://cs50.readthedocs.io/cs50.ai/) `[skimmed]` — scale figures

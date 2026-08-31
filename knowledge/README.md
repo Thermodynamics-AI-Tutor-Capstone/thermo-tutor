@@ -71,7 +71,29 @@ yourself needing background, it's probably one hop away.
 
 ## Status
 
-Built August 2026 from a systematic literature sweep. Breadth is decent; depth is
-uneven. The biggest gaps are tracked in
-[`../docs/03-open-questions.md`](../docs/03-open-questions.md) and in the *Open
-questions* section of each node.
+Built August 2026 from a systematic literature sweep, then deepened on **31 Aug 2026** by
+reading **15 papers in full** rather than from summaries.
+
+**That reading pass produced eight corrections to things this base had asserted.** They are
+flagged with ⚠ in the affected nodes and summarised at the top of
+[`PAPER.md`](PAPER.md). The largest:
+
+| What we had said | What the source actually says |
+|---|---|
+| Stan is our closest competitor, a Socratic thermo tutor | It targets **Levels 1–2 only** (point to the page, summarize) and explicitly excludes tutoring. No evaluation of any kind |
+| The TCI is a validated PSU-developed instrument, our outcome measure | **Developers discourage its use**; *"never finished"*; PhysPort's lowest validation rating. Use the TTCI-T |
+| Diagram reading is a uniform 32% wall | Range is **6% to 76%**; reasoning models largely clear it |
+| Voluntary AI-tutor users skew already-advantaged | At university level the **least-prepared** students used it **14× more** |
+| Khanmigo's study was observational | It is a **two-year cluster RCT**, and the AI added no detectable learning |
+| Socratic-subversion evidence is strong | One course, one week, one problem, extra credit, and the authors disclaim causal inference |
+| o3 solved every exam problem correctly | It lost points on graphics and made one major error |
+
+**The pattern is worth internalizing:** in nearly every case, reading the primary source made
+the claim *weaker and more specific*. Summaries — including good ones — systematically round
+findings toward their headline. That is why the `[read]` / `[skimmed]` / `[found]` tags exist.
+
+**Current source status: 54 `[read]`, 86 `[skimmed]`, 80 `[found]`.**
+
+Remaining priority reads are listed at the end of [`PAPER.md`](PAPER.md) §IX. The biggest
+outstanding one is **[Kestin et al.](evidence/kestin-2025-rct.md)** — the field's best
+positive result and the basis for our study design, still behind a paywall and unread.

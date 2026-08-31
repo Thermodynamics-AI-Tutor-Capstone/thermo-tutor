@@ -85,6 +85,12 @@ If you read nothing else:
    constrained, retrieval-grounded, externally-verified LLM wrapped in deterministic
    policy — with the pedagogy in code, not in the prompt. §V lays out the seven layers.
 
+   **And we now have the number proving why the prompt isn't enough.** Across **10 million
+   messages**, CS50's Duck — the reference implementation of "won't spoil the answer" —
+   produced code blocks in **22% of responses and 48% of conversations**. Upgrading GPT-4 →
+   GPT-4o pushed conversation-level leakage from 44% to **56%**. A system prompt is not a
+   guardrail, and guardrail behaviour is not stable across model versions.
+
 9. **Grounding + verification is what separates working systems from demos.**
    [Jill Watson](systems/jill-watson.md), restricting outputs to validated course
    material and verifying each response by textual entailment, answers correctly **78.7%**
@@ -419,6 +425,14 @@ Independently — Georgia Tech, Harvard, Purdue, Delaware, Khan Academy, Sydney 
 systems arrived at the same seven layers. Where they differ is mostly which layers they
 skipped.
 
+### 0. The thing that doesn't work: pedagogy in the system prompt
+Stated first because almost every deployed tutor stops here. CS50 measured its own leakage
+across 10M messages at **22% of responses / 48% of conversations**, worsening to 56% after a
+model upgrade — *"instruction dilution."* Few-shot examples make it worse, not better,
+because they inflate the prompt. Their working fix was **fine-tuning on 50 curated
+conversations** — a capstone-sized dataset.
+→ [guardrails](concepts/guardrails.md), [CS50 Duck](systems/cs50-duck.md)
+
 ### 1. Retrieval grounding
 Restrict the model to validated course material. Everyone does this. It is necessary and
 nowhere near sufficient — Jill Watson's *retrieval* failure rate is still 43.2%.
@@ -597,9 +611,13 @@ Where the field is actually stuck. These are the places a capstone could contrib
    can tutor from a P-v diagram. Structured state representations plus rendered diagrams,
    rather than vision over images, is an obvious and untried direction.
 
-6. **What "knowing thermodynamics" means, operationally.** Concept inventories measure
-   conceptual gain; course grades measure problem-solving. Interventions routinely move
-   one and not the other, and almost nobody reports both.
+6. **What "knowing thermodynamics" means, operationally — and the instruments are weaker
+   than the field pretends.** Concept inventories measure conceptual gain; course grades
+   measure problem-solving; interventions routinely move one and not the other, and almost
+   nobody reports both. Worse, thermodynamics' best-known inventory (the TCI) was **never
+   finished** and its developers discourage using it. Physics has the FCI; engineering
+   thermodynamics has nothing of comparable standing. That is a real gap in the field, and
+   it constrains what any of us can credibly claim.
    → [concept inventories](evaluation/concept-inventories.md)
 
 7. **Honest reporting of voluntary usage decay.** Nearly absent from the literature. Any
@@ -624,6 +642,15 @@ or — probably more tractable — [TutorGym's](evaluation/tutorgym.md) **correc
 student-action labeling task**, which has ground truth and where *no model beats chance*.
 A thermodynamics version of that is buildable by a capstone team, needs no student data, and
 targets a documented, striking failure.
+
+**⚠ 1b. Our planned outcome instrument does not hold up.**
+The Thermodynamics Concept Inventory — which we had named as the defensible answer to "how do
+you know they learned anything," partly on the strength of a Penn State connection — is an
+**unfinished instrument whose developers discourage its use**, with PhysPort's lowest
+validation rating. Switch to the **TTCI-T** or the Survey of Thermodynamic Processes, follow
+PhysPort's recommendation guide rather than name recognition, and request educator
+verification in week 1 because access is slow.
+→ [concept inventories](evaluation/concept-inventories.md)
 
 **2. Penn State has already solved our biggest compliance obstacle.**
 PSU offers **AI Studio** to all students — a suite including **Claude, Gemini, and

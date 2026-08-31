@@ -37,9 +37,19 @@ Two counterintuitive readings:
 **Granularity beats intelligence.** The strongest predictor of learning was not how clever
 the tutor's feedback was, but **how much of their reasoning the student had to externalize.**
 
-**Finer is not better.** Substep-based systems scored *worse* (0.40) than step-based (0.76).
-There's an optimum. Decomposing too far apparently removes the productive difficulty that
-makes a step worth taking. → [productive failure](productive-failure.md)
+**Finer is not better — the "interaction plateau."** VanLehn's framing is that effectiveness
+*rises and then plateaus* at the step-based level: **human tutoring ≈ substep-based ≈
+step-based > answer-based.** More granularity past "each step" buys nothing.
+
+⚠ *Unresolved reading:* the 2011 paper reports substep-based at **d = 0.40** against no
+tutoring, which reads as substep being *worse* — while the plateau hypothesis says it should
+be equivalent. The likely explanation is that the substep comparisons rest on fewer and
+weaker studies rather than substep genuinely underperforming. **This node cannot resolve it
+without the actual paper.** Don't assert "finer is worse" until someone reads it; assert only
+"finer is not better," which both readings support.
+
+Either way, the design implication is the same: aim for step-level externalization and stop
+there. → [productive failure](productive-failure.md)
 
 ## Why this is uncomfortable for our project
 
@@ -65,7 +75,10 @@ can't (mandatory externalization).
 
 ## Open questions
 
-- [ ] Read the actual paper. Everything here is from summaries. **High priority.**
+- [ ] **Read the actual paper.** Everything here is from summaries, and there is a live
+      ambiguity (above) that only the primary source settles. **Highest-priority classical
+      read.** Also see VanLehn's companion piece *"The Interaction Plateau: Answer-Based
+      Tutoring < Step-Based Tutoring = Natural Tutoring."*
 - [ ] Has anyone re-run this analysis including LLM-era systems?
 - [ ] What exactly counts as a "step" in a thermodynamics problem?
       → [knowledge components](knowledge-components.md),

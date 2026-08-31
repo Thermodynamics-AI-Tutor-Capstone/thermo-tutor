@@ -19,7 +19,7 @@ compounds.
 | **Instructor sponsor meeting** | Answers in `admin/canvas-access.md` gate several decisions | |
 | **Confirm course + textbook** | Determines notation, tables, the whole knowledge model | |
 | **Ask about PSU enterprise LLM agreement** | Could remove the entire FERPA obstacle in one email | |
-| **PhysPort / TCI access request** | Slow, and it's our outcome measure | |
+| **PhysPort educator verification (for the TTCI-T)** | Slow, and it's our outcome measure. ⚠ *Not* the TCI — see [concept inventories](../knowledge/evaluation/concept-inventories.md) | |
 
 **Do not** start writing an application while this is pending. There's nothing to build
 yet and it will be wrong.

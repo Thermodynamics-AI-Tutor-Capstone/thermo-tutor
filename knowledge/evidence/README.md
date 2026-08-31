@@ -8,7 +8,8 @@ produced it.
 | [Kestin et al. 2025](kestin-2025-rct.md) | RCT, within-subject alternating | 194 | **~2× learning gains** vs. active-learning classroom |
 | [Bastani et al. 2025](bastani-2025-harm.md) `[read]` | RCT, 3 arms | ~1,000 | Unguarded AI **−17%**; guardrailed **≈ 0** |
 | [KAIST VTA 2025](kaist-vta-2025.md) `[read]` | Deployment + 3 surveys | 477 | **50% never used it**; least-prepared students used it **14× more** |
-| [Khanmigo engagement 2026](khanmigo-engagement-2026.md) | Two-year observational | school-scale | 96% tried it; **17% of practice sessions** |
+| [Oreopoulos & Low 2026](khanmigo-engagement-2026.md) `[read]` | **Two-year cluster RCT**, 18 schools | school-scale | Khan Academy +0.06–0.08 SD; **the AI added nothing**. 17% engagement after a mistake |
+| [Corvinus 2025](corvinus-2025-overreliance.md) | Randomized, **terminated early** | one course | Unrestricted AI → lower engagement and comprehension. **Students revolted against being randomized** |
 
 Also relevant, currently covered inside their system nodes rather than here:
 

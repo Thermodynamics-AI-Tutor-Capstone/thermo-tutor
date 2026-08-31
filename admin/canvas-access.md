@@ -69,7 +69,9 @@ the integration.
 - [ ] Are you connected to the PSU AI Center of Excellence in Teaching and Learning? They
       awarded 46 instructional innovation grants for 2026–27 — we should know whether any
       overlap with this project before we duplicate funded work.
-- [ ] Can you sponsor us for PhysPort educator verification to get the TCI?
+- [ ] Can you sponsor us for PhysPort educator verification? (We need the **TTCI-T**, not
+      the TCI — the TCI was never finished and its developers discourage use.
+      → [concept inventories](../knowledge/evaluation/concept-inventories.md))
 - [ ] Do you use Mastering Engineering / Connect / WileyPLUS? Can we get evaluator access
       for the teardown?
 - [ ] **How would an AI tutor change what homework grades mean to you?**

@@ -33,9 +33,29 @@ largest RCT in the field did not find. → [the paper, §IV](../PAPER.md)
 **1. System prompt.** "Don't give the answer; ask a guiding question." What ChatGPT Study
 Mode, Claude Learning Mode, Gemini Guided Learning, and most course tutors do.
 
-Weakest, because it's an instruction the model can be argued out of. Our
-[defection script](../../research/competitive-teardown/README.md) exists to measure exactly
-how fast.
+**We now have a hard number on how badly this fails at scale.** CS50 analysed **10 million
+messages** from the Duck — the reference implementation of "won't spoil the answer," backed
+by course academic-integrity policy — and found responses containing code blocks in:
+
+| | Leakage |
+|---|---|
+| All responses | **22%** |
+| **Conversations** | **48%** |
+
+And upgrading GPT-4 → GPT-4o made it **worse**: conversation-level leakage rose from 44% to
+**56%**. Their name for the cause: **"instruction dilution"** — the model losing guidelines
+buried in a long system prompt.
+
+**Two conclusions:**
+- **A system prompt is not a guardrail.** The best-resourced deployment in the field leaks in
+  roughly half of conversations.
+- **Compliance is not stable across model versions.** A silent 12-point regression from an
+  upgrade nobody would think to re-validate. **Pedagogical compliance must be a regression
+  test**, re-measured on every model change. → [CS50 Duck](../systems/cs50-duck.md)
+
+They also found few-shot prompting counterproductive as a fix — examples inflate every
+request and *worsen* dilution — and got their improvement instead from **fine-tuning on 50
+curated conversations**.
 
 **2. Fine-tuning / preference alignment.** Put the behavior in the weights.
 [LearnLM](../systems/learnlm.md) and [PeteChat](../systems/petechat-purdue.md) do this.

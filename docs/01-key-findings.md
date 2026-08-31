@@ -137,7 +137,8 @@ publishable even if the tutor itself never ships.
 
 ## 5. We have a validated pre/post instrument, and it's ours
 
-**The finding.** The **Thermodynamics Concept Inventory (TCI)** was developed at Penn
+**The finding — ⚠ SUPERSEDED, see the correction box at the top of this file.** The
+**Thermodynamics Concept Inventory (TCI)** was reported as developed at Penn
 State, patterned on the Force Concept Inventory: brief, minimal computation, repeatable
 across diverse populations, measures conceptual understanding rather than
 problem-solving. A related **Thermal and Transport Concept Inventory — Thermodynamics
@@ -150,11 +151,17 @@ answer.
 
 **Implication.** Get access early. PhysPort gates these instruments behind educator
 verification; our instructor sponsor is the path. Also decide now whether we're measuring
-conceptual gain (TCI) or problem-solving performance (course grades), because they are
+conceptual gain (**TTCI-T**) or problem-solving performance (course grades), because they are
 not the same thing and the literature is full of interventions that move one and not the
 other.
 
 ---
+
+> ⚠ **Correction to finding #5 (2026-08-31).** The Thermodynamics Concept Inventory is
+> **not** the validated, PSU-developed instrument this document described. PhysPort records
+> that its developers discourage use — *"the development of the test was never finished"* —
+> and it holds PhysPort's lowest validation rating. Use the **TTCI-T** instead.
+> → [knowledge/evaluation/concept-inventories.md](../knowledge/evaluation/concept-inventories.md)
 
 ## Cross-cutting: the thing all five have in common
 

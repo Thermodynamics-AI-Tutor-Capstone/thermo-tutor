@@ -15,7 +15,8 @@ One node per tutoring system. History, architecture, measured results, and what 
 | [ASU + OpenAI](asu-openai.md) | Arizona State | All | Universal frontier-model access |
 | [Khanmigo](khanmigo.md) | Khan Academy | K-12 math | Largest deployment; the engagement lesson |
 | [LearnLM](learnlm.md) | Google DeepMind | Model | Pedagogy in the weights, not the prompt |
-| [Tutor CoPilot](tutor-copilot.md) | Stanford | K-12 math | Coaches the *tutor*. Best evidence per unit effort |
+| [Tutor CoPilot](tutor-copilot.md) `[read]` | Stanford | K-12 math | Coaches the *tutor*. RCT, 900 tutors. **$20/tutor/yr vs $3,300 for conventional PD** |
+| [CodeAid](codeaid-toronto.md) | U. Toronto | C / systems programming | **Pseudo-code instead of code** — a *structural* guardrail. 700 students, CHI 2024 |
 
 ## The classical ITS era (1970s–2015)
 

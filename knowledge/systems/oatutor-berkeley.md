@@ -44,10 +44,34 @@ The authoring pipeline is the other half of the appeal. The
 and OATutor was explicitly designed to make that work distributable across a team of
 non-engineers. That is a capstone-team-shaped affordance.
 
-**Caveat, per our own standards:** everything above is from the CHI paper abstract and the
-repo description. Before anyone commits to this, someone must actually clone it, run it,
-and check whether it's maintained, whether the BKT implementation is sound, and how hard
-new content authoring really is. Do not put OATutor in a plan on the strength of this node.
+## What the repository actually contains — checked 2026-08-31
+
+- **Actively developed**: 1,003 commits on main.
+- **Deploys as static assets, no backend required** — ReactJS + Material UI, `localForage`
+  (localStorage/IndexedDB) for state, optional Firebase Cloud Firestore for logging, shipped
+  via GitHub Actions to GitHub Pages. An ExpressJS middleware handles LMS integration; Python
+  handles the ML.
+- **Content is JSON in structured directories**: problems contain **steps**, steps contain
+  **hints organized as "pathways,"** and everything maps to knowledge components declared in
+  `skillModel.json`.
+
+**That content schema is almost exactly the data model our design needs** — step-based
+problems, graduated hint pathways, and an explicit KC map — already built, already deployed
+in classrooms. → [knowledge components](../concepts/knowledge-components.md)
+
+**⚠ But the content library is entirely mathematics and statistics**: OpenStax Elementary and
+Intermediate Algebra, College Algebra, Introductory Statistics, Calculus Vol. 1, Pre-Calculus
+Essentials, and Swedish calculus material. **No engineering or physics content at all.**
+
+So forking OATutor means inheriting the *machinery* and authoring **100% of the
+thermodynamics content ourselves** — which, per
+[Kestin](../evidence/kestin-2025-rct.md) and [Bastani](../evidence/bastani-2025-harm.md), is
+where the learning effect lives anyway and is work we cannot avoid. The honest framing:
+OATutor saves us the ITS engineering, not the domain work.
+
+**Still required before anyone puts this in a plan:** clone it, run it, author one
+thermodynamics problem end-to-end, and time how long that took. That single exercise
+calibrates the whole project's scope.
 
 ## Open questions
 

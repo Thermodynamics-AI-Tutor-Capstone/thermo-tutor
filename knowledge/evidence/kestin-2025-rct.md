@@ -26,9 +26,20 @@ This design does three things well:
 
 ## The results
 
-- **Roughly 2× the learning gains** of the active-learning condition
-- **Less time** spent on the content
+- **Effect size 0.73 – 1.3 standard deviations**, estimated by **quantile regression** to
+  avoid ceiling effects compressing the upper range of scores. (In education research, >0.4
+  SD is the conventional threshold for "educationally significant." This is very large.)
+- Commonly reported as **~2× the learning gains** of the active-learning condition
+- **Less time**: median AI-group student spent **49 minutes** on task versus the ~60 minutes
+  of classroom time; **70% finished in under an hour**
 - Higher self-reported engagement, motivation, and satisfaction
+
+Published **3 June 2025**.
+
+**The ceiling-effect detail matters.** Needing quantile regression means raw scores were
+bunching at the top — which is itself informative about the assessment, and means the headline
+range (0.73–1.3) depends on a modelling choice. Not a flaw, but a reason the single number
+"2×" should be quoted carefully.
 
 ## The design of the tutor
 
@@ -75,7 +86,14 @@ It also tells us what our comparison condition should be, and that the honest on
 
 ## Open questions
 
-- [ ] **Read the full paper.** Effect sizes, instruments, what the scaffolds actually were.
+> **Verification: still `[skimmed]`.** *Scientific Reports* is behind an auth redirect and
+> ResearchGate returns 403. The figures above come from detailed secondary coverage
+> (Hechinger Report, ETC Journal review) and are consistent across sources, but **nobody on
+> this team has read the paper.** It is the field's most-cited positive result and the basis
+> for our study design — **get it through PSU library access.**
+
+- [ ] **Read the full paper via PSU library.** Effect sizes, instruments, what the scaffolds
+      actually were.
 - [ ] Is the tutor or its prompts published anywhere?
 - [ ] How much authoring effort per problem? This sets our achievable scope.
 - [ ] What was the outcome measure — a concept inventory, or course-specific items?

@@ -97,7 +97,9 @@ enough data per concept. See `research/domain/skill-graph-draft.md`.
 interactions a semester actually produces. *Owner:* ___
 
 **C3. What would count as evidence that we succeeded?**
-Options: normalized gain on TCI, course grade, time-to-solution, voluntary return rate,
+Options: normalized gain on the **TTCI-T** (⚠ *not* the TCI — never finished, developers
+discourage use → [concept inventories](../knowledge/evaluation/concept-inventories.md)),
+course grade, time-to-solution, voluntary return rate,
 self-reported confidence, benchmark score. These can move in opposite directions.
 **Decide before we collect anything**, or we'll be accused of picking the metric that
 won. *Owner:* ___
@@ -123,7 +125,9 @@ raise it. We should raise it first.
 **D2. What does PSU IRB require, and how long does it take?** See `admin/irb.md`.
 **Blocking for all of section A.**
 
-**D3. Can we get the TCI?** PhysPort gates instruments behind educator verification.
+**D3. Can we get the TTCI-T?** PhysPort gates instruments behind educator verification.
+⚠ Superseded target: the TCI is unusable — see
+[concept inventories](../knowledge/evaluation/concept-inventories.md).
 Instructor sponsor is the path. *Owner:* ___
 
 **D4. ~~What is the actual budget for API calls during a pilot?~~ ANSWERED.**

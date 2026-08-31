@@ -111,7 +111,7 @@ Effectiveness," arXiv:2605.05648.** [found]
 
 ## Concept inventories (assessment instruments)
 
-**PhysPort — Thermodynamics Concept Inventory (TCI).** [found]
+**PhysPort — Thermodynamics Concept Inventory (TCI).** `[read]` ⚠ **Developers discourage use; never finished; lowest validation rating. Use the TTCI-T.**
 https://www.physport.org/assessments/assessment.cfm?A=TCI
 **Thermal and Transport Concept Inventory — Thermodynamics (TTCI-T):**
 https://www.physport.org/assessments/assessment.cfm?A=TTCIT
