@@ -989,10 +989,17 @@ capstone with findings and one with a demo.
 | **VanLehn 2011**, *Educational Psychologist* | The field's most-cited effect sizes (human ≈ ITS) come from here and we have never read it | ⚠ Closed access; ASU now serves the author's own copies behind Cloudflare Access; **no Internet Archive snapshot. Needs PSU library.** |
 | **Kulik & Fletcher 2016**, *RER* | The other headline ITS meta-analysis (median 0.66 — **but 0.13 on standardized tests**) | Closed; DTIC report AD1030353 under maintenance throughout. ⚠ **Key figures now recovered secondhand** from [Alkhatlan & Kalita's survey](concepts/vanlehn-2011.md); still want the primary. |
 | **Rosé et al. 2006**, *IJAIED* 16(2) | Fullest account of CycleTalk — the closest precedent to this project | IOS Press blocks scripted access entirely. **PSU library.** |
+| ⭐ **Systematic review of AI-driven ITS in *engineering education*** (IEEE Access 2025, Porto) | **PRISMA review of 46 studies in exactly our space** — the map we never built. Names a gap in "dual-user support for both learners and instructors," which is where [Stan](systems/stan-udel.md) and [PeteChat](systems/petechat-purdue.md) both landed independently | **Gold OA but IEEE blocks scripted access.** Abstract read; full text needs a browser. [DOI 10.1109/access.2025.3626473](https://doi.org/10.1109/access.2025.3626473) |
+| ⭐ **[GPThermo](systems/gpthermo-wpi.md)** (WPI, ASEE 2025) | Another university's in-house thermodynamics tutor | Cloudflare challenge, not a paywall — **retrievable by hand** at [peer.asee.org/56669](https://peer.asee.org/56669) |
 | **Roscoe & Chi 2007** | Tutor-learning / explanation quality | Closed, no OA location in OpenAlex |
 | **Tuttle & Wu (QR-2001)**, USNA thermodynamics ICAI | Possible learning-outcome data for CyclePad at USNA | Newly found in a reference list; not yet chased |
 
-**These five are the whole remaining backlog worth a librarian's time.** Everything else we have
+**⚠ Note the shape of what is left.** Three of these need a **library**; two need only a
+**browser**, because the block is a bot check rather than a paywall. The browser ones are on our
+own discipline's venues — ASEE and IEEE — which is the same blind spot that hid GPThermo for the
+whole of this review.
+
+**These are the whole remaining backlog worth anyone's time.** Everything else we have
 either read or established is genuinely unobtainable. Access recipes — including the DSpace REST
 route that got us Sinha & Kapur after Sage refused — are in [the wiki README](README.md).
 

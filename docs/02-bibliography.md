@@ -124,6 +124,35 @@ published learning-outcome data for CyclePad itself.
 
 ---
 
+## Systematic reviews of our exact space
+
+**"A Systematic Literature Review of AI-Driven Intelligent Tutoring Systems in Engineering
+Education: Emphasizing Personalization, Feedback, and Student Monitoring" (2025), IEEE Access,
+Universidade do Porto.** [abstract only]
+https://doi.org/10.1109/access.2025.3626473
+**PRISMA review of 46 peer-reviewed studies** on AI-powered ITS in engineering education
+specifically — NLP, adaptive pathways, real-time feedback, progress tracking. Names a research
+gap in **"dual-user support for both learners and instructors,"** and in combining teacher-facing
+analytics with student-facing personalization. That is exactly where
+[Stan](../knowledge/systems/stan-udel.md) and [PeteChat](../knowledge/systems/petechat-purdue.md)
+independently ended up, which suggests the gap is real and that we should design for both users
+from the start. **Gold OA, but IEEE blocks scripted retrieval — someone should open it in a
+browser.** This is the highest-value unread item in this bibliography.
+
+**Brown, H. L. & Ebadi, A. (2025). "GPThermo: An In-House Generative Artificial Intelligence
+Tutor for Thermodynamics." ASEE Annual Conference.** [inaccessible]
+https://doi.org/10.18260/1-2--56669 · https://peer.asee.org/56669
+Worcester Polytechnic. Another university built our project, in our course. Cloudflare-blocked,
+not paywalled. See [the node](../knowledge/systems/gpthermo-wpi.md) for what we need from it.
+
+⚠ **A method note.** Both of the above were invisible to every arXiv- and Semantic-Scholar-shaped
+search run for this bibliography, and surfaced only through OpenAlex title queries.
+**Engineering-education research lives in ASEE, ASME and IEEE Access proceedings**, and those are
+systematically under-represented in everything above. Anyone extending this bibliography should
+search those venues by hand.
+
+---
+
 ## Evaluation and benchmarking
 
 **MathTutorBench (EMNLP 2025 Oral), arXiv:2502.18940.** [skimmed]
