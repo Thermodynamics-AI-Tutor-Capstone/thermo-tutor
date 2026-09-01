@@ -59,6 +59,61 @@ is **open, not disfavoured**; and **answer-only (~0.31) is the tier to avoid.** 
 is the one that matters for a chat interface.
 → [Andes](../systems/andes.md), [productive failure](productive-failure.md)
 
+## ⚠⚠ The number everyone quotes, and the one they don't
+
+We still cannot get VanLehn 2011 or Kulik & Fletcher 2016 as primaries (see
+[PAPER §IX](../PAPER.md) for why). But **Alkhatlan & Kalita's 2018 survey** (arXiv:1812.09628,
+read in full 2026-09-01) reports all four major ITS meta-analyses side by side, and one detail
+changes how the headline should be read.
+
+**Ma et al. 2014** — 107 effect sizes from 73 studies, the largest of the four:
+
+| ITS compared against | d |
+|---|---|
+| Non-ITS computer-based instruction | **0.57** |
+| Teacher-led / large-group instruction | **0.42** |
+| Textbooks or workbooks | **0.35** |
+| Small-group human instruction | **0.05** |
+| ⭐ **Individualized human tutoring** | **−0.11** |
+
+**ITSs beat every form of mass instruction and tie with a human tutor.** That is the strongest
+version of the case for building one, and it is consistent with VanLehn's 0.76 vs 0.79.
+
+**Kulik & Fletcher 2016** — 50 studies. 92% favoured the ITS; **median effect 0.66** across 39 of
+them. That 0.66 is the number quoted everywhere as the high-water mark for ITS effectiveness.
+
+⚠ **But in the same analysis, the effect on *standardized tests* was 0.13.**
+
+**0.66 on the researchers' own measures; 0.13 on an external one.** That is not a footnote — it
+is a fivefold collapse, and it means the field's most optimistic headline rests on locally
+constructed outcomes.
+
+**This is the fifth independent instance of the same pattern in this knowledge base**, and at
+this point it should be treated as a law rather than a curiosity:
+
+| Study | Proximal measure | Distal measure |
+|---|---|---|
+| Kulik & Fletcher 2016 | **0.66** own measures | **0.13** standardized tests |
+| [Tutor CoPilot](../systems/tutor-copilot.md) | **+4 p.p.** exit tickets | **null** end-of-year MAP |
+| [CycleTalk](../systems/cyclepad-cycletalk.md) | **+0.35 SD** concept test | **null** both design exercises |
+| [Andes](../systems/andes.md) | **+1.21** drawings, +0.69 variables | **−0.08** answers |
+| [Bastani](../evidence/bastani-2025-harm.md) | **+48%** while assisted | **−17%** unassisted exam |
+
+**Whatever we measure close to the tutor will look good.** Our own evaluation has to lead with a
+distal, unassisted, ideally externally-validated outcome, and we should expect it to be roughly a
+fifth the size of whatever the in-app numbers say.
+→ [concept inventories](../evaluation/concept-inventories.md),
+[behavioral evaluation](../evaluation/behavioral-evaluation.md)
+
+**One more thing the survey pins down:** VanLehn's famous numbers rest on **10 comparisons drawn
+from 28 evaluation studies**, 1975–2010. The most-cited effect sizes in this field come from a
+very small evidence base.
+
+**Steenbergen-Hu & Cooper 2013** (K-12 maths, 26 reports) adds two moderators worth knowing:
+**no significant effect for short-duration use**, with effects appearing only at a **full school
+year or longer** — and effects **larger for general students than for low achievers**, which cuts
+against the intuition that a tutor helps the struggling most.
+
 ## Why this is uncomfortable for our project
 
 **A chat interface is not obviously step-based.**
@@ -106,6 +161,8 @@ can't (mandatory externalization).
   against these baselines
 
 ## Sources
+
+- [Alkhatlan & Kalita (2018), "Intelligent Tutoring Systems: A Comprehensive Historical Survey with Recent Developments," arXiv:1812.09628](https://arxiv.org/pdf/1812.09628) `[read — full text, 31 pp., 2026-09-01]` — **the source for the Ma et al., Kulik & Fletcher and Steenbergen-Hu figures above.** ⚠ Secondhand: these are the survey's report of those meta-analyses, not our read of the primaries, which remain blocked.
 
 - [VanLehn (2011), Educational Psychologist — ERIC record](https://eric.ed.gov/?id=EJ946764) `[skimmed]`
 - [Semantic Scholar entry with PDF](https://www.semanticscholar.org/paper/The-Relative-Effectiveness-of-Human-Tutoring,-and-VanLehn/3b924661db089b3511465ae48e6400e20a1dd232) `[found]`
