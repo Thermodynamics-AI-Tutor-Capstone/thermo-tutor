@@ -17,6 +17,9 @@ and have not opened it. As of **31 Aug 2026** the base carries **≈110 `[read]`
 of them to claims this paper previously made — flagged inline with ⚠ and tabulated in
 [the correction log](README.md). **Check the node before citing anything.**
 
+*Counts as of 1 Sep 2026: **133 `[read]`, 70 `[skimmed]`, 66 `[found]`**, plus 2 abstract-only and
+5 confirmed inaccessible.*
+
 The corrections are not cosmetic. Among them: Stan is a resource pointer, not a **Socratic**
 tutor *(Socratic = leading a student to the answer by asking, rather than telling)*;
 the widely-quoted Maizey grade claim has no locatable study; the diagram "wall" is model-specific
@@ -872,6 +875,18 @@ Where the field is actually stuck. These are the places a capstone could contrib
 
 ### Three things that changed based on this research
 
+**0. ⚠ We cannot yet claim the space is open, and our search method had a hole in it.**
+[GPThermo](systems/gpthermo-wpi.md) — Worcester Polytechnic's in-house generative-AI
+thermodynamics tutor, ASEE 2025 — did not appear in any sweep run for this paper. Neither did a
+**PRISMA review of 46 studies on AI tutoring in engineering education** (Porto, IEEE Access 2025).
+Both surfaced only through OpenAlex title queries, because **ASEE, ASME and IEEE Access are
+invisible to arXiv-shaped searching, and that is where our own discipline publishes.**
+
+Both are behind bot checks rather than paywalls. **Someone should open them in a browser this
+week** — [peer.asee.org/56669](https://peer.asee.org/56669) and
+[doi.org/10.1109/access.2025.3626473](https://doi.org/10.1109/access.2025.3626473) — and
+**hand-search ASEE and ASME proceedings** before we write a novelty claim into anything.
+
 **1. The thermodynamics benchmark is no longer a novel contribution.**
 Our earlier plan named "build a thermodynamics tutoring benchmark" as the most likely
 publishable output. [ThermoQA](domain/thermoqa.md) and [UTQA](domain/utqa.md) got there
@@ -904,8 +919,40 @@ institutional agreement, which was the single scariest item on our
 of blocking work, and the grant program is a plausible funding and legitimacy path for
 the capstone itself. → [PSU AI landscape](practice/psu-ai-landscape.md)
 
-**3. Cost is not a real constraint.** ~$2.63–4.79 per student per semester. Stop treating
-it as a design driver. → [cost](practice/cost-economics.md)
+**3. Cost is not a real constraint.** ~$2.63–4.79 per student per semester, and ETH's Ethel
+reports $7.50 all-in including grading. Three unrelated architectures agree. Stop treating cost
+as a design driver — **latency is the operational risk instead**, and the number to tune is P95,
+not median, because a multi-agent pipeline waits for its slowest branch.
+→ [cost and latency](practice/cost-economics.md)
+
+**4. ⚠ Our outcome measure has to be distal, and we should expect roughly a fifth of the in-app
+number.** This is the newest and most consequential change. Five independent studies now show the
+same collapse between a measure built next to the tutor and an external one — Kulik & Fletcher's
+**0.66 → 0.13**, Tutor CoPilot's exit tickets → null, CycleTalk, Andes, Bastani (finding 8 above).
+Three consequences we should write into the study design *before* collecting anything:
+
+- **Never report a homework-based outcome as evidence the tutor worked.** Bastani's arm went
+  **+48% assisted / −17% unassisted**; PeteChat's TAs describe the same pattern in an engineering
+  course. → [assessment integrity](practice/assessment-integrity.md)
+- **Primary outcome = proctored, unassisted, externally validated.** That points at
+  [STPFaSL or TTCI-T](evaluation/concept-inventories.md), administered without tool access.
+- **Power the study for a small effect, or don't promise a learning headline at all.**
+
+**5. Log attempt-to-attempt diffs from day one.** [Niousha et al.](evaluation/behavioral-evaluation.md)
+recover whether a student *acted* on feedback by diffing consecutive submissions and attributing
+the change to individual tutor sentences — **RelScore** (was it used) and **SuccScore** (was it
+used correctly). It is retrospective over data we would otherwise discard, the labels are more
+reliable than pedagogical ones (κ 0.80–1.00 vs 0.65), and it predicts perceived helpfulness better
+than feedback quality does. ⚠ **Always stratify SuccScore by whether the answer was revealed** —
+answer-revealing feedback scored **79.4% vs 53.0%**, so optimising on it trains the tutor to cheat.
+
+**6. Build for two users, not one.** The Porto review names **dual-user support — learners *and*
+instructors** — as the standing gap in engineering ITS. [Stan's](systems/stan-udel.md) only real
+contribution is instructor-facing analytics; [PeteChat](systems/petechat-purdue.md) and
+[Ethel](systems/ethel-eth.md) both converged on instructor dashboards and self-serve content
+upload. **Three systems arrived there independently and a systematic review says it is
+under-explored.** An instructor-facing view of what the cohort is getting wrong is cheap to build,
+needs no student-facing risk, and may be the most publishable thing we make.
 
 ### What the evidence says our project should actually be
 
@@ -940,6 +987,14 @@ The literature points somewhere more specific than "build an AI tutor":
 - **The first two interactions decide everything.** KAIST's students who used the tutor five
   times or fewer rated it *worse* afterward (3.72 → 3.26), while frequent users rated it
   *better*. Onboarding is not polish; it is the retention mechanism.
+- **Be proactive, because nobody asks.** [PeteChat](systems/petechat-purdue.md) logged **0.0% hint
+  utilisation** across 284 real messages; [CycleTalk](systems/cyclepad-cycletalk.md) saw help
+  requests on **14% of actions** and its winning condition was firing dialogue on *success* rather
+  than on request. **A pull-based tutor is designing for a behaviour nobody has observed.**
+- **Budget for warmth explicitly.** In Google's arena, LearnLM won overall yet the single largest
+  reason experts preferred a rival was **conversation style — "patronizing" versus "warmer"
+  (36.3%)**. The Socratic stance has a measured cost and it lands on exactly the axis that decides
+  whether students come back. → [LearnLM](systems/learnlm.md)
 
 ### Honest risk assessment
 
@@ -968,7 +1023,7 @@ capstone with findings and one with a demo.
 3. [LLM capability in thermodynamics](domain/llm-thermodynamics-capability.md)
 4. [Socratic tutoring and how students subvert it](concepts/socratic-tutoring.md)
 
-**Nodes now standing on full reads of their primaries (31 Aug 2026):**
+**Nodes now standing on full reads of their primaries (1 Sep 2026):**
 [Stan](systems/stan-udel.md) · [Bastani](evidence/bastani-2025-harm.md) ·
 [Kestin](evidence/kestin-2025-rct.md) · [UTQA](domain/utqa.md) ·
 [ThermoQA](domain/thermoqa.md) · [Superstudent](domain/superstudent-thermodynamics.md) ·
@@ -980,7 +1035,10 @@ capstone with findings and one with a demo.
 [Socratic discourse taxonomy](concepts/socratic-tutoring.md) ·
 [Andes](systems/andes.md) · [CyclePad / CycleTalk](systems/cyclepad-cycletalk.md) ·
 [behavioral evaluation](evaluation/behavioral-evaluation.md) ·
-[cost and latency](practice/cost-economics.md)
+[cost and latency](practice/cost-economics.md) · [LearnLM](systems/learnlm.md) ·
+[Ethel](systems/ethel-eth.md) · [Jill Watson](systems/jill-watson.md) ·
+[MathTutorBench](evaluation/mathtutorbench.md) ·
+[assessment integrity](practice/assessment-integrity.md)
 
 **Highest-priority reading still outstanding**, with the honest reason each is still open:
 
