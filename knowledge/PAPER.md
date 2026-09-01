@@ -224,6 +224,13 @@ If you read nothing else:
     → [behavioral evaluation](evaluation/behavioral-evaluation.md),
     [assessment integrity](practice/assessment-integrity.md)
 
+    ⚠ **And do not plan to score tutoring quality with a model.** Four independent studies now say
+    it does not work: rubric grading at **Cohen's κ = 0.128** against an expectation of 0.6,
+    pedagogical-preference accuracy **below 0.7**, expert-label agreement of **κ = 0.44–0.65**, and
+    Ethel's **~50% recall** on passing exam solutions. The same work finds models judge
+    *behavioural uptake* reliably at **κ = 0.80–1.00**. **Automate the uptake question; put humans
+    on a sample for the quality question.** → [LLM-as-judge](evaluation/llm-as-judge.md)
+
 18. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
     [CyclePad](systems/cyclepad-cycletalk.md) — an articulate thermodynamic-cycle simulator that
     explains every derived value from its assumption chain — has been in the **US Naval Academy
@@ -983,6 +990,24 @@ used correctly). It is retrospective over data we would otherwise discard, the l
 reliable than pedagogical ones (κ 0.80–1.00 vs 0.65), and it predicts perceived helpfulness better
 than feedback quality does. ⚠ **Always stratify SuccScore by whether the answer was revealed** —
 answer-revealing feedback scored **79.4% vs 53.0%**, so optimising on it trains the tutor to cheat.
+
+**5a. ⭐⭐ The architecture we should build is already published, and nobody has tested it.**
+An [ASEE 2026 petroleum-engineering tutor](concepts/grounding-and-verification.md) runs this loop:
+a small model extracts the givens → **decompose the problem into sub-questions** → generate
+self-contained Python for each numerical step → **execute it in a sandbox** → an **Answer Verifier
+compares the sandbox result to the *student's* answer** → on mismatch, hints naming the error class
+(*"inconsistent units, incorrect intermediate quantity, or formula misuse"*) *"while still
+encouraging the user to recompute rather than just revealing the final answer"* → loop.
+
+**The verifier checks the student, not the model.** That is the diagnosis capability
+[TutorGym showed models lack](evaluation/tutorgym.md), obtained deterministically. And the loop
+satisfies every constraint in this paper at once: step granularity, no answer-giving,
+decomposition over context-stuffing, and never guessing a number.
+
+⚠ **It has never been tested on a student** — their own words: *"Longer term, we will test these
+and through IRB get approval to solicit student feedback."* **Porting it to thermodynamics, where
+the sandbox calls [CoolProp](domain/property-data-tools.md) instead of doing arithmetic, and
+actually evaluating it, is a well-defined and genuinely novel capstone.**
 
 **5b. ⭐ Our realistic contribution is a *causal* claim, and it is achievable.**
 The [closest deployed analogue to our project](systems/rag-tutor-southeast.md) — a RAG + SRL tutor

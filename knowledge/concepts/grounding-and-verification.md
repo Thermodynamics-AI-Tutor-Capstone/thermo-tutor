@@ -166,7 +166,61 @@ impossible to reconstruct later.
 - [LLM capability in thermodynamics](../domain/llm-thermodynamics-capability.md) — what needs
   verifying in our subject
 
+## ⭐⭐ The closest published design to what we should build
+
+*"Improving Academic Student Success: Using AI Chatbots as Virtual Teaching Assistants"*
+(**ASEE 2026**, [peer.asee.org/59923.pdf](https://peer.asee.org/59923.pdf), read in full
+2026-09-01) — a petroleum-engineering gateway course, in problems that are dimensionally identical
+to ours (pipeline flow: barrels/day, diameters, specific gravity, viscosity, unit conversions).
+
+**Their loop, which is step-based tutoring with an executable verifier:**
+
+1. A lightweight **small language model** extracts the given values from the problem statement.
+2. The system **decomposes the problem into a sequence of sub-questions.**
+3. For each numerical sub-question it **generates self-contained Python** — *"using only basic
+   language constructs… avoiding complex dependencies to ensure simplicity and portability."*
+4. It **executes that code in a sandbox.**
+5. An **Answer Verifier compares the sandbox result to the student's own computed answer.**
+6. On mismatch, a **Feedback Mechanism gives corrective hints naming the likely error class** —
+   *"inconsistent units, incorrect intermediate quantity, or formula misuse"* — *"while still
+   encouraging the user to recompute rather than just revealing the final answer."*
+7. Loop until correct, then advance to the next sub-question.
+
+**Read step 5 again.** The verifier does not check *the model's* answer; it checks **the
+student's**. That inverts the usual framing — the solver is not there to make the tutor correct,
+it is there to make the tutor able to *diagnose*, which is
+[precisely the capability TutorGym found models lack](../evaluation/tutorgym.md).
+
+**Every constraint in this knowledge base is satisfied by this design:**
+
+| Constraint | How the loop meets it |
+|---|---|
+| [Step-based beats answer-based](vanlehn-2011.md) (d = 0.76 vs ~0.31) | Sub-question decomposition *is* the step granularity |
+| [No LLM can spot a wrong step](../evaluation/tutorgym.md) | A sandbox can, deterministically |
+| [RAG doesn't fix numbers](../systems/rag-tutor-southeast.md) | Execution does |
+| [Never reveal the answer](../practice/assessment-integrity.md) | Hints name the error class and demand a recompute |
+| [Decompose, don't enlarge context](../practice/content-generation.md) | One sub-question at a time |
+| [CyclePad never guesses](../systems/cyclepad-cycletalk.md) | Every number is computed, not generated |
+
+⚠ **And it has never been tested on a student.** Their own conclusion: *"Longer term, we will test
+these and through IRB get approval to solicit student feedback."* No deployment, no evaluation, no
+learning outcome — an architecture paper.
+
+**That is the opening.** The design that satisfies every constraint we have derived is published,
+unvalidated, and in an adjacent engineering discipline. **Porting it to thermodynamics — where the
+sandbox calls [CoolProp](../domain/property-data-tools.md) instead of doing arithmetic — and
+actually evaluating it is a well-defined, achievable, genuinely novel capstone.**
+
+Two adaptations thermodynamics forces:
+- The sandbox needs **property lookups**, not just arithmetic — which is
+  [exactly what GPThermo built and measured at 95%](../systems/gpthermo-wpi.md).
+- Their error classes (units, intermediate quantity, formula misuse) need a thermodynamics
+  equivalent: wrong reference state, assumed reversibility, saturated-vs-superheated confusion,
+  quality misread. → [skill graph](../../research/domain/skill-graph-draft.md)
+
 ## Sources
+
+- ["Improving Academic Student Success: Using AI Chatbots as Virtual Teaching Assistants," *ASEE 2026*](https://peer.asee.org/59923.pdf) `[read — full text, 13 pp., 2026-09-01]` — the sub-question / sandbox / answer-verifier loop
 
 - [Georgia Tech, "Jill Watson Outperforms ChatGPT in Real Classrooms" (2025)](https://news.research.gatech.edu/2025/09/02/georgia-techs-jill-watson-outperforms-chatgpt-real-classrooms) `[skimmed]`
 - [Khan Academy blog on building a better AI tutor](https://blog.khanacademy.org/how-khan-academy-is-building-a-better-ai-tutor-our-most-recent-learnings/) `[skimmed]`
