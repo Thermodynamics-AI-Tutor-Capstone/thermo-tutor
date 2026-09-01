@@ -94,6 +94,36 @@ problem-solving than the baseline.
 about twenty items. **Twenty-question evaluations are the norm in this venue and they are not
 benchmarks.** Take the pipeline, not the number.
 
+## Two maintenance mechanisms worth copying
+
+Retrieval corpora rot. Course content changes, errors get found, and nobody in this literature
+describes how the corpus stays correct — except two systems.
+
+**1. Instructor-corrected retrieval, from MARK** (*Machine Assistant with Reliable Knowledge*,
+arXiv:2506.23026, read 2026-09-01). A **hybrid retriever** (dense embedding similarity **plus**
+sparse keyword/BM25, on the reasoning that neither alone covers both general and domain-specific
+queries) paired with a feedback loop: **students rate responses, instructors review and revise
+them, and the revisions are fed back into the retrieval corpus.** The corpus improves as a
+by-product of instructors correcting answers they were going to look at anyway.
+
+⚠ *Small paper from a startup, deployed in a classroom as a substitute for a traditional Q&A
+channel, with no rigorous evaluation reported. Take the mechanism, not a result.*
+
+**Hybrid dense + sparse is worth taking seriously for us specifically.** Thermodynamics queries
+contain exact tokens that embeddings blur — `R-134a`, `h_fg`, `T_sat`, a specific table number.
+Pure vector search is bad at exactly those, and keyword search is bad at *"why is the pump work so
+small."* We need both.
+
+**2. Freshness signalling, from [Ethel](../systems/ethel-eth.md) and
+[PeteChat](../systems/petechat-purdue.md).** Ethel re-indexes within minutes of an upload and
+**badges each source with a freshness indicator** (updated within 7 days / 30 days / older);
+PeteChat adds freshness disclaimers on logistics answers *"to protect instructors."* Both teams
+arrived at this independently, because **the highest-stakes wrong answer a course bot gives is a
+stale deadline**, not a wrong enthalpy.
+
+Together these are the closest thing to an operational answer for keeping a course corpus correct
+across a semester, and they cost very little to implement.
+
 ## Open questions
 
 - [ ] What's in Jill Watson's 43.2%? Nobody has published a breakdown.
@@ -111,6 +141,8 @@ benchmarks.** Take the pipeline, not the number.
 - [Stan](../systems/stan-udel.md) — RAG over Sandler, our domain
 
 ## Sources
+
+- ["Machine Assistant with Reliable Knowledge: Enhancing Student Learning via RAG-based Retrieval," arXiv:2506.23026](https://arxiv.org/pdf/2506.23026) `[read — full text, 15 pp., 2026-09-01]` — hybrid dense+sparse retrieval, instructor-corrected corpus
 
 - [Luo, Roy Sarkar & Goswami, "ARIA: Adaptive Retrieval Intelligence Assistant — A Multimodal RAG Framework for Domain-Specific Engineering Education," arXiv:2604.06179](https://arxiv.org/pdf/2604.06179) `[read — full text, 20 pp., 2026-09-01]` — Dalian UT + Johns Hopkins; the Docling / Nougat / GPT-4V ingestion stack
 
