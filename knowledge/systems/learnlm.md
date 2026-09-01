@@ -141,16 +141,64 @@ journey that unfolds over days, weeks, or even months."* They close by naming th
 themselves — *"do these pedagogical capabilities translate to concretely better learning outcomes
 for students?"* — and calling for RCTs.
 
-**Actual learning outcome:** students who received short LearnLM tutoring sessions were
-**5.5 percentage points** more likely to solve novel problems on subsequent topics than
-students working with human tutors alone.
+**Actual learning outcome:** students supported by LearnLM were **5.5 percentage points** more
+likely to solve novel problems on subsequent topics (**66.2%** vs **60.7%**) than students working
+with human tutors alone.
+
+⚠⚠ **But read the design before quoting that number — LearnLM never spoke to a student
+unsupervised.** In the UK RCT (arXiv:2512.23633, read in full 2026-09-01), **17 expert human tutors
+supervised it**, with the remit to *"revise each message it drafted until they would be satisfied
+sending it themselves."* Every message was approved, edited or rewritten by a human before it
+reached a student.
+
+**So the comparison is human tutor + AI drafts versus human tutor alone.** That is
+**[Tutor CoPilot's design](tutor-copilot.md)**, not an autonomous tutor — and it means the two
+strongest positive results in this entire knowledge base are **both hybrid**:
+
+| Study | Design | Effect |
+|---|---|---|
+| [Tutor CoPilot](tutor-copilot.md) | AI coaches the human tutor | **+4 p.p.**, +9 p.p. for weakest tutors |
+| **LearnLM UK RCT** | AI drafts, human approves | **+5.5 p.p.** (66.2% vs 60.7%) |
+
+**Nobody has a comparably strong result for an AI tutoring a student alone.**
+→ [what this means for our project](../PAPER.md)
 
 That last number is the one that matters, and it deserves emphasis in both directions: it
 is a **real, positive, published learning effect** — one of very few in this literature —
 and it is **small**, and it is measured against *human tutors alone* rather than against
 an unassisted control.
 
-## The UK classroom RCT
+## The UK classroom RCT — read in full
+
+**N = 165 students, five UK secondary schools, Eedi mathematics platform, N = 17 supervising
+tutors.** Three-way randomisation: a **static pre-written hint**, an **interactive human tutor**,
+or **supervised LearnLM**. Support was triggered whenever a student got the first question of a
+study unit wrong, and the same question was re-presented immediately afterwards.
+
+**Draft acceptance — the number that matters for a hybrid design:**
+
+- **74.4% of 3,617 drafted messages accepted with no edits at all**; 76.4% with zero or minimal
+  edits (one or two characters — *"virtually always… a tutor deleting or changing an emoji"*).
+- Of the **926** edited or rewritten, the **median intervention altered 59 characters** — a few
+  words.
+- ⭐ **Post-hoc systematic review of the whole corpus found zero instances of harmful or risky
+  content and five factual errors: 0.1% of 3,617 messages.**
+
+⚠ **Do not carry that 0.1% error rate into our domain.** This is secondary-school mathematics.
+[Thermodynamics property lookups fail at 44–63% for R-134a](../domain/thermoqa.md) and
+[students name table values as the failure they see](../evidence/student-ai-perceptions-2025.md).
+The safety result is real and domain-bound.
+
+**On interaction format:** *"interactive support with a human tutor proved far more effective for
+this kind of immediate course-correction"* than a static pre-written hint. Chat beat canned hints —
+which is the one place this literature clearly favours conversation over
+[pre-authored hint ladders](../concepts/productive-failure.md).
+
+**Tutors reported learning from the model** — several said they picked up new pedagogical
+practices from LearnLM's Socratic drafts. That is an unmeasured but real second-order benefit of
+the hybrid design, and it is the same claim [Tutor CoPilot](tutor-copilot.md) makes.
+
+### Earlier summary
 
 165 students across five UK secondary schools, LearnLM integrated into chat tutoring on the
 Eedi mathematics platform, prompted to adopt a Socratic approach guiding students to find
@@ -199,5 +247,5 @@ harm avoidance.
 
 - [LearnLM: Improving Gemini for Learning, arXiv:2412.16429](https://arxiv.org/html/2412.16429v1) `[read]` — the preference numbers
 - [LearnLM Team, Google, "Evaluating Gemini in an Arena for Learning," arXiv:2505.24477](https://arxiv.org/pdf/2505.24477) `[read — full text, 26 pp., 2026-09-01]`
-- [AI tutoring can safely and effectively support students: An exploratory RCT in UK classrooms, arXiv:2512.23633](https://arxiv.org/abs/2512.23633) `[found]`
+- [LearnLM Team (Google) & Eedi, "AI tutoring can safely and effectively support students: An exploratory RCT in UK classrooms," arXiv:2512.23633](https://arxiv.org/pdf/2512.23633) `[read — full text, 31 pp., 2026-09-01]`
 - [DeepMind LearnLM Nov 2025 report](https://storage.googleapis.com/deepmind-media/LearnLM/learnLM_nov25.pdf) `[found]`

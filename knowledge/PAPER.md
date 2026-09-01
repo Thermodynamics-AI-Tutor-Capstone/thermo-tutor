@@ -150,12 +150,26 @@ If you read nothing else:
    evaluation must lead with a distal, unassisted outcome, and we should budget for it being
    small. → [VanLehn 2011 and the meta-analyses](concepts/vanlehn-2011.md)
 
-9. **Students route around Socratic design.** In 2,874 coded student turns with a
+9. ⭐⭐ **The two strongest positive results in this literature are both *hybrid*, and neither is
+   an AI tutoring a student alone.** [Tutor CoPilot](systems/tutor-copilot.md) coaches the human
+   tutor: **+4 p.p.**, and **+9 p.p.** for the weakest tutors. The [LearnLM UK
+   RCT](systems/learnlm.md) reports **+5.5 p.p.** (66.2% vs 60.7%) — but **17 expert tutors
+   supervised every message**, with the remit to revise each draft *"until they would be satisfied
+   sending it themselves."* They accepted **74.4% unedited**, and a full audit of 3,617 drafts
+   found **zero harmful messages and five factual errors (0.1%)**.
+
+   **LearnLM never spoke to a student unsupervised.** So the headline number everyone cites for
+   "AI tutoring works" is really *AI drafting for a human who approves*. **Nobody has a comparably
+   strong result for an autonomous AI tutor** — which is worth knowing before we commit to
+   building one. ⚠ *And do not carry that 0.1% error rate into thermodynamics: this is
+   secondary-school maths, where property tables do not exist.*
+
+10. **Students route around Socratic design.** In 2,874 coded student turns with a
    Socratic AI physics tutor, "what do I do next" was the **second-most-common move**
    (4.4% of all turns), and the top 20 discourse categories contained essentially no
    conceptual reasoning ([Socratic subversion](concepts/socratic-tutoring.md)).
 
-10. **Every serious system independently converged on the same architecture:** a
+11. **Every serious system independently converged on the same architecture:** a
    constrained, retrieval-grounded, externally-verified LLM wrapped in deterministic
    policy — with the pedagogy in code, not in the prompt. §V lays out the seven layers.
 
@@ -165,7 +179,7 @@ If you read nothing else:
    GPT-4o pushed conversation-level leakage from 44% to **56%**. A system prompt is not a
    guardrail, and guardrail behaviour is not stable across model versions.
 
-11. **Grounding + verification is what separates working systems from demos.**
+12. **Grounding + verification is what separates working systems from demos.**
    [Jill Watson](systems/jill-watson.md), restricting outputs to validated course
    material and verifying each response by **textual entailment** *(an automatic check that the
    answer really is supported by the source text, not merely plausible)*, passes **76.7%** of
@@ -173,17 +187,17 @@ If you read nothing else:
    **31.3%** correct, **16.5%** harmful. Same model underneath — the difference is entirely
    grounding and verification.
 
-12. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
+13. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
     total** — **$0.38 per student** ([cost](practice/cost-economics.md)). The constraints are
     pedagogy, engagement, compliance, and faculty trust.
 
-13. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
+14. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
     **no model exceeded chance at labeling incorrect student actions**, and models best at
     confirming correct work were worst at catching errors ([TutorGym](evaluation/tutorgym.md)).
     Diagnosis is the atomic act of tutoring, and it is the thing that must be handled outside
     the model.
 
-14. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
+15. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
     diagram items is **32%** against **67%** text-only — but the range across 19 models runs
     from **6%** (gpt-4.1, *below* the 25% chance baseline) to **76%** (gpt-o3)
     ([diagram reading](domain/diagram-reading.md)).
@@ -192,13 +206,13 @@ If you read nothing else:
     models substantially clear it, and o3 handled a real exam's diagrams. Model choice is
     load-bearing here in a way it is nowhere else in the architecture.*
 
-15. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
+16. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
     (293 open-ended problems, three tiers, **CoolProp** ground truth *(the open-source property
     library — the software steam table)*, six frontier models) and
     [UTQA](domain/utqa.md) (50 items, 19 models, **dataset public on HuggingFace**) both
     landed before us. This changes our contribution story — see §VIII.
 
-16. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
+17. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
     assistant targets **Levels 1–2 of its own six-level scale** — "resource pointer" and
     "content summarizer." Tutoring, guided problem solving, and Socratic dialogue are
     explicitly *out of scope*, it has **no property tools, no student model, no LMS
@@ -212,7 +226,7 @@ If you read nothing else:
     splits into an **outer loop**, which picks the next problem, and an **inner loop**, which
     reacts within a problem, step by step — the inner loop is where the learning gains live.)*
 
-17. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
+18. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
     feedback that **revealed the answer** — which the pedagogical rubric marks undesired —
     produced *higher* immediate success than feedback that withheld it (**79.4% vs 53.0%**),
     because students copy. [Bastani](evidence/bastani-2025-harm.md) found the same reversal at
@@ -231,7 +245,7 @@ If you read nothing else:
     *behavioural uptake* reliably at **κ = 0.80–1.00**. **Automate the uptake question; put humans
     on a sample for the quality question.** → [LLM-as-judge](evaluation/llm-as-judge.md)
 
-18. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
+19. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
     [CyclePad](systems/cyclepad-cycletalk.md) — an articulate thermodynamic-cycle simulator that
     explains every derived value from its assumption chain — has been in the **US Naval Academy
     curriculum since 1996**. CMU bolted **tutorial dialogue** onto it and measured a **0.25 SD**

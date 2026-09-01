@@ -116,6 +116,7 @@ ones that changed a design decision:
 | CycleTalk was preceded by Wizard-of-Oz studies | **No WoZ study exists.** What preceded it was a human-tutor classroom study (Rosé et al., AI-ED 2005) — [node](systems/cyclepad-cycletalk.md) |
 | CycleTalk engaged students in negotiation dialogue about design trade-offs | **Never built.** The negotiation exchange is a CHI *position paper* illustration in future tense. What shipped was scripted short-answer KCDs — [node](systems/cyclepad-cycletalk.md) |
 | CycleTalk was a dialogue agent layered on an articulate simulator | **It never called the simulator's explanation facility.** It model-traced student actions against a pre-authored behavior graph and never read cycle state — [node](systems/cyclepad-cycletalk.md) |
+| LearnLM's UK RCT shows an AI tutor beat human tutors by 5.5 p.p. | **LearnLM never spoke to a student unsupervised.** 17 expert tutors reviewed every message before it was sent. The comparison is *human + AI drafts* vs *human alone* — [node](systems/learnlm.md) |
 | Jill Watson 2024 scores 78.7% vs OpenAI Assistant's 30.7% | **76.7% vs 31.3%** — the earlier figures came from a secondary summary; the primary is [arXiv:2405.11070](systems/jill-watson.md) |
 | The original 2016 Jill Watson was a success because students couldn't tell it from a human TA | **The legacy knowledge-based system passes 26.0% of course questions** — below an off-the-shelf OpenAI Assistant. Indistinguishable ≠ correct — [node](systems/jill-watson.md) |
 
