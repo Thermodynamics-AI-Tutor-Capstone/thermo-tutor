@@ -746,7 +746,7 @@ UTQA's list, which maps almost one-to-one onto
 4. Missed invariants and feasibility constraints in optimization
 5. Numeric anchoring to textbook constants without checking applicability
 
-### The existing thermodynamics tutors — there are two, and the older one matters more
+### The existing thermodynamics tutors — there are at least three, and the oldest matters most
 
 **[Stan](systems/stan-udel.md)**, Delaware CHEG231, Fall 2025 — read in full, it leaves our
 space largely open. Levels 1–2 only, no property tools, no student model, no LMS integration,
@@ -755,7 +755,16 @@ mining and confusion detection** from lecture transcripts. Notably, its confusio
 flagged *"entropy and its relation to disorder or randomness"* on the entropy lecture —
 surfacing, automatically, the exact misconception in our own catalogue.
 
-**[CyclePad](systems/cyclepad-cycletalk.md)** (Northwestern, Forbus & Whalley) is the more
+⚠ **[GPThermo](systems/gpthermo-wpi.md)** (Worcester Polytechnic, ASEE 2025) is a lead rather
+than a finding: **a US engineering school built an in-house generative-AI thermodynamics tutor
+and published it, and we have not read a word of it.** ASEE's repository sits behind a Cloudflare
+challenge — a bot check, not a paywall — so a human with a browser can almost certainly retrieve
+it. Two things follow. **Until someone reads it, we cannot claim our space is open.** And it
+surfaced only through a title search on OpenAlex: **ASEE and ASME proceedings are largely
+invisible to arXiv-shaped searching, and that is exactly where engineering-education work on our
+topic lives.** The competitive landscape is probably wider than this paper reflects.
+
+**[CyclePad](systems/cyclepad-cycletalk.md)** (Northwestern, Forbus & Whalley) is the most
 important precedent, and essentially nobody in the current literature cites it. It is an
 **articulate virtual laboratory** for thermodynamic cycles — students assemble Rankine, Brayton,
 Otto, Diesel and refrigeration cycles from components, and the system propagates constraints,
