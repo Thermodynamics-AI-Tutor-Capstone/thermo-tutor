@@ -217,6 +217,6 @@ still in review. → [roadmap](../../admin/roadmap.md)
 - [Macina, Daheim, Hakimi, **Kapur**, Gurevych & Sachan, "MathTutorBench," arXiv:2502.18940](https://arxiv.org/abs/2502.18940) `[read — full text, 18 pp., 2026-09-01]` — ETH Zurich + TU Darmstadt; note Manu Kapur of [productive failure](../concepts/productive-failure.md) is an author · [code](https://github.com/eth-lre/mathtutorbench) `[found]`
 - [Maurya et al., "Unifying AI Tutor Evaluation: An Evaluation Taxonomy for Pedagogical Ability Assessment of LLM-Powered AI Tutors" (MRBench), arXiv:2412.09416](https://arxiv.org/abs/2412.09416) `[read]` · [code](https://github.com/kaushal0494/UnifyingAITutorEvaluation)
 - [Naeem, Ahmad, Ahsan & Iqbal, "NeuralNexus at BEA 2025 Shared Task," arXiv:2506.10627](https://arxiv.org/pdf/2506.10627) `[read — full text, 6 pp., 2026-09-01]` — strict Macro F1 0.584, 37th place
-- [AITutor-EvalKit, arXiv:2512.03688](https://arxiv.org/pdf/2512.03688) `[found]`
+- [AITutor-EvalKit, arXiv:2512.03688](https://arxiv.org/pdf/2512.03688) `[read]`
 - [TutorGym, arXiv:2505.01563](https://arxiv.org/pdf/2505.01563) `[read]` — see [its node](tutorgym.md)
 - [The Missing Evaluation Axis, arXiv:2605.05648](https://arxiv.org/pdf/2605.05648) `[read]` — **now has its own node: [behavioral evaluation](behavioral-evaluation.md)**

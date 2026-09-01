@@ -60,6 +60,40 @@ From the deployments and the RAG literature generally:
   call, not a search. → [property data tools](../domain/property-data-tools.md)
 - **Always verify.** → [grounding and verification](grounding-and-verification.md)
 
+## ⭐ A concrete ingestion toolchain for engineering course material
+
+Most RAG-in-education papers say "we chunked the PDFs." **ARIA** (Luo, Roy Sarkar & Goswami —
+Dalian University of Technology + **Johns Hopkins**, arXiv:2604.06179, read in full 2026-09-01)
+names the actual components, and they are the three problems engineering material creates:
+
+| Problem | Their tool |
+|---|---|
+| Structured document layout | **Docling** |
+| ⭐ **Mathematical formula recognition** | **Nougat** |
+| ⭐ **Engineering diagram interpretation** | **GPT-4 Vision API** |
+| Embedding | **e5-large-v2** (open-source), chosen for *"high semantic performance and low query latency"* |
+
+**This is the stack we would otherwise have to discover ourselves.** A thermodynamics course is
+lecture slides full of equations, T–s diagrams and property tables — precisely the content that
+naive PDF chunking destroys. Nougat for the equations and a vision model for the figures is a
+starting architecture, not a research question.
+→ [diagram reading](../domain/diagram-reading.md),
+[property data tools](../domain/property-data-tools.md)
+
+**Evaluated on** *Statics and Mechanics of Materials*, a **sophomore civil engineering course at
+Johns Hopkins** — the same course position in the curriculum as our thermodynamics course.
+Benchmarked against ChatGPT-5.
+
+**Reported results:** **97.5% accuracy at domain-specific question filtering** (deciding whether a
+question is even in scope — a real and underrated function), and it *"correctly answered all 20
+relevant course questions,"* with better conceptual explanation quality and more structured
+problem-solving than the baseline.
+
+⚠ **n = 20 again.** This is the third engineering-education paper in this base
+([GPThermo](../systems/gpthermo-wpi.md), ARIA, and the Calgary MCQ work) whose headline rests on
+about twenty items. **Twenty-question evaluations are the norm in this venue and they are not
+benchmarks.** Take the pipeline, not the number.
+
 ## Open questions
 
 - [ ] What's in Jill Watson's 43.2%? Nobody has published a breakdown.
@@ -78,8 +112,10 @@ From the deployments and the RAG literature generally:
 
 ## Sources
 
+- [Luo, Roy Sarkar & Goswami, "ARIA: Adaptive Retrieval Intelligence Assistant — A Multimodal RAG Framework for Domain-Specific Engineering Education," arXiv:2604.06179](https://arxiv.org/pdf/2604.06179) `[read — full text, 20 pp., 2026-09-01]` — Dalian UT + Johns Hopkins; the Docling / Nougat / GPT-4V ingestion stack
+
 - [Georgia Tech Jill Watson evaluation (2025)](https://news.research.gatech.edu/2025/09/02/georgia-techs-jill-watson-outperforms-chatgpt-real-classrooms) `[skimmed]` — retrieval failure rates
 - [Ethel: A Virtual Teaching Assistant (ETH Zurich), arXiv:2407.19452](https://arxiv.org/pdf/2407.19452) `[read]` — now has its own node: [Ethel](../systems/ethel-eth.md) — RAG over course PDFs, LangChain
-- [ARIA: Adaptive Retrieval Intelligence Assistant — multimodal RAG for engineering education, arXiv:2604.06179](https://arxiv.org/html/2604.06179) `[found]`
+- [ARIA: Adaptive Retrieval Intelligence Assistant — multimodal RAG for engineering education, arXiv:2604.06179](https://arxiv.org/html/2604.06179) `[read]`
 - [A Large-Scale Real-World Evaluation of LLM-Based Virtual Teaching Assistant, arXiv:2506.17363](https://arxiv.org/pdf/2506.17363) `[read]` — full treatment in [KAIST](../evidence/kaist-vta-2025.md)
 - [Machine Assistant with Reliable Knowledge: Enhancing Student Learning via RAG-based Retrieval, arXiv:2506.23026](https://arxiv.org/pdf/2506.23026) `[found]`
