@@ -51,6 +51,38 @@ problems into several parts and using a comprehensive sample solution proved mor
 **Two independent engineering-education teams found that decomposing the request beats enlarging
 the context.** That is a general operating rule for us, not a quirk of either task.
 
+## A verification checklist, from the one paper that specifies one
+
+*"A Methodological Framework for Modernizing Engineering Course Content with Large Language
+Models"* (ASEE 2026, read in full 2026-09-01) is a phased, deliberately repeatable process:
+map legacy text-heavy content to a LaTeX template → relate it to the KEEN **Entrepreneurial
+Mindset** framing → **human-in-the-loop instructor review**.
+
+Their verdict is the useful part: *"while LLMs can produce **plausible** course structures, they
+are **not yet capable of creating complete and compliant curricula** and must be used subject to
+human-in-the-loop oversight."*
+
+**What their review actually checks**, which is a usable checklist for us:
+
+- Correct **notation and equations**
+- Proper **computational syntax and behaviour**
+- Validity of both **analytical and numerical results**
+- **Pedagogical alignment** — objectives met, content fits the timeline, and **definitions and
+  foundational material appear before applications**
+
+That last item is [KST's L1 axiom](../systems/aleks.md) restated as an editorial rule: no step
+should require something that has not been introduced.
+
+⚠ **Two limitations they name that apply directly to us:**
+
+1. **The reviewer needs dual expertise** — in the subject *and* in evaluating LLM output. *"This
+   does make the framework difficult to access for all instructors."* For us that means **review
+   cannot be delegated to whoever is free**; it needs someone who knows thermodynamics *and* knows
+   how these models fail.
+2. **They have no metric for uncertainty or hallucination rate.** Neither does anyone else —
+   [the best detectors reach ~0.67–0.73 AUC](../concepts/grounding-and-verification.md). So the
+   review is unassisted human reading, and that is the real cost.
+
 ## ⚠ The other half of the picture: nobody has validated AI-designed courses
 
 The [UIC/Columbia/Penn State team](../evidence/student-ai-perceptions-2025.md) had three faculty
@@ -95,6 +127,8 @@ course-design claims as anecdote and the Calgary MCQ numbers as the evidence.
 - [Concept inventories](../evaluation/concept-inventories.md) — what a *validated* instrument costs
 
 ## Sources
+
+- ["A Methodological Framework for Modernizing Engineering Course Content with Large Language Models," *ASEE 2026*](https://peer.asee.org/59000.pdf) `[read — full text, 18 pp., 2026-09-01]`
 
 - [Tourigny, Acosta Simancas, Onen, Nightingale & MacDonald (2026), "A Rigorous Evaluation of Agentic Large Language Model Workflows for Multiple-Choice Question Generation in Advanced Engineering Courses," *ASEE 2026*](https://peer.asee.org/59134.pdf) `[read — full text, 17 pp., 2026-09-01]` — University of Calgary
 - [Bilgin, Chen & Velegol (2025), "Generative AI in Chemical Engineering Education," *ASEE 2025*](https://peer.asee.org/56640.pdf) `[read]` — the AI-designed-courses half

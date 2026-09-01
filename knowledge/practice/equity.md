@@ -86,6 +86,40 @@ Two things follow for us:
 *Caveat: single independent author, self-defined metric and benchmark. Interesting framing;
 not yet an established result.*
 
+## A third axis: language, and it may be the biggest one for us
+
+**Ghosh, S. (2024), "ChatGPT as a Tool for Equitable Education in Engineering Classes," ASEE**
+(University of Washington, read in full 2026-09-01) argues — from instructor interviews and the
+author's own experience as an international student — that generative AI is *"an important tool
+for creating equitable access, especially for **international students** or students with
+traditionally marginalized identities in engineering education."*
+
+The specific affordances students used: **content comprehension and summarization**, generating
+outlines from a set of sources, and **machine-translating English readings into languages they are
+more comfortable in.**
+
+⚠ **This is a position paper, not a study** — instructor interviews plus reflective practice, no
+measurement. Treat the mechanism as plausible and the claim as untested.
+
+**But the mechanism is real and it points somewhere our design has not looked.** Engineering
+thermodynamics is taught in dense English prose with heavy notation, to cohorts with large
+international enrolments — including at Penn State. A tutor that can **restate a problem in a
+student's stronger language, or at a different register, on request** addresses a barrier that has
+nothing to do with thermodynamics knowledge.
+
+Two supports for taking it seriously:
+
+- [Ethel](../systems/ethel-eth.md) chose **GPT-4 specifically because Switzerland is multilingual**
+  and its lecture script is in German — a deployed system treating language as a first-class
+  requirement rather than a nicety.
+- [USAFA students praised exactly this affordance](../evidence/student-ai-perceptions-2025.md):
+  *"take complex ideas and make them understandable at whatever level you want."* Register-shifting
+  and language-shifting are the same capability.
+
+**Cheap to build, plausibly high-impact, and completely unmeasured.** If we want an equity claim
+that is more than a disclaimer, *"does register- and language-shifting change outcomes for
+non-native-English engineering students"* is a real, answerable question that nobody has answered.
+
 ## The converging counter-case
 
 [Tutor CoPilot](../systems/tutor-copilot.md) found its **largest effect (+9%) for students of
@@ -151,6 +185,8 @@ mean adaptive here too.
 - [productive failure](../concepts/productive-failure.md) — guardrails have a distributional cost
 
 ## Sources
+
+- [Ghosh, S. (2024), "ChatGPT as a Tool for Equitable Education in Engineering Classes," *ASEE*](https://peer.asee.org/48458.pdf) `[read — full text, 16 pp., 2026-09-01]` — position paper; the language-access argument
 
 - [Xu, Q., "FairTutor: Equity-Aware Pedagogical LLM Routing for Budget-Constrained AI Tutoring," arXiv:2606.20713](https://arxiv.org/pdf/2606.20713) `[read — full text, 15 pp., 2026-09-01]` — the AIED Advantage Gap metric and the TutorAccessEval benchmark
 
