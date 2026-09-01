@@ -150,6 +150,16 @@ If you read nothing else:
    evaluation must lead with a distal, unassisted outcome, and we should budget for it being
    small. → [VanLehn 2011 and the meta-analyses](concepts/vanlehn-2011.md)
 
+   ⭐ **A sixth study names the mechanism.** A three-arm RCT at TUM (**N = 275**) compared a
+   **scaffolded, hint-withholding tutor**, **unrestricted ChatGPT**, and **no AI**. Both AI arms
+   scored substantially higher on the exercise; **neither produced greater pre–post knowledge
+   gains or code comprehension** — *the scaffolded one included*. Both AI groups showed **reduced
+   germane cognitive load**, which is the effortful schema-building that *constitutes* learning:
+   **the tool removed the work that produces understanding.** And **students rated ChatGPT easier
+   and more helpful** — the authors' *"comfort trap,"* where *"students' preferences misaligned
+   with pedagogical effectiveness."* **Never treat satisfaction as a proxy for tutor quality; it
+   selects for answer-giving.** → [TUM dissociation](evidence/tum-dissociation-2025.md)
+
 9. ⭐⭐ **The two strongest positive results in this literature are both *hybrid*, and neither is
    an AI tutoring a student alone.** [Tutor CoPilot](systems/tutor-copilot.md) coaches the human
    tutor: **+4 p.p.**, and **+9 p.p.** for the weakest tutors. The [LearnLM UK
