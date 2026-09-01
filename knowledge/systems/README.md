@@ -23,7 +23,7 @@ One node per tutoring system. History, architecture, measured results, and what 
 | System | Institution | Domain | Why it matters |
 |---|---|---|---|
 | [Andes](andes.md) `[read]` | Pitt + USNA + Rutgers | **Physics** | Step-based, 5-year evaluation. **Drawings +1.21, answers −0.08** |
-| [**GPThermo**](gpthermo-wpi.md) `[inaccessible]` | Worcester Polytechnic | **THERMODYNAMICS** | **A US engineering school built our project and published it at ASEE 2025. Cloudflare-blocked — someone should open it in a browser** |
+| [**GPThermo**](gpthermo-wpi.md) | Worcester Polytechnic | **THERMODYNAMICS** | **Multi-agent GPT-4o + property tools: 95% vs 15–25% for stock models. No tutoring, no students — the tool layer, validated. Undergraduate first author** |
 | [**Ethel**](ethel-eth.md) | ETH Zurich | Physics / **thermodynamics** | **University-built virtual TA. Publishes its cost ($7.50/student/semester) and its failures. Grading: high precision, ~50% recall** |
 | [**CyclePad / CycleTalk**](cyclepad-cycletalk.md) | Northwestern + USNA + CMU | **THERMODYNAMICS** | **Articulate thermo simulator, USNA curriculum since 1996. Dialogue layer added 2006: +0.25 SD over simulator alone, conceptual tests only. The precedent nobody cites** |
 | [AutoTutor](autotutor.md) | Memphis | Various | Expectation/misconception-tailored dialogue |

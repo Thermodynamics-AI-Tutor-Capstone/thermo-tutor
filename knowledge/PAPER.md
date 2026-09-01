@@ -749,7 +749,7 @@ UTQA's list, which maps almost one-to-one onto
 4. Missed invariants and feasibility constraints in optimization
 5. Numeric anchoring to textbook constants without checking applicability
 
-### The existing thermodynamics tutors — there are at least three, and the oldest matters most
+### The existing thermodynamics systems — there are at least three, and **none of them tutor**
 
 **[Stan](systems/stan-udel.md)**, Delaware CHEG231, Fall 2025 — read in full, it leaves our
 space largely open. Levels 1–2 only, no property tools, no student model, no LMS integration,
@@ -758,14 +758,27 @@ mining and confusion detection** from lecture transcripts. Notably, its confusio
 flagged *"entropy and its relation to disorder or randomness"* on the entropy lecture —
 surfacing, automatically, the exact misconception in our own catalogue.
 
-⚠ **[GPThermo](systems/gpthermo-wpi.md)** (Worcester Polytechnic, ASEE 2025) is a lead rather
-than a finding: **a US engineering school built an in-house generative-AI thermodynamics tutor
-and published it, and we have not read a word of it.** ASEE's repository sits behind a Cloudflare
-challenge — a bot check, not a paywall — so a human with a browser can almost certainly retrieve
-it. Two things follow. **Until someone reads it, we cannot claim our space is open.** And it
-surfaced only through a title search on OpenAlex: **ASEE and ASME proceedings are largely
-invisible to arXiv-shaped searching, and that is exactly where engineering-education work on our
-topic lives.** The competitive landscape is probably wider than this paper reflects.
+⭐ **[GPThermo](systems/gpthermo-wpi.md)** (Worcester Polytechnic, ASEE 2025) is the newest and,
+for our purposes, the most encouraging. It is **GPT-4o plus tool augmentation and retrieval
+augmentation**, routed across a conversation agent, a retrieval agent and a calculation agent —
+essentially the property-tool layer we were going to propose. On 20 numerical questions scored
+within 1% of the analytical answer it reached **95%, against 15–25% for stock ChatGPT, Gemini,
+Claude and Copilot.**
+
+Two readings matter. **The tool layer is externally validated — we can cite it and stop treating
+it as a research question.** And ⚠ **it contains no tutoring and no students**: no deployment, no
+pedagogy, no hints, no student model, no learning outcome. Its authors close by warning that early
+access *"may lead to overreliance… preventing them from developing foundational skills"* — the
+[Bastani](evidence/bastani-2025-harm.md) failure mode, named but untested.
+
+**So all three university thermodynamics systems are answer engines, and none of them tutors.**
+That is the sharpest statement of our opening this paper can make.
+
+⚠ *A method note that costs us more than it sounds: GPThermo surfaced only through an OpenAlex
+title query, and was missed by every arXiv- and Semantic-Scholar-shaped search run for this paper.
+**ASEE, ASME and IEEE Access are where engineering-education research lives and they are largely
+invisible to the tooling used here.** ASEE is now reachable — appending `.pdf` to a `peer.asee.org`
+ID bypasses its bot check — and a systematic sweep of it is overdue.*
 
 **[CyclePad](systems/cyclepad-cycletalk.md)** (Northwestern, Forbus & Whalley) is the most
 important precedent, and essentially nobody in the current literature cites it. It is an
@@ -875,17 +888,22 @@ Where the field is actually stuck. These are the places a capstone could contrib
 
 ### Three things that changed based on this research
 
-**0. ⚠ We cannot yet claim the space is open, and our search method had a hole in it.**
-[GPThermo](systems/gpthermo-wpi.md) — Worcester Polytechnic's in-house generative-AI
-thermodynamics tutor, ASEE 2025 — did not appear in any sweep run for this paper. Neither did a
-**PRISMA review of 46 studies on AI tutoring in engineering education** (Porto, IEEE Access 2025).
-Both surfaced only through OpenAlex title queries, because **ASEE, ASME and IEEE Access are
-invisible to arXiv-shaped searching, and that is where our own discipline publishes.**
+**0. ⭐ The tool layer is already built and validated by someone else — and the tutoring layer
+still isn't.** [GPThermo](systems/gpthermo-wpi.md) (Worcester Polytechnic, ASEE 2025) is GPT-4o
+with a retrieval agent and a calculation agent, scoring **95% on 20 numerical thermodynamics
+questions against 15–25% for stock frontier models.** Read it and cite it; **stop scoping the
+property-tool layer as research.** It has no pedagogy, no students, and no learning evaluation, so
+it takes nothing from us — but it does mean our contribution has to be stated as *tutoring*, not
+*accuracy*. Its first author is an undergraduate, which makes **ASEE a realistic publication
+target for this team.**
 
-Both are behind bot checks rather than paywalls. **Someone should open them in a browser this
-week** — [peer.asee.org/56669](https://peer.asee.org/56669) and
-[doi.org/10.1109/access.2025.3626473](https://doi.org/10.1109/access.2025.3626473) — and
-**hand-search ASEE and ASME proceedings** before we write a novelty claim into anything.
+⚠ **And a hole in our method, which is the part to act on.** GPThermo did not appear in any sweep
+run for this paper. Neither did a **PRISMA review of 46 studies on AI tutoring in engineering
+education** (Porto, IEEE Access 2025). Both surfaced only through OpenAlex *title* queries, because
+**ASEE, ASME and IEEE Access are largely invisible to arXiv-shaped searching — and that is where
+our own discipline publishes.** ASEE is now reachable (append `.pdf` to a `peer.asee.org` ID);
+**a systematic sweep of ASEE and ASME is the highest-value research task outstanding**, and it
+should happen before we write a novelty claim into anything.
 
 **1. The thermodynamics benchmark is no longer a novel contribution.**
 Our earlier plan named "build a thermodynamics tutoring benchmark" as the most likely

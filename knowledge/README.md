@@ -155,6 +155,20 @@ curl -s "https://<host>/server/api/core/bundles/<BUNDLE_UUID>/bitstreams"
 
 This is how we got [Sinha & Kapur 2021](concepts/productive-failure.md) after Sage refused.
 
+**ASEE papers: append `.pdf` to the ID.** `peer.asee.org/<id>` serves a Cloudflare challenge that
+defeats curl and WebFetch alike; `peer.asee.org/<id>.pdf` serves the file directly. ASEE is the
+main venue for engineering-education research — including work on our own course — and this makes
+all of it reachable.
+
+```bash
+curl -sL "https://peer.asee.org/56669.pdf" -o paper.pdf   # works
+```
+
+⚠ **Search ASEE, ASME and IEEE Access by hand.** They are largely invisible to arXiv- and
+Semantic-Scholar-shaped queries, and they are where engineering-education research lives. Both
+[GPThermo](systems/gpthermo-wpi.md) and the Porto systematic review were missed by every automated
+sweep and surfaced only through OpenAlex **title** queries.
+
 **Keep verification tags in sync across nodes.** The same paper is often cited from several
 nodes, and upgrading one to `[read]` leaves the others stale — which makes the base look less
 sourced than it is and invites needless re-reading. This finds them:
