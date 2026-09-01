@@ -267,7 +267,7 @@ instructors. → [MathTutorBench](../evaluation/mathtutorbench.md)
 
 - [Liu, Zenke, Liu, Holmes, Thornton & Malan, "Teaching CS50 with AI" (SIGCSE 2024)](https://cs.harvard.edu/malan/publications/V1fp0567-liu.pdf) `[read]` — full text
 - [Liu, Zhao, Xu, Perez, Zhukovets & Malan, "Improving AI in CS50: Leveraging Human Feedback for Better Learning" (SIGCSE TS 2025)](https://cs.harvard.edu/malan/publications/fp0627-liu.pdf) `[read]` — full text; the leakage measurement and TF comparison
-- [Liu et al., "Improving AI in CS50: Leveraging Human Feedback" (SIGCSE TS 2025)](https://cs.harvard.edu/malan/publications/fp0627-liu.pdf) `[found]` — the TF comparison methodology
+- [Liu et al., "Improving AI in CS50: Leveraging Human Feedback" (SIGCSE TS 2025)](https://cs.harvard.edu/malan/publications/fp0627-liu.pdf) `[read]` — the TF comparison methodology
 - ["Assessment in CS50 with AI" (SIGCSE TS 2025)](https://doi.org/10.1145/3641555.3705061) `[found]`
 - [CS50.ai documentation](https://cs50.readthedocs.io/cs50.ai/) `[skimmed]` — scale figures
 - [Student-AI Interaction: A Case Study of CS1 Students](https://arxiv.org/html/2407.00305v2) `[found]`

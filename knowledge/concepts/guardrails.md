@@ -108,6 +108,6 @@ behavior will be arbitrary until it's resolved. → [C5](../../docs/03-open-ques
 
 ## Sources
 
-- [Bastani et al., "Generative AI without guardrails can harm learning," PNAS 2025](https://www.pnas.org/doi/10.1073/pnas.2422633122) `[skimmed]`
+- [Bastani et al., "Generative AI without guardrails can harm learning," PNAS 2025](https://www.pnas.org/doi/10.1073/pnas.2422633122) `[read]`
 - [Tutor, Not Solver: PeteChat, arXiv:2606.09845](https://arxiv.org/pdf/2606.09845) `[skimmed]`
 - [CS50.ai docs](https://cs50.readthedocs.io/cs50.ai/) `[skimmed]`

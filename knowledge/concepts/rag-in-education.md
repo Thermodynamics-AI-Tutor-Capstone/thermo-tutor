@@ -79,7 +79,7 @@ From the deployments and the RAG literature generally:
 ## Sources
 
 - [Georgia Tech Jill Watson evaluation (2025)](https://news.research.gatech.edu/2025/09/02/georgia-techs-jill-watson-outperforms-chatgpt-real-classrooms) `[skimmed]` — retrieval failure rates
-- [Ethel: A Virtual Teaching Assistant (ETH Zurich), arXiv:2407.19452](https://arxiv.org/pdf/2407.19452) `[found]` — RAG over course PDFs, LangChain
+- [Ethel: A Virtual Teaching Assistant (ETH Zurich), arXiv:2407.19452](https://arxiv.org/pdf/2407.19452) `[read]` — now has its own node: [Ethel](../systems/ethel-eth.md) — RAG over course PDFs, LangChain
 - [ARIA: Adaptive Retrieval Intelligence Assistant — multimodal RAG for engineering education, arXiv:2604.06179](https://arxiv.org/html/2604.06179) `[found]`
-- [A Large-Scale Real-World Evaluation of LLM-Based Virtual Teaching Assistant, arXiv:2506.17363](https://arxiv.org/pdf/2506.17363) `[skimmed]`
+- [A Large-Scale Real-World Evaluation of LLM-Based Virtual Teaching Assistant, arXiv:2506.17363](https://arxiv.org/pdf/2506.17363) `[read]` — full treatment in [KAIST](../evidence/kaist-vta-2025.md)
 - [Machine Assistant with Reliable Knowledge: Enhancing Student Learning via RAG-based Retrieval, arXiv:2506.23026](https://arxiv.org/pdf/2506.23026) `[found]`

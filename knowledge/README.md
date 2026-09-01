@@ -155,6 +155,31 @@ curl -s "https://<host>/server/api/core/bundles/<BUNDLE_UUID>/bitstreams"
 
 This is how we got [Sinha & Kapur 2021](concepts/productive-failure.md) after Sage refused.
 
+**Keep verification tags in sync across nodes.** The same paper is often cited from several
+nodes, and upgrading one to `[read]` leaves the others stale — which makes the base look less
+sourced than it is and invites needless re-reading. This finds them:
+
+```bash
+python3 - <<'EOF'
+import re, pathlib, collections
+rank = {'read':3, 'skimmed':2, 'abstract only':1, 'found':0, 'inaccessible':0}
+seen = collections.defaultdict(list)
+pat = re.compile(r'\]\((https?://[^)]+)\)[^`\n]{0,80}`\[([a-z][^\]]*?)\]`')
+for md in pathlib.Path('knowledge').rglob('*.md'):
+    for m in pat.finditer(md.read_text()):
+        url = m.group(1).rstrip('/').split('#')[0]
+        tag = m.group(2).split('—')[0].strip()
+        base = tag if tag in rank else ('read' if tag.startswith('read') else tag)
+        seen[url].append((md, tag, rank.get(base, -1)))
+for u, v in seen.items():
+    if len(v) > 1 and len({r for _,_,r in v}) > 1:
+        best = max(r for _,_,r in v)
+        print(u[:80])
+        for md, tag, r in v:
+            print(f"   {'KEEP ' if r==best else 'STALE'} [{tag[:28]:28s}] {md}")
+EOF
+```
+
 **Verify what you downloaded is actually a PDF.** A login wall or maintenance page returns HTTP
 200 with HTML, and `file` reports the *filename* — so `file x.pdf | grep pdf` always matches.
 Check the magic bytes instead: `head -c 5 x.pdf | grep -q '%PDF'`.
