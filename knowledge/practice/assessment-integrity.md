@@ -35,6 +35,28 @@ And in the same course's pre-guardrail corpus, **boundary testing / system probi
 student messages in the homework context** (13.4% overall). Roughly one homework message in five
 was an attempt to get around the tutor's limits, and the system **sometimes complied**.
 
+## What students do when observed
+
+**Amoozadeh et al. (2024)**, *"Student-AI Interaction: A Case Study of CS1 Students"*
+(arXiv:2407.00305, Houston / CMU / Abilene Christian / IIT) watched **15 gender-balanced CS1
+students** solve programming tasks with ChatGPT — think-aloud, screen video, and full conversation
+logs, open-coded by two authors.
+
+- ⚠ **In about a third of cases the student pasted the full task description into ChatGPT
+  "without making any effort on their own."** Not after getting stuck — as the opening move.
+- ⚠ **"Few students verified their solutions."**
+- Students who submitted whole task descriptions **correlated with lower self-efficacy**,
+  matching prior work that lower-self-efficacy students lean hardest on the tool.
+- Mixed on the outcome: **overall self-efficacy rose** after the session.
+
+⚠ **n = 15, self-selected, one intro course, qualitative.** Not a rate to quote as a population
+estimate. But it is direct observation rather than log inference, and "delegate immediately,
+verify nothing" is the behaviour our design has to assume exists.
+
+The design reading is the same one [PeteChat](../systems/petechat-purdue.md) arrived at: the
+tutor has to notice *"this is the assignment text, pasted verbatim"* as a distinct event, because
+it is the most common thing a struggling student does first.
+
 ## ⚠ The guardrail does not hold, and upgrading the model makes it worse
 
 **[CS50's duck](../systems/cs50-duck.md)** is the most-resourced AI tutor deployment in higher
@@ -107,8 +129,9 @@ the change: **the newer, better model complied less.**
 
 ## Sources
 
-Synthesised from primaries read in full and cited in the linked nodes; this node introduces no
-new sources of its own. The gap flagged in
+Synthesised from primaries read in full and cited in the linked nodes, plus:
+
+- [Amoozadeh, Nam, Prol, Alfageeh, Prather, Hilton, Srinivasa Ragavan & Alipour (2024), "Student-AI Interaction: A Case Study of CS1 Students," arXiv:2407.00305](https://arxiv.org/pdf/2407.00305) `[read — full text, 15 pp., 2026-09-01]` The gap flagged in
 [the bibliography](../../docs/02-bibliography.md) — *"prior work on AI tutors and academic
 integrity — what happens to homework grades as a signal when a tutor exists"* — **remains
 genuinely unfilled.** If someone finds a dedicated literature, it belongs here.

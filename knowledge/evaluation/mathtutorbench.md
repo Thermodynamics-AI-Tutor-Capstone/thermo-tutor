@@ -150,9 +150,20 @@ They also test **Prometheus2 and Llama-3.1-8B as automated judges** — the same
 LLM-as-judge reliability question MathTutorBench answers pessimistically.
 
 **BEA 2025 Shared Task** — pedagogical ability assessment of AI tutors, at the 20th Workshop
-on Innovative Use of NLP for Building Educational Applications. A community-scale effort with
-published systems, e.g. retrieval-augmented prompting for mistake identification
-(arXiv:2506.10627).
+on Innovative Use of NLP for Building Educational Applications. **Track 1 is Mistake
+Identification** — precisely the capability [TutorGym](tutorgym.md) found models cannot perform,
+now with a leaderboard.
+
+A datapoint on how hard it is: the **NeuralNexus** entry (MBZUAI, retrieval-augmented prompting,
+arXiv:2506.10627, read in full) reports **strict Macro F1 0.584** with lenient accuracy 0.897, and
+**ranked 37th** among participants. So a purpose-built system, tuned for this one task, lands
+below 0.6 on the strict metric — and it was mid-field.
+
+**Worth noting for us:** an existing shared task with a leaderboard means we do not have to
+invent an evaluation for mistake identification, and it gives a calibration point for how a
+thermodynamics equivalent would score. Chasing the shared-task *overview* paper (rather than one
+participant system) would tell us the ceiling — that is a better use of an hour than reading more
+entrants.
 
 Also in this space: **AITutor-EvalKit** (arXiv:2512.03688), **TutorGym** (arXiv:2505.01563 —
 a testbed for LLM agents as both tutors and simulated students), and
@@ -205,7 +216,7 @@ still in review. → [roadmap](../../admin/roadmap.md)
 
 - [Macina, Daheim, Hakimi, **Kapur**, Gurevych & Sachan, "MathTutorBench," arXiv:2502.18940](https://arxiv.org/abs/2502.18940) `[read — full text, 18 pp., 2026-09-01]` — ETH Zurich + TU Darmstadt; note Manu Kapur of [productive failure](../concepts/productive-failure.md) is an author · [code](https://github.com/eth-lre/mathtutorbench) `[found]`
 - [Maurya et al., "Unifying AI Tutor Evaluation: An Evaluation Taxonomy for Pedagogical Ability Assessment of LLM-Powered AI Tutors" (MRBench), arXiv:2412.09416](https://arxiv.org/abs/2412.09416) `[read]` · [code](https://github.com/kaushal0494/UnifyingAITutorEvaluation)
-- [NeuralNexus at BEA 2025 Shared Task, arXiv:2506.10627](https://arxiv.org/pdf/2506.10627) `[found]`
+- [Naeem, Ahmad, Ahsan & Iqbal, "NeuralNexus at BEA 2025 Shared Task," arXiv:2506.10627](https://arxiv.org/pdf/2506.10627) `[read — full text, 6 pp., 2026-09-01]` — strict Macro F1 0.584, 37th place
 - [AITutor-EvalKit, arXiv:2512.03688](https://arxiv.org/pdf/2512.03688) `[found]`
-- [TutorGym, arXiv:2505.01563](https://arxiv.org/pdf/2505.01563) `[found]`
+- [TutorGym, arXiv:2505.01563](https://arxiv.org/pdf/2505.01563) `[read]` — see [its node](tutorgym.md)
 - [The Missing Evaluation Axis, arXiv:2605.05648](https://arxiv.org/pdf/2605.05648) `[read]` — **now has its own node: [behavioral evaluation](behavioral-evaluation.md)**
