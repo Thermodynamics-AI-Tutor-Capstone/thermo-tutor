@@ -202,6 +202,13 @@ If you read nothing else:
     integration, and no evaluation of any kind.** Its real contribution is instructor-facing
     lecture analytics. → [Stan](systems/stan-udel.md)
 
+    *(A **student model** is the system's running estimate of what this particular student knows
+    — the thing that makes a tutor adaptive rather than merely responsive. A chat history is not
+    one. The classic ITS has four parts: **domain model** (the subject), **student model** (the
+    learner), **tutor model** (when and how to intervene), and the interface. The tutor model
+    splits into an **outer loop**, which picks the next problem, and an **inner loop**, which
+    reacts within a problem, step by step — the inner loop is where the learning gains live.)*
+
 17. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
     feedback that **revealed the answer** — which the pedagogical rubric marks undesired —
     produced *higher* immediate success than feedback that withheld it (**79.4% vs 53.0%**),
