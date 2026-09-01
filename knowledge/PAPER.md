@@ -48,12 +48,35 @@ If you read nothing else:
    [Cognitive Tutor](systems/cognitive-tutor.md), [ALEKS](systems/aleks.md) — are the
    incumbents, not ChatGPT.
 
+   *(**d** is **Cohen's d**, the standard way to express how big an effect is: the difference
+   between two groups' averages, measured in standard deviations of the outcome. d = 0.76 means
+   the average tutored student scored 0.76 standard deviations above the average untutored one —
+   enough to move a median student to roughly the 78th percentile. The rough convention is
+   0.2 = small, 0.5 = medium, 0.8 = large. **Every effect size in this paper is in these units
+   unless stated otherwise**, which is what makes systems comparable across studies.)*
+
 3. **The single best result for LLM tutoring is real, well-run, and explicitly does not
    claim our case.** A Harvard crossover RCT (n = 194) found **0.73–1.3 SD** greater learning
    than an excellent active-learning classroom, in **less time** (median 49 min vs. 60), with
    higher engagement ([Kestin et al. 2025](evidence/kestin-2025-rct.md)). Its
    generalizability case is stronger than usually credited — the effect held for students
    both below and above 40% on the FCI (p < 0.001 each).
+
+   *(An **RCT** is a **randomized controlled trial** — participants are assigned to conditions by
+   chance, so any difference in outcome can be credited to the condition rather than to who chose
+   what. A **crossover** design goes further: every participant experiences both conditions in
+   counterbalanced order, so each student serves as their own control. **n** is the number of
+   participants. **SD** is **standard deviation**, the same unit as Cohen's d above — "1.3 SD" and
+   "d = 1.3" mean the same thing. The **median** is the middle value, half above and half below;
+   it is reported instead of the average when a few extreme values would drag the average
+   somewhere unrepresentative. The **FCI** is the **Force Concept Inventory**, a long-established
+   validated test of conceptual physics understanding — the kind of instrument we would need a
+   thermodynamics equivalent of, see [concept inventories](evaluation/concept-inventories.md).
+   And **p** is the **p-value**: the probability of seeing a result at least this large if the
+   treatment actually did nothing. Below 0.05 is the conventional bar for calling a result
+   unlikely to be chance; below 0.001 is strong. **A small p-value says an effect is probably
+   real, not that it is large** — that is what the effect size is for, and the two get confused
+   constantly.)*
 
    ⚠ **But its lessons targeted Bloom's understanding/applying/analyzing levels**, which the
    authors describe as *"particularly well suited for current generative AI tutors"* — and
@@ -78,7 +101,9 @@ If you read nothing else:
    currently doing damage control, not producing gains.
 
 6. **The field's real failure mode is engagement, not quality — and the spread is enormous.**
-   Khanmigo (two-year cluster RCT, 18 schools): the median student engaged it in **17% of
+   Khanmigo (two-year **cluster** RCT — randomization done at the level of whole schools or
+   classrooms rather than individual students, because you cannot give half a classroom a
+   different teacher; 18 schools): the median student engaged it in **17% of
    exercise sessions in which they made a mistake**, and the AI added **no** detectable
    learning over the platform alone. KAIST: **50% of 477 students never used it once**; 1.3%
    generated 30% of traffic. CS50: **only 3% never used it.** The difference is design and
@@ -178,7 +203,11 @@ If you read nothing else:
     [CyclePad](systems/cyclepad-cycletalk.md) — an articulate thermodynamic-cycle simulator that
     explains every derived value from its assumption chain — has been in the **US Naval Academy
     curriculum since 1996**. CMU bolted **tutorial dialogue** onto it and measured a **0.25 SD**
-    gain over the simulator alone (F(1,86) = 5.57, p < .05, USNA). Gains appeared on conceptual
+    gain over the simulator alone (F(1,86) = 5.57, p < .05, USNA — *an **F-test**, from an
+    **ANOVA** or "analysis of variance," the standard test for whether group averages differ by
+    more than chance. F is the ratio of variation explained by the condition to variation left
+    unexplained, so bigger means stronger evidence; the two bracketed numbers are degrees of
+    freedom, here 1 comparison across 86 data points*). Gains appeared on conceptual
     tests and **not** on the open-ended design exercises; **students requested help on only 14%
     of actions**, so the winning manipulation was firing dialogue *proactively on success* rather
     than waiting to be asked. The authors' own diagnosis of what their agents could not do:
@@ -198,6 +227,10 @@ The LLM era did not invent tutoring systems. It inherited a fifty-year research 
 that had already answered several of the questions people are currently re-asking.
 
 ### Bloom's 2 sigma, and why it was wrong
+
+*(**Sigma** (σ) is just another name for a standard deviation, so "2 sigma" means the same thing
+as d = 2.0 in the units introduced above. The older tutoring literature says sigma; the newer
+literature says d. They are interchangeable.)*
 
 Benjamin Bloom's 1984 claim — that one-to-one tutoring moves the average student two
 standard deviations, to the 98th percentile of conventionally-taught students — is the
@@ -361,6 +394,12 @@ Integrates into a Canvas side panel. This is the most directly relevant institut
 model for us, and the grade result is the strongest institutional-scale number in this
 paper — with the caveat that **usage was self-selected**, so it is correlational.
 
+*(**Correlational** means two things moved together; it does not establish that one caused the
+other. When students choose whether to use a tutor, the ones who opt in may already differ —
+more motivated, better prepared, more anxious — and that difference, not the tutor, may produce
+the result. Randomization is what buys the causal claim, which is why the randomized evidence above
+carries more weight than usage statistics no matter how large the sample.)*
+
 **[ASU + OpenAI](systems/asu-openai.md)** — first university OpenAI partnership (Jan
 2024); by Oct 2025, ChatGPT Edu with GPT-5 free to every student and staff member; 500+
 projects.
@@ -380,6 +419,11 @@ expert judges, Gemini 2.5 Pro was preferred in **73.2%** of matchups.
 Also: students who received short LearnLM tutoring sessions were **5.5 percentage points**
 more likely to solve novel problems afterward than students working with human tutors
 alone. That is a real, positive, published learning effect — and it is small.
+
+*(A **percentage point** is the plain arithmetic difference between two percentages — 62% to 66%
+is 4 percentage points. That is not the same as a 4% increase, which would be a *relative* change
+of about 6%. Press releases routinely blur the two in the flattering direction, so the distinction
+is worth holding onto.)*
 
 ### Pattern 4 — Human-AI hybrid
 
@@ -428,7 +472,10 @@ Here is where the field's public story and its empirical record come apart.
   harm — **and produced no learning benefit.**
 
 - **[Oreopoulos & Low 2026](evidence/khanmigo-engagement-2026.md)** — a **two-year cluster
-  RCT** across 18 Tennessee middle schools, and the most important null result in the field.
+  RCT** across 18 Tennessee middle schools, and the most important **null result** in the field
+  — *a null result being a well-run study that found no effect, which is evidence about the world
+  and not a failed experiment; nulls are chronically under-published, so the ones that do appear
+  deserve extra weight.*
   Khan Academy raised achievement 0.06–0.08 SD over a school year, but those gains
   *"resemble those from Khan Academy practice without AI assistance."* **The AI tutor added
   nothing detectable.** Why: 96% tried it, but the median student engaged it in only **17% of
@@ -532,7 +579,13 @@ four sessions, and superficial "just give me the answer" openers fell from 42% t
 *rising* from 56% to 67% in the unguarded arm.
 
 **Three design constraints follow from the productive-failure literature** (Sinha & Kapur,
-166 comparisons, **Hedge's g = 0.36 [0.20, 0.51]**), and all three are easy to get wrong:
+166 comparisons, **Hedge's g = 0.36 [0.20, 0.51]**), and all three are easy to get wrong.
+
+*(**Hedge's g** is an effect size read exactly like Cohen's d, corrected for a bias that makes d
+run slightly high in small samples; meta-analyses prefer it. The bracketed pair is the **95%
+confidence interval** — the range of true effect sizes compatible with the data. Two things to
+read off it: because it **excludes zero**, the effect is statistically significant; and its
+**width** tells you how precisely the number is pinned down, which a lone point estimate hides.)*
 
 1. **The ladder must terminate in an explicit contrast against the canonical solution**, not in
    refusal. "Instruction building on student solutions" is the **#1 ranked** of seven fidelity
@@ -549,9 +602,11 @@ four sessions, and superficial "just give me the answer" openers fell from 42% t
    at all** over direct instruction.
 
 ⚠ **And the argument against us, which belongs in our own introduction:** *scaffolded*
-problem-solving-before-instruction has **failed on average in meta-analysis — g = −0.08 across
-60 comparisons**, with Khan-Academy/ASSISTments-style hint sequences named explicitly. The
-known exception is support that is **principle-based or metacognitive** rather than
+problem-solving-before-instruction has **failed on average in meta-analysis** — *a
+**meta-analysis** being a study of studies, which pools the effect sizes from many separate
+experiments into a single sample-weighted estimate, and is therefore much harder to dismiss than
+any one result* — **g = −0.08 across 60 comparisons**, with Khan-Academy/ASSISTments-style hint
+sequences named explicitly. The known exception is support that is **principle-based or metacognitive** rather than
 step-level. That exception is our design space, and the *Learning and Instruction* authors name
 adaptive conversational scaffolding as the next step — **which is exactly our project.**
 → [productive failure](concepts/productive-failure.md)
@@ -719,7 +774,11 @@ randomised. **Cite CycleTalk as suggestive precedent, not as an established effe
 
 Their **authoring pipeline is directly reusable**: record human tutoring in the real environment,
 have a domain expert segment it into topics, **check that topic coverage predicts post-test score
-before authoring anything** (they got R² = .715, N = 21), then author to the validated topics.
+before authoring anything** (they got R² = .715, N = 21 — ***R²**, the coefficient of
+determination, is the share of variation in one measure that tracks another, so .715 means about
+72% of the variation in post-test scores went with how many topics a student covered; **N**
+capitalized is the same thing as lowercase n, the number of units being counted, here students*),
+then author to the validated topics.
 → [full node](systems/cyclepad-cycletalk.md)
 
 ---
