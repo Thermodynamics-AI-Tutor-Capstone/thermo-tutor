@@ -5,6 +5,7 @@ produced it.
 
 | Study | Design | n | Result |
 |---|---|---|---|
+| [**LLM syntheses are shallower**](llm-synthesis-shallow-learning.md) `[read]` | 7 experiments | **10,462** | **Same facts, shallower knowledge — and adding source links did not fix it.** Provenance buys accuracy, not depth |
 | [**TUM dissociation**](tum-dissociation-2025.md) | **3-arm RCT**: scaffolded tutor vs ChatGPT vs none | **275** | ⚠ **Both AI arms raised scores, neither raised learning.** Germane load *fell*. Students preferred the tool that taught them less |
 | [**Student AI perceptions**](student-ai-perceptions-2025.md) `[read]` | Survey (UIC) + **pre/post (USAFA)** | 78 + a ME thermo cohort | **~90% already use AI but trust it 2.65–2.87/5.** ⚠ **Exposure *lowers* expectations in both** (73%→60%). **Penn State co-author** |
 | [Kestin et al. 2025](kestin-2025-rct.md) | RCT, within-subject alternating | 194 | **~2× learning gains** vs. active-learning classroom |
