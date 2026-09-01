@@ -122,6 +122,26 @@ Effect sizes by domain and comparison condition:
 | Biology (Guru) | 0.72σ | classroom instruction only |
 | Critical thinking (Operation ARA) | 1.4σ | **no instruction** |
 
+⚠ **The 0.8σ headline pools things that should not be pooled.** Graesser et al.'s own IEEE
+*Transactions on Education* paper — read in full — states the range as *".2 to 1.5 sigma (with a
+mean of .8), depending on the learning performance measure, **the comparison condition (either
+pretest scores or a control condition** in which the learner reads the textbook for an equivalent
+amount of time), the subject matter, and the version of AutoTutor."*
+
+**Some of the comparisons in that average are pre-post gains against the students' own pretest,
+not against any control.** A pre-post gain and a between-conditions effect size are different
+quantities, and averaging them produces a number that means neither. The trustworthy entries are
+the ones in the table above that name an actual control group.
+
+The one study described concretely in that paper is the physics n = 35 row: **35 students across
+three universities, three arms** — AutoTutor, read-a-textbook, or nothing — so roughly a dozen per
+arm. 1.02σ from twelve students per cell is a real result and a fragile one.
+
+Note also the comparison Graesser draws for context: *"Intelligent tutoring systems with
+sophisticated pedagogical tactics, but no natural language dialogue, produce effect sizes of
+approximately 1 sigma."* **On his own framing, dialogue was not the thing that made the
+difference.**
+
 **Physics evidence is strong — but it is *conceptual* physics (Force Concept Inventory), never
 quantitative problem solving. There is no engineering effect size anywhere, and no
 thermodynamics.**
@@ -241,5 +261,5 @@ that is the half that determines whether the feedback is correct.
 - [Kulik & Fletcher, "Effectiveness of Intelligent Tutoring Systems: A Meta-Analytic Review," *Review of Educational Research* (2016)](https://journals.sagepub.com/doi/10.3102/0034654315581420) `[found]` — the g ≈ 0.32–0.37 figure
 - [Ma et al., "Intelligent Tutoring Systems and Learning Outcomes: A Meta-Analysis," *J. Educational Psychology* (2014)](https://www.apa.org/pubs/journals/features/edu-a0037123.pdf) `[found]`
 - ["Conversations with AutoTutor Help Students Learn," IJAIED](https://link.springer.com/article/10.1007/s40593-015-0086-4) `[skimmed]`
-- [AutoTutor: An ITS With Mixed-Initiative Dialogue (chapter)](https://bpb-us-w2.wpmucdn.com/blogs.memphis.edu/dist/d/2954/files/2019/10/AutoTutor-An-intelligent-tutoring-system-with-mixed-initiative-dialogue.pdf) `[found]`
+- [Graesser, Chipman, Haynes & Olney, "AutoTutor: An Intelligent Tutoring System With Mixed-Initiative Dialogue," *IEEE Transactions on Education* 48(4)](https://bpb-us-w2.wpmucdn.com/blogs.memphis.edu/dist/d/2954/files/2019/10/AutoTutor-An-intelligent-tutoring-system-with-mixed-initiative-dialogue.pdf) `[read — full text, 7 pp., 2026-08-31]`
 - [AutoTutor detects and responds to learners' affective and cognitive states](https://www.academia.edu/568630/AutoTutor_detects_and_responds_to_learners_affective_and_cognitive_states) `[found]`
