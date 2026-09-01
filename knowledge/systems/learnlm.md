@@ -197,7 +197,7 @@ harm avoidance.
 
 ## Sources
 
-- [LearnLM: Improving Gemini for Learning, arXiv:2412.16429](https://arxiv.org/html/2412.16429v1) `[skimmed]` — the preference numbers
+- [LearnLM: Improving Gemini for Learning, arXiv:2412.16429](https://arxiv.org/html/2412.16429v1) `[read]` — the preference numbers
 - [LearnLM Team, Google, "Evaluating Gemini in an Arena for Learning," arXiv:2505.24477](https://arxiv.org/pdf/2505.24477) `[read — full text, 26 pp., 2026-09-01]`
 - [AI tutoring can safely and effectively support students: An exploratory RCT in UK classrooms, arXiv:2512.23633](https://arxiv.org/abs/2512.23633) `[found]`
 - [DeepMind LearnLM Nov 2025 report](https://storage.googleapis.com/deepmind-media/LearnLM/learnLM_nov25.pdf) `[found]`

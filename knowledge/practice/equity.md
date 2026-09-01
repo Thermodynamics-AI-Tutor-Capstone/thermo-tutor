@@ -154,6 +154,6 @@ mean adaptive here too.
 
 - [Kweon et al., KAIST VTA deployment, arXiv:2506.17363](https://arxiv.org/abs/2506.17363) `[read]` — **the primary correction**; see [our node](../evidence/kaist-vta-2025.md)
 - [Gray DI, "Why Your AI Tutor Might Be Widening the Achievement Gap"](https://www.graydi.us/blog/gray-insights/why-your-ai-tutor-might-be-widening-the-achievement-gap) `[skimmed]` — source of the "already-advantaged 5%" claim. **Consultancy blog, contradicted by KAIST at university level. Do not cite without a primary source.**
-- [Tutor CoPilot, arXiv:2410.03017](https://arxiv.org/pdf/2410.03017) `[skimmed]` — the +9% for weak tutors
+- [Tutor CoPilot, arXiv:2410.03017](https://arxiv.org/pdf/2410.03017) `[read]` — the +9% for weak tutors
 - [Khanmigo two-year study](https://edworkingpapers.com/sites/default/files/ai26-1551.pdf) `[skimmed]`
 - [Improving Hybrid Human-AI Tutoring by Differentiating Human Tutor Roles Based on Student Needs, arXiv:2605.11155](https://arxiv.org/pdf/2605.11155) `[found]`
