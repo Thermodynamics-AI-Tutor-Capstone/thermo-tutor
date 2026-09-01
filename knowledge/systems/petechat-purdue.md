@@ -62,6 +62,55 @@ feeds that back. That's a cheap, concrete answer to the
 [first-session problem](../concepts/engagement-decay.md), where KAIST's disappointed
 low-frequency users are lost.
 
+## ⭐ The baseline corpus — the most useful data in the paper, and it is bleak
+
+Before the guardrails and SRL scaffolds were added, they logged **284 messages / 31 conversations**
+from **ECE 20875, Fall 2025**, across three late-semester contexts under genuine assessment
+pressure: exam prep (47 student / 47 bot), homework debugging (50/50), open-ended mini-project
+(45/45). Dual coding scheme, second coder on 21.1% of the corpus, **Cohen's κ = .82**.
+
+**Student behaviour (n = 142 student messages):**
+
+| Code | Overall | Exam prep | Homework | Mini-project |
+|---|---|---|---|---|
+| A3 Adaptive help-seeking | 18.3% | 6% | 28% | 20% |
+| A4 Excessive / broad help-seeking | 14.1% | 9% | 10% | 24% |
+| ⚠ **A8 Boundary testing / system probing** | **13.4%** | 11% | **22%** | 7% |
+| A6 Self-monitoring | 13.4% | 2% | 14% | 24% |
+| A1 Goal setting | 12.7% | **38%** | 0% | 0% |
+| A0 Off-task | 10.6% | 11% | 10% | 11% |
+| A5 Direct answer / solution seeking | 7.0% | 6% | 8% | 7% |
+| ⚠ **A9 Self-evaluation / reflection** | **1.4%** | 2% | 2% | **0%** |
+| ⚠⚠ **A7 Hint utilization / scaffolding** | **0.0%** | 0% | 0% | 0% |
+
+**Read the last two rows.** Hint utilisation was **literally zero across all 284 messages**, and
+self-reflection was 1.4%. The authors' own conclusion: *"even when students were using the system
+under real course pressure, there was little evidence that the interaction was eliciting the
+forethought, monitoring, or reflection behaviors"* the design was aiming at.
+
+**This is the same finding as [CycleTalk's 14% help-request rate](cyclepad-cycletalk.md), twenty
+years later, with a language model instead of scripted dialogues.** The scaffolding is built, it
+is available, and students do not take it. Any design that assumes students will pull help is
+designing for a behaviour that has never been observed.
+→ [engagement decay](../concepts/engagement-decay.md)
+
+**And boundary testing at 22% in the homework context** is the number to quote whenever someone
+suggests a system prompt will hold the line. Roughly one homework message in five was a probe for
+answer-giving behaviour, and the baseline system **sometimes complied** (B2 Direct Solution /
+Over-Solving, 4.2%, present in all three contexts).
+→ [why pedagogy in the system prompt fails](../concepts/guardrails.md)
+
+**System response alignment (n = 142 bot messages): aligned 64.1%, misaligned 5.6%, N/A 30.3%.**
+Hint-first scaffolding (B1) ran **0% in exam prep**, 40% in homework, 64% in the mini-project —
+the assistant behaved most like a tutor exactly where the stakes were lowest.
+
+⚠ **One widely-quotable claim here is testimony, not measurement.** The paper reports that TAs
+*"confirmed that heavy GPT reliance is inflating homework scores (north of 95%) while exam
+performance drops."* That is TA impression reported in an interview, with no gradebook analysis
+behind it. It is a plausible and important pattern — and it is **exactly the study we could
+actually run** — but it is not evidence yet.
+→ [assessment validity](../practice/assessment-integrity.md)
+
 ## Two mechanisms worth stealing beyond the list
 
 **Reverse prompting and judgment-of-learning (JOL) micro-checks.** PeteChat periodically

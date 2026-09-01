@@ -230,4 +230,9 @@ Gaps in this bibliography someone should fill:
 - [ ] **Self-regulated learning** measures — if we claim students learn to learn better,
       we need an instrument.
 - [ ] Prior work on **AI tutors and academic integrity** — what happens to homework
-      grades as a signal when a tutor exists.
+      grades as a signal when a tutor exists. **Still genuinely unfilled after a full sweep** —
+      but what we do know is now synthesised in
+      [knowledge/practice/assessment-integrity.md](../knowledge/practice/assessment-integrity.md):
+      Bastani's +48% assisted / −17% unassisted split, PeteChat's 22% homework boundary-testing
+      rate, and CS50's finding that 48% of conversations contain generated code against an
+      explicit instruction not to generate any.
