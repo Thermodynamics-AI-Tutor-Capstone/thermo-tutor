@@ -98,6 +98,24 @@ rigor is cheaper than scale.
 - [faculty adoption](faculty-adoption.md) — the human constraint
 - [the paper, §VII](../PAPER.md) — the open problems in full
 
+## More university systems, found but not yet read
+
+A sweep for named institutional deployments (2026) turned up these. None is read; all are recorded
+so the next sweep does not rediscover them.
+
+| System | Institution | Status |
+|---|---|---|
+| **NALA-Assess** | Nanyang Technological University | AI chatbot for adaptive self-assessment. ⚠ Closed access |
+| **Eva.ai** | Aristotle University of Thessaloniki | Conversational AI learning environment. ⚠ Closed (Springer) |
+| *Guidance Over Adoption* | Adolfo Ibáñez University | ⭐ **Experimental** evidence on AI-assisted learning in higher ed. Green OA via SSRN but no abstract retrievable — **worth chasing, since experiments are rare here** |
+| **Virginia Tech** | Virginia Tech | A published *"Comprehensive AI Governance & Activity Inventory"* — a governance artefact rather than a system, and a possible template for what PSU would want to see from us |
+
+⚠ **Note the pattern in what we could not read.** Of the four, three are behind publisher bot
+checks or paywalls, and the one green-OA item has no retrievable abstract. **The institutional
+deployment literature is markedly less accessible than the arXiv-native AI literature**, which
+systematically biases any survey — including this one — toward the systems built by AI labs rather
+than by universities.
+
 ## Sources
 
 - EDUCAUSE 2026 reporting, via [Perspective AI, "Where Universities Actually Deploy AI in 2026"](https://getperspective.ai/blog/ai-applications-in-education-where-universities-deploy-ai-in-2026) `[skimmed]` — **secondary source; find the EDUCAUSE original**
