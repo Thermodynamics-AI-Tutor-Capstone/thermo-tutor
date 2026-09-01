@@ -40,6 +40,12 @@ proposing.
 Heterogeneity Q(165) = 295.91, p < .0001; I² = 42.01%. Egger's test n.s.; p-curve right-skewed,
 estimated power 94%, bias-corrected true effect **g = 0.87**.
 
+**⚠ Do not quote 0.87 as "the" effect.** Egger's test was *not* significant (intercept = 0.63,
+p = .219) and **no studies were imputed in trim-and-fill** — the standard small-study-bias
+correction found nothing to correct. The 0.87 comes from a **separate p-curve estimator**, which
+infers a true effect from the shape of the significant-p distribution and is known to run high
+under heterogeneity. **The defensible number is g = 0.36 [0.20, 0.51].**
+
 ## ⚠ Correction: seven design criteria, not two — and collaboration isn't one of the essential ones
 
 The seven fidelity criteria, with their subgroup effects:
@@ -57,6 +63,65 @@ The seven fidelity criteria, with their subgroup effects:
 **Overall fidelity is a significant predictor: β = 0.0065, p < .001** — about 0.65 g across the
 full range. By stepwise ranking, **instruction building on student solutions is #1** and
 **evidence of multiple solution generation is the genuine #2**.
+
+## ⭐⭐ The finding that most constrains our design: fidelity *reverses* in short sessions
+
+Fidelity and session length are confounded — longer interventions score higher. Overall PF
+fidelity averages **74.45% (SD 22.64)** for interventions spanning a few days versus **42.01%
+(SD 26.13)** for those spanning a few hours (Welch t(154.22) = 8.504, p < .001). So the authors
+ran meta-regressions with the interaction terms. Three results, all about short sessions:
+
+| Interaction | Effect | Reading |
+|---|---|---|
+| Overall fidelity × few-hours span | **β = −0.0116, p = .0546** | ⚠ **More design features makes short sessions *worse*** |
+| Affective draw × few-hours span | **β = +0.7322, p = .0732** | ⭐ The problem being *interesting* matters most when time is short |
+| Group work × few-hours span | **β = +0.7395, p = .0023** *(for group work absent)* | ⭐ **Individual** work wins in short sessions |
+
+The authors' own words: *"cramming too many design features within a short amount of time may
+not be optimal."*
+
+**A tutoring session is a "few hours" intervention at best, and usually far less.** The literal
+implication for us: **do not try to implement all seven fidelity criteria in one sitting.** Pick
+the two that survive the interaction — a problem with genuine **affective draw**, worked
+**individually** — and then spend the fidelity budget on the instruction phase (building on what
+the student actually produced), which is the #1 criterion overall.
+
+This also reframes the group-work moderator. Group work is a real positive main effect
+(0.49 vs 0.19, p = .04), but it is (a) confounded with fidelity and study type and (b) *reversed*
+at our session length. **A 1:1 tutor is not disadvantaged by being 1:1.**
+
+## By domain, and by our student population
+
+Effect sizes by target concept (point estimates only — the CI column in Table 5 is corrupted the
+same way; see the warning above):
+
+| Domain | Hedge's g |
+|---|---|
+| Mathematics | 0.48 |
+| Chemistry | 0.48 |
+| **Physics** | **0.39** |
+| Environmental science | 0.56 |
+| Biology | 0.32 |
+| Medicine | 0.24 |
+| ⚠ **Domain-general skills** | **−0.17** — the only significant subgroup difference in the table, and it is negative |
+
+**Physics at 0.39 is the closest proxy we have for engineering thermodynamics**, and it sits just
+above the pooled estimate. No thermodynamics study is in the sample.
+
+By outcome type: **transfer 0.40, conceptual 0.33, clubbed 0.31**, no significant differences.
+PF is *not* specifically a transfer intervention in this data, despite that being its usual claim.
+
+**⚠ And a caveat about our exact population.** Effect sizes rise monotonically with grade level
+(2nd–5th graders are *negative*), but *"age range… had (marginally) significant subgroup
+differences for **all** student subcategories (**except for undergraduates**)."* Undergraduates
+are the one group whose subgroup difference did not reach significance. Higher PF fidelity
+predicts higher effects for undergraduates only marginally (β = 0.0080, **p = .0934**), versus
+robustly for 6th–10th graders (β = 0.0190, p < .0001). **The undergraduate evidence is the
+weakest link in the chain we are relying on** — worth stating plainly in any proposal.
+
+Two more moderators worth knowing: **quasi-experimental studies show 0.46 versus 0.25 for
+experimental** ones — tighter control, smaller effect, the usual direction — and interventions
+run in **Asia scored significantly higher** than in Europe or North America.
 
 The old "contrast-and-compare + collaboration" pairing came from Mazziotti et al. (2019) — a
 paper whose own experiment supported **neither** (collaboration effect F(1,224) = 1.16, p = .28).
@@ -328,7 +393,7 @@ as an open question we are addressing, not as settled ground.**
 
 ## Sources
 
-- [Sinha & Kapur (2021), "When Problem Solving Followed by Instruction Works," *RER* 91(5)](https://journals.sagepub.com/doi/10.3102/00346543211019105) `[read]` — the meta-analysis
+- [Sinha & Kapur (2021), "When Problem Solving Followed by Instruction Works," *RER* 91(5), 761–798](https://www.research-collection.ethz.ch/handle/20.500.11850/490417) `[read — full text, 39 pp., 2026-08-31]` — the meta-analysis. **Sage blocks scripted download; ETH Zürich hosts the CC-BY copy** (DOI 10.3929/ethz-b-000490417). Fetch it through the DSpace REST API — recipe in [the wiki README](../README.md#getting-a-paper-that-looks-paywalled).
 - **Sinha & Kapur (2021), "Robust effects of explicit failure-driven scaffolding," *Learning and Instruction* 75:101488** `[read]` — **the university, individual, computer-mediated replication; source of the g = −0.08 scaffolded-PS-I null**
 - [Chowrira, Smith, Dubois & Roll (2019), "DIY productive failure," *npj Science of Learning* 4:1](https://www.nature.com/articles/s41539-019-0040-6) `[read]`
 - Kapur (2014), *Cognitive Science* 38(5):1008–1022 `[read]` — **individual generation; the vicarious-failure comparison**

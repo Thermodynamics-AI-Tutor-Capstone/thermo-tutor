@@ -145,8 +145,12 @@ If you read nothing else:
     of actions**, so the winning manipulation was firing dialogue *proactively on success* rather
     than waiting to be asked. The authors' own diagnosis of what their agents could not do:
     they *"played more of a role of eliciting reflection… rather than assisting with navigation."*
-    **Free-form navigation support in an open design space is exactly what an LLM adds and what
-    2006 could not build.** → [CyclePad / CycleTalk](systems/cyclepad-cycletalk.md)
+    The reason is architectural: **the dialogue agent never queried the simulator.** It traced
+    student actions against a pre-authored graph and never read the cycle state, so it could not
+    reason about the design in front of it. **Joining a physics engine that explains itself to an
+    agent that can converse is the specific thing 2006 left unbuilt.** ⚠ Cite as suggestive, not
+    established — the raw gains favour the control and the vaunted "negotiation dialogue" was
+    never implemented. → [CyclePad / CycleTalk](systems/cyclepad-cycletalk.md)
 
 ---
 
@@ -653,10 +657,27 @@ exploring without reflecting. Results, read in full:
   gap precisely: their agents **elicited reflection** but could not **assist with navigation** —
   help a student decide what to do next in an open design space.
 
-**That last sentence is the thesis of our project.** The 2006 team had the simulator, had the
-verified physics, had validated dialogue content — and could not do free-form navigation support
-because the language technology did not exist. It does now. We are not proposing something
-untested; we are proposing the one component they identified as missing.
+**That last sentence is the thesis of our project** — and the archaeology sharpens it further.
+**CycleTalk never called CyclePad's explanation facility.** The dialogue agent model-traced the
+student's *actions* against a pre-authored behavior graph; it never read the cycle state or the
+constraint network to reason about the design in front of it. The two halves of the best
+precedent in our domain — an engine that can explain any value it derives, and an agent that
+talks about thermodynamics — **sat side by side for two years and were never joined.** An agent
+that cannot see the design state cannot help you navigate it; it can only recite prompts attached
+to graph nodes, which is exactly what the authors observed.
+
+The 2006 team had the simulator, had the verified physics, had validated dialogue content — and
+could not do free-form navigation support because the language technology did not exist. It does
+now. We are not proposing something untested; we are proposing **the specific join they never
+made.**
+
+⚠ **Two honesty notes before anyone cites this as settled.** First, the negotiation dialogue that
+makes CycleTalk sound so much like our project **was never built** — the vivid trade-off exchange
+in the CHI paper is a position-paper illustration in future tense, and what shipped was scripted
+short-answer dialogue. Second, the CMU study's **raw gains favour the control** (S +10.75, PSHELP
++7.16, PSSUCCESS +7.59) and plain CyclePad is best or tied on both practical measures. The
+0.35 SD is a concept-level ANOVA result, and assignment was by lab session rather than
+randomised. **Cite CycleTalk as suggestive precedent, not as an established effect.**
 
 Their **authoring pipeline is directly reusable**: record human tutoring in the real environment,
 have a domain expert segment it into topics, **check that topic coverage predicts post-test score

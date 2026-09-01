@@ -113,6 +113,9 @@ ones that changed a design decision:
 | ASSISTments: two studies, ~a year of gains | **One study**, ~two-thirds of a year — and the **independent replication was null** |
 | Stan is the only thermodynamics tutor | **[CyclePad](systems/cyclepad-cycletalk.md) has been in the USNA curriculum since 1996** |
 | CycleTalk showed dialogue beats a bare simulator by 0.35 SD | **0.35 SD is a *dose* comparison between two dialogue conditions; the authors discarded their own control comparison over a quiz confound. The real dialogue-vs-control figure is 0.25 SD, from a one-sentence USNA follow-up** — [node](systems/cyclepad-cycletalk.md) |
+| CycleTalk was preceded by Wizard-of-Oz studies | **No WoZ study exists.** What preceded it was a human-tutor classroom study (Rosé et al., AI-ED 2005) — [node](systems/cyclepad-cycletalk.md) |
+| CycleTalk engaged students in negotiation dialogue about design trade-offs | **Never built.** The negotiation exchange is a CHI *position paper* illustration in future tense. What shipped was scripted short-answer KCDs — [node](systems/cyclepad-cycletalk.md) |
+| CycleTalk was a dialogue agent layered on an articulate simulator | **It never called the simulator's explanation facility.** It model-traced student actions against a pre-authored behavior graph and never read cycle state — [node](systems/cyclepad-cycletalk.md) |
 
 **The through-line:** nearly every correction made a claim *weaker and more specific*.
 Summaries — including good ones — round findings toward their headline, and secondary sources
@@ -132,3 +135,29 @@ curl -s "https://api.openalex.org/works/doi:<DOI>" | python3 -m json.tool | grep
 
 It returns the free PDF URL when one exists, and also surfaces PubMed Central and DOAJ
 mirrors. Most of what looks paywalled in this field is not.
+
+**When the publisher blocks scripted downloads, go to the repository copy.** Sage, IOS Press and
+Springer all serve bot challenges, but the author's institutional repository usually holds a
+CC-BY copy. `locations` in the OpenAlex response lists them. For **DSpace 7** repositories (ETH
+Zürich, most European universities) the web page is a JavaScript app that returns nothing useful
+to curl — use the REST API instead:
+
+```bash
+# 1. handle -> item UUID
+curl -s "https://<host>/server/api/pid/find?id=hdl:20.500.11850/<N>" | python3 -c "import json,sys;print(json.load(sys.stdin)['uuid'])"
+# 2. UUID -> bundles; take the one named ORIGINAL
+curl -s "https://<host>/server/api/core/items/<UUID>/bundles"
+# 3. bundle -> bitstreams; the content href is the PDF
+curl -s "https://<host>/server/api/core/bundles/<BUNDLE_UUID>/bitstreams"
+```
+
+This is how we got [Sinha & Kapur 2021](concepts/productive-failure.md) after Sage refused.
+
+**Verify what you downloaded is actually a PDF.** A login wall or maintenance page returns HTTP
+200 with HTML, and `file` reports the *filename* — so `file x.pdf | grep pdf` always matches.
+Check the magic bytes instead: `head -c 5 x.pdf | grep -q '%PDF'`.
+
+**Known-blocked, do not keep retrying:** ASU (`public.asu.edu`) is behind Cloudflare Access, so
+VanLehn's own copies of his papers now require an ASU login. DTIC has been under maintenance
+throughout. CMU KiltHub serves Cloudflare JS challenges. IOS Press blocks entirely. For these,
+**PSU library access is the answer**, not another download attempt.

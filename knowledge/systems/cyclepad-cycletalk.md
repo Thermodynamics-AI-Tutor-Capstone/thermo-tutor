@@ -35,7 +35,8 @@ Seven working fluids (water, nitrogen, ammonia, methane, R-12, R-22, R-134a). Bu
 jointly.
 
 **CycleTalk** — Carolyn Rosé's group at CMU built a **tutorial dialogue agent on top of
-CyclePad**, engaging students in *"negotiation dialogues"* about design trade-offs. Same ONR
+CyclePad**, intended to engage students in *"negotiation dialogues"* about design trade-offs.
+⚠ **The negotiation dialogue was never built** — see below. Same ONR
 funder (Cognitive and Neural Sciences, N000140410107). **Read in full below** — it answers the
 question our whole project asks.
 
@@ -652,6 +653,20 @@ conditions). Pretest scores rose across sessions (R² = .14, p < .05). *"we disr
 comparison between the control condition and the two experimental conditions and focus only on
 the difference between the two experimental conditions."*
 
+**And it is worse than the quiz alone.** Assignment was **by lab session, not randomized** — both
+day-1 sessions were S, day-2 session 1 was PSHELP, day-2 session 2 was PSSUCCESS. The authors
+learned about the intervening quiz only after the experiment had started.
+
+**⚠⚠ The raw gains, which the paper reports but never computes, run *against* the dialogue
+conditions:** S **+10.75**, PSHELP **+7.16**, PSSUCCESS **+7.59**. And on *both* practical
+measures plain CyclePad is best or tied — Free Exploration 1: **23% vs 0% vs 20%**; efficiency
+achieved: **38.14 vs 38.09 vs 34.09**. The concept-level ANOVA that produces the 0.35 SD uses one
+observation per concept with concept pretest as a covariate, which is why it can find an effect
+the raw totals do not show.
+
+Everyone learned regardless: main effect of test phase **F(1,60) = 44.98, p < .001**, with no
+interaction with condition.
+
 **So the headline result is a *dose* manipulation, not dialogue-versus-no-dialogue:**
 PSSUCCESS > PSHELP, **p < .05, effect size 0.35 SD**, on concept-level pre/post scores.
 Students in PSSUCCESS saw **2.7 KCDs on average; PSHELP saw 1.8.** Out of twelve.
@@ -685,6 +700,48 @@ And their own closing assessment:
 > reflection** from students rather than **assisting with navigation** to the same extent that the
 > human tutors did."*
 
+## ⚠⚠ The two findings that most change how we should read this
+
+### 1. The negotiation dialogue was never built
+
+The CHI paper is a **position paper — future tense throughout** (*"CycleTalk will engage
+students…"*). Its celebrated exchange, in which a student proposes adding a second turbine and the
+tutor pushes back on condensation, blade damage, reheat cost and maintenance, is an
+**illustrative target, not system output.** The student holds the initiative, turns are long, and
+the student ends by reasoning about payback period unprompted.
+
+What was actually built and evaluated is **Knowledge Construction Dialogues** — directed lines of
+reasoning inherited from Atlas-Andes. Compare the two excerpts on this page. In the real
+transcript the **tutor** holds initiative throughout, asks a pre-scripted chain of short-answer
+questions, and the student replies in one to five words (*"yes"*, *"Increases"*, *"there are
+limitations such as material constraints"*) before the tutor states the principle itself.
+
+**The 0.25–0.35 SD came from the second thing, not the first.** Nobody has ever measured the
+negotiation design. When we cite CycleTalk as precedent, we are citing scripted KCDs — and the
+vision document is a *specification of unfinished work*, which is a different and arguably more
+useful thing to inherit.
+
+### 2. ⭐ The dialogue agent never used the simulator's explanations
+
+This is the most surprising finding in the whole investigation. **CyclePad's articulate
+explanation facility — the entire point of the 1999 paper — is never invoked by CycleTalk.**
+There is no description anywhere of the agent reading CyclePad's cycle state, component graph, or
+constraint network to reason about *this particular student's design*. The coupling is shallow:
+CTAT **model-traces the student's actions** against a pre-authored Behavior Graph, and KCD content
+came from **corpus analysis of human tutors**, not from the simulator's own reasoning. The only
+place simulator state is genuinely read is *scoring* — Free Exploration 2 was graded as "the
+efficiency they achieved, as measured by the CyclePad simulator."
+
+**So the two halves of the best precedent in our domain were never actually joined.** An
+articulate simulator that can explain any value it derives, and a dialogue agent that talks about
+thermodynamics, sat side by side for two years without the dialogue agent ever asking the
+simulator a question.
+
+**That is the specific unbuilt thing our project is positioned to build**, and it explains the
+authors' own diagnosis: an agent that cannot see the design state cannot help you navigate it. It
+can only recite reflection prompts attached to graph nodes.
+→ [grounding and verification](../concepts/grounding-and-verification.md)
+
 **Three lessons for us, and they are unusually direct:**
 
 1. **Students almost never ask for help.** 14% of actions. A pull-only tutor in an exploratory
@@ -710,7 +767,19 @@ And their own closing assessment:
       only long-run evidence for thermodynamics tutoring anywhere. If it doesn't, that is a
       finding.
 - [ ] CycleTalk's controlled evaluation (ITS 2006) — did dialogue beat unguided exploration?
-- [ ] The Wizard-of-Oz studies, and how human transcripts were turned into dialogue design
+- [x] ~~The Wizard-of-Oz studies~~ — **there were none.** No WoZ study is mentioned in the CHI
+      paper, ITS 2006, or the ITS 2004 reference list. What preceded the system was a **human-tutor
+      classroom study** (Rosé et al., AI-ED 2005), not a WoZ simulation.
+- [ ] **[HIGHEST-VALUE REMAINING PULL]** Rosé, Kumar, Aleven, Robinson & Wu (2006), *"CycleTalk:
+      Data Driven Design of Support for Simulation Based Learning,"* **IJAIED 16(2)**,
+      DOI `10.3233/irg-2006-16(2)06`. Almost certainly the fullest account of the project —
+      design rationale, corpus method, and the coupling detail. IOS Press is Cloudflare-blocked;
+      **PSU library should have it.** Ask for this one by hand.
+- [ ] Tuttle & Wu, *"Intelligent Computer Assisted Instruction in Thermodynamics at the U.S. Naval
+      Academy"* (QR-2001) — found in the ITS 2004 reference list. A new lead for USNA outcome data.
+- [ ] Rosé et al. (2005) AI-ED NPSG paper — confirmed on CMU KiltHub (DOI `10.1184/r1/6469769`)
+      but every download path returns a Cloudflare challenge. Design and results recovered
+      secondhand from ITS 2006 §2.
 - [ ] The goal-orientation × tutoring-style study
 - [ ] Does anyone in the modern LLM-tutoring literature cite this work?
 - [ ] ⚠ **Running it may not be possible.** The paper states downloaded versions *"will expire
