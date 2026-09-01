@@ -5,6 +5,7 @@ produced it.
 
 | Study | Design | n | Result |
 |---|---|---|---|
+| [**Student AI perceptions**](student-ai-perceptions-2025.md) `[read]` | End-of-semester survey, 2 cohorts | 78 | **~90% already use AI but trust it 2.65–2.87/5.** Thermo sophomores least calibrated. **Penn State co-author** |
 | [Kestin et al. 2025](kestin-2025-rct.md) | RCT, within-subject alternating | 194 | **~2× learning gains** vs. active-learning classroom |
 | [Bastani et al. 2025](bastani-2025-harm.md) `[read]` | RCT, 3 arms | ~1,000 | Unguarded AI **−17%**; guardrailed **≈ 0** |
 | [KAIST VTA 2025](kaist-vta-2025.md) `[read]` | Deployment + 3 surveys | 477 | **50% never used it**; least-prepared students used it **14× more** |

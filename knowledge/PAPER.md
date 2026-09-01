@@ -928,6 +928,26 @@ PhysPort's recommendation guide rather than name recognition, and request educat
 verification in week 1 because access is slow.
 → [concept inventories](evaluation/concept-inventories.md)
 
+**2b. ⭐⭐ There is a Penn State faculty member already publishing on this.**
+**Stephanie Butler Velegol**, Teaching Professor of Chemical Engineering at PSU, is a co-author on
+an ASEE 2025 paper about **rebuilding a thermodynamics course with AI**
+([node](evidence/student-ai-perceptions-2025.md)). She is a plausible sponsor, IRB path,
+course-access route and co-author, and the approach is warm — their own survey data says students
+want exactly the layer we propose to build. **This is the single most actionable item in this
+paper.** → [roadmap](../admin/roadmap.md)
+
+**2c. ⚠ Our students already use AI, don't trust it, and the sophomores are the least calibrated.**
+In that survey (UIC, n = 78), **87.2% of thermodynamics sophomores and 92.3% of seniors** already
+use AI for coursework — but **trust sits at 2.87 and 2.65 out of 5.** Seniors rate AI's
+problem-solving help at **2.65 against sophomores' 3.76** (p < 0.05): *experience makes engineers
+trust it less for exactly our task.* Meanwhile sophomores rate **their own** ability to catch AI
+errors *higher* than seniors do. **The population most likely to accept a wrong answer is the
+population taking thermodynamics.**
+
+Three consequences: we are a **substitute for ChatGPT, not an introduction to AI**; **verified
+numbers are the only real differentiator**; and **trust is a measurable outcome nobody in this
+literature reports.**
+
 **2. Penn State has already solved our biggest compliance obstacle.**
 PSU offers **AI Studio** to all students — a suite including **Claude, Gemini, and
 ChatGPT** — alongside an **AI Center of Excellence in Teaching and Learning** that has
