@@ -10,11 +10,18 @@
 Every claim below links to a node with the primary sources behind it. Follow the links
 when you want depth; the paper itself is the argument, not the archive.
 
-Verification status is marked honestly throughout. **Nine of the highest-priority papers
-have now been read in full** (31 Aug 2026) — Stan, Bastani, UTQA, Superstudent, PeteChat,
-CS50, TutorGym, the KAIST deployment, and the knowledge-tracing comparison. Those reads
-produced **four factual corrections to this paper**, flagged inline below with ⚠. Everything
-else remains `[skimmed]` or `[found]`; check the node before citing.
+Verification status is marked honestly throughout, source by source: `[read]` means someone
+read the full text, `[skimmed]` means abstract or summary only, `[found]` means we know it exists
+and have not opened it. As of **31 Aug 2026** the base carries **≈110 `[read]`, 73 `[skimmed]`,
+72 `[found]`**, and those full reads have produced **more than twenty factual corrections**, some
+of them to claims this paper previously made — flagged inline with ⚠ and tabulated in
+[the correction log](README.md). **Check the node before citing anything.**
+
+The corrections are not cosmetic. Among them: Stan is a resource pointer, not a Socratic tutor;
+the widely-quoted Maizey grade claim has no locatable study; the diagram "wall" is model-specific
+(6%–76%), not a property of LLMs; voluntary AI-tutor users skew *least*-prepared, not
+already-advantaged; Andes removed the Bayesian network it is famous for; and CycleTalk's
+"negotiation dialogue" was never actually built.
 
 ---
 
@@ -84,6 +91,14 @@ If you read nothing else:
    previously avoided asking a human out of embarrassment.
    → [equity](practice/equity.md), [KAIST](evidence/kaist-vta-2025.md)*
 
+   **And the scaffolding specifically goes unused, across twenty years and two technologies.**
+   [PeteChat](systems/petechat-purdue.md) coded 284 messages from a live Purdue engineering
+   course and found **hint utilisation at 0.0%** — not low, zero — with self-reflection at 1.4%.
+   [CycleTalk](systems/cyclepad-cycletalk.md) in 2006 found **help requests on 14% of
+   problem-solving actions**, which is why attaching dialogue to *success* events beat attaching
+   it to hint requests. **A pull-based tutor is designing for a behaviour nobody has ever
+   observed.** Proactivity is not a feature; it is the precondition.
+
 7. **Students route around Socratic design.** In 2,874 coded student turns with a
    Socratic AI physics tutor, "what do I do next" was the **second-most-common move**
    (4.4% of all turns), and the top 20 discourse categories contained essentially no
@@ -136,7 +151,19 @@ If you read nothing else:
     integration, and no evaluation of any kind.** Its real contribution is instructor-facing
     lecture analytics. → [Stan](systems/stan-udel.md)
 
-15. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
+15. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
+    feedback that **revealed the answer** — which the pedagogical rubric marks undesired —
+    produced *higher* immediate success than feedback that withheld it (**79.4% vs 53.0%**),
+    because students copy. [Bastani](evidence/bastani-2025-harm.md) found the same reversal at
+    semester scale (**+48% assisted, −17% unassisted**), and
+    [CS50](systems/cs50-duck.md) found that **48% of conversations contain generated code against
+    an explicit instruction not to generate any** — a rate that got *worse* when they upgraded
+    GPT-4 → GPT-4o. Three scales, one pattern: **optimise for immediate success and the metric
+    will applaud you all the way down.**
+    → [behavioral evaluation](evaluation/behavioral-evaluation.md),
+    [assessment integrity](practice/assessment-integrity.md)
+
+16. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
     [CyclePad](systems/cyclepad-cycletalk.md) — an articulate thermodynamic-cycle simulator that
     explains every derived value from its assumption chain — has been in the **US Naval Academy
     curriculum since 1996**. CMU bolted **tutorial dialogue** onto it and measured a **0.25 SD**
@@ -825,20 +852,33 @@ capstone with findings and one with a demo.
 3. [LLM capability in thermodynamics](domain/llm-thermodynamics-capability.md)
 4. [Socratic tutoring and how students subvert it](concepts/socratic-tutoring.md)
 
-**Read in full so far (31 Aug 2026):** [Stan](systems/stan-udel.md),
-[Bastani](evidence/bastani-2025-harm.md), [UTQA](domain/utqa.md),
-[Superstudent](domain/superstudent-thermodynamics.md), [PeteChat](systems/petechat-purdue.md),
-[CS50](systems/cs50-duck.md), [TutorGym](evaluation/tutorgym.md),
-[KAIST](evidence/kaist-vta-2025.md), and the
-[knowledge-tracing comparison](concepts/knowledge-tracing.md).
+**Nodes now standing on full reads of their primaries (31 Aug 2026):**
+[Stan](systems/stan-udel.md) · [Bastani](evidence/bastani-2025-harm.md) ·
+[Kestin](evidence/kestin-2025-rct.md) · [UTQA](domain/utqa.md) ·
+[ThermoQA](domain/thermoqa.md) · [Superstudent](domain/superstudent-thermodynamics.md) ·
+[PeteChat](systems/petechat-purdue.md) · [CS50](systems/cs50-duck.md) ·
+[TutorGym](evaluation/tutorgym.md) · [KAIST](evidence/kaist-vta-2025.md) ·
+[Khanmigo](evidence/khanmigo-engagement-2026.md) ·
+[knowledge tracing](concepts/knowledge-tracing.md) ·
+[productive failure](concepts/productive-failure.md) ·
+[Socratic discourse taxonomy](concepts/socratic-tutoring.md) ·
+[Andes](systems/andes.md) · [CyclePad / CycleTalk](systems/cyclepad-cycletalk.md) ·
+[behavioral evaluation](evaluation/behavioral-evaluation.md) ·
+[cost and latency](practice/cost-economics.md)
 
-**Highest-priority reading still outstanding:**
-- [ThermoQA](domain/thermoqa.md) — the instrument we should be using
-- The [Socratic discourse taxonomy](concepts/socratic-tutoring.md) — the design-critical paper
-- [Kestin](evidence/kestin-2025-rct.md) — the field's best result, still only skimmed
-- [Khanmigo's two-year study](evidence/khanmigo-engagement-2026.md) — the engagement numbers
-- [Productive failure](concepts/productive-failure.md) — **never searched at all**; the
-  weakest node in this base
+**Highest-priority reading still outstanding**, with the honest reason each is still open:
+
+| Source | Why it matters | Blocker |
+|---|---|---|
+| **VanLehn 2011**, *Educational Psychologist* | The field's most-cited effect sizes (human ≈ ITS) come from here and we have never read it | ⚠ Closed access; ASU now serves the author's own copies behind Cloudflare Access; **no Internet Archive snapshot. Needs PSU library.** |
+| **Kulik & Fletcher 2016**, *RER* | The other headline ITS meta-analysis (g = 0.66) | Closed; the public DTIC technical report (AD1030353) has been under maintenance throughout. **Retry DTIC, else PSU library.** |
+| **Rosé et al. 2006**, *IJAIED* 16(2) | Fullest account of CycleTalk — the closest precedent to this project | IOS Press blocks scripted access entirely. **PSU library.** |
+| **Roscoe & Chi 2007** | Tutor-learning / explanation quality | Closed, no OA location in OpenAlex |
+| **Tuttle & Wu (QR-2001)**, USNA thermodynamics ICAI | Possible learning-outcome data for CyclePad at USNA | Newly found in a reference list; not yet chased |
+
+**These five are the whole remaining backlog worth a librarian's time.** Everything else we have
+either read or established is genuinely unobtainable. Access recipes — including the DSpace REST
+route that got us Sinha & Kapur after Sage refused — are in [the wiki README](README.md).
 
 ---
 
