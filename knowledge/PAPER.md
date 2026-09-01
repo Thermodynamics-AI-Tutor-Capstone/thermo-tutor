@@ -99,12 +99,23 @@ If you read nothing else:
    it to hint requests. **A pull-based tutor is designing for a behaviour nobody has ever
    observed.** Proactivity is not a feature; it is the precondition.
 
-7. **Students route around Socratic design.** In 2,874 coded student turns with a
+7. ⭐ **The Socratic stance has a measured cost, and it lands on engagement.** In the largest
+   expert evaluation in this literature — **186 pedagogy experts role-playing learners, 248 more
+   rating, 2,360 conversations, 10,192 assessments** — LearnLM was preferred overall and ranked
+   first in every rubric category. But among the reasons experts gave for preferring a
+   *competitor*, the largest theme (**36.3%**) was **conversation style: LearnLM was described as
+   "patronizing," rivals as "warmer,"** and participants rated it below GPT-4o on *"stimulating
+   their interest"* and *"perceived warmth."* **A model tuned to guide rather than tell is
+   experienced as condescending — by raters predisposed to approve of guiding.** Warmth and
+   concision are in measured tension with the pedagogy, not decorations to add afterwards.
+   → [LearnLM](systems/learnlm.md)
+
+8. **Students route around Socratic design.** In 2,874 coded student turns with a
    Socratic AI physics tutor, "what do I do next" was the **second-most-common move**
    (4.4% of all turns), and the top 20 discourse categories contained essentially no
    conceptual reasoning ([Socratic subversion](concepts/socratic-tutoring.md)).
 
-8. **Every serious system independently converged on the same architecture:** a
+9. **Every serious system independently converged on the same architecture:** a
    constrained, retrieval-grounded, externally-verified LLM wrapped in deterministic
    policy — with the pedagogy in code, not in the prompt. §V lays out the seven layers.
 
@@ -114,23 +125,23 @@ If you read nothing else:
    GPT-4o pushed conversation-level leakage from 44% to **56%**. A system prompt is not a
    guardrail, and guardrail behaviour is not stable across model versions.
 
-9. **Grounding + verification is what separates working systems from demos.**
+10. **Grounding + verification is what separates working systems from demos.**
    [Jill Watson](systems/jill-watson.md), restricting outputs to validated course
    material and verifying each response by textual entailment, answers correctly **78.7%**
    of the time with **2.7%** harmful errors. OpenAI's own Assistant on the same task:
    **30.7%** correct, **14.4%** harmful.
 
-10. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
+11. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
     total** — **$0.38 per student** ([cost](practice/cost-economics.md)). The constraints are
     pedagogy, engagement, compliance, and faculty trust.
 
-11. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
+12. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
     **no model exceeded chance at labeling incorrect student actions**, and models best at
     confirming correct work were worst at catching errors ([TutorGym](evaluation/tutorgym.md)).
     Diagnosis is the atomic act of tutoring, and it is the thing that must be handled outside
     the model.
 
-12. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
+13. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
     diagram items is **32%** against **67%** text-only — but the range across 19 models runs
     from **6%** (gpt-4.1, *below* the 25% chance baseline) to **76%** (gpt-o3)
     ([diagram reading](domain/diagram-reading.md)).
@@ -139,19 +150,19 @@ If you read nothing else:
     models substantially clear it, and o3 handled a real exam's diagrams. Model choice is
     load-bearing here in a way it is nowhere else in the architecture.*
 
-13. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
+14. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
     (293 open-ended problems, three tiers, CoolProp ground truth, six frontier models) and
     [UTQA](domain/utqa.md) (50 items, 19 models, **dataset public on HuggingFace**) both
     landed before us. This changes our contribution story — see §VIII.
 
-14. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
+15. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
     assistant targets **Levels 1–2 of its own six-level scale** — "resource pointer" and
     "content summarizer." Tutoring, guided problem solving, and Socratic dialogue are
     explicitly *out of scope*, it has **no property tools, no student model, no LMS
     integration, and no evaluation of any kind.** Its real contribution is instructor-facing
     lecture analytics. → [Stan](systems/stan-udel.md)
 
-15. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
+16. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
     feedback that **revealed the answer** — which the pedagogical rubric marks undesired —
     produced *higher* immediate success than feedback that withheld it (**79.4% vs 53.0%**),
     because students copy. [Bastani](evidence/bastani-2025-harm.md) found the same reversal at
@@ -163,7 +174,7 @@ If you read nothing else:
     → [behavioral evaluation](evaluation/behavioral-evaluation.md),
     [assessment integrity](practice/assessment-integrity.md)
 
-16. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
+17. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
     [CyclePad](systems/cyclepad-cycletalk.md) — an articulate thermodynamic-cycle simulator that
     explains every derived value from its assumption chain — has been in the **US Naval Academy
     curriculum since 1996**. CMU bolted **tutorial dialogue** onto it and measured a **0.25 SD**

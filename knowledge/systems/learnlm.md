@@ -47,6 +47,60 @@ Note the ordering: the gain over its *own base model* was +13%, smaller than the
 GPT-4o. Some of what looks like pedagogical training is model-family difference. Worth
 holding onto — it caps how much you should expect from pedagogical fine-tuning alone.
 
+**The evaluation behind those numbers is the largest of its kind in this literature**, and worth
+knowing in detail because it sets the bar for what a credible tutoring evaluation looks like:
+
+| | |
+|---|---|
+| Pedagogy experts **role-playing learners** | **186** |
+| Separate pedagogy experts **rating** | **248** |
+| Conversations collected | **2,360** |
+| Learner + model messages | **58,459** |
+| Expert assessments | **10,192** (≈3 independent reviews per conversation pair) |
+| Scenarios | **49**, across diverse subjects |
+| Rubric | **29 items**, 7-point Likert, anchored at *"as good as a very good human tutor"* |
+
+Rater qualification was specified: *"advanced academic degrees and two or more years of experience
+as a tutor."* Rubric categories covered cognitive load, active learning, metacognition, curiosity
+stimulation, adaptivity and overall quality. **LearnLM ranked highest in every category.**
+
+**How it was trained** — note this is *not* a separate pedagogy model: *"we mix our data directly
+with Gemini's SFT, RM, and RL stages."* Co-training, not a fine-tune on top. Each training
+conversation begins with a **different System Instruction describing the pedagogical behaviour**,
+which is the whole point of the "instruction following" reframing — it *"avoids committing our
+models to any particular definition of pedagogy, and instead allows teachers or developers to
+specify desired model behavior."*
+
+## ⭐⭐ Where LearnLM *lost* — the Socratic tax, measured
+
+This is the most useful part of the paper for us, and it is buried in a qualitative table. Among
+the explanations experts gave for preferring a **competitor**:
+
+| Theme | Share of non-LearnLM preference explanations |
+|---|---|
+| **Conversation style** | **36.3%** — LearnLM described as **"patronizing"**; competitors seemed **"warmer"** |
+| Info amount | 25% — competitors more succinct or more comprehensive |
+| Clarity | 20% — competitors' explanations were clearer |
+
+And directly: participants reported **weaker experiences than GPT-4o in "stimulating their
+interest" and "perceived warmth."**
+
+**A model tuned to guide rather than tell is experienced as condescending.** That is the cost of
+the Socratic stance, stated by pedagogy experts who were predisposed to like it, and it lands on
+exactly the axis that determines whether students keep using a voluntary tool.
+[Students already route around Socratic design](../concepts/socratic-tutoring.md);
+[PeteChat logged 0% hint uptake](petechat-purdue.md); this says *why* the pull is so weak.
+
+**Design consequence:** warmth and concision are not decorations to add at the end. They are in
+tension with the pedagogy, they were measured to be in tension, and if we do not deliberately
+budget for them we will ship the patronizing version.
+→ [engagement decay](../concepts/engagement-decay.md)
+
+⚠ **And their own headline limitation:** *"it is unclear how well the results translate to
+improvements in learning outcomes."* All of the above is **intrinsic** — expert judgement of
+conversation quality — not learning. They also flag that every model compared has since been
+updated, so *"our results only reflect a reasonably fair comparison at a specific moment."*
+
 **Arena for Learning** (May 2025): **189 educators** role-played realistic learning
 scenarios; **206 experts** judged blind, head-to-head, multi-turn comparisons of leading
 models. **Gemini 2.5 Pro was preferred in 73.2% of matchups**, ranking first overall.
@@ -82,6 +136,16 @@ harm avoidance.
    in a comparison.
 
 ## Open questions
+
+- [ ] ⚠ **A direct contradiction worth resolving.** LearnLM's entire premise is *pedagogical
+      instruction following* — it is trained so that a system instruction shapes its teaching.
+      But [MathTutorBench](../evaluation/mathtutorbench.md) tested exactly that and found LearnLM
+      among the models showing *"decreased or similar performance"* when given pedagogical
+      instructions in the prompt, while GPT-4o *gained* significantly. Either the benchmark's
+      instructions differ from the ones LearnLM was trained on, or the capability does not
+      generalise past the training distribution. **This is a cheap, publishable experiment**:
+      take LearnLM, vary the system instruction across pedagogies, and measure whether behaviour
+      actually moves.
 
 - [ ] Is LearnLM accessible as a distinct API, or folded into Gemini?
 - [ ] What did the pedagogical training data look like? Is any of it public?
