@@ -78,6 +78,62 @@ students abandon. → [engagement decay](../concepts/engagement-decay.md)
 treat the priority pricing tier as a requirement rather than an upgrade. The cost difference
 is trivial at our scale; the latency difference is not.
 
+### The measured numbers (full read, 2026-08-31)
+
+**Costs, per student per semester.** Their headline table uses a deliberately absurd ceiling of
+10,000 questions (100/day, every day) — **Standard $39.26, Priority $70.67**, both under a STEM
+textbook ($100–200). Their own plausible scenario is **675 questions** (15/day × 45 class days):
+
+| Tier | Realistic (675 q) | Worst case (10,000 q) |
+|---|---|---|
+| Standard PayGo | **$2.63** | $39.26 |
+| Priority PayGo | **$4.79** | $70.67 |
+| Provisioned Throughput | — | **>$225 at any scale** unless utilisation is kept high |
+
+**Cost is not a design constraint for us. Stop treating it as one.**
+Priority costs a **1.8× per-token premium** over Standard, which at realistic volume is
+**about two dollars per student per semester.**
+
+**Latency, by concurrency.** At **c = 20** — a 40-student class at peak — Priority holds a
+**3.6 s median while Standard degrades to 7.8 s**, a 2.2× difference. Priority stays flat at
+**3.5–4.0 s regardless of concurrency, with a zero failure rate.** Provisioned is fastest below
+c = 20 and loses above it, as its fixed 7-GSU allocation begins queuing.
+
+Their tier guidance, which we can adopt directly: **seminar (≤10 concurrent) Standard is fine;
+classroom (40 students, peak ≈20) Priority; department and university scale Priority**, which
+scales transparently with no capacity planning. *"The choice between them is ultimately a question
+of traffic predictability, not scale."*
+
+### ⭐ The two findings that should shape our architecture
+
+**1. Optimise P95, not median — you pay the maximum of N draws.** The parallel phase accounts for
+**65–70% of end-to-end latency** across all tiers, and because the system waits for the slowest of
+three agents, its duration exceeds the median of any individual agent. How much it exceeds it
+depends entirely on *variance*: *"a tier that stabilizes P95 stabilizes the maximum of three
+parallel draws from that distribution."* Standard PayGo's **P95 hits 14.1 s at c = 40 — more than
+double its own median.** Median latency is the wrong number to report or to tune.
+
+**2. The bottleneck is set by input size, and it is stable.** The video agent — the one receiving
+the lecture transcript — was the slowest of the three in **50–54% of requests**, versus 24–26% for
+guidance and 21–24% for code, *"nearly identical across all three tiers and all concurrency
+levels."* The agent with the biggest prompt is your latency, predictably.
+
+**For a thermodynamics tutor this maps almost one-to-one.** Their video/code/guidance split
+becomes something like property-and-solver, diagram-or-work-state, and Socratic guidance, feeding
+a synthesizer. The lesson is that **whichever of ours carries the largest context — most likely
+retrieved course material or a state table dump — will set the response time**, so that is the one
+to trim, cache, or pre-compute. Trimming the others buys nothing.
+
+Two implementation details worth copying: **structured JSON output schemas** to eliminate parsing
+overhead, and **thinking disabled (`thinking_budget=0`)** on latency-critical agents.
+
+⚠ **Scope limits.** Single provider (Vertex AI), single model (Gemini 2.5 Flash), c ≤ 50, and the
+Provisioned crossover point is *"a property of our specific GSU allocation."* The authors note
+OpenAI and Anthropic expose structurally identical tier models and argue the effect is a property
+of queueing rather than of any provider — reasonable, but not tested here. They also did not
+instrument the provider-side queue, so their explanation of the crossover is *"consistent with,
+but not directly proven by"* their data — their words.
+
 ## What this means for us
 
 **1. Cost is not a design constraint at our scale.** Anchoring on KAIST, a 100-student
@@ -125,5 +181,5 @@ and person-weeks are what a capstone team is short of.
 
 - [Kweon et al., KAIST VTA deployment, arXiv:2506.17363](https://arxiv.org/abs/2506.17363) `[read]` — **the $180 / 477 students figure. Use this one.**
 - [ibl.ai, "What AI Tutoring Actually Costs in 2026"](https://ibl.ai/blog/what-ai-tutoring-actually-costs-2026) `[skimmed]` — the modelled per-student figures. Vendor blog; runs ~10× above measured reality.
-- [Latency and Cost of Multi-Agent Intelligent Tutoring at Scale, arXiv:2604.24110](https://arxiv.org/html/2604.24110v1) `[found]`
+- [Elhaimeur & Chrisochoides, "Latency and Cost of Multi-Agent Intelligent Tutoring at Scale," arXiv:2604.24110](https://arxiv.org/pdf/2604.24110) `[read — full text, 11 pp., 2026-08-31]` — Old Dominion University; 3,000+ requests from a live graduate STEM deployment
 - [FairTutor: Equity-Aware Pedagogical LLM Routing for Budget-Constrained AI Tutoring, arXiv:2606.20713](https://arxiv.org/pdf/2606.20713) `[found]`

@@ -174,4 +174,4 @@ still in review. → [roadmap](../../admin/roadmap.md)
 - [NeuralNexus at BEA 2025 Shared Task, arXiv:2506.10627](https://arxiv.org/pdf/2506.10627) `[found]`
 - [AITutor-EvalKit, arXiv:2512.03688](https://arxiv.org/pdf/2512.03688) `[found]`
 - [TutorGym, arXiv:2505.01563](https://arxiv.org/pdf/2505.01563) `[found]`
-- [The Missing Evaluation Axis, arXiv:2605.05648](https://arxiv.org/pdf/2605.05648) `[found]`
+- [The Missing Evaluation Axis, arXiv:2605.05648](https://arxiv.org/pdf/2605.05648) `[read]` — **now has its own node: [behavioral evaluation](behavioral-evaluation.md)**

@@ -7,6 +7,7 @@ How to measure a tutor, and how to measure a student.
 | [TutorGym](tutorgym.md) `[read]` | The **tutor**, inside real ITSs | **No LLM beats chance at spotting an incorrect student step.** 223 domains |
 | [MathTutorBench and pedagogy benchmarks](mathtutorbench.md) | The **tutor** | Subject expertise and teaching ability **trade off**. No thermo equivalent exists — **our opening** |
 | [Concept inventories](concept-inventories.md) | The **student** | TCI was developed at Penn State. Access is slow — request in Phase 0 |
+| [**Behavioral evaluation**](behavioral-evaluation.md) `[read]` | **What the student *did next*** | **Diff consecutive attempts and attribute the edit. Predicts perceived helpfulness better than pedagogical quality — but rewards revealing the answer (79.4% vs 53.0%)** |
 
 ## The two-axis problem
 
