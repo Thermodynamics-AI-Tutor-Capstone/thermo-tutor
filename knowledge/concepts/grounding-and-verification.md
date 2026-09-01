@@ -166,6 +166,30 @@ impossible to reconstruct later.
 - [LLM capability in thermodynamics](../domain/llm-thermodynamics-capability.md) — what needs
   verifying in our subject
 
+## ⚠ Automated hallucination detection is not good enough to lean on
+
+Worth knowing before anyone proposes "we'll just run a hallucination detector."
+
+**GASP** (*Grounding-Aware Sensitivity by Perturbation*, arXiv:2607.04223, read in full
+2026-09-01) is a well-designed, purpose-built **span-level** detector — it scores each answer
+sentence by how much its likelihood depends on the retrieved evidence, holding the answer fixed
+and re-scoring it with the full context, with no context, and with each chunk removed. The
+insight is elegant: *"the likelihood of a grounded sentence collapses once its supporting passage
+is removed, whereas a hallucinated sentence is almost unaffected."*
+
+**Its results on RAGTruth: response-level AUC ≈ 0.73, span-level AUC ≈ 0.67.**
+
+It beats perplexity, length, whole-context NLI and self-consistency baselines — and **0.67–0.73
+AUC is not a detector you can put in front of students.** For scale, an AUC of 0.5 is a coin flip
+and 0.9 is where people start trusting a classifier. This is the state of the art on a benchmark
+built for the task.
+
+**Which is the argument for this whole node.** Statistical hallucination detection tells you a
+sentence is *probably* ungrounded. A **solver** tells you the enthalpy is wrong. In a domain with
+a ground truth — and thermodynamics has one, in
+[CoolProp](../domain/property-data-tools.md) — **use the ground truth.** Reserve detectors for the
+prose, where nothing is checkable, and treat their output as a flag for review rather than a gate.
+
 ## ⭐⭐ The closest published design to what we should build
 
 *"Improving Academic Student Success: Using AI Chatbots as Virtual Teaching Assistants"*
@@ -219,6 +243,9 @@ Two adaptations thermodynamics forces:
   quality misread. → [skill graph](../../research/domain/skill-graph-draft.md)
 
 ## Sources
+
+- ["Detecting Hallucinations in RAG through Grounding-Aware Sensitivity by Perturbation," arXiv:2607.04223](https://arxiv.org/pdf/2607.04223) `[read — full text, 23 pp., 2026-09-01]` — GASP; span-level AUC ≈ 0.67
+- ["Grounding and Evaluation for LLMs: Practical Challenges and Lessons Learned," arXiv:2407.12858](https://arxiv.org/pdf/2407.12858) `[skimmed]` — a broad responsible-AI survey; landscape rather than method
 
 - ["Improving Academic Student Success: Using AI Chatbots as Virtual Teaching Assistants," *ASEE 2026*](https://peer.asee.org/59923.pdf) `[read — full text, 13 pp., 2026-09-01]` — the sub-question / sandbox / answer-verifier loop
 

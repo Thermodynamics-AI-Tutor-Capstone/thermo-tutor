@@ -46,6 +46,52 @@ so it needs far fewer observations per component than knowledge tracing does.**
 Given that a semester may only produce a few hundred graded interactions per student,
 this may matter a great deal. Worth understanding properly before committing to BKT.
 
+## ⭐ The formal structure, and why it constrains our skill graph
+
+Read from Doignon & Falmagne's own chapter (arXiv:1511.06757, read in full 2026-09-01). A
+**learning space** is a knowledge structure satisfying exactly two axioms, and both are testable
+claims about a prerequisite graph:
+
+**[L1] Learning smoothness.** *"If the learner is in some state K included in some state L, then
+the learner can reach state L by mastering items one by one."* Formally, between any nested pair
+of states there is a chain adding **exactly one item at a time**.
+
+**[L2] Learning consistency.** If item q is learnable from state K, it stays learnable from any
+larger state L ⊇ K. **Knowing more never makes something unlearnable.**
+
+Together these give **well-gradedness**, which is what makes the enormous state space navigable
+at all.
+
+**Why this matters to us.** Our
+[skill graph](../../research/domain/skill-graph-draft.md) is an informal prerequisite structure.
+These axioms turn "is our graph sensible?" into two checkable questions:
+
+1. **Is every gap one item wide?** If mastering a node requires two new things at once, [L1] fails
+   and there is a missing intermediate node. **This is a concrete audit we can run on our ~90 KCs**
+   — and finding the violations *is* finding the missing skills.
+2. **Does any node become harder after learning something else?** [L2] failing usually signals a
+   **misconception**, not a structural error: learning X made Y harder because X was learned
+   wrongly. Those are exactly the entries our misconception catalogue wants.
+
+**The fringes**, precisely:
+
+- **Outer fringe** — the items **learnable right now** from the current state. This is the "what
+  should I do next?" answer, computed rather than guessed, and it is
+  [the request students make most](../concepts/socratic-tutoring.md) and the one
+  [CycleTalk's agents could not serve](cyclepad-cycletalk.md).
+- **Inner fringe** — the items most recently mastered; the routes by which this state was reached.
+  Useful for review scheduling. → [spaced repetition](../concepts/spaced-repetition.md)
+
+**A student model that can compute an outer fringe can answer "what do I do next" without an LLM
+guessing.** That is the single most valuable thing ALEKS's formalism offers us, and it is
+forty years old.
+
+⚠ **The cost is the structure.** Learning spaces are *"huge combinatorial structures which may be
+difficult to manage,"* and ALEKS built theirs over decades with expert querying (the QUERY
+routine) plus student data. **We are not building a real learning space for thermodynamics in one
+capstone.** What we can do is borrow the two axioms as a **design audit** and the outer fringe as
+a **navigation concept**, implemented over a much smaller hand-authored graph.
+
 ## Open questions
 
 - [ ] Is ALEKS used in any Penn State engineering course? Ask the instructor sponsor.
@@ -67,5 +113,5 @@ this may matter a great deal. Worth understanding properly before committing to 
 
 - [The Assessment of Knowledge, in Theory and in Practice — Falmagne](https://www.aleks.com/about_aleks/Science_Behind_ALEKS.pdf) `[found]` — the primary theory paper
 - [Research Behind ALEKS — Knowledge Space Theory](https://www.aleks.com/about_aleks/knowledge_space_theory) `[skimmed]`
-- [Knowledge spaces and learning spaces (eScholarship)](https://escholarship.org/uc/item/94b9x5sw) `[found]`
+- [Doignon, J.-P. & Falmagne, J.-C., "Knowledge spaces and learning spaces," arXiv:1511.06757 / eScholarship](https://escholarship.org/content/qt94b9x5sw/qt94b9x5sw.pdf) `[read — full text, 52 pp., 2026-09-01]` — the primary source for the axioms and fringes above
 - [ALEKS — Wikipedia](https://en.wikipedia.org/wiki/ALEKS) `[skimmed]`
