@@ -101,9 +101,45 @@ improvements in learning outcomes."* All of the above is **intrinsic** — exper
 conversation quality — not learning. They also flag that every model compared has since been
 updated, so *"our results only reflect a reasonably fair comparison at a specific moment."*
 
-**Arena for Learning** (May 2025): **189 educators** role-played realistic learning
-scenarios; **206 experts** judged blind, head-to-head, multi-turn comparisons of leading
-models. **Gemini 2.5 Pro was preferred in 73.2% of matchups**, ranking first overall.
+**Arena for Learning** (May 2025, arXiv:2505.24477, read in full 2026-09-01): **189 educators**
+role-played realistic learning scenarios; **206 experts** judged blind, head-to-head, multi-turn
+comparisons. **Gemini 2.5 Pro was preferred in 73.2% of matchups**, ranking first overall.
+
+The design fixes a real flaw in Chatbot-Arena-style evaluation: those arenas *"require sending
+identical inputs to each model… on every turn,"* which makes them structurally unable to test
+tutoring, where the whole point is that a good tutor **steers the conversation somewhere different
+from where a bad one would.** Here each model shepherds its own conversation, and experts judge the
+resulting trajectories. **If we ever benchmark tutoring, this is the design to copy.**
+
+Per-principle adherence (7-point scale, −3.0 to +3.0, reported as a percentage of the maximum):
+**active learning 84.4%**, curiosity 82.9%, metacognition 82.8%, **cognitive load 82.1%**
+(= +2.0 raw), adapting to student needs 82.0%. Gemini 2.5 Pro led on every one.
+
+Head-to-head win rates, excluding ties: **71.3% vs Claude 3.7 Sonnet, 74.2% vs OpenAI o3, 81.8%
+vs GPT-4o.** Rankings computed as **Elo** ratings via a Bradley-Terry model, the same machinery
+as Chatbot Arena.
+
+### ⭐ The result buried in the ranking order
+
+Final pedagogy ranking: **Gemini 2.5 Pro, then ChatGPT-4o, then Claude 3.7 Sonnet and o3 tied,
+then GPT-4o last.**
+
+**ChatGPT-4o placed second. GPT-4o placed fifth. That is the same model.** The difference is the
+product wrapper — the system prompt, the interface, whatever OpenAI layers on top of the raw API.
+
+**A product layer moved one model from last place to second on pedagogical quality.** That is the
+single cleanest piece of evidence in this knowledge base that *what you build around the model
+matters as much as which model you pick* — and it comes from an evaluation run by a competitor
+with no incentive to make the point.
+→ [the convergent architecture](../PAPER.md), [guardrails](../concepts/guardrails.md)
+
+⚠ **Two caveats.** This is **Google evaluating Google's own model**, and while the protocol is
+blind and the raters independent, the scenario bank and rubric are Google's. And their own stated
+limits: the expense of expert evaluation, *"the boundaries of its current bank of learning
+scenarios,"* and that arena conversations *"represent single snapshots of a longer learning
+journey that unfolds over days, weeks, or even months."* They close by naming the open question
+themselves — *"do these pedagogical capabilities translate to concretely better learning outcomes
+for students?"* — and calling for RCTs.
 
 **Actual learning outcome:** students who received short LearnLM tutoring sessions were
 **5.5 percentage points** more likely to solve novel problems on subsequent topics than
@@ -162,6 +198,6 @@ harm avoidance.
 ## Sources
 
 - [LearnLM: Improving Gemini for Learning, arXiv:2412.16429](https://arxiv.org/html/2412.16429v1) `[skimmed]` — the preference numbers
-- [Evaluating Gemini in an Arena for Learning, arXiv:2505.24477](https://arxiv.org/pdf/2505.24477) `[skimmed]` — the 73.2% arena result
+- [LearnLM Team, Google, "Evaluating Gemini in an Arena for Learning," arXiv:2505.24477](https://arxiv.org/pdf/2505.24477) `[read — full text, 26 pp., 2026-09-01]`
 - [AI tutoring can safely and effectively support students: An exploratory RCT in UK classrooms, arXiv:2512.23633](https://arxiv.org/abs/2512.23633) `[found]`
 - [DeepMind LearnLM Nov 2025 report](https://storage.googleapis.com/deepmind-media/LearnLM/learnLM_nov25.pdf) `[found]`

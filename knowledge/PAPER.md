@@ -541,8 +541,18 @@ model upgrade — *"instruction dilution"* *(the more you cram into a system pro
 it the model actually obeys)*. **Few-shot** examples *(worked examples pasted into the prompt)*
 make it worse, not better, because they inflate the prompt. Their working fix was
 **fine-tuning** *(retraining the model's weights on your examples, rather than instructing it at
-run time)* **on 50 curated
-conversations** — a capstone-sized dataset.
+run time)* **on 50 curated conversations** — a capstone-sized dataset.
+
+⚠ **State this precisely, because the obvious reading is too strong.** Prompts are not useless.
+In Google's learning arena, **ChatGPT-4o ranked 2nd on pedagogical quality and GPT-4o ranked
+5th — the same model**, separated only by OpenAI's product wrapper
+([arena](systems/learnlm.md)). A prompt layer moved one model from last to second.
+
+So the honest formulation is: **a system prompt reliably shifts the average and cannot hold the
+floor.** CS50's 22% leakage is a floor failure; the arena's ranking jump is an average shift.
+Tutoring is a worst-case discipline — one answer handed over is one assignment compromised — so
+the floor is what we are buying, and that is why the prompt cannot be the last line of defence.
+It is still worth writing well.
 → [guardrails](concepts/guardrails.md), [CS50 Duck](systems/cs50-duck.md)
 
 ### 1. Retrieval grounding
