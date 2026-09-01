@@ -984,6 +984,19 @@ reliable than pedagogical ones (κ 0.80–1.00 vs 0.65), and it predicts perceiv
 than feedback quality does. ⚠ **Always stratify SuccScore by whether the answer was revealed** —
 answer-revealing feedback scored **79.4% vs 53.0%**, so optimising on it trains the tutor to cheat.
 
+**5b. ⭐ Our realistic contribution is a *causal* claim, and it is achievable.**
+The [closest deployed analogue to our project](systems/rag-tutor-southeast.md) — a RAG + SRL tutor
+in two engineering courses, **27,242 interactions, 116 users** — reports a clean dose-response
+(Glass's Δ **0.09 → 0.18 → 0.33**, top users **0.43–0.60**) and then disclaims it in their own
+words: *"carries no causal interpretation… would require experimental or quasi-experimental
+designs in future work."* Usage was voluntary, so the gradient is what self-selection looks like.
+
+**A well-resourced deployment could not make a causal claim. A crossover design at capstone scale
+can.** Every student gets both conditions in counterbalanced order, each is their own control.
+That is [Kestin's design](evidence/kestin-2025-rct.md), it is statistically efficient at small n,
+and it is ethically cleaner than withholding access. **This is the clearest way for this project
+to contribute something the field does not already have.**
+
 **6. Build for two users, not one.** The Porto review names **dual-user support — learners *and*
 instructors** — as the standing gap in engineering ITS. [Stan's](systems/stan-udel.md) only real
 contribution is instructor-facing analytics; [PeteChat](systems/petechat-purdue.md) and

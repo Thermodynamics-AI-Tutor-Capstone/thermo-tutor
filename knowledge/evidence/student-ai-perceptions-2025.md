@@ -114,6 +114,64 @@ And a request that costs us nothing to honour:
 > Students wanted *"clear expectations (as explicit as possible) from schools and professors on AI
 > usage"* to avoid unintentional academic misconduct.
 
+## ⭐ A second, independent cohort — and it replicates
+
+**Christopher, Bongioanni & Scharff (2025), "Applications of Artificial Intelligence in an
+Introductory Thermodynamics Course," ASEE** — **US Air Force Academy**, *mechanical engineering*
+introductory thermodynamics. **This is our exact course and our exact population**, and unlike the
+UIC survey it is **pre/post within the same students** (87% participation). Note the institution:
+USAFA is the sister academy to USNA, where [CyclePad](../systems/cyclepad-cycletalk.md) ran for
+decades.
+
+They embedded AI throughout the course — motivating example problems, alternative explanations,
+finding applications, exam study — and taught AI fundamentals and query technique alongside.
+
+| Statement | Start of course | End of course |
+|---|---|---|
+| ⚠ AI helps me **focus on learning processes** | **73%** | **60%** |
+| AI makes class **interesting and engaging** | 39% | **47%** |
+| AI will **improve my grade** | 63% | 59% *(only 12% disagreed)* |
+
+**A semester of structured, well-supported AI use made students *less* optimistic that it helps
+them learn** — down 13 points — **while making the class more engaging.** Engagement and learning
+moved in opposite directions.
+
+**That replicates the UIC calibration finding on a within-subjects design.** Two institutions, two
+engineering disciplines, two designs, same direction: **exposure lowers expectations.** Anyone
+promising a perception uplift from an AI tutor is promising something two datasets say does not
+happen.
+
+### The property-table failure, named by students for the third time
+
+> *"it was often wrong calculation-wise (**especially with the table values**)."*
+
+That is a mechanical engineering thermodynamics student, independently reproducing what
+[ThermoQA and UTQA measure](../domain/llm-thermodynamics-capability.md) and what
+[GPThermo's tool layer fixes](../systems/gpthermo-wpi.md). **Three separate student cohorts have
+now diagnosed the same failure unprompted.** We do not need to convince anyone this problem is
+real — our users already know, and it is the reason they don't trust the tool.
+
+### What they liked, which is worth copying
+
+- **Level-shifting explanations:** *"take complex ideas and make them understandable at whatever
+  level you want… the process of air conditioning units explained at a 4th grade level."*
+- **Step-by-step process, not just answers:** *"AI can be very helpful in explaining a step by step
+  process for going through the homework"* — contrasted explicitly with textbooks that
+  *"arrogantly state, 'it is left to the reader.'"*
+
+### ⚠ And an adoption barrier we had not considered
+
+> *"I trust AI a lot more than I use to because I'm better able to tell what's true and what's not.
+> **In the beginning I was more scared of honor than anything else**."*
+
+**Fear of an integrity violation suppressed use before accuracy concerns did.** At a service
+academy that reads as the honor code, but PSU has an academic-integrity policy too, and the same
+chilling effect applies. **An explicit, instructor-endorsed statement of what the tutor may be
+used for is an adoption lever, not just a compliance checkbox** — and it is the thing UIC students
+asked for in their own words.
+→ [assessment integrity](../practice/assessment-integrity.md),
+[disclosure and ethics](../practice/disclosure-and-ethics.md)
+
 ## What we should do differently because of this
 
 1. **Do not pitch this as "students get AI help."** They have that. Pitch **verified numbers** and
@@ -148,3 +206,4 @@ attitude data as solid and the course-design claims as anecdote.
 ## Sources
 
 - [Bilgin, Chen & Velegol (2025), "Generative AI in Chemical Engineering Education," *ASEE Annual Conference*](https://peer.asee.org/56640.pdf) `[read — full text, 31 pp., 2026-09-01]` · DOI `10.18260/1-2--56640`
+- [Christopher, Bongioanni & Scharff (2025), "Applications of Artificial Intelligence in an Introductory Thermodynamics Course," *ASEE Annual Conference*](https://peer.asee.org/55444.pdf) `[read — full text, 14 pp., 2026-09-01]` · DOI `10.18260/1-2--55444` — **US Air Force Academy, mechanical engineering, pre/post within-subjects**
