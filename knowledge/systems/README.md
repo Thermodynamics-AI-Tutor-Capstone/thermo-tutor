@@ -23,6 +23,7 @@ One node per tutoring system. History, architecture, measured results, and what 
 | System | Institution | Domain | Why it matters |
 |---|---|---|---|
 | [Andes](andes.md) `[read]` | Pitt + USNA + Rutgers | **Physics** | Step-based, 5-year evaluation. **Drawings +1.21, answers −0.08** |
+| [**aiPlato**](aiplato-uta.md) | UT Arlington + Harvard | **Physics homework** | ⭐ **All 61 students used "Evaluate My Work"; hints and chat barely touched. 0.81 on a *final exam*, self-selected** |
 | [**RAG + SRL engineering tutor**](rag-tutor-southeast.md) | Large public, SE US | Circuits, signals | **The closest deployed analogue to our project. 27,242 interactions, three modes, honest about causality. Guidance targeting is its top failure** |
 | [**GPThermo**](gpthermo-wpi.md) | Worcester Polytechnic | **THERMODYNAMICS** | **Multi-agent GPT-4o + property tools: 95% vs 15–25% for stock models. No tutoring, no students — the tool layer, validated. Undergraduate first author** |
 | [**Ethel**](ethel-eth.md) | ETH Zurich | Physics / **thermodynamics** | **University-built virtual TA. Publishes its cost ($7.50/student/semester) and its failures. Grading: high precision, ~50% recall** |

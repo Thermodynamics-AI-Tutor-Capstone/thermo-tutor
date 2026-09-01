@@ -185,12 +185,33 @@ If you read nothing else:
     win it is assumed to be.** Worth testing rather than inheriting.
     → [Cognitive Tutor](systems/cognitive-tutor.md)
 
-11. **Students route around Socratic design.** In 2,874 coded student turns with a
+11. ⭐⭐ **Students don't want hints and don't want to chat — they want their own work checked.**
+    This resolves an apparent contradiction in the evidence. On one problem in
+    [aiPlato](systems/aiplato-uta.md), a physics homework platform at UT Arlington, **all 61
+    students used "Evaluate My Work" (152 uses — multiple revision rounds each)**, while the
+    directive "Next Step" was used by **9**, and **"AI Tutor Chat" and "Hint" were *rarely used*.**
+    That sits beside [PeteChat's 0.0% hint utilisation](systems/petechat-purdue.md),
+    [CycleTalk's 14% help-request rate](systems/cyclepad-cycletalk.md), and
+    [the RAG+SRL tutor where "guided support" attached to a specific problem was the *most*-used
+    mode](systems/rag-tutor-southeast.md).
+
+    **They agree once you stop treating "help" as one thing.** Students reliably decline to be
+    *told* and reliably accept having **what they already produced evaluated**. A UIC student
+    described the same workflow unprompted: *"I always ask for answers to questions after solving
+    it by myself first."*
+
+    > **The unit students want is not a hint. It is a verdict on work they have already done.**
+
+    **"Evaluate my work" should be the front door of our tutor, not a feature behind a hint menu**
+    — and it is exactly what [the sub-question verifier loop](concepts/grounding-and-verification.md)
+    produces.
+
+12. **Students route around Socratic design.** In 2,874 coded student turns with a
    Socratic AI physics tutor, "what do I do next" was the **second-most-common move**
    (4.4% of all turns), and the top 20 discourse categories contained essentially no
    conceptual reasoning ([Socratic subversion](concepts/socratic-tutoring.md)).
 
-12. **Every serious system independently converged on the same architecture:** a
+13. **Every serious system independently converged on the same architecture:** a
    constrained, retrieval-grounded, externally-verified LLM wrapped in deterministic
    policy — with the pedagogy in code, not in the prompt. §V lays out the seven layers.
 
@@ -200,7 +221,7 @@ If you read nothing else:
    GPT-4o pushed conversation-level leakage from 44% to **56%**. A system prompt is not a
    guardrail, and guardrail behaviour is not stable across model versions.
 
-13. ⚠ **Provenance buys accuracy, not depth — and we had been conflating them.** Across **seven
+14. ⚠ **Provenance buys accuracy, not depth — and we had been conflating them.** Across **seven
     experiments with 10,462 participants**, people who learned a topic from an LLM synthesis
     developed **shallower knowledge** than people given the same facts as web links, felt less
     invested, and produced downstream advice that was sparser, less original and **less likely to
@@ -214,7 +235,7 @@ If you read nothing else:
     mechanism [TUM measured as falling germane cognitive load](evidence/tum-dissociation-2025.md),
     from an unrelated literature. → [shallow learning](evidence/llm-synthesis-shallow-learning.md)
 
-14. **Grounding + verification is what separates working systems from demos.**
+15. **Grounding + verification is what separates working systems from demos.**
    [Jill Watson](systems/jill-watson.md), restricting outputs to validated course
    material and verifying each response by **textual entailment** *(an automatic check that the
    answer really is supported by the source text, not merely plausible)*, passes **76.7%** of
@@ -222,17 +243,17 @@ If you read nothing else:
    **31.3%** correct, **16.5%** harmful. Same model underneath — the difference is entirely
    grounding and verification.
 
-15. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
+16. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
     total** — **$0.38 per student** ([cost](practice/cost-economics.md)). The constraints are
     pedagogy, engagement, compliance, and faculty trust.
 
-16. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
+17. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
     **no model exceeded chance at labeling incorrect student actions**, and models best at
     confirming correct work were worst at catching errors ([TutorGym](evaluation/tutorgym.md)).
     Diagnosis is the atomic act of tutoring, and it is the thing that must be handled outside
     the model.
 
-17. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
+18. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
     diagram items is **32%** against **67%** text-only — but the range across 19 models runs
     from **6%** (gpt-4.1, *below* the 25% chance baseline) to **76%** (gpt-o3)
     ([diagram reading](domain/diagram-reading.md)).
@@ -241,13 +262,13 @@ If you read nothing else:
     models substantially clear it, and o3 handled a real exam's diagrams. Model choice is
     load-bearing here in a way it is nowhere else in the architecture.*
 
-18. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
+19. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
     (293 open-ended problems, three tiers, **CoolProp** ground truth *(the open-source property
     library — the software steam table)*, six frontier models) and
     [UTQA](domain/utqa.md) (50 items, 19 models, **dataset public on HuggingFace**) both
     landed before us. This changes our contribution story — see §VIII.
 
-19. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
+20. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
     assistant targets **Levels 1–2 of its own six-level scale** — "resource pointer" and
     "content summarizer." Tutoring, guided problem solving, and Socratic dialogue are
     explicitly *out of scope*, it has **no property tools, no student model, no LMS
@@ -261,7 +282,7 @@ If you read nothing else:
     splits into an **outer loop**, which picks the next problem, and an **inner loop**, which
     reacts within a problem, step by step — the inner loop is where the learning gains live.)*
 
-20. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
+21. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
     feedback that **revealed the answer** — which the pedagogical rubric marks undesired —
     produced *higher* immediate success than feedback that withheld it (**79.4% vs 53.0%**),
     because students copy. [Bastani](evidence/bastani-2025-harm.md) found the same reversal at
@@ -280,7 +301,7 @@ If you read nothing else:
     *behavioural uptake* reliably at **κ = 0.80–1.00**. **Automate the uptake question; put humans
     on a sample for the quality question.** → [LLM-as-judge](evaluation/llm-as-judge.md)
 
-21. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
+22. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
     [CyclePad](systems/cyclepad-cycletalk.md) — an articulate thermodynamic-cycle simulator that
     explains every derived value from its assumption chain — has been in the **US Naval Academy
     curriculum since 1996**. CMU bolted **tutorial dialogue** onto it and measured a **0.25 SD**
