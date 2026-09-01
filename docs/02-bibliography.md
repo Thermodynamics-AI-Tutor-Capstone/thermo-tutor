@@ -86,6 +86,44 @@ Classical thermodynamics scenarios at varied complexity.
 
 ---
 
+## The thermodynamics tutoring precedent (1996–2006)
+
+The direct ancestors of this project. See
+[knowledge/systems/cyclepad-cycletalk.md](../knowledge/systems/cyclepad-cycletalk.md) for the
+full treatment.
+
+**Forbus, K., Whalley, P., Everett, J., Ureel, L., Brokowski, M., Baher, J. & Kuehne, S.
+(1999). "CyclePad: An articulate virtual laboratory for engineering thermodynamics."
+*Artificial Intelligence* 114(1–2), 297–347.** [read]
+https://www.qrg.northwestern.edu/papers/Files/CyclePad_AIJ99.pdf
+The foundational paper. Constraint propagation over a logic-based TMS; every derived value
+explained by tracing its assumption chain. In the **US Naval Academy curriculum since 1996**.
+The architecture argument for why the physics engine must be separate from the language layer.
+
+**Kumar, R., Rosé, C. P., Aleven, V., Iglesias, A. & Robinson, A. (2006). "Evaluating the
+Effectiveness of Tutorial Dialogue Instruction in an Exploratory Learning Context."
+*ITS 2006*, LNCS 4053, 666–674.** [read]
+https://e-archivo.uc3m.es/bitstreams/2aa325b4-2f85-4561-9860-20ed9eb3b6ab/download
+(Springer paywalled; open copy via Universidad Carlos III, hdl.handle.net/10016/17305.)
+N=31 CMU sophomores, Rankine cycles. **Dialogue on top of CyclePad beat CyclePad alone by
+0.25 SD** in a USNA follow-up (F(1,86)=5.57, p<.05). The CMU study's 0.35 SD is a *dose*
+comparison — the control comparison was discarded over a quiz confound. Conceptual gains only;
+**null on both open-ended design exercises.** Students requested help on 14% of actions.
+Also documents a reusable authoring pipeline: human-tutor corpus → expert topic segmentation →
+**validate topic coverage against post-test (R²=.715) before authoring** → 12 dialogues.
+
+**Rosé, C. P., Aleven, V. & Torrey, C. "CycleTalk: Supporting Reflection in Design Scenarios
+with Negotiation Dialogue." CHI workshop.** [read]
+States the negotiation-dialogue hypothesis: it should beat prior tutorial dialogue because it
+motivates students to justify their thinking and supports asking themselves the right questions.
+
+**"Using Articulate Virtual Laboratories in Teaching Energy Conversion at the U.S. Naval
+Academy," *J. Educational Technology Systems* (1998).** ERIC EJ561409. [found]
+The classroom-deployment record. Still to be read — the open question is whether USNA ever
+published learning-outcome data for CyclePad itself.
+
+---
+
 ## Evaluation and benchmarking
 
 **MathTutorBench (EMNLP 2025 Oral), arXiv:2502.18940.** [skimmed]

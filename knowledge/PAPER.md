@@ -136,6 +136,18 @@ If you read nothing else:
     integration, and no evaluation of any kind.** Its real contribution is instructor-facing
     lecture analytics. → [Stan](systems/stan-udel.md)
 
+15. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
+    [CyclePad](systems/cyclepad-cycletalk.md) — an articulate thermodynamic-cycle simulator that
+    explains every derived value from its assumption chain — has been in the **US Naval Academy
+    curriculum since 1996**. CMU bolted **tutorial dialogue** onto it and measured a **0.25 SD**
+    gain over the simulator alone (F(1,86) = 5.57, p < .05, USNA). Gains appeared on conceptual
+    tests and **not** on the open-ended design exercises; **students requested help on only 14%
+    of actions**, so the winning manipulation was firing dialogue *proactively on success* rather
+    than waiting to be asked. The authors' own diagnosis of what their agents could not do:
+    they *"played more of a role of eliciting reflection… rather than assisting with navigation."*
+    **Free-form navigation support in an open design space is exactly what an LLM adds and what
+    2006 could not build.** → [CyclePad / CycleTalk](systems/cyclepad-cycletalk.md)
+
 ---
 
 ## I. Prehistory: what the field already proved (1970–2015)
@@ -600,14 +612,56 @@ UTQA's list, which maps almost one-to-one onto
 4. Missed invariants and feasibility constraints in optimization
 5. Numeric anchoring to textbook constants without checking applicability
 
-### The one existing thermodynamics tutor
+### The existing thermodynamics tutors — there are two, and the older one matters more
 
-**[Stan](systems/stan-udel.md)**, Delaware CHEG231, Fall 2025 — and, read in full, it leaves
-our space largely open. Levels 1–2 only, no property tools, no student model, no LMS
-integration, no evaluation. Its genuinely good contribution is instructor-facing: automated
-**question mining and confusion detection** from lecture transcripts. Notably, its confusion
-detector flagged *"entropy and its relation to disorder or randomness"* on the entropy
-lecture — surfacing, automatically, the exact misconception in our own catalogue.
+**[Stan](systems/stan-udel.md)**, Delaware CHEG231, Fall 2025 — read in full, it leaves our
+space largely open. Levels 1–2 only, no property tools, no student model, no LMS integration,
+no evaluation. Its genuinely good contribution is instructor-facing: automated **question
+mining and confusion detection** from lecture transcripts. Notably, its confusion detector
+flagged *"entropy and its relation to disorder or randomness"* on the entropy lecture —
+surfacing, automatically, the exact misconception in our own catalogue.
+
+**[CyclePad](systems/cyclepad-cycletalk.md)** (Northwestern, Forbus & Whalley) is the more
+important precedent, and essentially nobody in the current literature cites it. It is an
+**articulate virtual laboratory** for thermodynamic cycles — students assemble Rankine, Brayton,
+Otto, Diesel and refrigeration cycles from components, and the system propagates constraints,
+catches contradictions, and **explains every derived value by tracing the assumption chain that
+produced it**. It has been in the **US Naval Academy curriculum since 1996** and shipped
+commercially. We downloaded and dissected v2.0; the archaeology is in the node.
+
+The architectural lesson is the one our field keeps relearning: **CyclePad never guesses.** Every
+number is derived by a named equation from named assumptions, and the "explain" facility is not
+generated prose but a walk over a truth-maintenance system. That is exactly the guarantee an LLM
+cannot give and a [tool-calling layer](concepts/grounding-and-verification.md) can.
+
+**And CycleTalk is the experiment we were about to propose.** In 2004–2006, Rosé's group at CMU
+bolted **tutorial dialogue** onto CyclePad, on the theory that the simulator alone left students
+exploring without reflecting. Results, read in full:
+
+- **The clean comparison is positive but small.** At the **US Naval Academy**, dialogue-augmented
+  CyclePad beat plain CyclePad: **F(1,86) = 5.57, p < .05, effect size 0.25 SD**.
+- **The CMU study's headline 0.35 SD is a *dose* effect, not a dialogue-vs-control effect** — the
+  authors discarded their own control comparison because a quiz was administered between session
+  days. What it compares is dialogues fired on *success events* (mean 2.7 seen) against dialogues
+  fired only on *hint requests* (mean 1.8 seen).
+- **Gains appeared on the conceptual post-test and on neither of the two open-ended design
+  exercises.** The same conceptual-not-applied split [Andes](systems/andes.md) found.
+- **Students almost never asked for help — 14% of actions.** One of seven sensitivity-analysis
+  dialogues was seen by *any* student in the hint-triggered condition. **Proactivity was the
+  experimental manipulation and proactivity was what worked.**
+- The authors concede the system *"falls far short"* of the human tutor it imitated, and name the
+  gap precisely: their agents **elicited reflection** but could not **assist with navigation** —
+  help a student decide what to do next in an open design space.
+
+**That last sentence is the thesis of our project.** The 2006 team had the simulator, had the
+verified physics, had validated dialogue content — and could not do free-form navigation support
+because the language technology did not exist. It does now. We are not proposing something
+untested; we are proposing the one component they identified as missing.
+
+Their **authoring pipeline is directly reusable**: record human tutoring in the real environment,
+have a domain expert segment it into topics, **check that topic coverage predicts post-test score
+before authoring anything** (they got R² = .715, N = 21), then author to the validated topics.
+→ [full node](systems/cyclepad-cycletalk.md)
 
 ---
 

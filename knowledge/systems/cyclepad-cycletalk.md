@@ -35,9 +35,9 @@ Seven working fluids (water, nitrogen, ammonia, methane, R-12, R-22, R-134a). Bu
 jointly.
 
 **CycleTalk** — Carolyn Rosé's group at CMU built a **tutorial dialogue agent on top of
-CyclePad**, engaging students in *"dialogues negotiating the pros and cons of alternative
-designs for thermodynamic cycles."* Preceded by **Wizard-of-Oz studies** and followed by a
-controlled evaluation (ITS 2006).
+CyclePad**, engaging students in *"negotiation dialogues"* about design trade-offs. Same ONR
+funder (Cognitive and Neural Sciences, N000140410107). **Read in full below** — it answers the
+question our whole project asks.
 
 ---
 
@@ -559,8 +559,148 @@ regeneration, reheat, combined-cycle — precisely
 
 **5. The gap it leaves is exactly LLM-shaped.** CyclePad answers four fixed question types over
 a dependency graph. It cannot handle *"I don't get why the pump work is so small"* — which is
-what students actually ask. **CycleTalk was the attempt to close that gap in 2004–2006, and we
-should know what it found before proposing the same thing with better language technology.**
+what students actually ask. **CycleTalk was the attempt to close that gap in 2004–2006. It
+worked, modestly, and the section below is the most directly relevant evidence we have.**
+
+---
+
+# CycleTalk — dialogue on top of the articulate simulator
+
+**The hypothesis**, verbatim: *"negotiation-style dialogue will lead to better learning than
+previous tutorial dialogue systems because (1) it **motivates students to explain more in order
+to justify their thinking**, and (2) it supports the students' **meta-cognitive ability to ask
+themselves the right questions about the choices they make**."*
+
+Domain: **Rankine cycles** — simple, with reheat, with regeneration. Students design and
+**optimize** cycles rather than solve textbook problems.
+
+## ⭐ The content-development pipeline — the most reusable thing here
+
+This is the method the [Andes team recommended](andes.md) and that we have been considering.
+CycleTalk actually did it, and validated it:
+
+1. **Collect a corpus of human tutoring** in the real environment — from the earlier classroom
+   study where human tutors supported students using CyclePad.
+2. **A thermodynamics domain expert** performed a topic analysis using an exploratory corpus tool
+   (InfoMagnets). Each student protocol split into 10–25 segments; **≈379 topic segments** total,
+   yielding **15 distinct topics**, with each student covering 4–11 of them.
+3. **Validate that the topics matter before authoring anything.** They found *"a strong and
+   reliable correlation between topic coverage (i.e., percentage of topics discussed at least
+   once) and post-test score, with pre-test score used as a covariate (**R² = .715, N = 21,
+   p < .05**)."*
+4. **Author dialogues against the validated topics** — **12 Knowledge Construction Dialogues**,
+   **7 on optimization specifics, 5 conceptual**.
+5. **Attach them to a tutor backbone.** They used **CTAT Pseudo Tutors** — authored *"without
+   programming, namely, by demonstrating correct and incorrect solutions,"* stored as a
+   **Behavior Graph** whose nodes are student actions. Dialogues fire either **on a hint request**
+   or **as a success message** when a node is completed.
+
+**Step 3 is the step to steal.** Validate topic coverage against outcomes *before* investing in
+authoring. It is cheap, it is a real finding in its own right, and it tells you which topics are
+worth the effort.
+
+## What the dialogue actually sounds like
+
+Verbatim from a real session:
+
+> **Tutor:** Let's stop for a minute and reflect on what we have seen. Having seen how changing
+> T-Max (i.e., the Maximum Temperature at the Heater Outlet) affects the efficiency of the cycle,
+> do you think it is a good idea in general for the Maximum Temperature to be increased and kept
+> high?
+> **Student:** yes
+> **Tutor:** Okay. Let's think now about one important consequence of keeping T-Max high. What
+> happens to the steam quality at the turbine exit if you increase the maximum temperature of the
+> cycle?
+> **Student:** Increases
+> **Tutor:** Right. As increasing the temperature makes the efficiency and steam quality better,
+> we should increase the maximum temperature of the cycle. But **can we keep on increasing the
+> maximum temperature at the heater outlet indefinitely, or are there limitations to keep in
+> mind?**
+> **Student:** there are limitations such as material constraints
+> **Tutor:** Great. we should try to keep T-Max as high as possible without risking safety
+> concerns or exceeding the maximum temperature the material can withstand…
+
+Note the shape: **reflect on what the simulator just showed → elicit a consequence → push to the
+constraint that bounds it → consolidate into a principle.** It is short, it is Socratic in the
+useful sense, and every turn is anchored to something the student just *did* in the simulator.
+
+## ⚠ The evidence — read carefully, because the headline overstates it
+
+**The prior human-tutor study** (Rosé et al., AI-ED 2005) compared three conditions: **S**
+(script, step-by-step written instructions), **PS** (problem-solving goals + reference material +
+a hint button), and **NPSG** (*Negotiated Problem Solving Goals* — same goals, but the student is
+free to order them and **negotiates that ordering with a human tutor**). **NPSG learned most** —
+significantly more than PS (p < .05), marginally more than S (p < .1).
+
+**The ITS 2006 study** replaced the human tutor with the authored dialogue agents.
+
+- **N = 31** sophomore thermodynamics students, Carnegie Mellon, extra credit, 1.5 weeks after
+  Rankine cycles were lectured
+- **3-hour lab, 9 segments, strictly time-controlled** across conditions
+- Conditions differed **only** in the software version: **S** (plain CyclePad), **PSHELP** (KCDs
+  fire on hint requests), **PSSUCCESS** (KCDs also fire as success messages)
+
+| Condition | Pretest | Posttest | FreeExplore 1 success | FreeExplore 2 efficiency |
+|---|---|---|---|---|
+| S | 20.64 (5.56) | 31.39 (5.86) | 23% | 38.14 (10.97) |
+| PSHELP | 20.67 (3.56) | 27.83 (6.02) | **0%** | 38.09 (13.12) |
+| PSSUCCESS | 24.86 (4.10) | 32.45 (4.06) | 20% | 34.09 (14.17) |
+
+**⚠ The control comparison was discarded by the authors.** A quiz on Rankine cycles was
+administered between the day-1 sessions (control) and the day-2 sessions (both experimental
+conditions). Pretest scores rose across sessions (R² = .14, p < .05). *"we disregard the
+comparison between the control condition and the two experimental conditions and focus only on
+the difference between the two experimental conditions."*
+
+**So the headline result is a *dose* manipulation, not dialogue-versus-no-dialogue:**
+PSSUCCESS > PSHELP, **p < .05, effect size 0.35 SD**, on concept-level pre/post scores.
+Students in PSSUCCESS saw **2.7 KCDs on average; PSHELP saw 1.8.** Out of twelve.
+
+**⚠ And there were no significant effects on either Free Exploration exercise** — the two
+*practical* measures, fully defining a cycle and optimizing one. The learning showed up on the
+conceptual test only. That echoes [Andes](andes.md) almost exactly: process and concepts move,
+applied performance doesn't.
+
+**⭐ The dialogue-versus-control comparison does exist, and it is positive** — in a follow-up at
+the **US Naval Academy** contrasting S against PSSUCCESS: **F(1,86) = 5.57, p < .05, effect size
+0.25 SD.** One sentence in the paper, no further detail, but it is the cleanest answer available
+to *"does dialogue on top of an articulate simulator beat the simulator alone?"* — **yes, by
+about a quarter of a standard deviation.**
+
+## ⚠ The exposure problem, which is the real story
+
+> *"only about **14% of the problem solving actions** of students were help requests."*
+
+> *"**Only 1 of 7 KCDs** focusing on interpreting sensitivity analyses was viewed by **any**
+> student in the PSHELP condition."*
+
+> *"it is a concern that **so few of the authored KCDs were viewed by students on average even in
+> the condition where they were viewed most frequently**."*
+
+And their own closing assessment:
+
+> *"the system we evaluated in this study still **falls far short of a full implementation of the
+> NPSG condition**… the number of KCDs students view during their experience with the system
+> **still need to be increased by a factor of 2 or 3**… they played more of a role of **eliciting
+> reflection** from students rather than **assisting with navigation** to the same extent that the
+> human tutors did."*
+
+**Three lessons for us, and they are unusually direct:**
+
+1. **Students almost never ask for help.** 14% of actions. A pull-only tutor in an exploratory
+   environment will not be used enough to matter — which is why attaching dialogues to *success*
+   events beat attaching them to *hint requests*. **Proactivity is not a nice-to-have; it was the
+   experimental manipulation, and it was the thing that worked.**
+   → [engagement decay](../concepts/engagement-decay.md)
+2. **They got 0.25–0.35 SD while delivering 2 of 12 authored dialogues.** The authoring was
+   mostly unused. Any estimate of our own content needs should assume most of it will not be
+   seen unless we solve delivery.
+3. **The human tutor did something the agent didn't: navigation support.** The agents elicited
+   reflection well; they could not help students decide *what to do next in an open-ended design
+   space*. **That is precisely the "what do I do next" request the
+   [Socratic discourse taxonomy](../concepts/socratic-tutoring.md) found students make most —
+   and it is exactly what an LLM is now good at.** It is the clearest statement anywhere of the
+   gap our project could fill.
 
 ## Open questions — being read now
 
@@ -606,5 +746,8 @@ should know what it found before proposing the same thing with better language t
 - [Forbus & de Kleer, *Building Problem Solvers* — LTRE/LTMS source](https://www.qrg.northwestern.edu/BPS/readme.html) `[found]` — the reasoning substrate, actually available
 - Everett, J. O. (1999). CARNOT teleological reasoning. *Artificial Intelligence* 113, 149–202 `[found]`
 - "Using Articulate Virtual Laboratories in Teaching Energy Conversion at the U.S. Naval Academy," *J. Educational Technology Systems* (1998), ERIC EJ561409 `[in progress]`
-- Rosé et al. "CycleTalk: Toward a Dialogue Agent That Guides Design with an Articulate Simulator," ITS 2004 `[in progress]`
-- "Evaluating the Effectiveness of Tutorial Dialogue Instruction in an Exploratory Learning Context," ITS 2006 `[in progress]`
+- [**Kumar, Rosé, Aleven, Iglesias & Robinson (2006). "Evaluating the Effectiveness of Tutorial Dialogue Instruction in an Exploratory Learning Context." *ITS 2006*, LNCS 4053, pp. 666–674**](https://e-archivo.uc3m.es/bitstreams/2aa325b4-2f85-4561-9860-20ed9eb3b6ab/download) `[read]` — **the controlled evaluation.** Open copy via Universidad Carlos III (`hdl.handle.net/10016/17305`); Springer's is paywalled.
+- Rosé, Aleven & Torrey. "CycleTalk: Supporting Reflection in Design Scenarios with Negotiation Dialogue." CHI workshop paper `[read]` — states the negotiation-dialogue hypothesis.
+- Rosé et al. (2005). Human-tutor study establishing the **NPSG** condition. *AI-ED 2005* `[found]` — cited in the above for the S/PS/NPSG contrast (NPSG > PS at p < .05, > S at p < .1).
+- Rosé et al. "CycleTalk: Toward a Dialogue Agent That Guides Design with an Articulate Simulator," ITS 2004 `[found]`
+- Funding: **ONR Cognitive and Neural Sciences Division, Grant N000140410107** — the same ONR line that funded [Andes](andes.md) and CyclePad itself.

@@ -112,6 +112,7 @@ ones that changed a design decision:
 | Maizey improved grades 5–9% | **No locatable study.** Retracted |
 | ASSISTments: two studies, ~a year of gains | **One study**, ~two-thirds of a year — and the **independent replication was null** |
 | Stan is the only thermodynamics tutor | **[CyclePad](systems/cyclepad-cycletalk.md) has been in the USNA curriculum since 1996** |
+| CycleTalk showed dialogue beats a bare simulator by 0.35 SD | **0.35 SD is a *dose* comparison between two dialogue conditions; the authors discarded their own control comparison over a quiz confound. The real dialogue-vs-control figure is 0.25 SD, from a one-sentence USNA follow-up** — [node](systems/cyclepad-cycletalk.md) |
 
 **The through-line:** nearly every correction made a claim *weaker and more specific*.
 Summaries — including good ones — round findings toward their headline, and secondary sources
