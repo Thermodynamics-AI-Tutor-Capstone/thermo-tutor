@@ -42,6 +42,40 @@ Llama-3.1-70B-Instruct and GPT-4o-mini with detailed pedagogical guidelines and 
 pedagogical preferences. **If we build a thermodynamics pedagogy benchmark, "just ask GPT to
 judge it" is not a viable methodology.** That's an expensive lesson to learn late.
 
+⭐ **And this is the second independent finding of the same asymmetry.**
+[Niousha et al.](behavioral-evaluation.md) report LLM–human agreement of **κ = 0.65 and 0.44** on
+pedagogical labels but **κ = 0.80–1.00** on "did the student act on this feedback correctly."
+**Judging *was this good tutoring* is genuinely hard for models; judging *did the student take it
+up* is easy.** Two papers, different institutions, different domains, same conclusion — which is a
+strong argument for making behavioral uptake our primary automated metric and reserving
+pedagogical judgement for human raters on a sample.
+
+## ⚠ Two failure modes that hit our design directly
+
+**1. Tutoring degrades as the conversation gets longer.** Win rates drop on the `[hard]` splits,
+which carry longer conversation history (avg. 5.78 turns). Their reading: *"the longer the context
+it is more difficult… it might be important to guide students differently than with a simple
+Socratic questioning."* **Only LearnLM held consistent performance across lengths.**
+
+This matters more for us than for a maths benchmark. A thermodynamics problem — draw the cycle,
+fix the states, apply the balances, check the assumptions — **is inherently a long dialogue.** If
+simple Socratic questioning degrades past five turns, and a full cycle analysis takes fifteen,
+then the strategy has to change partway through the conversation. Nobody has characterised what it
+should change to.
+→ [Socratic tutoring](../concepts/socratic-tutoring.md)
+
+**2. Most models cannot follow pedagogical instructions in a prompt.** Comparing scaffolding
+generation against instruction-following win rate, **GPT-4o gains significantly** when given
+explicit pedagogical instructions (ScienceTutor improves slightly), but **SocraticLM, LearnLM and
+the Llama models show decreased or unchanged performance** — *"suggesting a limited ability to
+follow pedagogical instructions defined in prompt."*
+
+Note the shape of that: the *tutoring-specialised* models are the ones that ignore pedagogical
+prompting, presumably because their tuning already fixed a strategy. **You cannot prompt a
+fine-tuned tutor out of its habits, and you cannot reliably prompt a general model into good ones**
+— which is the same wall [CS50 hit at 10M messages](../systems/cs50-duck.md).
+→ [guardrails](../concepts/guardrails.md)
+
 ## The headline finding
 
 > **Subject expertise does not translate into good teaching.** Pedagogy and subject expertise
@@ -169,7 +203,7 @@ still in review. → [roadmap](../../admin/roadmap.md)
 
 ## Sources
 
-- [MathTutorBench, arXiv:2502.18940](https://arxiv.org/abs/2502.18940) `[skimmed]` · [code](https://github.com/eth-lre/mathtutorbench) `[found]`
+- [Macina, Daheim, Hakimi, **Kapur**, Gurevych & Sachan, "MathTutorBench," arXiv:2502.18940](https://arxiv.org/abs/2502.18940) `[read — full text, 18 pp., 2026-09-01]` — ETH Zurich + TU Darmstadt; note Manu Kapur of [productive failure](../concepts/productive-failure.md) is an author · [code](https://github.com/eth-lre/mathtutorbench) `[found]`
 - [Maurya et al., "Unifying AI Tutor Evaluation: An Evaluation Taxonomy for Pedagogical Ability Assessment of LLM-Powered AI Tutors" (MRBench), arXiv:2412.09416](https://arxiv.org/abs/2412.09416) `[read]` · [code](https://github.com/kaushal0494/UnifyingAITutorEvaluation)
 - [NeuralNexus at BEA 2025 Shared Task, arXiv:2506.10627](https://arxiv.org/pdf/2506.10627) `[found]`
 - [AITutor-EvalKit, arXiv:2512.03688](https://arxiv.org/pdf/2512.03688) `[found]`

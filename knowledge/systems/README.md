@@ -23,6 +23,7 @@ One node per tutoring system. History, architecture, measured results, and what 
 | System | Institution | Domain | Why it matters |
 |---|---|---|---|
 | [Andes](andes.md) `[read]` | Pitt + USNA + Rutgers | **Physics** | Step-based, 5-year evaluation. **Drawings +1.21, answers −0.08** |
+| [**Ethel**](ethel-eth.md) | ETH Zurich | Physics / **thermodynamics** | **University-built virtual TA. Publishes its cost ($7.50/student/semester) and its failures. Grading: high precision, ~50% recall** |
 | [**CyclePad / CycleTalk**](cyclepad-cycletalk.md) | Northwestern + USNA + CMU | **THERMODYNAMICS** | **Articulate thermo simulator, USNA curriculum since 1996. Dialogue layer added 2006: +0.25 SD over simulator alone, conceptual tests only. The precedent nobody cites** |
 | [AutoTutor](autotutor.md) | Memphis | Various | Expectation/misconception-tailored dialogue |
 | [Cognitive Tutor](cognitive-tutor.md) | CMU | Algebra | Source of knowledge tracing, KCs, the doer effect |
