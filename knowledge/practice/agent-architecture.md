@@ -14,6 +14,33 @@ literature badly. This node is the engineering side, and it changes what we shou
 
 ---
 
+## The foundations, which predate all of the above
+
+⚠ Everything else in this node is a 2026 preprint. These three are peer-reviewed, heavily
+replicated, and the vocabulary the rest of the literature assumes. **Anchoring on them is a
+deliberate correction** to a node that would otherwise rest entirely on unreviewed work.
+
+**ReAct** (Yao et al., **ICLR 2023**) is the loop nearly every agent still runs. Its observation was
+that *"reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have
+primarily been studied as separate topics,"* and its contribution was to **interleave** them —
+generate a reasoning trace, take an action, observe, repeat. When later papers say "the agent
+loop," this is it.
+
+**Reflexion** (Shinn et al., 2023) added learning without weight updates: agents *"verbally reflect
+on task feedback signals, then maintain their own reflective text in an **episodic memory buffer**
+to induce better decision-making in subsequent trials."* ⚠ Note the [Horizon Gap survey's
+verdict on this line](agent-architecture.md) — *"intrinsic self-correction does not reliably improve reasoning
+**without external grounding**."* **Reflection needs something true to reflect against**, which for
+us is the [solver](../concepts/grounding-and-verification.md).
+
+**Chain-of-thought** (Wei et al., 2022) is the substrate both build on.
+
+**Why this matters for a tutor specifically:** ReAct's interleaved reason→act→observe loop is
+structurally the same shape as the
+[sub-question / verify / respond loop](../concepts/grounding-and-verification.md), with the
+student's work as an additional observation channel. We are not inventing an architecture; we are
+instantiating a well-worn one with a domain solver in the action slot and a student in the loop.
+
 ## ⭐⭐ The geometric law
 
 *"How Fast Do Agents Rot? An Empirical Study of Long-Horizon Degradation in LLM Agents"*
@@ -246,6 +273,13 @@ though note the monitor needs hidden states, which rules it out for API-only mod
 - [Guardrails](../concepts/guardrails.md)
 
 ## Sources
+
+**Foundations:**
+
+- [Yao, Zhao, Yu, Du, Shafran, Narasimhan & Cao, "ReAct: Synergizing Reasoning and Acting in Language Models," ICLR 2023, arXiv:2210.03629](https://arxiv.org/pdf/2210.03629) `[read]`
+- [Shinn, Cassano, Berman, Gopinath, Narasimhan & Yao, "Reflexion: Language Agents with Verbal Reinforcement Learning," arXiv:2303.11366](https://arxiv.org/pdf/2303.11366) `[read]`
+- [Wei et al., "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models," arXiv:2201.11903](https://arxiv.org/pdf/2201.11903) `[read]`
+
 
 - ["Calibration is the Bottleneck: An Action-Class Diagnostic of Multi-Turn Tool-Calling," arXiv:2609.00949](https://arxiv.org/pdf/2609.00949) `[read]` — the TOOL_CALL/ASK/REFUSE/CONFIRM decomposition and the heterogeneous-transfer warning
 
