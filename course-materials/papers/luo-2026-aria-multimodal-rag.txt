@@ -1,0 +1,2537 @@
+ARIA: A DAPTIVE R ETRIEVAL I NTELLIGENCE A SSISTANT - A
+M ULTIMODAL RAG F RAMEWORK FOR D OMAIN -S PECIFIC
+E NGINEERING E DUCATION
+
+arXiv:2604.06179v1 [cs.IR] 4 Feb 2026
+
+Yue Luo ∗
+Engineering Mechanics
+Dalian University of Technology
+Dalian, Liao 116024
+yueluo@mail.dlut.edu.cn
+
+Dibakar Roy Sarkar ∗
+Civil and Systems Engineering
+Johns Hopkins University
+Baltimore, MD 21218
+droysar1@jh.edu
+
+Rachel Herring Sangree
+Civil and Systems Engineering
+Johns Hopkins University
+Baltimore, MD 21218
+sangree@jhu.edu
+
+Somdatta Goswami†
+Civil and Systems Engineering
+Johns Hopkins University
+Baltimore, MD 21218
+somdatta@jhu.edu
+
+A BSTRACT
+Developing effective, domain-specific educational support systems is central to advancing AI in
+education. Although large language models (LLMs) demonstrate remarkable capabilities across
+diverse domains, they face significant limitations in specialized educational applications, including
+hallucinations, a limited ability to update or expand their knowledge base, and a lack of domainspecific expertise. Current approaches like fine-tuning require complete model retraining for updates,
+creating substantial computational overhead, while general-purpose LLMs often provide inaccurate
+responses in specialized academic contexts. We argue that these limitations arise from their reliance
+on generalized training data, which fails to exploit the structured, course-specific knowledge essential
+for effective educational guidance. To address this, we propose ARIA (Adaptive Retrieval Intelligence
+Assistant) as a Retrieval-Augmented Generation (RAG) framework for creating intelligent teaching
+assistants across diverse university-level courses. ARIA leverages a multimodal content extraction
+pipeline combining Docling for structured document analysis, Nougat for mathematical formula
+recognition, and the GPT-4 Vision API for engineering diagram interpretation. It further incorporates
+the open-source e5-large-v2 embedding model, selected for its high semantic performance and
+low query latency. This design enables accurate processing of complex educational materials
+while maintaining pedagogical consistency through carefully engineered prompts and response
+control mechanisms. We evaluate ARIA using lecture material from Statics and Mechanics of
+Materials, a sophomore-level civil engineering course at Johns Hopkins University, benchmarking
+performance against ChatGPT-5 using multiple educational-effectiveness criteria. Results demonstrate
+that ARIA achieves 97.5% accuracy in domain-specific question filtering and superior pedagogical
+performance in conceptual explanation quality and structured problem-solving approaches. ARIA
+correctly answered all 20 relevant course questions while appropriately rejecting 58 of 60 non-relevant
+queries, achieving 90.9% precision and 100% recall. Response quality averaged 4.89/5.0 across
+all categories. These findings provide evidence that ARIA’s course-agnostic architecture and RAGenhanced knowledge base represent a suitable framework for scalable, domain-specific educational
+AI deployment. The ARIA web application is available at https://aria-static-mechanics-ta.
+streamlit.app/.
+∗
+†
+
+Authors contributed equally to this work.
+Corresponding author: somdatta@jhu.edu
+
+A PREPRINT
+
+Keywords Retrieval-Augmented Generation · Educational AI · Intelligent Teaching Assistant · Multimodal Content
+Extraction · Engineering Education · Large Language Models · Domain-Specific AI · STEM Learning Support
+
+1
+
+Introduction
+
+Large Language Models (LLMs) have demonstrated remarkable capabilities across diverse domains, answering complex
+questions and providing solutions that suggest sophisticated reasoning abilities [1, 2, 3]. Despite their impressive
+performance, LLMs face significant limitations in specialized applications, particularly the phenomenon of hallucination,
+where models generate factually incorrect responses with apparent confidence [4, 5]. This limitation stems primarily
+from their training on vast, generalized datasets that provide broad knowledge but lack domain-specific expertise
+[6, 7]. Consequently, while LLMs excel at general tasks, their accuracy diminishes when applied to specialized or
+knowledge-intensive domains that require precise, current information [8, 9]. These limitations make current LLMs
+unreliable as course-specific teaching assistants, particularly in engineering domains where interpretation of formulas,
+diagrams, and step-by-step methods is essential.
+Two primary methodologies have emerged to address these limitations and enable domain-specific adaptation of LLMs:
+fine-tuning and Retrieval-Augmented Generation (RAG) [10, 6, 11]. Fine-tuning allows organizations to adapt existing
+LLMs to their specific information needs by training models on proprietary or domain-specific datasets, producing
+commendable performance in specialized contexts [12, 13, 14]. However, this approach requires complete model
+retraining whenever new information becomes available or existing documents undergo modifications, creating significant computational overhead and maintenance challenges [7, 15]. RAG offers an alternative solution by dynamically
+retrieving relevant information from external knowledge bases and incorporating this context into the generation process
+[10, 16]. While RAG systems may not achieve the same level of domain-specific performance as fine-tuned models,
+they provide considerable advantages in maintaining current information, offering interpretability through traceable
+source references, and enabling continuous knowledge updates without retraining [17, 18, 19].
+These developments have particular relevance in educational settings, where there is a growing demand for scalable,
+accurate, and interactive teaching aids that support educators while ensuring student privacy and equitable access
+[20, 21]. We introduce ARIA (Adaptive Retrieval Intelligence Assistant), a general RAG-based framework designed to
+create intelligent teaching assistants for university-level courses across diverse academic domains. The framework’s
+modular architecture enables rapid specialization to any course by incorporating specific course materials as the
+knowledge base, transforming the system into a domain-expert virtual teaching assistant. Unlike generic educational
+chatbots, ARIA provides course-specific guidance tailored to the instructor’s teaching style and course content, helping
+students navigate complex concepts when human teaching assistants are unavailable. The framework incorporates
+configurable restrictions to ensure responses remain relevant to the designated subject matter, preventing off-topic
+interactions while maintaining academic focus. This approach addresses the substantial workload challenges faced by
+teaching assistants in large courses while providing students with consistent, high-quality academic support available
+around the clock.
+To demonstrate the framework’s effectiveness, we implemented ARIA using course materials from Statics and Mechanics
+of Materials, though the methodology applies universally to any academic discipline. To guide this investigation, we
+focus on the following research questions:
+RQ1: Can a multimodal, course-specific RAG framework reduce hallucinations and improve domain specificity and
+response reliability in STEM educational settings?
+RQ2: Does incorporating structured multimodal extraction (text, formulas, diagrams) improve retrieval quality and
+downstream pedagogical accuracy compared to general-purpose LLMs?
+RQ3: Can a course-agnostic architecture be rapidly adapted to new subjects while preserving reliable subject-specific
+response filtering?
+These questions provide the foundation for ARIA’s design and evaluation. The system employs a sophisticated
+multimodal content extraction pipeline that integrates three complementary technologies: Docling for structured
+document analysis and table extraction, Nougat (facebook/nougat-base) for precise mathematical formula and equation
+recognition [22], and GPT-4o Vision API for comprehensive analysis of engineering diagrams, free body diagrams,
+structural schematics, and visual content.
+This three-pronged approach processes PDF or docx course materials by converting each page to high-resolution images,
+systematically extracting text structures and mathematical expressions, and providing detailed descriptions of visual
+elements including engineering concepts and problem-solving methodologies. The multimodal extractor generates
+comprehensive knowledge representations that capture both symbolic mathematical content and contextual engineering
+information, which are subsequently converted to vector embeddings using Sentence Transformers and stored in pickle
+for efficient retrieval during query processing [23]. The framework’s course-agnostic design ensures that specialization
+2
+
+A PREPRINT
+
+for new domains requires only substituting the source materials and minimal modifications to the extraction prompts,
+making it readily adaptable to courses ranging from engineering and sciences to humanities and social sciences.
+ARIA represents a significant advancement in AI-assisted education, offering a scalable solution that enhances learning
+efficiency and student engagement across diverse academic disciplines through intelligent, context-aware interactions.
+Unlike prior educational LLM frameworks, ARIA introduces the first multimodal extraction pipeline combining
+Docling, Nougat, and GPT-4 Vision to create a course-specific RAG system capable of processing diagrams, formulas,
+and structured content at scale. The framework’s contributions to educational technology can be summarized as follows:
+1. A comprehensive, course-agnostic RAG-based workflow that can be rapidly specialized for any university course by
+incorporating domain-specific materials while maintaining strict academic focus.
+2. A robust multimodal embedding system capable of accurately extracting and processing mathematical equations,
+scientific diagrams, and structured data across disciplines.
+3. Intelligent response control mechanisms that ensure subject-specific interactions while providing educational
+guidance rather than direct problem solutions, adaptable to any course’s pedagogical requirements.
+4. A prototype web application that seamlessly integrates AI-generated responses with traceable references to original
+course materials, demonstrable across different academic domains.
+The remainder of the paper is organized as follows. Section 2 reviews related work, including large language models,
+their applications in education, and their current limitations. Section 3 details the methodology underlying ARIA’s
+workflow, the architecture of the RAG-based knowledge repository, and the implementation of the web interface.
+Section 4 presents experimental results examining data extraction performance, embedding model efficiency, and
+a comparative evaluation of ARIA against general-purpose LLMs in terms of educational effectiveness. Section 5
+provides concluding remarks and outlines directions for future research.
+
+2
+
+Related Work
+
+2.1
+
+Large Language Models and Domain Adaptation
+
+The advent of transformer architectures and attention mechanisms revolutionized natural language processing, establishing the foundation for modern LLMs [24]. This breakthrough enabled sophisticated models including BERT
+[12], ChatGPT [25], LLaMA [3], and DeepSeek [26]. However, domain-specific adaptation remains computationally
+expensive and resource-intensive. Parameter-efficient fine-tuning techniques have emerged to address these limitations.
+Low-Rank Adaptation (LoRA) exemplifies this approach by introducing trainable low-rank matrices into frozen transformer layers, enabling effective specialization with minimal parameter updates [27]. This methodology leverages
+insights about neural networks’ intrinsic low-dimensional structure [28, 29].
+Alternatively, Retrieval-Augmented Generation (RAG) provides external knowledge integration without parameter
+modifications [10]. RAG systems encode user queries through embedding models, retrieve semantically similar
+documents from pre-indexed knowledge bases, and augment the original query with retrieved context for enhanced
+generation. This approach offers distinct advantages for maintaining current information and ensuring response
+traceability to source materials.
+2.2
+
+Educational Applications of Large Language Models
+
+The integration of generative artificial intelligence in academic environments has witnessed substantial growth, manifesting across diverse educational contexts [30, 31]. Notable implementations include code debugging assistance for
+programming students [32], virtual classroom simulation platforms [33], and intelligent tutoring systems [34, 35].A
+particularly relevant contribution comes from Faghih Shojaei et al. (2025) [14], who developed AI-University (AI-U),
+an educational framework combining LoRA-based LLaMA-3.2 fine-tuning with RAG synthesis for graduate finite
+element method instruction. Their approach utilized Mathpix for LaTeX conversion of 4,648 systematically generated
+question-answer pairs derived from instructional materials.
+Our methodology diverges significantly from this foundation. Rather than relying on external conversion tools,
+we implement a comprehensive multimodal extraction pipeline capable of directly processing diverse content types
+including text, code, tables, images, mathematical formulas, and handwritten annotations from authentic course materials.
+Additionally, our framework incorporates instructor-provided question-answer pairs and implements specialized tools
+that operate independently of LLM generation, enabling dynamic answer validation and standardized response control
+mechanisms that enhance educational reliability beyond purely generative approaches.
+3
+
+A PREPRINT
+
+2.3
+
+Limitations and Implementation Challenges
+
+Despite significant potential, several barriers impede widespread LLM adoption in educational settings. Privacy and
+security concerns emerge when utilizing commercial platforms, particularly regarding sensitive student information
+and proprietary academic materials [36]. Educational equity represents another critical challenge, as students from
+privileged backgrounds demonstrate greater benefits from AI literacy and access [37].
+Current RAG implementations face substantial technical constraints. While context window limitations have improved
+with recent LLMs, they remain inadequate for processing extensive reference corpora effectively. Knowledge graph
+integration shows promise for enhancing RAG scalability and performance [38]. Additionally, RAG systems encounter
+fundamental retrieval and generation failures that directly impact response quality, particularly when relevant documents
+are not retrieved or when generative modules fail to synthesize retrieved information effectively.
+STEM education presents unique multimodal challenges requiring sophisticated embedding models capable of processing mathematical formulas, diagrams, and handwritten annotations. The embedding process itself offers potential for
+developing more cost-effective, domain-specific models trained on physics content, potentially reducing dependency on
+expensive commercial solutions. However, standardized evaluation frameworks for assessing physics-specific LLM
+capabilities remain absent. Ethical considerations necessitate rigorous accuracy verification, as incorrect responses
+could fundamentally compromise student learning outcomes rather than enhance educational experiences.
+
+3
+
+Methodology
+
+3.1
+
+System Overview
+
+The ARIA (Adaptive Retrieval Intelligence Assistant) framework is a Retrieval Augmented Generation-based learning
+assistant designed to deliver context-grounded and traceable educational support. The system architecture employs a
+multi stage pipeline that combines offline preparation of course materials with real time semantic retrieval and synthesis.
+As illustrated in Figure 1, student queries are processed through similarity based search, contextual retrieval, and large
+language model based response generation with citation linkage to specific instructional materials [10]. These responses
+are further shaped by carefully designed pedagogical guardrails that regulate domain fidelity, instructional coherence,
+and the overall quality of generated explanations.
+The interaction begins when a student submits a query through the web interface. The system identifies relevant excerpts
+of course content from the embedded knowledge base, integrates retrieved context with the question through prompt
+conditioning, and generates explanations that include numbered references for verification and deeper learning. The
+system maintains conversational continuity to support multi turn exchanges and adapts explanation depth according to
+the student’s progression.
+3.2
+
+Multimodal Extraction Pipeline
+
+The training dataset comprises course materials from the Statics and Mechanics of Materials course (EN.560.201)
+offered in the Department of Civil and Systems Engineering Department at Johns Hopkins University. The material
+spans core topics of forces, moments, stress strain relationships, deformation analysis, and equilibrium conditions,
+delivered through 33 slide-based lectures with voice-over instruction and 58 curated question answer pairs derived from
+22 assignments [39].
+The content extraction pipeline follows a structured multimodal workflow that corresponds to the stages shown in
+Figure 2. The process begins with raw instructional materials such as PDFs, slides, and assignments. These documents
+are first converted into page level image or pdf representations during the preprocessing stage. The images or pdf then
+enter three parallel extraction pathways that specialize in different modalities of engineering course content.
+Docling functions as the primary text understanding engine. It uses DocLayNet for layout analysis and TableFormer for
+table structure recognition, which allows precise extraction of textual descriptions, tabular information, and document
+layout [40]. In parallel, the Nougat Vision Encoder Decoder Model captures mathematical expressions and converts
+them into structured LaTeX, ensuring high fidelity preservation of equations across different formatting styles. A third
+pathway powered by GPT 4 Vision identifies and interprets visual elements that are essential in mechanics education,
+including engineering diagrams, free body sketches, schematics, and problem solution workflows.
+As illustrated in Figure 2, the outputs from these three extractors are then integrated into a unified multimodal
+representation. This integration step consolidates text, formulas, visual annotations, and structural layout information.
+The merged content is processed through a semantic chunking stage with metadata tagging that preserves conceptual
+4
+
+A PREPRINT
+
+DATA
+
+Data Preparation Pipeline (Offline)
+Books
+
+Lecture
+Transcripts
+
+Query Processing Pipeline
+
+Q/A
+Slides Assignments Pairs
+
+User Query
+Prompt
+
+Multimodal Content Extraction Pipeline
+Docling
+(Text, code,
+Tables)
+
+Nougat
+
+pdf2image unstructured
+
+Similarity Context
+
+Retrieved Context
+Query ()
+
+(m chunks)
+
+(Formulas)
+
+Carefully Engineered
+Prompts
+
+GPT-4 Vision
+(Diagrams)
+
+LLM
+
+combined text
+
+(Generation model
+/GPT-4)
+
+Divide into m chunks
+Embedding Model
+(e5-large-v2)
+
+Pickle
+(Vector Store/
+Embedding Space)
+
+Synthesized
+Answer
+
+References
+
+Figure 1: Architecture of the ARIA web application demonstrating the offline data preparation pipeline (left) and
+real-time query processing pipeline (right). The system processes multimodal educational content (books, lecture
+transcripts, slides, assignments, Q&A pairs) through specialized extraction modules including Docling for text and
+tables, Nougat for mathematical formulas, and GPT-4 Vision for diagrams. Content is segmented into chunks and
+embedded using text-embedding3-large, with vectors stored in a Pickle-based database. During query processing, the
+system performs similarity-based retrieval of relevant chunks, combines them with user queries in carefully engineered
+prompts, and generates responses using GPT-4 as the synthesis model, providing both answers and numbered source
+references for traceability.
+
+boundaries and instructional relationships across topics. These carefully prepared chunks are then encoded using the
+text embedding 3 large model to produce high dimensional vector representations suitable for retrieval.
+The resulting embeddings are stored in a pickle based approximate nearest neighbor index, which forms the vector store
+used throughout the ARIA retrieval augmented generation pipeline. This design ensures that textual, mathematical, and
+visual components of the course are accurately captured, searchable, and ready for downstream educational use.
+3.3
+
+Embedding and Retrieval Layer
+
+OpenAI’s text-embedding-3-large model encodes input text into dense numerical vectors and, by default, produces
+3072-dimensional embeddings that capture semantic relationships in engineering oriented content. It maps conceptually
+similar passages to nearby positions in vector space and offers an adjustable dimensions parameter to balance representational capacity with efficiency. ARIA uses this embedding model to index educational material by converting each
+concept-aligned chunk into a vector that reflects its meaning and mathematical relevance.
+ARIA segments course materials using a hierarchical chunking strategy aligned with topic boundaries and cognitive
+structure, and each chunk includes metadata descriptors such as topic domain, source document reference, difficulty
+tier, and prerequisite knowledge. These embeddings, together with their metadata, are stored in a vector index and
+support similarity search at query time. When a user submits a question, ARIA embeds the query and performs
+approximate nearest neighbor retrieval to surface the most semantically related chunks; simple queries return tightly
+scoped foundational material, while multi topic questions expand retrieval across several conceptual domains.
+A pickle based vector storage and approximate nearest neighbor indexing support low latency retrieval. The retrieval
+layer dynamically adjusts based on query category and conceptual complexity, enabling efficient and pedagogically
+aligned performance as the knowledge base scales.
+3.4
+
+Pedagogy Controls and Response Generation
+
+The ARIA framework employs a structured set of pedagogical control mechanisms to ensure that all generated responses
+remain strictly confined to the Statics and Mechanics of Materials curriculum as shown in Figure 3. Central to this
+5
+
+A PREPRINT
+
+Input
+
+Preprocess
+
+Extract
+
+Raw Course Materials
+PDFs, slides, assignments
+
+Page Conversion
+Pdf2image/unstructured
+
+Docline
+
+Nougat
+
+GPT-4 Vision
+
+Text + Tables + Layout
+
+Formula → LaTeX
+
+Diagrams + Schematics
+
+Integrate
+
+Multimodal Merger
+
+Process
+
+Semantic Chunking
+
+Encode
+
+Embedding
+
+Store
+
++ metadata tagging
+
+e5-large-v2
+
+Vector Store
+Pickle ANN Index
+
+Figure 2: Multimodal content extraction pipeline for ARIA. Course materials are converted to pdf or images and
+processed through three parallel extractors (Docling, Nougat, GPT-4 Vision), merged into unified representations,
+semantically chunked with metadata, embedded, and indexed for retrieval.
+
+framework is a multilayer relevance-classification process that evaluates whether a student’s question aligns with
+course concepts. This process draws on an extensive heuristic inventory composed of 30 Statics-related keyboards, 34
+Mechanics-related keywords, and 25 additional engineering-related keywords, forming a combined domain vocabulary
+of 89 indicators. These lexical cues allow the system to recognize legitimate course-related inquiries while maintaining
+high precision in topic adherence.
+
+Multilayer Relevance-Classification Process
+
+Course Elements Database
+
+Layer 1: Heuristic Inventory Match
+
+(Transcripts, Notes, Materials)
+
+89 Indicators: 30 Statics Terms, 34 Mechanics Keywords,
+25 Eng. Expressions
+
+Student Query
+
+Layer 2: Contextual Disambiguation
+Exclude: 27 Non-Eng. Contexts, 6 Coincidental Phrasings
+
+Context Retrieval & Curation
+
+Layer 3: Disciplinary Signal Assessment
+Detect: 31 Units, 12 Symbols, 10 Formulaic Patterns
+
+Synthesis & Generation
+
+Pedagogical
+Threshold Met?
+
+Prompt-Engineered Instruction Models
+Conservative Decoding Settings
+
+Standardized Course-Irrelevance Message
+
+Instructionally
+Aligned Explanation
+
+Validated Reference
+Citations (Traceability)
+
+Figure 3: Schematic representation of the ARIA pedagogical control and response generation framework. The process
+illustrates the multilayer relevance classification, decision thresholds, and the citation-validated generation pipeline.
+6
+
+A PREPRINT
+
+To avoid misclassification, ARIA incorporates a contextual disambiguation layer that excludes 27 common nonengineering contexts and identifies 6 categories of coincidental phrasing that may mimic technical terminology.
+Additional disciplinary signals are assessed through the detection of 31 engineering measurement units, 12 mathematical
+or mechanical symbols, and 10 formulaic patterns characteristic of equilibrium analysis and stress-strain relationships.
+Questions failing to meet these pedagogical thresholds receive a standardized course-irrelevance message, thereby
+preventing unsupported or tangential discourse.
+For queries deemed relevant, the system synthesizes retrieved context and the student query through prompt-engineered
+instruction models to produce explanations accompanied by reference citations that link directly to course elements
+including transcripts, prepared notes, or instructional materials. This architecture enables traceability, supports source
+verification, and reinforces evidence-based learning.
+Response generation operates under conservative decoding settings to minimize stylistic drift and maintain terminological precision. Retrieved materials are curated to ensure conceptual accuracy and instructional coherence, and citations
+are appended only when validated course sources are available. Collectively, these pedagogical controls ensure that
+ARIA functions as a disciplined, domain-bounded teaching assistant capable of delivering accurate, verifiable, and
+instructionally aligned explanations while preventing the system from extending beyond the authorized curriculum.
+3.5
+
+Web Interface
+
+The ARIA web application is implemented using Streamlit and is accessible at https://
+aria-static-mechanics-ta.streamlit.app/. Figure 4 shows the interface layout. The design emphasizes clarity and accessibility, supported by custom CSS with a muted academic oriented color palette. The interface
+includes real time feedback components and topic level filtering to support personalized study workflows.
+The backend integrates securely with OpenAI language models and includes rate limiting, API key management,
+and error handling protocols to maintain reliable operation. Execution processes are optimized to support consistent
+educational usage and query throughput.
+
+Figure 4: Demonstration of the web application, available at https://aria-static-mechanics-ta.streamlit.
+app/
+
+4
+
+Experiment
+
+To establish the necessity and effectiveness of ARIA’s multimodal extraction pipeline, the experimental analysis began
+with a component-wise ablation study comparing individual extraction tools against the integrated system. A six-page
+lecture slide deck on torsion analysis in cylindrical shafts from the Statics and Mechanics curriculum was selected as the
+source document because it contains mathematical formulas, engineering diagrams, and explanatory text, making it an
+appropriate test of multimodal capability. Each extraction method processed the identical PDF independently. PyPDF2
+7
+
+A PREPRINT
+
+served as a baseline text extractor, Nougat provided mathematical formula recognition, and GPT-4 Vision interpreted
+diagrammatic and visual content. The integrated ARIA configuration combined Docling for text and structural parsing,
+Nougat for symbolic mathematical extraction, and GPT-4 Vision for visual analysis, with all outputs merged into unified
+multimodal representations. This design enabled direct comparison between isolated tools and the full pipeline to
+determine the contribution and necessity of each component.
+Building on this foundation, the broader experimental evaluation assessed ARIA as a specialized RAG-enhanced
+educational AI system built upon the GPT-4 architecture. Its configuration included a maximum response length of 400
+tokens, a temperature of 0.7, and presence and frequency penalties of 0.1. ARIA was compared against ChatGPT-5
+accessed through the standard web interface, which dynamically employs both GPT-5 and GPT-5 Mini models. The
+evaluation included two complementary analyses: the first examined ARIA’s ability to filter and retain domain-specific
+questions to maintain conceptual focus within statics and mechanics; the second assessed educational effectiveness
+to determine whether ARIA’s tailored architecture and curated knowledge base provide learning advantages over
+general-purpose models.
+4.1
+
+Multimodal Extraction Pipeline Validation
+
+We measured extraction performance by total character count across the six lecture slides on torsion analysis in
+cylindrical shafts. This document represents typical engineering course materials containing mathematical formulas,
+engineering diagrams, and explanatory text. Table 1 presents comparative results for each extraction method.
+Table 1: Extraction Performance Comparison Across Methods. Comparative assessment of five extraction methods
+applied to six engineering lecture slides on torsion analysis. Total Characters quantifies extraction volume. Text Content
+categorizes textual extraction quality: None (no text), Partial (incomplete), OCR-based (image-to-text conversion),
+Structured (hierarchical formatting preserved), or Complete (full content with formatting). Formula Content assesses
+mathematical formula handling: None (not extracted), Placeholders (position marked, content unprocessed), or LaTeX
+format (equations converted to structured notation). Diagram Content evaluates visual element preservation: None
+(diagrams missing) or Detailed (comprehensive diagram information captured).
+Extraction Method Total Characters Text Content Formula Content Diagram Content
+PyPDF2
+Docling
+Nougat
+GPT-4 Vision
+ARIA-Full
+
+0
+3,924
+4,268
+12,568
+20,760
+
+None
+Structured
+Partial
+OCR-based
+Complete
+
+None
+Placeholders
+LaTeX format
+Natural language
+LaTeX format
+
+None
+None
+None
+Detailed
+Detailed
+
+PyPDF2 achieved zero extraction on image-based PDFs, confirming the incompatibility of standard libraries with modern
+educational materials that employ image rendering for visual quality. Docling extracted 3,924 characters (18.9% of
+total), successfully providing structured text with preserved document hierarchy but marking formulas as unprocessable
+placeholders (<!– formula-not-decoded –>). Nougat extracted 4,268 characters (20.6%), successfully converting
+all eight mathematical formulas into proper LaTeX format while providing only fragmented contextual text surrounding
+equations.
+GPT-4 Vision extracted 12,568 characters (60.5%), offering comprehensive diagram descriptions including dimensional
+specifications and geometric relationships, along with complete text through optical character recognition. However, mathematical expressions were rendered in natural language descriptions rather than structured LaTeX format,
+preventing computational manipulation.
+ARIA-Full which is combination of all of them extracted 20,760 characters, representing complete information capture
+and a 65.2% increase over the best individual method. This integration captures distinct, non-redundant information
+types: structured text with preserved document hierarchy (Docling), computationally usable LaTeX formulas enabling
+symbolic manipulation (Nougat), and detailed visual semantics including engineering diagram analysis (GPT-4 Vision).
+Each component addresses a unique content modality essential for engineering education. The results demonstrate that
+comprehensive educational material processing requires orchestrated multimodal extraction, as no single tool provides
+sufficient coverage across text, mathematical, and visual content dimensions.
+4.2
+
+Embedding Model Performance Evaluation
+
+To assess whether embedding model selection affects retrieval quality for engineering education content, we conducted
+a systematic comparison of five embedding models spanning different dimensionalities and architectural approaches.
+8
+
+A PREPRINT
+
+The evaluated models included text-embedding-3-large (3072 dimensions), text-embedding-3-small (1536
+dimensions), all-MiniLM-L6-v2 (384 dimensions), instructor-xl (768 dimensions), and e5-large-v2 (1024
+dimensions). All models were evaluated using identical ARIA-Full extracted content. Performance was assessed using
+five representative queries spanning formula identification, conceptual understanding, and problem-solving scenarios.
+Table 2: Embedding Model Performance Comparison
+Model
+text-emb-3-large
+text-emb-3-small
+all-MiniLM-L6-v2
+instructor-xl
+e5-large-v2
+
+Dimensions Accuracy@5 MRR NDCG@5 Avg Similarity Query Latency (s) Storage (KB)
+3072
+1536
+384
+768
+1024
+
+1.00
+1.00
+1.00
+1.00
+1.00
+
+1.00
+1.00
+1.00
+1.00
+1.00
+
+1.00
+1.00
+1.00
+1.00
+1.00
+
+0.588
+0.604
+0.613
+0.798
+0.851
+
+1.177
+0.769
+0.065
+0.849
+0.178
+
+346
+190
+73
+112
+138
+
+We evaluated models using standard information retrieval metrics: Accuracy@5 measures whether relevant content
+appears within the top five retrieved results; Mean Reciprocal Rank (MRR) quantifies the rank position of the first
+correct retrieval (ranging from 0 to 1, with 1 indicating a rank-1 match); and Normalized Discounted Cumulative Gain
+(NDCG@5) measures ranking quality by emphasizing higher-ranked items. Average similarity denotes the mean cosine
+similarity of the top three retrieved chunks, providing an estimate of retrieval confidence.
+All models achieved perfect scores (1.00) for Accuracy@5, MRR, and NDCG@5, successfully identifying relevant
+content within the top five retrieved items for all queries. This uniform performance suggests that for focused technical
+domains with tightly scoped, well-curated knowledge bases, embedding dimensionality has minimal impact on retrieval
+correctness. The concentrated thematic structure of engineering materials produces natural semantic clustering, enabling
+high retrieval accuracy across diverse embedding architectures.
+Despite equivalent accuracy, substantial differences emerged in similarity scores and computational efficiency. The
+open-source models e5-large-v2 and instructor-xl produced significantly higher average similarity scores (0.851
+and 0.798, respectively) than the OpenAI embeddings (0.588–0.604), indicating stronger semantic alignment with
+technical engineering content despite lower dimensionality. Higher similarity reflects stronger retrieval confidence,
+which becomes increasingly important when applying threshold-based filtering or discriminating between closely
+related concepts.
+Query latency varied dramatically across models. all-MiniLM-L6-v2 demonstrated the fastest performance, processing queries approximately 18 times faster than text-embedding-3-large (0.065 seconds versus 1.177 seconds).
+Storage requirements scaled proportionally with embedding dimensionality: text-embedding-3-large required 346
+KB, compared to only 73 KB for all-MiniLM-L6-v2, a key factor when indexing larger educational repositories.
+These results demonstrate that lightweight open-source embeddings deliver equivalent retrieval accuracy while offering
+significant advantages in efficiency and semantic coherence. The e5-large-v2 model presents the strongest overall
+balance, achieving the highest similarity score (0.851), moderate query latency (0.178 seconds), and reasonable
+storage requirements (138 KB). This makes it an optimal choice for deployment in resource-constrained educational
+environments where both accuracy and operational efficiency are essential.
+4.3
+
+Domain Specificity and Question Filtering
+
+This experiment evaluated ARIA’s ability to accurately distinguish between questions within its designated educational
+domain and those outside its scope of expertise. The assessment aimed to validate the system’s capacity to maintain
+focused educational support while establishing clear operational boundaries that prevent scope creep.
+We developed a comprehensive evaluation framework consisting of 80 strategically curated questions distributed in
+four distinct categories. Category 1 contained 20 relevant Statics and Mechanics questions derived directly from
+actual course assignments, covering force analysis, equilibrium calculations, shear force diagrams, bending moments,
+torsion problems, and material stress analysis. These questions should generate detailed explanations and step-by-step
+solutions. Category 2 included 20 engineering-adjacent questions from fluid mechanics, thermodynamics, and electrical
+engineering. Category 3 encompassed 20 academic non-engineering questions spanning calculus, chemistry, and history.
+Category 4 comprised 20 general personal inquiries about cooking, travel, and lifestyle advice. Categories 2-4 should
+trigger appropriate rejection responses with standardized messages.
+The evaluation methodology employed rigorous performance metrics derived from information retrieval literature [20].
+Precision measured the ratio of correctly answered Statics and Mechanics questions to all detailed responses (target
+>90%). Recall assessed the proportion of relevant Statics and Mechanics questions receiving appropriate responses
+9
+
+A PREPRINT
+
+(target >95%). The F1 score provided a balanced classification performance measure (target >92%). In addition, each
+response received an appropriateness rating on a five-point scale based on domain accuracy, explanation quality, and
+educational value.
+Recall
+100%
+90%
+70%
+50%
+
+50
+
+30
+
+Non Relevant
+
+False Pos
+2
+
+True Neg
+58
+
+F1 Score
+
+40
+
+Precision
+
+Count
+
+False Neg
+0
+
+Actual
+
+Relevant
+
+True Pos
+20
+
+20
+10
+Accuracy
+
+Relevant
+Non Relevant
+Predicted
+
+Metrics
+Target 90%
+
+0
+
+(a) Confusion matrix
+
+(b) Performance Radar
+
+Figure 5: Evaluation results of the ARIA system performance on document relevance classification task. The experiment
+tested the system’s ability to distinguish relevant from non-relevant educational documents using a labeled test dataset
+of 80 samples. Results show (a) confusion matrix with 20 true positives, 0 false negatives, 2 false positives, and 58 true
+negatives, and (b) performance radar chart displaying key information retrieval metrics (Recall, Precision, F1 Score,
+and Accuracy) against a 90% target threshold.
+ARIA achieved 90.9% precision and 100% recall in domain classification, resulting in an F1-score of 95.2% and overall
+accuracy of 97.5% as showm im Figure 5. The system correctly answered all 20 relevant statics/mechanics questions
+while appropriately rejecting 58 of 60 non-relevant queries. Only 2 engineering-adjacent questions were incorrectly
+answered, likely due to overlapping technical terminology. Response quality averaged 4.89/5.0 across all categories,
+demonstrating both accurate classification and high pedagogical value.
+4.4
+
+Educational Environment evaluation
+
+Building upon the validated question set from the domain specificity evaluation, this experiment utilized the similar 20
+relevant statics and mechanics questions that successfully demonstrated ARIA’s operational competency in the previous
+assessment. These questions, having been confirmed to fall within ARIA’s specialized domain, provided a controlled
+foundation for comparing educational effectiveness between ARIA’s domain-specific architecture and general-purpose
+AI systems.
+The experimental design specifically targeted whether ARIA’s RAG-enhanced knowledge base and specialized training
+translate into superior educational outcomes compared to GPT-5, a state-of-the-art general-purpose language model. By
+employing the previously validated question set, this approach eliminated potential confounding variables related to
+domain recognition failures, allowing for a focused comparison of educational quality and pedagogical effectiveness.
+Both ARIA and GPT-5 generated responses to each of the 20 questions, which were subsequently evaluated using a
+streamlined framework of six binary metrics: mathematical correctness, conceptual explanation quality, step-by-step
+solution clarity, teaching approach versus direct answer provision, question responsiveness, and overall educational
+value. This binary assessment framework was designed to enable rapid, objective evaluation while minimizing evaluator
+bias and ensuring consistent scoring criteria across all responses.
+As illustrated in Figure 6, the performance comparison revealed complementary strengths between the two systems.
+ARIA consistently excelled in pedagogical dimensions, providing structured explanations that emphasized conceptual understanding and systematic problem-solving approaches over direct answer provision. Conversely, GPT-5
+demonstrated superior mathematical accuracy and computational precision while maintaining comparable performance
+across other educational metrics. These findings suggest that ARIA’s domain-specific architecture and RAG-enhanced
+10
+
+A PREPRINT
+
+knowledge base effectively optimize for educational quality and conceptual clarity, though mathematical computation
+represents an area where general-purpose models currently maintain an advantage.
+
+Performance (%)
+
+100
+
+ARIA
+ChatGPT5
+
+80
+
+100%
+
+100%
+
+95%
+
+100%
+95%
+
+95% 95%
+
+100%
+
+95%
+
+95%
+
+75%
+70%
+
+60
+
+40
+ARIA
+94.2%
+
+20
+
+ChatGPT5
+91.7%
+
+0
+
+ct
+
+Ma
+
+t
+
+ns
+
+lai
+
+p
+Ex
+
+n
+Co
+
+lls
+
+s
+
+pts
+ce
+
+rre
+
+o
+hC
+
+tep
+
+Sh
+
+sS
+ow
+
+ac
+Te
+
+he
+
+s
+sv
+
+rs
+
+we
+
+s
+An
+
+on
+
+sti
+
+Te
+
+e
+Qu
+
+Ed
+
+ati
+
+uc
+
+l
+na
+
+Va
+
+lue
+
+o
+
+(a) ARIA vs ChatGPT-5: Performance Across Metrics
+
+(b) Overall Performance comparison
+
+Figure 6: Comparative evaluation of ARIA versus ChatGPT-5 performance on educational quality metrics for Statics
+& Mechanics instruction. The experiment assessed both systems across six pedagogical criteria using expert human
+evaluation, showing (a) performance comparison across specific metrics including mathematical correctness, conceptual
+explanation ability, step-by-step problem solving, teaching approach quality, question answering accuracy, and overall
+educational value, and (b) aggregated overall performance scores demonstrating ARIA’s 94.2% versus ChatGPT-5’s
+91.7% effectiveness in educational content delivery and student learning support.
+
+5
+
+Conclusion
+
+This paper presents ARIA (Adaptive Retrieval Intelligence Assistant), a comprehensive RAG-based framework designed
+to address fundamental limitations of general-purpose LLMs in specialized educational contexts. By integrating
+multimodal content extraction, efficient embedding strategies, and pedagogical control mechanisms, ARIA demonstrates
+how targeted AI systems can provide superior domain-specific educational support while maintaining strict academic
+focus and ensuring response traceability.
+The framework’s primary contribution lies in its validated multimodal content extraction pipeline, which integrates
+Docling for structured document analysis, Nougat for mathematical formula recognition, and GPT-4 Vision for
+engineering diagram interpretation. The extraction ablation study demonstrated that comprehensive educational
+material processing requires orchestrated multimodal extraction rather than reliance on any single tool. While PyPDF2
+achieved zero extraction on image-based educational materials, the complete ARIA pipeline captured 20,760 characters,
+representing a 65.2% increase over the best individual extractor. This substantial difference reflects distinct, nonredundant information types essential for engineering education support.
+The embedding model comparison revealed that lightweight open-source models provide equivalent retrieval accuracy
+while offering superior efficiency for focused technical domains. All five tested models achieved perfect retrieval metrics,
+confirming that domain-specific knowledge bases reduce sensitivity to embedding dimensionality. However, e5-large-v2
+demonstrated optimal performance balance with highest semantic similarity, moderate latency, and reasonable storage
+requirements, making it preferable for resource-constrained educational deployments.
+ARIA’s pedagogical effectiveness was validated through comprehensive evaluation demonstrating 97.5% accuracy in
+domain-specific question filtering and superior educational quality compared to ChatGPT-5. The system excelled particularly in pedagogical dimensions, including conceptual explanation quality, structured problem-solving approaches,
+and teaching-oriented guidance rather than direct answer provision.
+Future enhancements include integrating specialized mathematical reasoning modules to address current computational
+limitations, optimizing document processing architectures to balance accuracy and computational efficiency, as sequential document-by-document analysis yields superior content extraction accuracy compared to batch processing but
+11
+
+A PREPRINT
+
+introduces prohibitive latency, developing scalability solutions for institutional deployment through federated learning
+approaches, establishing standardized evaluation frameworks assessing learning outcomes and retention, implementing
+adaptive personalization algorithms based on individual student progress, expanding beyond STEM fields to humanities
+and social sciences, and incorporating multilingual support for global educational deployment while maintaining data
+privacy and cross-cultural adaptability.
+
+6
+
+Acknowledgments
+
+The authors would like to acknowledge computing support provided by the Advanced Research Computing at Hopkins
+(ARCH) core facility at Johns Hopkins University and the Rockfish cluster. ARCH core facility (rockfish.jhu.edu)
+is supported by the National Science Foundation (NSF) grant number OAC1920103. The research efforts of DRS
+and SG are supported by National Science Foundation (NSF) under Grant No. 2436738. Any opinions, findings,
+conclusions, or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the
+views of the funding organizations.
+
+Author contributions
+Conceptualization: YL, DRS, SG
+Investigation: YL, DRS, SG
+Visualization: YL, DRS, SG
+Supervision: SG
+Writing - original draft: YL, DRS
+Writing - review & editing: YL, DRS, SG
+
+Data and code availability
+The codes that support the findings of this study are available on https://github.com/RoyDibs/ARIA_static_
+mechanics_app.
+
+Competing interests
+The authors declare no competing interest
+
+Ethics Statement
+AI-Generated Responses: ARIA should be used responsibly. Answers are generated using AI and, while thorough,
+may not always be 100% accurate. Please verify the information independently.
+Educational Fair Use: This tool is intended solely for educational purposes and operates under the principles of fair
+use. It is not authorized for commercial applications
+
+References
+[1] T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry,
+A. Askell, et al., Language models are few-shot learners, Advances in neural information processing systems 33
+(2020) 1877–1901.
+[2] J. Achiam, S. Adler, S. Agarwal, L. Ahmad, I. Akkaya, F. L. Aleman, D. Almeida, J. Altenschmidt, S. Altman,
+S. Anadkat, et al., Gpt-4 technical report, arXiv preprint arXiv:2303.08774 (2023).
+[3] H. Touvron, L. Martin, K. Stone, P. Albert, A. Almahairi, Y. Babaei, N. Bashlykov, S. Batra, P. Bhargava,
+S. Bhosale, et al., Llama 2: Open foundation and fine-tuned chat models, arXiv preprint arXiv:2307.09288 (2023).
+[4] Z. Ji, N. Lee, R. Frieske, T. Yu, D. Su, Y. Xu, E. Ishii, Y. J. Bang, A. Madotto, P. Fung, Survey of hallucination in
+natural language generation, ACM computing surveys 55 (12) (2023) 1–38.
+[5] L. Huang, W. Yu, W. Ma, W. Zhong, Z. Feng, H. Wang, Q. Chen, W. Peng, X. Feng, B. Qin, et al., A survey on
+hallucination in large language models: Principles, taxonomy, challenges, and open questions, ACM Transactions
+on Information Systems 43 (2) (2025) 1–55.
+12
+
+A PREPRINT
+
+[6] Y. Gao, Y. Xiong, X. Gao, K. Jia, J. Pan, Y. Bi, Y. Dai, J. Sun, H. Wang, H. Wang, Retrieval-augmented generation
+for large language models: A survey, arXiv preprint arXiv:2312.10997 2 (1) (2023).
+[7] Y. Goldberg, A primer on neural network models for natural language processing, Journal of Artificial Intelligence
+Research 57 (2016) 345–420.
+[8] F. Petroni, T. Rocktäschel, P. Lewis, A. Bakhtin, Y. Wu, A. H. Miller, S. Riedel, Language models as knowledge
+bases?, arXiv preprint arXiv:1909.01066 (2019).
+[9] A. Roberts, C. Raffel, N. Shazeer, How much knowledge can you pack into the parameters of a language model?,
+arXiv preprint arXiv:2002.08910 (2020).
+[10] P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin, N. Goyal, H. Küttler, M. Lewis, W.-t. Yih, T. Rocktäschel, et al., Retrieval-augmented generation for knowledge-intensive nlp tasks, Advances in neural information
+processing systems 33 (2020) 9459–9474.
+[11] Y. Qin, S. Hu, Y. Lin, W. Chen, N. Ding, G. Cui, Z. Zeng, X. Zhou, Y. Huang, C. Xiao, et al., Tool learning with
+foundation models, ACM Computing Surveys 57 (4) (2024) 1–40.
+[12] J. Devlin, M.-W. Chang, K. Lee, K. Toutanova, Bert: Pre-training of deep bidirectional transformers for language
+understanding, in: Proceedings of the 2019 conference of the North American chapter of the association for
+computational linguistics: human language technologies, volume 1 (long and short papers), 2019, pp. 4171–4186.
+[13] J. D. M.-W. C. Kenton, L. K. Toutanova, et al., Bert: Pre-training of deep bidirectional transformers for language
+understanding, in: Proceedings of naacL-HLT, Vol. 1, Minneapolis, Minnesota, 2019.
+[14] M. F. Shojaei, R. Gulati, B. A. Jasperson, S. Wang, S. Cimolato, D. Cao, W. Neiswanger, K. Garikipati,
+Ai-university: An llm-based platform for instructional alignment to scientific classrooms, arXiv preprint
+arXiv:2504.08846 (2025).
+[15] O. Ovadia, M. Brief, M. Mishaeli, O. Elisha, Fine-tuning or retrieval? comparing knowledge injection in llms,
+arXiv preprint arXiv:2312.05934 (2023).
+[16] K. Shuster, S. Poff, M. Chen, D. Kiela, J. Weston, Retrieval augmentation reduces hallucination in conversation,
+arXiv preprint arXiv:2104.07567 (2021).
+[17] K. Guu, K. Lee, Z. Tung, P. Pasupat, M. Chang, Retrieval augmented language model pre-training, in: International
+conference on machine learning, PMLR, 2020, pp. 3929–3938.
+[18] S. Borgeaud, A. Mensch, J. Hoffmann, T. Cai, E. Rutherford, K. Millican, G. B. Van Den Driessche, J.-B. Lespiau,
+B. Damoc, A. Clark, et al., Improving language models by retrieving from trillions of tokens, in: International
+conference on machine learning, PMLR, 2022, pp. 2206–2240.
+[19] H. Chen, R. Pasunuru, J. Weston, A. Celikyilmaz, Walking down the memory maze: Beyond context limit through
+interactive reading, arXiv preprint arXiv:2310.05029 (2023).
+[20] J. Swacha, M. Gracel, Retrieval-augmented generation (rag) chatbots for education: A survey of applications,
+Applied Sciences 15 (8) (2025) 4234.
+[21] L. Wang, C. Ma, X. Feng, Z. Zhang, H. Yang, J. Zhang, Z. Chen, J. Tang, X. Chen, Y. Lin, et al., A survey on
+large language model based autonomous agents, Frontiers of Computer Science 18 (6) (2024) 186345.
+[22] L. Blecher, G. Cucurull, T. Scialom, R. Stojnic, Nougat: Neural optical understanding for academic documents,
+arXiv preprint arXiv:2308.13418 (2023).
+[23] N. Reimers, I. Gurevych, Sentence-bert: Sentence embeddings using siamese bert-networks, arXiv preprint
+arXiv:1908.10084 (2019).
+[24] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, I. Polosukhin, Attention is all
+you need, Advances in neural information processing systems 30 (2017).
+[25] J. Schulman, B. Zoph, C. Kim, J. Hilton, J. Menick, J. Weng, J. F. C. Uribe, L. Fedus, L. Metz, M. Pokorny, et al.,
+Chatgpt: Optimizing language models for dialogue, OpenAI blog 2 (4) (2022).
+[26] X. Bi, D. Chen, G. Chen, S. Chen, D. Dai, C. Deng, H. Ding, K. Dong, Q. Du, Z. Fu, et al., Deepseek llm: Scaling
+open-source language models with longtermism, arXiv preprint arXiv:2401.02954 (2024).
+[27] E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, W. Chen, et al., Lora: Low-rank adaptation of
+large language models., ICLR 1 (2) (2022) 3.
+[28] C. Li, H. Farkhoor, R. Liu, J. Yosinski, Measuring the intrinsic dimension of objective landscapes, arXiv preprint
+arXiv:1804.08838 (2018).
+13
+
+A PREPRINT
+
+[29] A. Aghajanyan, L. Zettlemoyer, S. Gupta, Intrinsic dimensionality explains the effectiveness of language model
+fine-tuning, arXiv preprint arXiv:2012.13255 (2020).
+[30] Q. Xu, J. Gu, J. Lu, Leveraging artificial intelligence and large language models for enhanced teaching and
+learning: A systematic literature review, in: 2024 13th International Conference on Computer Technologies and
+Development (TechDev), IEEE, 2024, pp. 73–77.
+[31] S. Wang, T. Xu, H. Li, C. Zhang, J. Liang, J. Tang, P. S. Yu, Q. Wen, Large language models for education: A
+survey and outlook, arXiv preprint arXiv:2403.18105 (2024).
+[32] S. Yang, H. Zhao, Y. Xu, K. Brennan, B. Schneider, Debugging with an ai tutor: Investigating novice help-seeking
+behaviors and perceived learning, in: Proceedings of the 2024 ACM Conference on International Computing
+Education Research-Volume 1, 2024, pp. 84–94.
+[33] Z. Zhang, D. Zhang-Li, J. Yu, L. Gong, J. Zhou, Z. Hao, J. Jiang, J. Cao, H. Liu, Z. Liu, et al., Simulating
+classroom education with llm-empowered agents, arXiv preprint arXiv:2406.19226 (2024).
+[34] Y. Hicke, A. Agarwal, Q. Ma, P. Denny, Ai-ta: Towards an intelligent question-answer teaching assistant using
+open-source llms, arXiv preprint arXiv:2311.02775 (2023).
+[35] A. Mehta, N. Gupta, A. Balachandran, D. Kumar, P. Jalote, et al., Can chatgpt play the role of a teaching assistant
+in an introductory programming course?, arXiv preprint arXiv:2312.07343 (2023).
+[36] C. K. Y. Chan, A comprehensive ai policy education framework for university teaching and learning, International
+journal of educational technology in higher education 20 (1) (2023) 38.
+[37] R. Yu, Z. Xu, S. CH-Wang, R. Arum, Whose chatgpt? unveiling real-world educational inequalities introduced by
+large language models, arXiv preprint arXiv:2410.22282 (2024).
+[38] W. Xing, C. Li, H. Li, W. Zhu, B. Lyu, Z. Yan, Is retrieval-augmented generation all you need? investigating
+structured external memory to enhance large language models’ generation for math learning (2024).
+[39] F. P. Beer, E. R. Johnston Jr, J. T. DeWolf, D. F. Mazurek, Mechanics of materials (2006).
+[40] N. Livathinos, C. Auer, M. Lysak, A. Nassar, M. Dolfi, P. Vagenas, C. B. Ramis, M. Omenetti, K. Dinkla,
+Y. Kim, et al., Docling: An efficient open-source toolkit for ai-driven document conversion, arXiv preprint
+arXiv:2501.17887 (2025).
+
+Appendix A: ARIA Domain Experiment Results
+Table 3: Complete ARIA Domain Experiment Question Set and Results
+ID
+
+Question
+
+Response Correct Score
+
+Relevant Statics/Mechanics Questions
+1
+
+2
+
+3
+4
+
+5
+
+6
+
+A cylindrical rod is fixed at point D and subjected to applied torques:
+1000 lb·in clockwise at point A, 2400 lb·in clockwise at point B, and
+800 lb·in counterclockwise at point C. Calculate the magnitude of the
+reaction torque at the fixed end D.
+A simply supported beam has a distributed load of 12 kN/m applied over
+a 3-meter length and a concentrated load of 9 kN applied at midspan.
+The beam supports are located at x = 0.9m and x = 3.9m. Calculate the
+vertical reaction force at support A.
+For the beam in Q2, calculate the vertical reaction force at support B.
+A cantilever beam of length 12 ft has a distributed load of 2 kips/ft
+applied over the first 4 ft and another 2 kips/ft over the next 4 ft, plus a
+concentrated load of 15 kips at the free end. Calculate the vertical
+reaction force at the fixed support.
+Calculate the maximum bending moment for a simply supported steel
+beam with section W200 × 19.3 spanning 6.0 m, subjected to a
+uniformly distributed load of 12 kN/m over the entire span plus the
+beam’s self-weight (19.3 kg/m; use g = 9.81 m/s²).
+For a beam with shear force equation V(x) = -12x + 31.5 (in kN),
+determine the location where the shear force equals zero.
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+Answer
+
+Y
+Y
+
+5
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Continued on next page
+14
+
+A PREPRINT
+
+Table 3 – Continued from previous page
+ID
+
+Question
+
+Response Correct Score
+
+7
+
+If the maximum bending moment in a W200 × 19.3 steel beam is 9.74
+kN-m, and the section modulus S = 61.9 × 10³ mm³, calculate the
+maximum bending stress.
+A beam segment has bending moment equation M(x) = -6x² + 31.5x 31.6 kN-m. Find the maximum bending moment in this segment.
+For a simply supported beam with length L = 8 m, if the maximum
+positive shear force is 15.3 kN and maximum negative shear force is -9
+kN, what is the difference between these extreme values?
+A structural member experiences a maximum bending stress of 157.4
+MPa. If the allowable stress for the material is 165 MPa, calculate the
+factor of safety.
+For a circular shaft with diameter 25 mm subjected to a torque of 150
+N·m, calculate the maximum shear stress.
+A 6-meter long simply supported beam carries a uniformly distributed
+load. If the maximum deflection is limited to L/300, and the beam has a
+moment of inertia I = 8.5 × 106 mm4 , what is the maximum allowable
+distributed load? (E = 200 GPa)
+Calculate the critical buckling load for a steel column with length 4 m,
+cross-sectional area 2500 mm², and radius of gyration 75 mm. (E = 200
+GPa)
+A truss member is subjected to an axial tension force of 45 kN. If the
+member has a cross-sectional area of 300 mm², calculate the normal
+stress.
+For a rectangular beam with width 150 mm and depth 300 mm,
+calculate the section modulus about the strong axis.
+A steel plate with thickness 10 mm is subjected to a tensile stress of 120
+MPa. Calculate the strain if the modulus of elasticity is 200 GPa.
+For a beam with applied loads resulting in a maximum moment of 85
+kN-m, determine the required section modulus if the allowable bending
+stress is 140 MPa.
+Calculate the deflection at the free end of a cantilever beam of length 2.5
+m with a point load of 8 kN applied at the end. The beam has EI =
+12106 N m2 .
+A circular cross-section has a diameter of 200 mm. Calculate the polar
+moment of inertia.
+For a simply supported beam under a central point load P, if the
+maximum bending moment is PL/4, what is the span length L if P = 20
+kN and M_max = 30 kN-m?
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Answer
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+Accept
+Accept
+
+Y
+N
+N
+
+5
+0
+0
+
+8
+9
+10
+11
+12
+
+13
+14
+15
+16
+17
+18
+19
+20
+
+Engineering-Adjacent Questions
+21
+22
+23
+24
+25
+26
+27
+28
+29
+
+Can you help me optimize the fluid flow through a pipeline system to
+minimize energy losses?
+I need assistance with designing a control system for a robotic arm. Can
+you help?
+How do I calculate the heat transfer coefficient for a shell-and-tube heat
+exchanger?
+Can you help me with MATLAB code for solving differential equations
+in circuit analysis?
+I’m working on a thermodynamics problem involving ideal gas
+processes. Can you assist?
+Can you help me design a concrete mix for a specific structural
+application?
+I need help with electromagnetic field calculations for antenna design.
+Can you assist with vibration analysis of a mechanical system?
+How do I perform stress analysis on a composite material structure?
+
+Continued on next page
+
+15
+
+A PREPRINT
+
+Table 3 – Continued from previous page
+ID
+
+Question
+
+Response Correct Score
+
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+
+Can you help me with chemical reaction kinetics calculations?
+I need assistance with digital signal processing algorithms.
+Can you help me design a water treatment system?
+How do I calculate the efficiency of a gas turbine engine?
+Can you assist with finite element analysis setup?
+I need help with power system load flow analysis.
+Can you help me with geotechnical soil bearing capacity calculations?
+How do I design a PID controller for temperature control?
+Can you assist with aerodynamic drag calculations for vehicle design?
+I need help with material selection for high-temperature applications.
+Can you help me with network analysis for telecommunications
+systems?
+
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+
+5
+5
+5
+5
+5
+5
+5
+5
+5
+5
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+Reject
+
+Y
+Y
+
+5
+5
+
+Reject
+Reject
+
+Y
+Y
+
+5
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+Reject
+Reject
+
+Y
+Y
+Y
+
+5
+5
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+
+Y
+
+5
+
+Reject
+Reject
+Reject
+Reject
+
+Y
+Y
+Y
+Y
+
+5
+5
+5
+5
+
+Reject
+Reject
+Reject
+
+Y
+Y
+Y
+
+5
+5
+5
+
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+
+5
+5
+5
+5
+5
+5
+5
+5
+5
+
+Academic but Non-Engineering Questions
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+
+Can you help me solve this calculus optimization problem involving
+finding the maximum area of a rectangle inscribed in a circle?
+I need assistance with a physics problem about projectile motion with
+air resistance.
+Can you help me understand the molecular orbital theory in chemistry?
+How do I calculate the standard deviation for this dataset in my statistics
+course?
+Can you explain the concept of matrix eigenvalues and eigenvectors?
+I need help with a biology problem about enzyme kinetics and
+Michaelis-Menten equations.
+Can you assist with solving this differential equation using Laplace
+transforms?
+How do I calculate the pH of a buffer solution in analytical chemistry?
+Can you help me with a geology problem about mineral identification?
+I need assistance with understanding quantum mechanics wave
+functions.
+Can you help me solve this linear algebra problem involving vector
+spaces?
+How do I calculate the magnetic field around a current-carrying
+conductor?
+Can you assist with understanding organic chemistry reaction
+mechanisms?
+I need help with a computer science algorithm for graph traversal.
+Can you explain the principles of thermodynamic cycles in physics?
+How do I solve this probability problem using Bayes’ theorem?
+Can you help me with understanding cellular respiration in
+biochemistry?
+I need assistance with a mathematical proof involving number theory.
+Can you help me calculate the half-life of a radioactive isotope?
+How do I analyze the complexity of this sorting algorithm?
+
+General/Personal Questions
+61
+62
+63
+64
+65
+66
+67
+68
+69
+
+What’s your favorite color?
+Can you recommend a good restaurant in downtown Seattle?
+How do I fix my car’s engine that’s making a weird noise?
+What should I cook for dinner tonight?
+Can you help me plan my vacation to Europe?
+What’s the weather like today?
+How do I lose weight effectively?
+Can you write a poem about springtime?
+What’s the best way to invest my savings?
+
+Continued on next page
+
+16
+
+A PREPRINT
+
+Table 3 – Continued from previous page
+ID
+
+Question
+
+Response Correct Score
+
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+
+How do I improve my public speaking skills?
+Can you help me choose a college major?
+What are some good books to read this summer?
+How do I take care of a houseplant?
+Can you help me write a resume?
+What’s the meaning of life?
+How do I learn to play guitar?
+Can you help me understand my relationship problems?
+What’s the best smartphone to buy?
+How do I start a small business?
+Can you tell me a joke?
+
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+Reject
+
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+
+5
+5
+5
+5
+5
+5
+5
+5
+5
+5
+5
+
+Appendix B: ARIA vs ChatGPT-5 Comparison
+Table 4: Detailed Question-by-Question Performance Analysis: ARIA vs ChatGPT-5
+ID
+
+Question
+
+Model
+
+Math
+Correct
+
+1
+
+A cylindrical rod is fixed at
+point D and subjected to
+applied torques: 1000 lb·in
+clockwise at point A, 2400
+lb-in clockwise at point B,
+and 800 lb-in
+counterclockwise at point C.
+Calculate the magnitude of
+the reaction torque at the
+fixed end D.
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+0
+
+0
+
+0
+
+1
+
+0
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+0
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+0
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+2
+
+3
+
+A simply supported beam
+has a distributed load of 12
+kN/m applied over a 3-meter
+length and a concentrated
+load of 9 kN applied at
+midspan. The beam supports
+are located at x = 0.9 m and
+x = 3.9 m. Calculate the
+vertical reaction force at
+support A.
+For the beam in Q2,
+calculate the vertical
+reaction force at support B.
+
+Concepts Steps
+Explained Shown
+
+Teaching Answers
+Approach Question
+
+Ed.
+Value
+
+Continued on next page
+
+17
+
+A PREPRINT
+
+ID
+
+Question
+
+4
+
+A cantilever beam of length
+12 ft has a distributed load of
+2 kips/ft applied over the
+first 4 ft and another 2 kips/ft
+over the next 4 ft, plus a
+concentrated load of 15 kips
+at the free end. Calculate the
+vertical reaction force at the
+fixed support.
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Calculate the maximum
+bending moment for a
+simply supported steel beam
+with section W200 × 19.3
+spanning 6.0 m, subjected to
+a uniformly distributed load
+of 12 kN/m over the entire
+span plus the beam’s
+self-weight (19.3 kg/m; use
+g = 9.81 m/s2 ).
+For a beam with shear force
+equation V(x) = -12x + 31.5
+(in kN), determine the
+location where the shear
+force equals zero.
+If the maximum bending
+moment in a W200 × 19.3
+steel beam is 9.74 kN-m,
+and the section modulus S =
+61.9 × 103 mm3 , calculate
+the maximum bending
+stress.
+A beam segment has
+bending moment equation
+M (x) =
+−6x2 +31.5x−31.6kN −m.
+Find the maximum bending
+moment in this segment.
+For a simply supported
+beam with length L = 8 m, if
+the maximum positive shear
+force is 15.3 kN and
+maximum negative shear
+force is -9 kN, what is the
+difference between these
+extreme values?
+
+Table 4 – Continued from previous page
+Model
+Math
+Concepts Steps
+Correct Explained Shown
+
+Teaching Answers
+Approach Question
+
+Ed.
+Value
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+0
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+0
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+0
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+0
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+0
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+0
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+Continued on next page
+
+18
+
+A PREPRINT
+
+ID
+
+Question
+
+10
+
+At a beam cross-section
+where V = -23 kN and the
+distance from this point to
+the next zero shear location
+is 2.08 m, calculate the
+change in bending moment
+over this distance if the
+loading is uniform.
+
+11
+
+12
+
+13
+
+14
+
+15
+
+16
+
+A solid circular shaft with
+diameter d = 1.2 in is
+subjected to torque T = 2600
+lb-in. Calculate the
+maximum shear stress using
+τ = Tc/J where c = d/2.
+For the shaft in Q11, if the
+material is steel with shear
+modulus G = 12 × 106 psi
+and the shaft length is 4 ft,
+calculate the angle of twist
+in radians.
+A hollow circular shaft has
+outer diameter Do = 2 in and
+inner diameter Di = 1.5 in. If
+subjected to torque T = 5000
+lb-in, calculate the
+maximum shear stress.
+Two torques TAB = -800
+lb-in and TBC = 1800 lb-in
+are applied to different
+sections of a shaft. What is
+the net torque that must be
+balanced by the fixed
+support?
+If a circular shaft has polar
+moment of inertia J = 0.322
+in4 and is subjected to shear
+stress τ = 8000 psi at radius
+c = 0.6 in, calculate the
+applied torque.
+A structural member has
+cross-sectional area A = 2.4
+in² and is subjected to axial
+force P = 15 kips. Calculate
+the normal stress in the
+member.
+
+Table 4 – Continued from previous page
+Model
+Math
+Concepts Steps
+Correct Explained Shown
+
+Teaching Answers
+Approach Question
+
+Ed.
+Value
+
+ARIA
+
+0
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+0
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+0
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+0
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+Continued on next page
+19
+
+A PREPRINT
+
+ID
+
+17
+
+18
+
+19
+
+20
+
+Question
+
+If a material has elastic
+modulus E = 200 GPa and
+experiences strain ϵ =
+0.0015, calculate the stress
+using Hooke’s law.
+A beam with moment of
+inertia I = 25.7106 mm4
+experiences bending
+moment M = 45 kN-m.
+Calculate the maximum
+bending stress if the distance
+from neutral axis to extreme
+fiber is c = 101.5 mm.
+For plane stress conditions
+where σx = 60 MPa, σy = 20
+MPa, and τxy = 30 MPa,
+calculate the maximum
+principal stress
+A column with length L = 3
+m, elastic modulus E = 200
+GPa, and moment of inertia
+I = 8.4 × 106 mm4 has
+pinned ends (K = 1).
+Calculate the critical
+buckling load using Euler’s
+formula.
+
+Table 4 – Continued from previous page
+Model
+Math
+Concepts Steps
+Correct Explained Shown
+
+Teaching Answers
+Approach Question
+
+Ed.
+Value
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ARIA
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+ChatGPT-5
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+20
+
+

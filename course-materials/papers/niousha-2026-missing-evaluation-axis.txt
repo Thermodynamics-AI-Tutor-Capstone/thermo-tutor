@@ -1,0 +1,833 @@
+The Missing Evaluation Axis: What 10,000
+Student Submissions Reveal About AI Tutor
+Effectiveness
+
+arXiv:2605.05648v1 [cs.CY] 7 May 2026
+
+Rose Niousha(B)1 , Samantha Boatright Smith1 , Bita Akram2 , Peter
+Brusilovsky3 , Arto Hellas4 , Juho Leinonen4 , John DeNero1 , and Narges
+Norouzi1
+University of California, Berkeley, USA
+{rose.n,happysammie6,denero,norouzi}@berkeley.edu
+2
+North Carolina State University, USA
+bakram@ncsu.edu
+3
+University of Pittsburgh, USA
+peterb@pitt.edu
+4
+Aalto University, Finland
+{arto.hellas,juho.2.leinonen}@aalto.fi
+1
+
+Abstract. Current Artificial Intelligence (AI)-based tutoring systems
+(AI tutors) are primarily evaluated based on the pedagogical quality of
+their feedback messages. While important, pedagogy alone is insufficient
+because it ignores a critical question: what do students actually do
+with the feedback they receive? We argue that AI tutor evaluation should be extended with a behavioral dimension grounded in student interaction data, which complements pedagogical assessment. We
+propose an evaluation framework and apply it to 10,235 code submissions with corresponding AI tutor feedback from an introductory undergraduate programming course to measure whether students act on tutor feedback and whether those actions are applied correctly. Using this
+framework to compare two deployed AI tutors across different semesters
+in a large-scale introductory computer science course reveals substantial differences in student engagement patterns that are not captured by
+pedagogy-only evaluation. Moreover, these engagement-based behavioral
+signals are more strongly associated with student perception of helpful
+feedback than pedagogical quality alone, providing a more complete and
+actionable picture of AI tutor performance.
+Keywords: AI tutor evaluation · programming education · student engagement · feedback
+
+1
+
+Introduction
+
+As Large Language Models (LLMs)-based tutoring systems—hereafter Artificial Intelligence (AI) tutors—are increasingly deployed to provide students with
+feedback in classroom settings [9,10,32,17], it is essential to define how these systems should be evaluated. Existing evaluations primarily assess feedback quality
+
+2
+
+R. Niousha et al.
+
+Fig. 1. Illustration of the proposed AI tutor evaluation framework. Left: The current
+evaluation framework positions tutors only along the pedagogical quality axis; as long
+as pedagogical quality is high, tutors appear comparable in performance. Right: The
+proposed framework reveals the two-dimensional position of each tutor, capturing both
+pedagogical quality and student engagement with feedback, providing greater separability between tutors. The star indicates the desired tutor behavior, combining strong
+pedagogy with effective feedback uptake.
+
+in isolation using predefined pedagogical rubrics [11,25,15,22]. While pedagogical quality is a prerequisite for deploying AI tutors, it may not fully capture
+feedback effectiveness: feedback can be pedagogically sound yet unhelpful if students do not engage with it or struggle to apply it correctly [24,21,29]. For
+example, overly cautious feedback may satisfy pedagogical criteria while failing
+to support immediate problem-solving, whereas feedback that students readily
+act upon may violate pedagogical guidelines. These distinctions are not captured
+by pedagogy-only evaluation, which motivates the need to incorporate students’
+engagement with feedback as a complementary evaluation dimension. This need
+is further amplified by the fact that student–AI tutor interaction fundamentally
+differs from student–human tutoring [8]: whereas human tutors flexibly adapt
+pedagogical intent through dialogue and context, AI tutors may interpret pedagogical instructions literally and generate feedback through fixed prompting
+structures, such that pedagogical intent does not necessarily translate into effective student support [7].
+Thus, in this work, we complement pedagogical evaluation with engagementbased metrics that capture whether students act on tutor feedback and whether
+those actions are applied correctly in the context of introductory programming
+problem solving. As shown in Figure 1, by examining both pedagogical quality
+and students’ engagement with feedback, we aim to provide a more comprehensive and actionable framework for evaluating AI tutors deployed in real learning
+environments. Using data from a large-scale classroom deployment comprising
+10,235 code submissions, we show that engagement-based metrics reveal meaningful differences between AI tutors that are not captured by pedagogical quality
+
+The Missing Evaluation Axis
+
+3
+
+alone and are more strongly associated with student perception of helpful feedback. We answer the following research questions:
+– RQ1. How do pedagogical quality and engagement-based behavioral metrics
+differ in providing separability between AI tutors?
+– RQ2. How do pedagogical quality and engagement-based metrics relate to
+each other, and to what extent do they capture distinct aspects of tutor
+effectiveness?
+– RQ3. Which evaluation metrics are more strongly associated with students’
+perceived helpfulness of the feedback?
+
+2
+
+Related Work
+
+2.1
+
+Evaluation of AI Tutors
+
+Recent work has introduced evaluation frameworks for AI tutors that assess the
+quality of tutor feedback along multiple pedagogical dimensions [3,26,7]. For example, MathTutorBench [11] evaluates open-ended mathematical tutoring across
+dimensions that include mathematical expertise, support for student understanding, and the quality of instructional scaffolding, using real teacher–student dialogues and learned evaluation models. TutorBench [25] introduces a large-scale
+dataset of Science, Technology, Engineering, and Mathematics (STEM) tutoring
+interactions annotated with learning-science–motivated rubrics targeting core
+tutoring skills such as explanation clarity, adaptation, and misconception diagnosis. MRBench [15] further operationalizes pedagogical evaluation through
+expert annotations across eight fine-grained pedagogical dimensions over educational dialogues. TutorGym [28] extends evaluation to interactive settings by
+embedding AI tutors within simulated tutoring environments. While these evaluation frameworks provide structured static evaluations, they primarily assess
+tutor responses in isolation, scoring responses based on rubric alignment or pedagogical dimensions and may fail to capture the dynamic and adaptive behavior
+of generative AI tutors [12]. [14] further notes that limitations in reliability,
+scalability, and unification make it difficult to assess pedagogical effectiveness
+consistently across educational settings for AI tutors’ pedagogy-only assessment.
+2.2
+
+Behavioral Signals of Feedback Use
+
+Learning engagement broadly refers to how learners participate in learning activities [2]. Prior work commonly distinguishes between affective, cognitive, and
+behavioral dimensions of engagement [2,31]. Affective engagement reflects learners’ emotional responses, cognitive engagement captures the effort and strategies
+learners apply to a task, and behavioral engagement refers to observable actions during learning activities, such as participation and task completion [30,4].
+Although this multidimensional view is well-established, engagement is often
+treated as a single, loosely defined concept in empirical studies [5]. Recent work,
+
+4
+
+R. Niousha et al.
+
+therefore, argues that engagement should be studied through clearly defined
+dimensions with explicit operationalization [31].
+In feedback-driven learning settings, behavioral engagement is particularly
+informative. Feedback is widely understood as an active process in which learners must interpret information and decide how to incorporate it into their work,
+rather than as passive information delivery [1]. Because this process requires
+learner action, students vary substantially in the extent to which they attend to
+and use feedback [6]. Consequently, evaluating feedback effectiveness requires examining how students act on feedback in practice, not only whether the feedback
+itself is well formed [27]. From this perspective, behavioral engagement reflects
+how learners translate their intentions into actions during problem solving, which
+influences performance [13,16].
+
+3
+
+Methodology
+
+3.1
+
+Study Context and Data
+
+Our study is situated in a large introductory programming course (CS61A 5 )
+at the University of California, Berkeley, with an average enrollment of approximately 1,000 students per semester. The course covers core topics including
+data types, conditionals, loops, functions, recursion, and object-oriented programming. Students complete 10 assignments per semester, each consisting of 3
+to 6 programming problems. Students develop their solutions in an online environment with access to an autograder that provides immediate feedback on
+passed and failed test cases (with no hidden tests). Students may resubmit their
+solutions without penalty as many times as they would like. In addition to autograder feedback, students receive natural-language feedback from an LLM-based
+AI tutor whenever a submission fails at least one test case. All submission attempts are logged, including the student’s code, the autograder output, and the
+AI tutor’s feedback.
+Our dataset spans two semesters, Fall 2024 and Fall 2025, with 13,569 and
+22,363 code submissions, respectively, drawn from the first five assignments focusing on introductory Python concepts. To enable a controlled comparison
+across tutors, we randomly sample 2 representative problems per assignment
+that appear in both semesters, yielding 10 problems in total. The sampled data
+includes 681 students and 3,188 individual code submissions for Fall 2024, and
+958 students and 7,047 individual code submissions for Fall 2025, where all submissions for a given student–problem pair are retained as a complete stream
+rather than sampled independently. On average, students made 3.2 submissions
+per stream in Fall 2024 and 2.6 in Fall 2025.
+3.2
+
+AI Tutor Variations
+
+We use two AI tutor configurations, deployed in different semesters of the same
+course, as case studies to illustrate and validate the proposed evaluation metrics
+5
+
+https://cs61a.org/
+
+The Missing Evaluation Axis
+
+5
+
+Table 1. Pedagogical evaluation dimensions, scoring rubrics, and desired labels,
+adapted from the unified taxonomy of [15]. For all dimensions, DAMR counts responses
+whose Label matches the Desired Label column; for tutor_tone, we consider both labels
+1 (Encouraging) and 2 (Neutral) as desirable.
+Dimension
+
+Definition
+
+mistake_identification
+
+Has the tutor identified or recognized a
+mistake in the student’s response?
+
+mistake_location
+
+Does the tutor’s response accurately
+point to a genuine mistake and its location?
+
+revealing_answer
+
+Does the tutor reveal the final answer
+(whether correct or not)?
+
+providing_guidance
+
+Does the tutor offer correct and relevant
+guidance, such as an explanation, elaboration, hint, or examples?
+
+actionability
+
+Is it clear from the tutor’s feedback what
+the student should do next?
+
+coherence
+
+Is the tutor’s response logically consistent
+with the student’s previous responses?
+
+tutor_tone
+
+Is the tutor’s response encouraging, neutral, or offensive?
+
+humanness
+
+Does the tutor’s response sound natural
+rather than robotic or artificial?
+
+Labels
+1: Yes
+2: To some extent
+3: No
+1: Yes
+2: To some extent
+3: No
+1: Yes (correct)
+2: Yes (incorrect)
+3: No
+1: Yes
+2: To some extent
+3: No
+1: Yes
+2: To some extent
+3: No
+1: Yes
+2: To some extent
+3: No
+1: Encouraging
+2: Neutral
+3: Offensive
+1: Yes
+2: To some extent
+3: No
+
+Desired
+Label(s)
+1
+1
+3
+1
+1
+1
+1, 2
+1
+
+in Section 3.3. Both tutors use the same LLM (GPT-4 [19]) and differ only in
+their prompting structure.
+– BaselineTutor [32] was deployed in Fall 2024. It generates feedback by
+conditioning on the problem statement, the student’s current code, the autograder output, and the student’s prior submissions. The system prompt
+instructs the model to behave as a tutor and produce natural-language feedback to guide the student’s next steps.
+– MisconceptionTutor [18] was deployed in Fall 2025. Inspired by the misconception tutoring framework of [23], it extends the baseline tutor with
+two additional structured steps: (1) Identifying likely student misconceptions
+from a pre-defined instructor-authored list, and (2) Generating feedback that
+explicitly targets the identified misconceptions. The model is prompted to
+output a structured JSON object containing both the detected misconceptions and the corresponding feedback; only the feedback field is shown to
+students.
+3.3
+
+Evaluation Metrics
+
+Pedagogy-based Evaluation To evaluate the AI tutors from a pedagogical
+perspective, we adopt an evaluation framework by Maurya et al. [15] that assesses the pedagogical quality of AI tutor feedback. The taxonomy operationalizes
+
+6
+
+R. Niousha et al.
+
+pedagogical quality along eight learning-science–motivated dimensions. Table 1
+summarizes these dimensions and their desired criteria.
+Following prior work [15], we summarize pedagogical quality using the proposed metric, Desired Annotation Match Rate (DAMR). For a given AI tutor
+and dimension, DAMR is defined as:
+N
+
+DAMR =
+
+1 X
+I[ℓi = ℓ∗ ]
+N i=1
+
+where N is the number of evaluated feedback messages, ℓi is the annotation
+label for the i-th feedback on that dimension, ℓ∗ is the desired label, and I[·] is
+an indicator function equal to 1 when the assigned label matches the desired label
+and 0 otherwise. We use GPT-4.1 [20] (version: 2025-04-14, temperature=0.0) to
+assign labels to each feedback message according to the pedagogical taxonomy
+and scoring rubrics in Table 1 and the prompt used in their work. On 20 sampled
+interactions annotated by two humans, average Cohen’s κ across dimensions
+indicates substantial human–human agreement (κ = 0.76) and moderate LLM–
+human agreement (κ = 0.65, 0.44).
+Engagement-based Evaluation. We quantify the engagement quality of tutor
+feedback by examining whether and how students used the AI tutor’s feedback,
+conditioned on their subsequent code revisions.
+We evaluate AI tutors along two dimensions of engagement quality: relevance (whether feedback is used) and success (whether used feedback is applied
+correctly).
+For a given student–problem pair (si , pu ), we denote two consecutive student
+submissions at times t and t + 1 as ct,si ,pu and ct+1,si ,pu , respectively. Each tutor feedback message ft,si ,pu consists of Mt,si ,pu sentences {ℓt,1 , . . . , ℓt,Mt,si ,pu }.
+For each sentence ℓt,j , an LLM judge (GPT-4.1, version: 2025-04-14, temperature=0.0) assigns attribution labels
+rel(ct,si ,pu , ℓt,j , ct+1,si ,pu ) ∈ {0, 1}
+succ(ct,si ,pu , ℓt,j , ct+1,si ,pu ) ∈ {0, 1}
+indicating whether the sentence influenced the student’s code edit (relevance or
+rel) and, when relevant, whether the suggested change was applied correctly
+(success or succ). Success is evaluated only when rel = 1. The judge also produces a rationale grounded in the student’s code edits. On 20 randomly sampled
+interactions annotated by two humans, LLM–human agreement yields κ = 0.67–
+0.76 for rel and 0.80–1.00 for succ, with human–human agreement of κ = 0.89
+(rel) and κ = 0.80 (succ), indicating substantial agreement.
+For each feedback message, we define two engagement quality scores:
+RelScoreft,si ,pu =
+
+1
+Mt,si ,pu
+
+Mt,si ,pu
+
+X
+j=1
+
+rel(ct,si ,pu , ℓt,j , ct+1,si ,pu )
+
+The Missing Evaluation Axis
+
+PMt,si ,pu
+j=1
+
+SuccScoreft,si ,pu = PMt,s ,p
+i
+
+j=1
+
+u
+
+7
+
+succ(ct,si ,pu , ℓt,j , ct+1,si ,pu )
+rel(ct,si ,pu , ℓt,j , ct+1,si ,pu )
+
+where RelScoreft,si ,pu measures the fraction of feedback sentences that student
+si engages with based on feedback ft,si ,pu , and SuccScoreft,si ,pu measures the
+fraction of engaged feedback that is applied correctly.
+3.4
+
+Predicting Student Perception on Helpfulness
+
+To ground our evaluation in the student perspective, we collect students’ selfreported perceptions of feedback helpfulness. We do not claim that perceived
+helpfulness reflects learning outcomes, but rather use it as a validation signal
+to assess whether pedagogical and engagement-based metrics align with how
+students experience feedback in practice. After each failed submission, students
+were optionally asked to rate the AI tutor’s response on a 5-point Likert scale
+with the following options: 5 = helpful, all fixed; 4 = helpful, not all fixed; 3 =
+not helpful but made sense; 2 = not helpful and did not make sense; and 1 =
+misleading or wrong feedback. Student ratings were available for approximately
+38% of sampled submissions. Specifically, among the sampled submissions, we
+received 954 feedback ratings (from 274 students) under BaselineTutor (Fall
+2024), and 2,915 ratings (from 639 students) under MisconceptionTutor (Fall
+2025).
+We map students’ Likert ratings to a binary outcome, where ratings of 4–5
+are coded as 1 and ratings of 1–3 are coded as 0. For each feedback message, we
+represent pedagogical quality using binary indicators P1 , P2 , . . . , P8 , one for each
+pedagogical dimension, where Pj = 1 if the j-th pedagogical dimension meets
+its desired criterion and Pj = 0 otherwise. We also compute engagement quality
+scores RelScore and SuccScore.
+We fit the following three binary logistic regression models to disentangle
+the effects of pedagogical and engagement-based metrics on students’ perceived
+helpfulness of the feedback message:
+1. Pedagogy-only model, with covariates
+
+
+x = P1 , P2 , . . . , P8 , I[BaselineTutor]
+where Pj is a binary indicator for whether the j-th pedagogical dimension
+meets its desired criterion and I[BaselineTutor] is a binary semester control equal to 1 for BaselineTutor (Fall 2024) and 0 for MisconceptionTutor
+(Fall 2025).
+2. Engagement-only model, with covariates
+
+
+x = RelScore, SuccScore, I[BaselineTutor] .
+3. Combined model, with covariates
+
+
+x = RelScore, SuccScore, P1 , P2 , . . . , P8 , I[BaselineTutor] .
+
+8
+
+R. Niousha et al.
+
+Table 2. Pedagogical quality comparison between BaselineTutor (Fall 2024) and MisconceptionTutor (Fall 2025) using DAMR. Bolded values indicate the higher DAMR (or
+ties) between AI tutors for each dimension. Differences are evaluated using Fisher’s
+exact test with Holm-corrected p-values (∗ p < 0.05), with Cohen’s h reported as the
+effect size.
+Dimension
+mistake_identification
+mistake_location
+revealing_answer
+providing_guidance
+actionability
+coherence
+tutor_tone
+humanness
+
+BaselineTutor MisconceptionTutor Cohen’s h
+94.20
+89.96
+93.95
+88.96
+89.15
+95.61
+100.00
+99.56
+
+98.20
+95.81
+99.65
+89.85
+87.99
+98.69
+100.00
+99.94
+
+0.217
+0.233
+0.378
+0.029
+−0.036
+0.193
+0.000
+0.085
+
+p
+< .001∗
+< .001∗
+< .001∗
+0.340
+0.278
+< .001∗
+1.000
+< .001∗
+
+Fig. 2. Per-assignment differences in DAMR between MisconceptionTutor and BaselineTutor. Positive values indicate higher DAMR for MisconceptionTutor. tutor_tone is omitted, as it shows no difference between tutors, with 100% DAMR for both.
+
+Each model estimates the probability of student-perceived helpfulness as
+Pr(y = 1) = σ(x⊤ β),
+where x denotes the covariates corresponding to each model specification. Coefficients are interpreted as log-odds of helpfulness, holding all other variables
+constant.
+
+4
+
+Results
+
+4.1
+
+RQ1: Pedagogical Quality of the AI Tutors
+
+Table 2 summarizes the pedagogical quality of BaselineTutor (Fall 2024) and
+MisconceptionTutor (Fall 2025) using DAMR. MisconceptionTutor achieves higher
+
+The Missing Evaluation Axis
+
+9
+
+Table 3. Per-assignment feedback engagement quality comparison between BaselineTutor (Fall 2024) and MisconceptionTutor (Fall 2025). Reported values are the mean
+± standard deviation (%) of feedback relevance score (RelScore) and success score
+(SuccScore). Bolded values indicate the higher mean between tutors for each assignment. Statistical significance is assessed using Mann–Whitney U tests (∗ p < 0.05), with
+Holm-corrected p-values across assignments within each engagement metric.
+Assignment Metric BaselineTutor MisconceptionTutor
+
+p
+
+1
+2
+3
+4
+5
+
+RelScore
+RelScore
+RelScore
+RelScore
+RelScore
+
+67.3 ± 40.1
+71.7 ± 31.9
+66.7 ± 34.2
+73.8 ± 31.0
+64.0 ± 31.7
+
+82.5 ± 32.2
+80.9 ± 28.1
+82.4 ± 26.5
+86.3 ± 23.8
+84.9 ± 27.0
+
+< .001∗
+< .001∗
+< .001∗
+< .001∗
+< .001∗
+
+1
+2
+3
+4
+5
+
+SuccScore
+SuccScore
+SuccScore
+SuccScore
+SuccScore
+
+26.3 ± 41.2
+32.6 ± 41.6
+49.0 ± 44.4
+60.2 ± 44.3
+47.7 ± 43.1
+
+56.0 ± 47.9
+51.6 ± 45.9
+51.7 ± 45.8
+55.6 ± 45.3
+52.7 ± 46.5
+
+< .001∗
+< .001∗
+0.469
+0.035∗
+0.459
+
+scores on nearly all dimensions and assignments. The majority of differences
+are statistically significant. Notably, MisconceptionTutor adopts a more conservative feedback strategy and reduces answer revealing compared to BaselineTutor (DAMR: 99.65 vs. 93.95; p < .001). However, this improvement coincides with a decrease in actionability (87.99 vs. 89.15), suggesting that more
+high-level, misconception-focused feedback trades off immediate actionability.
+Across all dimensions, effect sizes are generally small to moderate, indicating
+that the MisconceptionTutor improves pedagogical quality consistently yet incrementally rather than through large shifts. Moreover, Figure 2 demonstrates
+the difference between the AI tutors by plotting per-assignment differences in
+DAMR between MisconceptionTutor and BaselineTutor across pedagogical dimensions. Positive values indicate higher DAMR for MisconceptionTutor. Across all
+assignments, most dimensions favor MisconceptionTutor, with larger gaps between the two AI tutors on later, more conceptually difficult assignments. In
+particular, gaps in mistake_identification, mistake_location, and reduced
+revealing_answer widen over time. Conversely, actionability decreases on
+later assignments for MisconceptionTutor, indicating more conservative feedback.
+4.2
+
+RQ1: Engagement Quality of the AI Tutors
+
+Table 3 reports engagement quality scores, measured by relevance (RelScore)
+and success (SuccScore), aggregated per assignment. Across all assignments,
+MisconceptionTutor achieves substantially higher RelScore, improving relevance
+by 9–21 percentage points on every assignment. This indicates that a consistently
+larger fraction of its feedback influences students’ subsequent code edits. These
+differences are statistically significant for every assignment. Improvements in
+
+10
+
+R. Niousha et al.
+
+Fig. 3. Distribution of RelScore and SuccScore for desired (green) versus undesired
+(red) feedback messages, shown separately for BaselineTutor (Fall 2024) and MisconceptionTutor (Fall 2025). Violin widths are scaled within each pedagogical dimension
+and within each subplot to enable direct comparison between desired and undesired
+feedback without confounding differences in sample size across dimensions. Black lines
+indicate means; stars mark statistically significant differences between desired and undesired feedback after Holm–Bonferroni–corrected two-sided Mann–Whitney U tests
+(p < 0.05). The tutor_tone and humanness dimensions are excluded due to insufficient sample sizes in the undesired feedback category (n < 15).
+
+SuccScore are more mixed. MisconceptionTutor substantially improves success
+on earlier assignments, but differences diminish or reverse on later assignments,
+with no significant improvement on Assignments 3 and 5. This suggests that
+while misconception-focused feedback is more likely to engage students, it does
+not always translate into immediate correct application on more challenging assignments. Comparing the engagement quality of the two AI tutors introduces a
+complementary evaluation dimension that is not captured by pedagogical quality
+alone.
+4.3
+
+RQ2: Relationship between Pedagogy and Engagement
+
+Next, we examine how the pedagogical quality, measured by DAMR, translates
+into student engagement quality with AI tutor feedback. Specifically, we evalu-
+
+The Missing Evaluation Axis
+
+11
+
+ate whether feedback that satisfies pedagogical criteria is more likely to be engaged with by students (high RelScore) and more likely to be applied correctly
+(high SuccScore). Figure 3 shows the distribution of RelScore and SuccScore
+for feedback that satisfies the desired criteria versus feedback that does not,
+stratified by pedagogical dimension and AI tutor. Across both AI tutors, pedagogically desired feedback consistently exhibits a higher mean RelScore across
+all dimensions, with most differences being statistically significant. The full distributions are shifted toward higher RelScore values, indicating that pedagogical dimensions are behaviorally meaningful for student engagement. In contrast, SuccScore distributions for desired and undesired feedback largely overlap for most dimensions, with only modest differences in central tendency, which
+suggests that pedagogical quality primarily influences which feedback students
+choose to act on rather than whether those actions lead to correct edits by students. A notable exception is revealing_answer, which is the only dimension
+in which the pattern of pedagogically desired feedback achieving higher scores
+is reversed across both semesters. For BaselineTutor, feedback marked as undesired in revealing_answer achieves a higher mean SuccScore (67.8%) than
+desired feedback (50.9%), and a similar pattern appears in MisconceptionTutor
+(79.4% vs. 53.0%), with a strong concentration of high SuccScore for undesired
+feedback. This observation suggests that these successes are driven by students
+copying the revealed answer rather than understanding and solving the problem
+themselves. These results underscore the need to interpret engagement metrics
+alongside pedagogical quality, as high SuccScore alone does not necessarily reflect effective learning, given that success can also be achieved through answer
+revelation.
+4.4
+
+RQ3: Predictors of Student Satisfaction
+
+Table 4 reports three binary logistic regression models predicting whether students rated AI tutor feedback as highly helpful: a pedagogy-only model, an
+engagement-only model, and a combined model. Positive coefficients indicate an
+increase in the log-odds of the outcome, indicating that the feature is associated
+with higher perceived helpfulness. Across models, engagement-based metrics are
+the most robust predictors of perceived student helpfulness on a feedback message. In the engagement-only model, both RelScore (β = 0.420, p < 0.001) and
+SuccScore (β = 0.187, p < 0.001) are positively and significantly associated
+with higher perceived helpfulness. These effects remain stable in the combined
+model, with nearly identical coefficient magnitudes, indicating that engagement
+explains variance in students’ perceived helpfulness of the feedback message. In
+contrast, most pedagogical dimensions show weak or inconsistent associations
+with perceived helpfulness. In the combined model, mistake_identification
+shows a significantly negative association (β = −0.524, p = 0.038), whereas
+providing_guidance shows a significantly positive association (β = 0.349, p =
+0.019). This result suggests that students find feedback helpful when it guides
+them on the next step, and less helpful when it only identifies their mistake.
+Finally, the negative coefficient for BaselineTutor across all models indicates
+
+12
+
+R. Niousha et al.
+
+Table 4. Binary logistic regression results predicting high perceived helpfulness of AI
+tutor feedback. Columns correspond to three model specifications: a pedagogy-only
+model using binary indicators for pedagogical quality, an engagement-only model using RelScore and SuccScore, and a combined model including all attributes. Entries
+report log-odds coefficients with standard errors in parentheses; significance is indicated by ∗ p < 0.05, ∗∗ p < 0.01, and ∗∗∗ p < 0.001. All models include a binary semester
+control (BaselineTutor, Fall 2024 vs. Fall 2025). Pseudo R2 reflects improvement over
+a null model; we focus on relative coefficient magnitudes and robustness across model
+specifications. The tutor_tone dimension is omitted from the models because all feedback messages were labeled as pedagogically desired, resulting in no variance.
+Model
+Pedagogy-only
+mistake_identification −0.155 (0.211)
+mistake_location
+0.135 (0.145)
+revealing_answer
+−0.203 (0.152)
+providing_guidance
+0.444∗∗ (0.139)
+actionability
+−0.179 (0.125)
+coherence
+−0.187 (0.219)
+humanness
+1.093 (0.760)
+RelScore
+–
+SuccScore
+–
+BaselineTutor
+Pseudo R2
+
+Engagement-only Combined
+–
+–
+–
+–
+–
+–
+–
+0.420∗∗∗ (0.127)
+0.187∗∗∗ (0.049)
+
+−0.524∗ (0.253)
+0.260 (0.161)
+−0.206 (0.167)
+0.349∗ (0.148)
+−0.097 (0.133)
+−0.111 (0.288)
+1.261 (1.072)
+0.434∗∗∗ (0.128)
+0.176∗∗∗ (0.049)
+
+−0.297∗∗∗ (0.049) −0.226∗∗∗ (0.051) −0.237∗∗∗ (0.052)
+0.0048
+0.0047
+0.0064
+
+consistently lower perceived helpfulness relative to MisconceptionTutor. Furthermore, low pseudo-R2 values are expected for subjective ratings influenced by unobserved factors (e.g., prior knowledge, task difficulty); thus, we focus on relative
+explanatory power rather than absolute prediction.
+
+5
+
+Discussion
+
+Pedagogical quality is necessary but not sufficient. Pedagogy-based metrics function as a vital prerequisite for AI tutor deployment: they establish a
+bar for instructional quality and appropriateness, allowing diagnosis of pedagogically undesired feedback. However, once AI tutors reach a high pedagogical
+standard, rubric-based metrics provide less clear differentiation between systems,
+suggesting that pedagogy-based evaluation alone may be insufficient, especially
+at higher performance levels.
+Engagement provides an additional and behaviorally grounded dimension of separability. Engagement-based metrics distinguish AI tutors in a
+different way than pedagogical metrics. In our results, MisconceptionTutor consistently achieves higher feedback relevance across all assignments, indicating
+that a larger fraction of its feedback influences students’ subsequent code edits,
+a pattern not reflected in pedagogical scores alone. Moreover, engagement-based
+
+The Missing Evaluation Axis
+
+13
+
+measures are more strongly associated with students’ perception of feedback
+helpfulness than pedagogy-only metrics.
+Effective AI tutors require balanced evaluation. Optimizing solely for
+pedagogical quality risks producing feedback that is technically sound but insufficiently engaging, while optimizing for engagement alone can encourage superficial success. Pedagogical quality has its greatest impact when students actively
+engage with the feedback. Our results illustrate this balance: MisconceptionTutor generates substantially more engaging feedback across all assignments and
+improves the correctness of students’ applications on earlier assignments, despite being more pedagogically conservative. This trade-off highlights the need
+for evaluation frameworks that jointly consider pedagogical quality and student
+engagement.
+
+6
+
+Limitations and Future Work
+
+Our engagement-based metrics measure immediate feedback uptake but do not
+assess longer-term learning outcomes; future work should relate these metrics to
+learning gains measured through post-tests or transfer tasks. Next, because our
+comparison spans two semesters, population differences may confound observed
+effects; future work will validate the framework within a single semester using
+randomized A/B deployments to isolate tutor effects. While our framework is
+instantiated in a programming context, it can generalize to other settings as long
+as a directional success criterion can be defined — for instance, in dialog-based
+tutoring, SuccScore could capture whether a student’s next response moves toward the desired understanding. Additionally, although LLM-human agreement
+for pedagogical dimensions is moderate, this is consistent with prior work highlighting the inherent subjectivity of pedagogical quality assessment [14], and
+LLM-based annotation remains a practical necessity for scaling evaluation. Finally, RelScore and SuccScore measure alignment between feedback and code
+edits rather than direct feedback reading, making it difficult to distinguish revisions not driven by the feedback; edge cases such as large-scale rewrites or
+partially adopted suggestions may further complicate attribution, warranting
+finer-grained scoring in future work.
+
+7
+
+Conclusion
+
+We show that pedagogical quality is effective for evaluating whether AI tutors
+meet instructional standards, but insufficient for capturing how students respond to feedback in practice, an important dimension of feedback effectiveness.
+We introduce an engagement-based evaluation framework grounded in students’
+revisions to assess whether and how feedback is used. Across two classroom
+deployments, these behavioral signals reveal differences between tutors not captured by pedagogy-only metrics and are more strongly associated with students’
+perceived helpfulness of feedback. Together, our results highlight the need to
+evaluate AI tutors along both pedagogical and engagement dimensions.
+
+14
+
+R. Niousha et al.
+
+References
+1. Carless, D., Boud, D.: The development of student feedback literacy: enabling
+uptake of feedback. Assessment & Evaluation in Higher Education 43(8) (2018)
+2. Fredricks, J.A., Blumenfeld, P.C., Paris, A.H.: School engagement: Potential of the
+concept, state of the evidence. Review of educational research 74(1) (2004)
+3. Gupta, A., Reddig, J., Calo, T., Weitekamp, D., MacLellan, C.J.: Beyond final
+answers: Evaluating large language models for math tutoring. In: International
+Conference on Artificial Intelligence in Education. Springer (2025)
+4. Han, Y., Hyland, F.: Learner engagement with written feedback: A sociocognitive
+perspective. Feedback in second language writing: Contexts and issues pp. 247–264
+(2019)
+5. Henrie, C.R., Halverson, L.R., Graham, C.R.: Measuring student engagement in
+technology-mediated learning: A review. Computers & Education 90 (2015)
+6. Jonsson, A., Panadero, E.: Facilitating students’ active engagement with feedback. In: Lipnevich, A.A., Smith, J.K. (eds.) The Cambridge Handbook of Instructional Feedback. Cambridge Handbooks in Psychology, Cambridge University
+Press (2018)
+7. Jurenka, I., Kunesch, M., McKee, K.R., Gillick, D., Zhu, S., Wiltberger, S., Phal,
+S.M., Hermann, K., Kasenberg, D., Bhoopchand, A., et al.: Towards responsible
+development of generative AI for education: An evaluation-driven approach. arXiv
+preprint arXiv:2407.12687 (2024)
+8. Li, R., Jiang, Y.H., Wang, J., Jiang, B.: How real is AI tutoring? Comparing simulated and human dialogues in one-on-one instruction. In: International Conference
+on Computers in Education (2025)
+9. Liu, R., Zenke, C., Liu, C., Holmes, A., Thornton, P., Malan, D.J.: Teaching CS50
+with AI: leveraging generative artificial intelligence in computer science education. In: Proceedings of the 55th ACM technical symposium on computer science
+education V. 1 (2024)
+10. Liu, Z., Agrawal, P., Singhal, S., Madaan, V., Kumar, M., Verma, P.K.: LPITutor:
+an LLM based personalized intelligent tutoring system using RAG and prompt
+engineering. PeerJ Computer Science 11 (2025)
+11. Macina, J., Daheim, N., Hakimi, I., Kapur, M., Gurevych, I., Sachan, M.: Mathtutorbench: A benchmark for measuring open-ended pedagogical capabilities of LLM
+tutors. In: Proceedings of the 2025 Conference on Empirical Methods in Natural
+Language Processing (2025)
+12. Macina, J., Daheim, N., Wang, L., Sinha, T., Kapur, M., Gurevych, I., Sachan,
+M.: Opportunities and challenges in neural dialog tutoring. In: Vlachos, A., Augenstein, I. (eds.) Proceedings of the 17th Conference of the European Chapter
+of the Association for Computational Linguistics. Association for Computational
+Linguistics, Dubrovnik, Croatia (May 2023)
+13. Martin, A.J.: Integrating motivation and instruction: Towards a unified approach
+in educational psychology. Educational Psychology Review 35(2) (2023)
+14. Maurya, K.K., Kochmar, E.: Pedagogy-driven evaluation of generative AI-Powered
+intelligent tutoring systems. In: International Conference on Artificial Intelligence
+in Education. Springer (2025)
+15. Maurya, K.K., Srivatsa, K.A., Petukhova, K., Kochmar, E.: Unifying AI tutor
+evaluation: An evaluation taxonomy for pedagogical ability assessment of LLMpowered AI tutors. In: Chiruzzo, L., Ritter, A., Wang, L. (eds.) Proceedings of
+the 2025 Conference of the Nations of the Americas Chapter of the Association
+
+The Missing Evaluation Axis
+
+15
+
+for Computational Linguistics: Human Language Technologies (Volume 1: Long
+Papers). Association for Computational Linguistics, Albuquerque, New Mexico
+(Apr 2025)
+16. Miller, B.W.: Using reading times and eye-movements to measure cognitive engagement. Educational psychologist 50(1) (2015)
+17. Mittal, M., Tyagi, G., Bailey, A., Ranade, G., Norouzi, N.: Askademia: A realtime AI system for automatic responses to student questions. In: International
+Conference on Artificial Intelligence in Education. Springer (2025)
+18. Niousha, R., Boatright Smith, S., O’Neill, A., Zamfirescu-Pereira, J., DeNero, J.,
+Norouzi, N.: Misconception-aware LLM programming tutor: Lessons learned from
+student-tutor interactions. In: Proceedings of the 57th ACM Technical Symposium
+on Computer Science Education V. 2 (2026)
+19. OpenAI: GPT-4 (2023)
+20. OpenAI: Introducing GPT-4.1 in the API (2025)
+21. Patchan, M.M., Schunn, C.D., Correnti, R.J.: The nature of feedback: How peer
+feedback features affect students’ implementation rate and quality of revisions.
+Journal of Educational Psychology 108(8), 1098 (2016)
+22. Qi, L., Zamfirescu-Pereira, J., Kim, T., Hartmann, B., DeNero, J., Norouzi, N.: A
+knowledge-component-based methodology for evaluating ai assistants. In: Proceedings of the ACM Global on Computing Education Conference 2025 Vol 1 (2025)
+23. Ross, A., Andreas, J.: Toward in-context teaching: Adapting examples to students’
+misconceptions. In: Proceedings of the 62nd Annual Meeting of the Association for
+Computational Linguistics (Volume 1: Long Papers) (2024)
+24. Sadler, D.R.: Formative assessment and the design of instructional systems. Instructional science 18(2) (1989)
+25. Srinivasa, R.S., Che, Z., Zhang, C.B.C., Mares, D., Hernandez, E., Park, J., Lee, D.,
+Mangialardi, G., Ng, C., Cardona, E.Y.H., et al.: Tutorbench: A benchmark to assess tutoring capabilities of large language models. arXiv preprint arXiv:2510.02663
+(2025)
+26. Tack, A., Piech, C.: The AI teacher test: Measuring the pedagogical ability of
+blender and GPT-3 in educational dialogues. In: Proceedings of the 15th International Conference on Educational Data Mining. International Educational Data
+Mining Society, Durham, United Kingdom (July 2022)
+27. Tay, H.Y., Lam, K.W.: Students’ engagement across a typology of teacher feedback
+practices. Educational Research for Policy and Practice 21(3) (2022)
+28. Weitekamp, D., N. Siddiqui, M., J. MacLellan, C.: Tutorgym: A testbed for evaluating AI agents as tutors and students. In: International Conference on Artificial
+Intelligence in Education. Springer (2025)
+29. Wisniewski, B., Zierer, K., Hattie, J.: The power of feedback revisited: A metaanalysis of educational feedback research. Frontiers in psychology 10 (2020)
+30. Wong, Z.Y., Liem, G.A.D.: Student engagement: Current state of the construct,
+conceptual refinement, and future research directions. Educational Psychology Review 34(1) (2022)
+31. Wong, Z.Y., Liem, G.A.D., Chan, M., Datu, J.A.D.: Student engagement and its
+association with academic achievement and subjective well-being: A systematic
+review and meta-analysis. Journal of Educational Psychology 116(1) (2024)
+32. Zamfirescu-Pereira, J., Qi, L., Hartmann, B., DeNero, J., Norouzi, N.: 61A bot
+report: AI assistants in CS1 save students homework time and reduce demands
+on staff. (Now what?). In: Proceedings of the 56th ACM Technical Symposium on
+Computer Science Education V. 1 (2025)
+
+

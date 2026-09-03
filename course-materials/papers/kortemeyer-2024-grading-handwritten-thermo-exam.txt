@@ -1,0 +1,2960 @@
+Grading Assistance for a Handwritten Thermodynamics Exam using Artificial
+Intelligence: An Exploratory Study
+Gerd Kortemeyer∗
+
+Rectorate and AI Center, ETH Zurich, 8092 Zurich, Switzerland †
+
+Julian Nöhl‡
+Institute of Energy & Process Engineering, ETH Zurich, Tannenstrasse 3, 8092 Zurich, Switzerland
+
+Daria Onishchuk§
+
+Using a high-stakes thermodynamics exam as sample (252 students, four multipart problems), we
+investigate the viability of four workflows for AI-assisted grading of handwritten student solutions.
+We find that the greatest challenge lies in converting handwritten answers into a machine-readable
+format. The granularity of grading criteria also influences grading performance: employing a finegrained rubric for entire problems often leads to bookkeeping errors and grading failures, while
+grading problems in parts is more reliable but tends to miss nuances. We also found that grading
+hand-drawn graphics, such as process diagrams, is less reliable than mathematical derivations due to
+the difficulty in differentiating essential details from extraneous information. Although the system is
+precise in identifying exams that meet passing criteria, exams with failing grades still require human
+grading. We conclude with recommendations to overcome some of the encountered challenges.
+
+I.
+
+∗ kgerd@ethz.ch
+† also at Michigan State University, East Lansing, MI 48823, USA
+‡ jnoehl@ethz.ch
+§ donishchuk@ethz.ch
+
+Handwritten
+
+PDF
+
+OCR
+
+4V
+PT-
+
+The recent advancements in artificial intelligence (AI)
+have ushered in new possibilities in various domains,
+including education. At its public appearance in fall
+2022, Generative Pre-trained Transformer (GPT) [1] already demonstrated remarkable capabilities. Beyond the
+hype-wave triggered by the human appearance of its responses [2], it proved proficiency in academic domains
+such as physics, where it and later releases (in particular
+GPT-4 [3]) passed standardized exams and introductory
+courses at impressive levels [4–9]. AI starts to get integrated into physics education [10, 11], where in addition
+to solving problems, it for example shows promise in constructing new physics problems [11, 12], making physics
+materials accessible to blind readers [13], and supporting
+physics educational research efforts [14, 15].
+The grading of physics exams has traditionally required deep analytical skills to assess not just the final answers but the problem-solving process itself, a task that
+involves evaluating logical, conceptual, and mathematical competencies [16–20]. While certain aspects of problem solutions can be graded by computers, a thorough
+evaluation often necessitates human judgment, particularly when diverse solution paths and potential errors are
+involved [21–30]. Such exams usually require handwriting solution paths, since in exam situations, typesetting
+
+Scan
+
+The energy
+balance is
+$Q_{out}=
+m(h_{out}h_{in})=
+mc(T_{out}T_{in})$
+
+LaTeX
+
+Grade
+
+41412514243 41412514243975942
+44152425242 41412514243426725
+52345234687 41412514243523526
+42346625232 41412514243525325
+52525662662 41412514243525252
+63456245643
+4252688352367455441412514243
+41412514243975942
+44152425242 41412514243426725
+52345234687 414125142
+43523526
+42346625232 41412514243525325
+52525662662 41412514243525252
+
+k
+-32
+T-4
+GP
+
+AI-supported Grading
+
+The energy
+balance is
+Qout=
+m(hout-hin)=
+mc(Tout-Tin)
+
+The energy
+balance is
+Qout=
+m(hout-hin)=
+mc(Tout-Tin)
+
+G
+ix +
+thP
+Ma -4V
+T
+GP
+
+A.
+
+INTRODUCTION
+
+py
+C o h in e
+c
+Ma
+
+arXiv:2406.17859v1 [physics.ed-ph] 25 Jun 2024
+
+Unit for Teaching and Learning, ETH Zurich, 8092 Zurich, Switzerland
+(Dated: June 27, 2024)
+
+CSV
+
+FIG. 1. Workflow of exam grading, starting with scanning
+the exam sheets, making them machine-readable with MathPix [45] and GPT-4V [3], and grading them using GPT-4-32k.
+
+those equations would take up an inordinate amount of
+time for the students, and it would necessitate a skillset
+outside the learning objectives of most physics courses.
+AI holds potential as a scalable solution for giving feedback on open-ended responses [31], as well as grading, or
+at least classification [32] and pre-grading, by leveraging its ability to process large volumes of data and its
+emerging capability to understand and evaluate complex
+student responses [33–41]. In a recent study using a synthetic data set, an agreement of R2 = 0.84 could be found
+between human and AI grades [41], however, the synthetic nature of the investigated solution derivations circumvented many of the intricacies that are present in authentic exam situations. Most notably, challenges are introduced by the complexity of handwritten mathematical
+expressions, which add another layer of difficulty due to
+the intricacies of Optical Character Recognition (OCR)
+technology [42–44]. Figure 1 shows the workflow that
+we investigated, using a large-scale high-stakes physics
+exam. We focus on the operational challenges involved,
+as well as the limitations and capabilities of current technology to augment traditional grading methods.
+
+2
+B.
+
+Large Language Models and Randomness
+
+Large Language Models (LLMs) like those based on
+the architecture introduced by Vaswani et al. [46] use
+probabilistic methods to generate responses. They create sequences of so-called tokens (in the English language
+similar to syllables). Even responses to clear-cut physicsrelated prompts can vary strongly [7, 41], influenced by
+a temperature parameter T . A lower T results in more
+predictable outputs, while a higher T increases creativity.
+At absolute zero (T = 0), a language model consistently
+selects the most probable next token, making its outputs
+highly predictable though not necessarily accurate due
+to potential biases or errors in the training data [46, 47].
+Conversely, a higher T can lead to less reliable, “hallucinated” responses (“hallucination” in this context refers
+to a phenomenon where the model generates output that
+is not grounded in the input data or reality). In this
+study, the default setting was T = 0.7, except for OCR
+of complete pages, where it was set to T = 0.5. Our
+study assumes that grading by LLMs should be viewed
+probabilistically. Multiple runs yield average scores, with
+standard deviations providing a measure of confidence.
+For instance, a score of 14 ± 5 suggests lower reliability
+than 14 ± 2, although the score could still be incorrect.
+II.
+
+SETTING
+
+A.
+
+Institution
+
+ETH Zurich is a technical university with approximately 25,000 students from 120 countries, with about
+one-third identifying as female. Admission is highly selective for international students, yet unrestricted for
+anyone holding a Swiss high school diploma. Most undergraduate courses are taught in German. In the Germanspeaking universities’ academic tradition, ETH Zurich
+emphasizes summative assessments at the end of courses,
+rather than smaller assessments throughout the course.
+The study was approved by the institution’s Ethics Committee (IRB) under 2023-N-286.
+B.
+
+Cloud Infrastructure
+
+Access to OpenAI models was provided through Azure
+AI Services [48], where ETH Zurich has a contract
+which assures processing on Swiss data centers, with a
+consumption-based per-token payment structure. Based
+on our subscription, MathPix was likely processing in the
+United States, which is why we used pseudonyms.
+C.
+
+Exam
+
+We considered a high-stakes exam for engineers on
+thermodynamics, dealing with standard topics of energy,
+
+exergy, entropy, and enthalpy. Students had 15 minutes
+to prepare by reading the problems and two hours to complete the work. They could use provided reference materials and a non-programmable calculator. They needed
+to provide handwritten solutions including derivations,
+using permanent pens and scribbling out anything they
+did not want graded. A total of 252 out of 434 students
+taking the exam agreed to participate in the study.
+Problem 1 involves a reactor in steady-state operation,
+including liquid in- and outflow, a chemical reaction with
+associated heat generation, and a cooling jacket. The
+problem parts are:
+a) Calculation of the heat transfer to the cooling fluid
+(2.5 points).
+b) Determination of the thermodynamic mean temperature of the cooling fluid (2.5 points).
+c) Calculation of the entropy production due to heat
+transfer (1.5 points).
+d) After steady-state operation, the outlet flow is
+stopped. Calculation of the water mass required
+for cooling the reactor from its operating to a lower
+temperature using an energy balance (4.5 points).
+e) Determination of the change in entropy of the reactor contents between the initial and cooled states
+(4 points).
+Problem 2 explores the operation of an aircraft engine,
+consisting of reversible or irreversible compressors, turbines, nozzles and heat addition. The problem parts are:
+a) Drawing of the engine process qualitatively in a T-s
+diagram, marking relevant states (8 points).
+b) Determination of the exit speed and temperature
+of the aircraft engine (4 points).
+c) Calculation of the specific exergy increase between
+two states (3.5 points).
+d) Calculation of the specific exergy loss related to the
+mass flow rate (3.5 points).
+Problem 3 involves a hot gas and a solid-liquid system
+in an isolated cylinder separated by a heat-transferring
+membrane. The problem parts are:
+a) Calculation of the initial pressure and mass of the
+gas in the cylinder (5.5 points).
+b) Determination of the temperature and pressure of
+the gas after an equilibrium state has been reached
+through heat transfer (2 points).
+c) Calculation of the heat transferred from the gas to
+the ice-water mixture (2.5 points).
+d) Calculation of the ice content in the second state
+(7 points).
+
+3
+Problem 4 describes a two-step freeze-drying process
+for food preservation. The problem parts are:
+a) Drawing of the freeze-drying process in a p-T diagram, including labeled phase regions (4.5 points).
+b) Determination of the required mass flow rate of the
+refrigerant R 134a (6 points).
+c) Determination of the vapor fraction of the refrigerant immediately after throttling (4 points).
+d) Calculation of the coefficient of performance for the
+cooling cycle (3 points).
+e) Discuss how the temperature inside the freeze-dryer
+changes if the cooling cycle continues unchanged (1
+point).
+Figure 2 shows a typical example for a handwritten
+solution to Problem 1 (the black box on top resulted from
+redacting the student name). Where the student noted
+“TAB A-2,” he or she referred to the data table that was
+available during the exam. Figure 3 shows another, less
+well readable example of a solution for Problem 3d.
+A feature of the German-tradition university system
+is that exams can be passed or failed (though, at ETH
+Zurich, for some exams this gets decided on the level of
+so-called exam blocks with compensation mechanisms),
+and a notion among some students in the beginning
+semesters is that they do not really care about the grade
+as long as they pass the exam and can move on with their
+studies. Due to the high-stakes nature of these exams,
+every exam problem is graded by two teaching assistants.
+The exam was graded on a fine-grained rubric by the
+TAs, awarding points for each solution step. The course
+personnel creating and correcting each task defines subpoints which a student should at least get to pass the
+exam. These points should show a basic understanding
+of Thermodynamics. The sum of the points is used to
+define the lower boundary for the “passing grade” of 4.0.
+The value for the highest grade of 6.0 is based on values
+from previous exams (% of total points). However, slight
+adjustment to the mapping of points to grades can be
+made to coincide with gaps in the point distribution. As
+a result, the nominal level of passing the exam was set at
+26 out of the 65 available points (since there are compensation mechanisms, we use the term “nominal”). If the
+average grades of a student are below a certain threshold
+so that he or she needs to repeat the semester, the exam
+was regraded by a third teaching assistant.
+III.
+A.
+
+METHODOLOGY
+
+not given any instructions on how to prepare their work
+for better OCR interpretation and AI-grading, which
+brought about additional challenges and problems that
+had to be fixed manually. Grading personnel was not
+informed which students had given informed consent to
+participate in the study. After the exam packages had
+been turned in, the investigators separated the consent
+forms from the exam sheets and scanned only the solutions of the students who had agreed to participate in
+the study. The scanner device had automatic paper handling capabilities (as it turned out, it also automatically
+switched between black-and-white mode (see Fig. 2 as an
+example) and color-mode (see Fig. 3), and it automatically skipped empty pages); the device then emailed the
+PDFs to the investigators.
+The workflow included a pseudonymization step that
+would not be present in production use. The investigators and the grading personnel initially shared a key,
+where each exam package had a number. One of the investigators (GK) redacted all names from the scanned solutions and inserted the exam-package number before any
+further processing. As exam sheets within the package
+were often out-of-order, at this step, the PDF-pages were
+manually sorted, and clear-text markers were inserted to
+separate the problems. The latter was hampered by students frequently only writing letters like “c)” at the start
+of a new problem part, but not the problem number; if
+the sheets were out of order and had no page numbers
+written, this meant figuring out from the contents if this
+was Part c of Problem 1, 2, 3, or 4.
+Students had brought their own paper to the exam,
+which was frequently repurposed and included company
+letterheads with logos or advertising or had pre-printed
+headers like “My Notes” or “While you were out.” While
+these page augmentations would not interfere with the
+TA-grading, they had to be redacted by hand, as they
+would otherwise be transcribed by the OCR process and
+appear in the middle of solution derivations. Some students also used their paper in a multi-column landscape
+layout; these pages appeared portrait-oriented with 90 or
+270 degree rotated writing, and had to be rotated into
+landscape format by hand. Other students turned their
+two-sided sheets along the short instead of the long side
+when continuing work on a problem, which resulted in
+every other page being upside down.
+During the OCR step, the exam-package number and
+the problem-separation markers were transcribed into
+the LaTeX, since they simply appeared as plain text.
+Subsequent scripts would pick up those markers from
+the LaTeX for processing. Grading personnel eventually
+reported their grading decisions to the investigators in
+terms of the exam-package number for comparison.
+
+Workflow and Study-specific Additional Steps
+B.
+
+Two important directives for this study were noninterference with the regular exam process and preservation of student privacy. This meant that students were
+
+Optical Character Recognition (OCR)
+
+Figure 2 shows an example for a fairly readable solution, while Fig. 3 provides an example for less clear
+
+4
+
+FIG. 2. Example of a handwritten solution for Problem 1. The handwriting itself is fairly clear, but as students were instructed
+to simply scribble out errors, this solution, like many others, contains several scratched out symbols and expressions.
+
+handwriting. To render these solutions machine-readable
+for LaTeX processing, two approaches were investigated,
+using scripts and the APIs of the respective systems:
+1.
+
+MathPix plus GPT-4V
+
+The first method employed MathPix [45] for the preliminary conversion of handwritten content into LaTeX.
+MathPix performs a robust and rather deterministic interpretation of handwriting and mathematical expressions, and it does not hallucinate, but it is also designed
+
+not to guess when confidence is low. Instead of producing textual output, for segments of a document where any
+interpretation would be low-confidence, or in situations
+where graphs, figures, or sketches were identified, MathPix incorporates a cropped JPG image into the LaTeX
+document via the \includegraphics command. While
+usable in many other scenarios, the grading step needs
+a fully textual representation, where at least some interpretation of unclear handwriting is provided, and where
+graphical content is described in text (the latter is crucial
+for Problem 2a and Problem 4a, where diagrams are expected). Thus, subsequently, using another script, these
+
+5
+MathPix + GPT-4V
+“‘
+R
+
+T ds
+Uaus − Uein
+1
+ein
+·
+=
+µF Saus − Sein
+c · ln( TTaus )
+ein
+
+“‘
+∆s = Rn cif · ln
+
+Tavs
+Tern
+
+
+
+∆u = Cif (Taus − Tein )
+Tavs − Tein
+
+ = 293.12 K
+T̄ =
+ln TTavs
+ein
+
+FIG. 3. Example of a handwritten solution for Problem 3d.
+Arguably, such unfortunately very typical handwriting is hard
+to decipher without knowing the context.
+
+JPGs were processed by multimodal GPT-4V [3], which
+generated LaTeX code to replace the \includegraphics
+commands. Quite often, though, these image identified
+by MathPix turned out to be scribbled-out calculations,
+like the one in Fig. 4; while unrecognizable to MathPix,
+scribbled-out content frequently cannot be distinguished
+from drawings, annotations, scanning noise, paper markings, or simply unclear writing by GPT-4V. As a result,
+these images were sometimes read and inserted as if the
+scribbling-out did not exist (thus including content into
+the grading that the student had discarded), and sometimes completely misinterpreted.
+
+
+
+1c) 295 = T̄kF ȷ̂65 kW
+Entropie bilanz um Wand:
+0+
+
+65kw
+65kw
+−
++ Ṡerz = 0
+373.15k
+295k
+
+Serz = 0.04615
+
+kW
+W
+= 46.15
+k
+k
+
+GPT-4V
+b) Stoffmodell:
+R aus
+ṡds
+1
+Uaus − Uein
+ein
+
+
+=
+=
+UF
+Q̇aus − Q̇ein
+C ln Taus
+F
+
+∆s = R · CF ln
+
+
+
+Taus
+Tein
+
+Tein
+
+
+
+∆U = CF (Taus − Tein )
+1
+Taus − Tein
+
+ ≈ 33.72K
+=
+U
+ln Taus
+Tein
+
+1c)
+Q̇zu = 65kW
+
+Q̇ab = Q̇zu − Q̇erz = 0
+
+65kW
+65kW
+0+
+−
+Ṡerz = 0
+373.15K
+298K
+Entropiebilanz um Wandi:
+
+FIG. 4. Example of a cropped JPG produced by MathPix
+from a student solution of Problem 3d.
+
+The top panel of Figure 5 shows an example of the
+whole process for parts b and c of Problem 1, shown
+in Fig. 2. MathPix was unable to process the first expression in Part b, likely because of the annotations
+above and below the formula terms. The expression was
+thus turned into an image and subsequently processed by
+GPT-4V. MathPix, however, did not recognize the small
+drawing in Part c as such and thus itself processed the
+handwriting. The top panel of Fig. 6 shows MathPix’s
+interpretation of the solution in Fig. 3, which is accurate
+on the level that a human would decipher the handwriting without physics knowledge what to expect. The subscript of x, “eis,” is the German word for “ice,” which
+would have been nearly impossible to figure out without
+knowing what the problem is about. The readability is
+further hampered by the use of a ball pen, which did not
+
+Ṡerz = 0.061615
+
+kW
+W
+= 61.615
+K
+K
+
+FIG. 5. Different OCR renderings of the student solution for
+Problem 1b and c in Fig. 2.
+
+provide continuous lines.
+The process was slightly hampered by Azure at various times declining to process image descriptions, for
+example the image shown in Fig. 4 produced the error,
+“the response was filtered due to the prompt triggering
+Azure OpenAI’s content management policy” for whatever GPT-4V saw in the image.
+Figure 7 shows an example of a description for a graph
+drawn by a student in response to Problem
+2a, generated
+1
+by GPT-4V based on an image identified by MathPix.
+Unfortunately, quite often, MathPix ignored these graphs
+
+6
+MathPix
+d)
+u = ufL + x (ufe − ufL )
+
+− mg (u2 − u1 ) + Q = wv
+
+u (0.003◦ C) ⇒ uF c = −333.492 uFc = −0.033
+x=
+
+ut1 t2 − uf2
+ug2 − uf2
+
+GPT-4V Version 1
+d) U = UfH2 O + x(UgH2 O − UfH2 O ) − mH2 O (u2 − u1 ) + Q = WV
+·W (0.2036) = 7 ⇒ UfH2 O = −333, 462 UfH2 O = −0, 333
+Uf
++ UfH2 O
+x
+= H2 O
+ω
+ugH2 O − ufH2 O
+
+GPT-4V Version 2
+d) U = Ufx + X(Uf g − Ufx ) − my (U2 − U1 ) + Q = WV
+·W (0.2036) = 7 Ufc = −333, 462 Ufx = −0, 033
+Uint2 − Uf2
+X
+=
+ω
+Uf g2 − Uf2
+
+GPT-4V Version 3
+a) U = Ufx + X(Uf g − Ufx ) − my (U2 − U1 ) + Q = Wv
+·Ufc (0.2036◦ C) = 7 Ufc = 333, 462 Ufx = −0, 333
+
+The image shows a graphical representation, likely some kind of
+diagram. The horizontal axis is marked with an ”S”, which might
+stand for distance or another variable. The vertical axis is labeled
+with an ”I”, which could represent intensity or a similar quantity.
+A curve is drawn across the axes, marked at three points,
+probably to highlight specific values or points. Between these are
+two vertical arrows, one labeled with a ”1”; the other is smaller
+and marked with a ”0”. Additionally, there is a horizontal arrow
+pointing from right to left. Above it, there is a curve ascending
+from left to right with an arrow indicating the direction of the
+curve.
+
+x
+U1 + x2 − Uf2
+=
+ω
+Ug2 − Uf2
+
+FIG. 7. GPT-4V-generated description (English translation
+of original German) of a student solution for Problem 2a.
+
+d) U = ufH2 O + x(ugH2 O − ufH2 O ) − mCu (u2−Cu − u1−Cu ) + Q = Wv
+
+example of this process for parts b and c in Fig. 2. Since
+due to token-limits, GPT-4V could only process one page
+image at a time, this entailed uploading each individual
+page multiple times for interpretation and then reassembling the LaTeX outputs. We decided to assemble all
+first interpretations of individual pages into a first version of the whole exam, all second interpretations into
+a second version, etc.; however, this was arbitrary, since
+all interpretations were independent and, for example,
+the third interpretation of the fourth page would have no
+particular connection to the third interpretation of the
+fifth page.
+This approach exhibited strong variability in the accuracy of text interpretation, occasionally producing erroneous interpretations and extrapolations. To limit the
+variations, the temperature was lowered to T = 0.5, but
+there were still strong variations, for example:
+
+GPT-4V Version 4
+
+⇒ Wv (0.203kg) =? ufH2 O = 333.462 ufCu = −0.033
+U + m2−Cu − ufH2 O
+x
+=
+ω
+ugH2 O − ufH2 O
+
+GPT-4V Version 5
+d) U = ufice + x(ugwater − ufwater ) − mg (u2 − u1 ) + Q = WV
+·W (0.2036) = 7 ⇒ ufice = −333.462 ufice = −0.333
+Um2 − Uf2
+x
+=
+w
+ug2 − uf2
+
+FIG. 6. Different OCR renderings of the student solution for
+Problem 3d in Fig. 3 (T = 0.5).
+
+if they came too close to the margin of the page or where
+1
+horizontally aligned with
+mathematical expressions.
+
+2.
+
+Using only GPT-4V
+
+The alternative method involved converting entire
+PDF pages to PNG format and processing these solely
+with GPT-4V; to account for the variability, this was
+done several times. The bottom panel of Fig. 5 shows an
+
+• As the bottom panel of Fig. 5 shows, all final result
+numbers were misread.
+• The lower panels of Fig. 6 show five interpretations
+of the handwriting in Fig. 3. GPT-4V shows remarkable creativity interpreting the unclearly written subscripts; MathPix completely skipped “eis,”
+which overall may be the safer choice.
+The temperature of T = 0.5 was determined based
+
+7
+on a small sample size; obviously, finding the optimum
+temperature would be the topic of further investigations,
+but computationally intense. Unfortunately, it turned
+out graphs like the one in Fig. 7 were also “overlooked”
+by GPT-4V when processing a complete page, making
+the graph transcription process rather unreliable.
+Overall, it was found that MathPix with GPT-4V support was more reliable and reproducible than using only
+GPT-4V. Since in addition, processing whole pages with
+GPT-4V turned out to be very token-intensive, and with
+GPT-4V tokens being more expensive than regular GPT4-32k tokens, it was decided to only process a subset of
+20 exams, but do so five times to account for the strong
+variability in the results.
+
+C.
+
+Grading Step
+
+Following the conversions, the generated LaTeX documents were graded by GPT-4-32k. In addition, the system was prompted to provide a justification for its decisions. Several approaches were evaluated using the first
+problem to gauge their viability. For two of the more
+promising approaches, the complete exam was graded.
+For all grading approaches, the LLM was provided with
+the problem text itself, but the grading approaches differed by the granularity of their grading scope and sample
+solution documents.
+
+1.
+
+Rubric-based Grading
+
+The teaching assistants (TAs) used a fine-grained grading rubric, which operated on the level of points and
+half-points. Fig. 9 shows an example of such a grading
+rubric, where the partial points are marked in red. For
+AI-grading, the derivation steps in the sample solution
+were marked up with point values and criteria, and this
+list was provided to the LLM as a table (see Table I as an
+example). While the TAs were supposed to make binary
+decisions whether or not to provide the rubric points, it
+was realized very early on that the LLM functioned less
+arbitrarily on a sliding scale, allowing points like 0.4.
+
+2.
+
+Parts-based Grading
+
+Here, the system was prompted with the sample solution instead of a fine-grained rubric, and only the total
+points for each part were given; for the first problem,
+this resulted in five point values for parts a–e instead of
+22 rubric items. Overall, this approach turned out to
+be less computationally intense than rubric-grading, so
+it was applied to all problems, not just the first one.
+An example of a sample solution is shown in Fig. 9;
+generally, the student solutions were much shorter and
+far less explicit than the sample solution, see Fig. 3 (the
+synthetic data set used in an earlier study of automated
+
+T in K
+
+3
+
+𝑝2
+
+𝑝1
+𝑝0
+4
+2
+
+5
+1
+0
+
+6
+kJ
+
+s in kg∗K
+The diagram represents a thermodynamic cycle on a
+Temperature-Entropy (T -s) chart. The vertical axis is labeled as
+”T in K” representing temperature in Kelvin, and the horizontal
+axis is labeled as ”s in kJ/kg · K” representing specific entropy in
+kilojoules per kilogram-Kelvin. There are three isobars shown as
+curved lines, labeled from bottom to top as p0 , p1 , and p2 ,
+indicating different pressure levels.
+The cycle consists of six states, marked as points 0 to 6. Points
+are shown as solid black circles, and the processes between them
+are depicted as solid black lines with arrows indicating the
+direction of the process. Additionally, there are red circled
+numbers placed next to each process, which likely indicate the
+sequence of steps or the process number in a cycle.
+Starting from state 0, the process moves vertically up to state 2,
+indicating a constant entropy (isentropic) compression. From
+state 2 to 3, the process follows along the p2 isobar, suggesting
+isobaric heat addition. The process from 3 to 4 is a vertical line
+downwards, showing an isentropic expansion. Then, the process
+from 4 to 5 follows the p0 isobar, indicating isobaric heat removal.
+Finally, the process from 5 to 6 and 6 to 0 is shown as a two-step
+process with a vertical line down to state 6 and a horizontal line
+back to state 0, completing the cycle.
+
+FIG. 8. GPT-4V-generated description of the process diagram in the sample solution of Problem 2a.
+
+grading by the authors [41] resembled the style of the
+sample solution rather than typical student solutions).
+Problems 2 and 4 contain drawings. To grade those,
+GPT-4V was used to provide a textual description and
+embed it into the sample solution; Fig. 8 demonstrates
+this for a process diagram. While the interpretation looks
+reasonable on the surface, and while certainly more accurate than the interpretation of the hand drawn diagram of
+the student solution in Fig. 7, closer examination reveals
+a number of physics errors that would require manual
+intervention before being used in production settings.
+
+3.
+
+Problem-based Grading
+
+The system was prompted with the sample solution for
+that problem, and only the total number of points for the
+problem was queried. For the first problem, the system
+would simply return a value between 0 and 15 points.
+
+8
+TABLE I. Example of the grading rubric for the first exam problem.
+Max. Criterion
+Pts.
+a Bilanz
+1
+Maximum points (1.0) for correct calculation of heat flow to the cooling jacket; energy
+balance around the reactor. Full points for accurately applying 0 = ṁein · hein − ṁaus · haus +
+Q̇R − Q̇aus with ṁein = ṁaus = ṁ. Less points for correct approach with minor errors.
+kJ
+a h ein
+0.5 Maximum points (0.5) for correct calculation of hein = hf (70◦ C) = 292.98 kg
+. Less points
+for minor numerical errors.
+kJ
+a h aus
+0.5 Maximum points (0.5) for correct calculation of haus = hf (100◦ C) = 419.04 kg
+. Less points
+for minor numerical errors.
+kJ
+kJ
+0.5 Maximum points (0.5) for correct calculation of Q̇aus = 0.3 kg
+a Erg
+· (292.98 kg
+− 419.04 kg
+)+
+s
+100 kW. Less points for minor errors.
+b T KF Tds 1
+Maximum points (1.0) for correct derivation of the thermodynamic mean temperature of
+the cooling water flow, T̄KF . Full points for correct formula and calculation. Less points for
+minor errors.
+Maximum points (1.0) for correct application of the “ideal fluid” model. Full points for
+b Stoffmod 1
+correct use of either equation provided. Less points for minor calculation errors.
+ein
+b Erg
+0.5 Maximum points (0.5) for correct calculation of T̄KF = TausT−T
+. Less points for minor
+aus
+
+Part Item
+a
+
+a
+a
+a
+b
+
+b
+b
+
+ln( T
+
+c
+
+c Bilanz
+
+1
+
+c
+
+c Erg
+
+0.5
+
+d
+
+duf
+
+0.5
+
+d
+
+dug
+
+0.5
+
+d
+
+du1
+
+1
+
+d
+
+du2
+
+0.5
+
+d
+
+d h ein
+
+0.5
+
+d
+
+d Bilanz
+
+1
+
+d
+
+d Erg
+
+0.5
+
+e
+
+esf
+
+0.5
+
+e
+
+esg
+
+0.5
+
+e
+
+es1
+
+1
+
+e
+
+es2
+
+0.5
+
+e
+
+e Bilanz
+
+1
+
+e
+
+e Erg
+
+0.5
+
+4.
+
+ein
+
+)
+
+errors.
+Maximum points (1.0) for correct entropy production calculation in heat transfer between
+reactor and cooling jacket. Full points for accurate balance equation application. Less points
+for minor errors.
+Q̇aus
+Maximum points (0.5) for correct calculation of Ṡerz = Q̇T̄aus − TReaktor
+. Less points for
+KF
+minor numerical errors.
+kJ
+Maximum points (0.5) for correct calculation of uf (100◦ C) = 418.94 kg
+. Less points for
+numerical inaccuracies.
+kJ
+Maximum points (0.5) for correct calculation of ug (100◦ C) = 2506.5 kg
+. Less points for
+numerical inaccuracies.
+Maximum points (1.0) for correct calculation of u1 = xD · ug (100◦ C) + (1 − xD ) · uf (100◦ C).
+Less points for minor errors.
+kJ
+. Less points for
+Maximum points (0.5) for correct calculation of u2 = uf (70◦ C) = 292.95 kg
+numerical errors.
+kJ
+Maximum points (0.5) for correct calculation of hein = hf (20◦ C) = 83.96 kg
+. Less points for
+minor numerical errors.
+Maximum points (1.0) for correct energy balance in an open system for determining added
+water mass. Full points for accurate calculation. Less points for incorrect or partial
+calculations.
+Maximum points (0.5) for correct calculation of change in mass ∆m12 = 3756.84 kg. Less
+points for minor errors.
+kJ
+Maximum points (0.5) for correct entropy value of fluid at 100◦ C = 1.3069 kgK
+. Less points
+for minor errors.
+kJ
+Maximum points (0.5) for correct entropy value of gas at 100◦ C = 7.3549 kgK
+. Less points
+for minor errors.
+Maximum points (1.0) for correct calculation of s1 = xD · ug (100◦ C) + (1 − xD ) · uf (100◦ C).
+Less points for minor errors.
+kJ
+Maximum points (0.5) for correct calculation of s2 = sf (70◦ C) = 0.9549 kgK
+. Less points for
+minor errors.
+Maximum points (1.0) for correct entropy balance calculation ∆S12 = S2 − S1 . Full points
+for correct application of the formula. Less points for minor errors.
+Maximum points (0.5) for correct calculation of ∆S12 = 1387.62 kJ
+. Less points for minor
+K
+errors.
+
+Grading Cycles
+
+Each of the MathPix-processed exams was graded ten
+times to compute the mean and standard deviation of
+the scores, resulting in 10 grades per exam component.
+For the subset of exams where five interpretations were
+produced by GPT-4V, each version was independently
+
+graded five times by GPT-4, resulting in a total of 25
+grades per exam component. If a grading attempt failed
+because the LLM did not return one of the point values
+(depending on the granularity, one point value per rubric,
+one point value per part, or one point value per problem)
+or if any of these points values were out of range (e.g., assigning more than the available points), the grading cycle
+was repeated. Table II gives an overview of the workflows
+
+Daraus folgt
+Q12 = 3.422 · 10 3 kg · 0.633
+=
+
+kJ
+·
+kg K
+
+500 K + 1.401 bar ·
+
+2.03 · 10 3 m3
+
+(100)
+(101)
+
+1367 J
+
+d) Eisanteil xEis,2 im Zustand 2
+Eine Systemgrenze kann um das Eiswasser gezogen werden, sodass der 1 Hauptsatz gilt (kinetische und potenzielle Energien vernachlässigbar):
+U12 = Q12
+
+(102)
+
+W12
+
+1
+
+Der Wärmeaustausch von Gas zum Eiswasser wurde in der voherigen Aufgabe
+berechnet und liegt bei
+Q12 = 1369.62 J
+Die Volumenarbeit des Eiswasser ist gleich Null, welches von der Annahmen
+folgt, dass der Dichteunterschied zwischen Eis und Wasser vernachlässigt werden kann. Daraus erhält man U12 = Q12 .
+
+0.5
+
+Die Veränderung der inneren Energie des Eiswasser kann von ersten Prinzipien
+errechnet werden. Die Definition der inneren Energie ist gleich
+U12 = mEW · (uEW,2
+
+(103)
+
+uEW,1 )
+
+Die inneren Energiewerte in Zuständen 1 und 2 können von dem jeweiligen
+Eistanteil errechnet werden. Somit
+uEW,1 = xEis,1 · uE,1 + (1 xEis,1 ) · uW,1
+(104)
+uEW,2 = xEis,2 · uE,2 + (1 xEis,2 ) · uW,2
+(105)
+Thermodynamik I - Sessionsprüfung HS23
+17
+uW und uE sind nur Funktionen der Temperatur und in den Tabellen angegeben. Da die Temperatur des Eiswassers zwischen Zuständen 1 und 2 konstant
+bei TEW = 0 C bleibt, kann man die jeweiligen inneren Energiewerte in den
+jeweiligen Zuständen gleichsetzten. Somit
+
+1
+
+D.
+
+0.5
+
+uE,1 = uE,2 = uE
+
+0.5
+
+Liest man die korrekten Werte aus der Tabelle für TEW = 0 C und pEW =
+1.400 bar ab bekommt man
+kJ
+kg
+
+(106)
+
+0.5
+
+kJ
+kg
+
+(107)
+
+0.5
+
+xEis,1 ) · uW
+
+(108)
+
+uW =
+
+0.045
+
+uE =
+
+333.458
+
+scure corner cases; unfortunately, they are the result of
+many initially failed attempts to provide proper grading
+output. It was also cumbersome to strike a balance between strict grading on the one side and being tolerant
+of what may or may not be OCR scanning errors.
+During the grading steps, the grading script replaces
+the placeholders in square brackets by the respective documents (problem text, rubric or sample solution, and student solution) before submitting the prompt to the LLM.
+The output of the LLM is analyzed, and if it does not
+fulfill the requirements (missing rows, higher points than
+available, etc.), the same prompt is sent again. If the
+output is complete and passes all sanity tests, it is stored
+for calculating the total number of points and statistics.
+
+0.5
+0.5
+
+uW,1 = uW,2 = uW
+und
+
+9
+
+Alt: 0.5
+
+Evaluation
+
+For the evaluation, the exam points awarded by the
+TAs were assumed as ground truth. Evaluations were
+carried out using Python scripts, Excel, and R [49]. Taking the standard deviations as a measure of confidence,
+agreement with TA grading was evaluated for different
+confidence levels using linear regression and Spearman
+correlations.
+
+und
+
+In Zustand 1 ist somit
+uEW,1 = xEis,1 · uE + (1
+= 0.6 ·
+=
+
+333.458
+
+kJ
++ (1
+kg
+
+0.6) ·
+
+0.045
+
+kJ
+200.093
+kg
+
+kJ
+kg
+
+A.
+
+(110)
+
+=
+
+uEW,2 uW
+uE uW
+Q12
++ uEW,1
+mEW
+uE
+
+(111)
+uW
+
+uW
+
+(112)
+
+1
+
+Wodurch
+
+xEis,2 =
+
+1367 kJ
+0.1 kg
+
+= 0.559
+
+kJ
+kJ
+200.093 kg
++ 0.045 kg
+
+kJ
+kJ
+333.413 kg
++ 0.045 kg
+
+RESULTS
+
+Rubric-based grading based on MathPix and
+GPT-4V (WF1)
+
+(109)
+
+Daraus folgt
+
+xEis,2 =
+
+IV.
+
+(113)
+(114)
+
+0.5
+
+FIG. 9. Sample
+solution
+and rubric (in red) for Problem
+3d
+Thermodynamik
+I - Sessionsprüfung
+HS23
+18
+(in the original German). Student solutions like the one in
+Fig. 3 would be graded based on this rubric.
+
+that were explored (here named WF1 to WF4), including
+initial observations, which are discussed in more detail in
+the following sections.
+Figures 10–12 show the AI prompts used for these
+workflows. These prompts may appear overly verbose
+to human readers and putting too much emphasis on ob-
+
+Table III shows the outcome of grading the student solution in Fig. 2 according to the rubric in Table I. The
+rows are the grading items with the final row showing the
+total points. The columns are the results of ten AI-runs,
+followed by the average of the AI grades, the standard
+deviation of the AI grades, and the TA grades as ground
+truth. Here, the Law of Large numbers seems to have applied, as the grading outcomes of the AI and the TAs are
+almost identical; this, unfortunately, is rarely the case.
+Figure 13 shows a Fruchterman-Reingold [50, 51] representation of the Spearman-correlation matrix between
+the rubric items in Table I for Problem 1, resulting from
+Workflow 1 (WF1) in Table II. Indicated in yellow are
+the rubric grades given by the TAs, indicated in blue
+those given by the AI. Due to the force-directed nature
+of Fruchterman-Reingold graphs, closely correlated vertices tend to cluster, while unrelated vertices tend to be
+further apart from each other.
+An immediate observation in the graph is that the AIgrades cluster together much more strongly than those of
+the TAs, which could be explained by the TAs being able
+to grade the items independently, while the AI tends to
+grade holistically with only limited ability to differentiate
+between one step of a solution being correct and another
+one incorrect. For example, for the TAs, e Bilanz and
+
+10
+TABLE II. Overview of explored grading workflows.
+Prompt Student Problem OCR
+sample sample process
+WF1 Fig. 10 252
+1
+MathPix
++ GPT-4V
+
+#OCR Grading
+cycles key
+1
+Grading
+rubric items
+
+WF2 Fig. 11 252
+
+1–4
+
+1
+
+WF3 Fig. 12 252
+
+1
+
+WF4 Fig. 11 20
+
+1–4
+
+MathPix
++ GPT-4V
+MathPix
++ GPT-4V
+
+1
+
+GPT-4V only 5
+
+Grading
+#Grading Initial Observations
+granularity cycles
+Rubric
+10
+Large number of failed grading attempts, necessitating
+frequent regrades.
+Whole sample Part
+10
+Less
+failed
+grading
+solution
+attempts.
+Whole sample Problem
+10
+Very few failed grading atsolution
+tempts. LLM still graded by
+part, but frequently ended
+up incorrectly adding up the
+points.
+Whole sample Part
+5
+Strong variations between
+solutions
+OCR interpretations.
+
+You are tasked with grading student solutions for this problem:
+[problem]
+==============
+Below is the grading rubric table in comma-separated format. The first column contains the problem part, the second column provides the rubric
+item identifier, the third column prescribes the maximum points possible for that item, and the fourth column contains the grading criterion.
+[rubric]
+==============
+The problem has multiple parts, and inside each part, it has several rubric items that are graded according to criteria. Note that likely students
+will not have worked on all parts and items, and they may not have done work in the same order as the rubric lists them.
+This is what you need to do:
+* Go through every row in the grading rubric table, do not skip any. The row is identified by the rubric item identifier listed in the second
+column of the rubric table, and that is how you remember it.
+* For each row, check if any work pertaining to the criterion is present. If there is no related work, give zero points for that rubric item.
+* For each row, if you find work that pertains to the criterion, check how well it corresponds to the criterion. Note that there can be OCR errors,
+leading to some wrong digits or symbols; this is not the student’s fault, and you need to determine if errors are likely due to OCR (no point
+deduction) or due to the student (some point deduction). Give the maximum number of points listed for that row (third column of rubric table)
+if the work corresponds very well. Give less points the less it agrees; you can use floating point numbers. Do not give bonus points.
+* For each row, provide a comment explaining the rationale behind your grading decision.
+Output your grading in a four-column comma-separated table format, similar to the grading rubric table, with a row for every item in the rubric.
+Use newline as the row separator. The first column in your table must be the problem part, the second column the rubric item identifier, the
+third column the points that you awarded, and the fourth column your comments explaining the grading decisions. Output nothing else but this
+completed grading table, and do not enclose it in any special characters, so it is syntactically correct CSV.
+Here’s the student solution that you need to grade:
+[solution]
+
+FIG. 10. Prompt for Workflow 1 (WF1 in Table II). Square brackets indicate where the grading script will insert the respective
+documents before sending the prompt to the LLM.
+You are tasked with grading student solutions for this problem:
+[problem]
+==============
+Below is the sample solution, provided by the instructors:
+[sample]
+==============
+Here’s the student solution that you need to grade:
+[solution]
+==============
+You need to carefully compare each part of the student solution step-by-step to the respective part of the sample solution. The student answer
+might not be in same order as the sample answer. Check carefully for completeness, as well as strictly for physics, math, and numerical accuracy.
+Assign a percentage grade between 0 and 100 percent based on agreement with the sample solution, and prepare an explanation of your
+reasoning. Reserve high percentages for excellent work, i.e., almost perfect agreement with the sample solution. Do not hesitate to give very low
+percentages for incomplete, incoherent, or inaccurate work.
+Output the grade percentage for each part as an integer between 0 and 100 and then in quotation marks provide an explanation of your reasoning
+for this grade in the form
+part,percentage,explanation part,percentage,explanation ...
+Output nothing else but this list.
+
+FIG. 11. Prompt for Workflows 2 and 4 (WF2 and WF4 in Table II).
+
+e s 2 are weakly correlated (lower middle of the graph),
+while in the AI grading, they are strongly correlated.
+For both TA and AI grades, however, a clustering by
+
+parts a–e is observable, indicating that problem parts
+tend to be correct or incorrect as a whole (again, this
+effect is stronger for the AI than the TA grades). While
+
+11
+You are tasked with grading student solutions for this problem:
+[problem]
+==============
+Below is the sample solution, provided by the instructors:
+[sample]
+==============
+Here’s the student solution that you need to grade:
+[solution]
+==============
+You need to carefully compare the student solution step-by-step to the sample solution.
+The student answer might not be in same order as the sample answer. Check carefully for completeness, as well as strictly for physics, math, and
+numerical accuracy. Assign a points based on agreement with the sample solution, and prepare an explanation of your reasoning. Reserve full
+points for excellent work, i.e., almost perfect agreement with the sample solution. Do not hesitate to give very few points for incomplete,
+incoherent, or inaccurate work.
+Output the points and then in quotation marks provide an explanation of your reasoning for this grade in the form, all in one single line prefaced
+by ”sum”, i.e.,
+”sum”,points,explanation
+Output nothing else but this one line.
+
+FIG. 12. Prompt for Workflow 3 (WF3 in Table II).
+
+TABLE III. Example of grading the student solution in Fig. 2 according to the rubric in Table I, following WF1
+Item
+AI 1 AI 2 AI 3 AI 4 AI 5 AI 6 AI 7 AI 8 AI 9 AI 10 AI Ave. AI-SD TA
+a Bilanz
+0.5 0.8 0.6 1
+1
+1
+1
+1
+1
+0.8
+0.87
+0.179 1
+0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5
+0.5
+0.000 0.5
+a h ein
+a h aus
+0
+0
+0
+0.5 0.5 0.5 0
+0.5 0
+0.5
+0.25
+0.250 0.5
+a Ergebnis 0
+0.5 0.3 0.5 0.3 0.5 0.5 0.3 0.5 0.5
+0.39
+0.158 0
+1
+1
+1
+0.8 1
+1
+0.86
+0.196 1
+b T KF Tds 0.5 0.5 0.8 1
+b Stoffmod 0.5 0.5 1
+1
+1
+1
+1
+0.5 1
+1
+0.85
+0.229 1
+0
+0.5 0.5 0
+0.3 0.5 0.5 0.35 0.5 0.4
+0.355
+0.190 0.5
+b Erg
+c Bilanz
+0.5 0.5 1
+1
+1
+1
+1
+1
+1
+1
+0.9
+0.200 1
+c Erg
+0
+0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0
+0.4
+0.200 0.5
+0
+0.5 0
+0.5 0.5 0.5 0.5 0.45 0
+0
+0.295
+0.241 0.5
+duf
+0.5 0.5 0
+0.5 0.5 0.5 0.5 0.45 0
+0
+0.345
+0.226 0.5
+dug
+du1
+0.5 0.5 0.5 1
+1
+1
+1
+0.7 0
+1
+0.72
+0.325 1
+du2
+0
+0
+0
+0.5 0.5 0.5 0.5 0.3 0.5 0.5
+0.33
+0.224 0.5
+d h ein
+0
+0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5
+0.45
+0.150 0.5
+d Bilanz
+1
+1
+1
+1
+0.7 1
+1
+1
+0.5 1
+0.92
+0.166 0
+0
+0.5 0.5 0.5 0.3 0.5 0.5 0.4 0.5 0.5
+0.42
+0.154 0
+d Erg
+esf
+0
+0.5 0
+0.5 0.5 0.5 0.5 0.5 0
+0.5
+0.35
+0.229 0.5
+esg
+0
+0.5 0
+0.5 0.5 0.5 0.5 0.5 0
+0.5
+0.35
+0.229 0.5
+es1
+0.5 0.5 0.5 1
+1
+0.5 0
+0.75 1
+1
+0.675
+0.317 1
+0
+0.5 0
+0.5 0.5 0.5 0
+0.5 0.5 0.5
+0.35
+0.229 0.5
+es2
+e Bilanz
+0.5 0.5 0
+1
+1
+1
+0
+0.6 1
+1
+0.66
+0.388 0
+e Erg
+0
+0
+0.2 0.5 0.4 0.5 0
+0.35 0.5 0.5
+0.295
+0.213 0
+Total
+
+5.5
+
+10.3 8.4
+
+14.5 14
+
+14.5 11.5 12.45 11
+
+generally within each other’s vicinity, pairs of TA and AI
+grades for the same rubric items are not strongly correlated.
+The beige vertex “Sum” indicates the total grade for
+the problem given by the TAs (“sum of the yellow vertices”), while the corresponding cyan vertex indicates the
+same for the AI grades. Remarkably, this pair of summative vertices is more closely aligned than many of the
+individual pairs of rubric items. The holistic, undifferentiated tendencies of the AI might be mediated by students tending to get the whole problem mostly correct or
+mostly incorrect as a whole, based on their understanding
+of the underlying subject matter.
+Figure 14 illustrates the relationship between the total grades for Problem 1 given by the TAs and the AI.
+
+13.2
+
+11.535
+
+2.745 11.5
+
+Each data point represents one exam. Considering all
+grading results, the coefficient of determination is only
+R2 = 0.58, which would generally be considered moderate. When demanding standard deviations on the AI
+grading of maximal three, two, or one point, the percentage of AI-gradings fulfilling these conditions decreases
+while the coefficient of determination R2 moves into the
+direction of what might be considered strong. Problems
+below the set confidence level would need to be graded
+by hand.
+Notably, outliers with very low AI-points remain even
+at high confidence thresholds; these are due to OCR issues, where MathPix and GPT-4V were unable to interpret the handwriting, and thus the AI-graders consistently gave low points due to missing information. This
+
+12
+Problem 1 - WF1
+
+a_Erg
+
+a_h_aus
+
+a_Bilanz
+
+a_h_ein
+
+b_
+Stoffmod
+
+b_T_KF
+_Tds
+
+b_T_KF
+_Tds
+
+b_Erg
+d_u_g
+
+d_u_f
+
+d_u_g
+
+Sum
+
+d_u_1
+
+a_h_ein
+
+b_
+Stoffmod
+
+b_Erg
+
+a_Bilanz
+
+Sum
+
+d_u_1
+d_u_2
+
+e_s_f
+
+d_h_ein
+
+d_u_f
+
+a_Erg
+
+c_Erg
+
+e_s_g
+
+e_Erg
+
+e_s_1
+
+d_Bilanz
+
+e_Erg
+
+d_Erg
+
+e_s_1
+
+a_h_aus
+
+c_Bilanz
+
+e_s_2
+e_Bilanz
+
+d_u_2
+
+d_Bilanz
+
+e_s_g
+
+d_h_ein
+
+e_s_f
+e_s_2
+
+c_Bilanz
+
+d_Erg
+e_Bilanz
+
+c_Erg
+
+FIG. 13. Fruchterman-Reingold [50, 51] representation of all Spearman correlations between the rubric items in Table I.
+Indicated in yellow are the grades given by the TAs, indicated in blue those by the AI. The thickness of the edges indicates
+the strength of the Spearman correlation, where negative correlations would have been indicated in red. The beige “Sum” and
+cyan “Sum” indicate the sum of points given by the teaching assistants and the AI, respectively.
+
+entails that regardless of the set confidence threshold,
+problems with very low points should be graded or at
+least checked by humans.
+As observed in earlier studies, in spite of the prompts in
+Figs. 10–12 attempting to enforce strict grading, the AI
+grades more leniently than TAs [41], but the R2 = 0.84
+achieved with the more verbose synthetic answers could
+not be reproduced with authentic data.
+The low agreement between TAs and AI on individual rubric items, as well as the very frequent failures to
+provide a complete grading output with points within
+the available range, indicates that fine-grained rubric
+grading for a complete problem is beyond GPT-4-32k’s
+“bookkeeping” capabilities.The high computational load
+caused by the frequent need to regrade makes WF1 appear nonviable. A variant of this workflow might be
+prompting the LLM for one part at a time, only submitting the handful of rubric items pertaining to that
+part; the LLM would likely be able to keep track of this
+
+limited number of grading items, but this approach, for
+this exam, would have come at the expense of four times
+more LLM transactions.
+B.
+
+Part-based grading based on MathPix and
+GPT-4V (WF2)
+
+Workflow 2 (WF2) considers problem parts rather than
+rubric items. Initial tests on Problem 1 showed that
+the LLM was much better equipped to keep track of
+four or five problem parts than of 22 rubric items, and
+the number of necessary regrades dramatically decreased;
+Table IV shows an example for the problem solution in
+Fig. 2. The coefficient of determination for TA versus
+AI grades for Problem 1 was R2 = 0.56 for the complete
+data set and thus comparable to the R2 = 0.58 obtained
+from rubric grading, see Fig. 15. The standard deviations
+of the average grades of the 10 AI graders are lower than
+
+13
+Problem 1 - WF1 - All
+
+12
+
+12
+
+10
+
+10
+
+8
+
+6
+4
+
+8
+
+6
+4
+
+2
+
+2
+y = 0.7362x + 2.2703
+R² = 0.5798
+
+0
+0
+
+2
+
+4
+
+6
+8
+10
+Assigned Points - Teaching Assistants
+
+12
+
+y = 0.8464x + 1.2384
+R² = 0.6902
+
+0
+
+14
+
+0
+
+Problem 1 - WF1 - SD<2.0 (42% of data)
+
+14
+12
+
+12
+
+10
+
+10
+
+8
+
+6
+4
+
+2
+
+4
+
+6
+8
+10
+Assigned Points - Teaching Assistants
+
+12
+
+14
+
+Problem 1 - WF1 - SD<1.0 (17% of data)
+
+14
+
+Assigned Points - AI
+
+Assigned Points - AI
+
+Problem 1 - WF1 - SD<3.0 (65% of data)
+
+14
+
+Assigned Points - AI
+
+Assigned Points - AI
+
+14
+
+8
+
+6
+4
+
+2
+
+2
+y = 0.8928x + 0.5689
+R² = 0.7673
+
+0
+0
+
+2
+
+4
+
+6
+8
+10
+Assigned Points - Teaching Assistants
+
+12
+
+14
+
+y = 0.8749x + 0.0016
+R² = 0.7716
+
+0
+0
+
+2
+
+4
+
+6
+8
+10
+Assigned Points - Teaching Assistants
+
+12
+
+14
+
+FIG. 14. AI versus TA grades for Problem 1 using WF1 including linear regression lines, their equations and R2 . The upper
+left panels shows all grades independent of standard deviation σ of the mean of the 10 AI grades, the remaining panels the
+relationship for increasingly stringent limitations on the standard deviation. In each case, the percentage of data points fulfilling
+the restriction is indicated.
+TABLE IV. Example of grading the student solution in Fig. 2 based on the sample solution by parts, following WF2
+Part AI 1 AI 2 AI 3 AI 4 AI 5 AI 6 AI 7 AI 8 AI 9 AI 10 AI Ave. AI-SD TA
+a
+2
+2.25 2
+2
+2.375 2.125 1.5 2
+2
+2.25 2.05
+0.225 2
+b
+2.125 2.5 1.75 2.25 2.125 2.125 2.5 2.25 2
+2.5
+2.2125 0.231 2.5
+c
+1.35 1.5 1.2 1.5
+1.35 1.35 1.35 1.35 1.5 1.425 1.3875 0.090 1.5
+d
+3.375 4.5 3.15 3.825 3.6 3.825 3.15 3.15 3.6 4.05 3.6225 0.420 3
+e
+2.8 3.6 2.8 2.8
+3.2 3.4
+2.2 2.8 2.8 4
+3.04
+0.488 2.5
+Total 11.65 14.35 10.9 12.375 12.65 12.825 10.7 11.55 11.9 14.225 12.3125 1.182 11.5
+
+in workflow WF1, which results in less exams requiring
+human grading when imposing limits on the maximum
+standard deviation.
+For this workflow, all problems were considered, and
+Fig. 16 shows the Spearman correlations between the TA
+and AI grades. As seen earlier in Fig. 13, the sums of the
+parts are more closely correlated than the pairs of parts.
+Very prominent is the outlying vertex for the TA-graded
+Part 4a, which is one of two graphical problem parts. As
+opposed to the other graphical problem part, Part 2a,
+which contributes 8 points to the 19 points of Problem 2
+(explaining the strong correlation with “Sum”), Part 4a
+
+only contributes 4.5 points to the 18.5 points of Problem 4. The AI-graded Parts 2a and 4a, on the other
+hand, are simply part of the cluster of AI-points visible
+in all Spearman correlations.
+The pairs of vertices for the graphical problems 2a
+and 4a show no correlations (for 2a, the vertices are at
+opposite ends of the graph, while for 4a, the TA-vertex
+is completely disconnected). These would be grades resulting from comparing the descriptions of solutions like
+Fig. 7 to those in Fig. 8, which is a task that LLMs would
+in principle be capable of if the descriptions were reliable;
+unfortunately, the latter proved not to be the case.
+
+14
+Problem 1 - WF2 - All
+
+12
+
+12
+
+10
+
+10
+
+8
+
+6
+4
+
+8
+
+6
+4
+
+2
+
+y = 0.8285x + 0.522
+R² = 0.5923
+
+2
+
+y = 0.7798x + 0.7586
+R² = 0.5646
+
+0
+
+0
+0
+
+2
+
+4
+
+6
+8
+10
+Assigned Points - Teaching Assistants
+
+12
+
+14
+
+0
+
+Problem 1 - WF2 - SD<2.0 (66% of data)
+
+14
+12
+
+12
+
+10
+
+10
+
+8
+
+6
+4
+
+2
+
+4
+
+6
+8
+10
+Assigned Points - Teaching Assistants
+
+12
+
+14
+
+Problem 1 - WF2 - SD<1.0 (32% of data)
+
+14
+
+Assigned Points - AI
+
+Assigned Points - AI
+
+Problem 1 - WF2 - SD<3.0 (90% of data)
+
+14
+
+Assigned Points - AI
+
+Assigned Points - AI
+
+14
+
+8
+
+6
+4
+
+y = 0.8919x - 0.0045
+R² = 0.6484
+
+2
+0
+
+2
+y = 0.9321x - 0.5572
+R² = 0.7466
+
+0
+0
+
+2
+
+4
+
+6
+8
+10
+Assigned Points - Teaching Assistants
+
+12
+
+14
+
+0
+
+2
+
+4
+
+6
+8
+10
+Assigned Points - Teaching Assistants
+
+12
+
+14
+
+FIG. 15. AI versus TA grades for Problem 1 using WF2 including linear regression lines, their equations and R2 .
+
+C.
+
+Problem-based grading based on MathPix and
+GPT-4V (WF3)
+
+Grading a complete problem with only one summary
+grade turned out to have the lowest correlation with TA
+grades of all workflows, R2 = 0.43. Table V shows an
+example for the student solution in Fig. 2. The grading
+explanations showed that the model still attempted to
+grade by part, for example it graded the solution in Fig. 2
+in Run AI1 (see Table V) as follows:
+The student solved parts a), b) and c) correctly, earning 2.5 points, 2.5 points and 1.5 points respectively.
+For part d), the student made a miscalculation resulting in a discrepancy with the model solution, earning
+2 of the 4.5 points. For part e), the student made another miscalculation resulting in a discrepancy with
+the model solution, earning 2.5 of the 4 points.
+
+The model extracted the point values for the parts from
+the problem text, which was part of the prompt (see
+Fig. 12). However, it was unable to correctly add five
+numbers, as 2.5+2.5+1.5+2+2.5 is 11, but the model
+reported 11.5 in the output. As the model seems to proceed by parts anyway, but cannot be trusted to add up
+the points correctly, it is seems advisable to leave arithmetics to Python or Excel.
+
+D.
+
+Part-based grading based solely on GPT-4V
+(WF4)
+
+Workflow WF4 has multiple GPT-4V-only interpretations of the handwriting (see Fig. 6) and multiple GPT-432k graders, resulting in more than double of the grades
+generated by the other workflows (25 versus 10). This
+choice was made in the hope of decreasing standard deviations on the average grades, however, the workflow
+turned out to have higher standard deviations than WF2
+and WF3. Table VI shows an example for the solution
+in Fig. 2. As increasingly strict limits on the standard
+deviation are imposed, the Coefficient of Determination
+R2 did not consistently increase. However, due to the
+high computational load, this approach was abandoned
+after processing 20 sample exams, so this lack of consistency might be the result of both workflow-inherent uncertainties in the OCR process and simple lack of statistics (20 versus 252 data points).
+Also in this workflow, student graphs like the one in
+Fig. 7 were frequently “overlooked,” and grading results
+of the recognized graphs were unreliable. GPT-4V seems
+much better equipped to describe graphs with clean lines
+like the one in Fig. 8 than freehand drawings like Fig. 7.
+
+15
+
+Problem 1
+- WF2
+
+Problem 2
+- WF2
+
+b
+
+e
+
+d
+
+d
+
+e
+
+c
+Sum
+
+b
+c
+
+a
+
+Sum
+
+c
+
+d
+
+b
+
+c
+
+a
+
+b
+
+Problem 4
+- WF2
+
+b
+
+a
+b
+
+e
+
+b
+
+c
+
+Sum
+
+Sum
+
+e
+
+c
+
+b
+
+c
+
+c
+
+Sum
+
+a
+
+Sum
+
+a
+
+Problem 3
+- WF2
+
+Sum
+
+d
+
+Sum
+
+d
+a
+
+d
+
+d
+
+d
+
+a
+
+a
+
+FIG. 16. Fruchterman-Reingold [50, 51] representation of all Spearman correlations between the part grades for all problems
+on the exam. Indicated in yellow are the grades given by the TAs, indicated in blue those by the AI. The beige “Sum” and
+cyan “Sum” indicate the sum of points given by the teaching assistants and the AI, respectively.
+
+TABLE V. Example of grading the student solution in Fig. 2 based on the sample solution, not prompting for parts, following
+WF3
+AI 1 AI 2 AI 3 AI 4 AI 5 AI 6 AI 7 AI 8 AI 9 AI 10 AI Ave. AI-SD TA
+Total 11.5 10 12.5 12.5 10 11.5 10 11 9
+13
+11.1
+1.261 11.5
+
+E.
+
+Influence of Confidence Thresholds
+
+Figure 17 summarizes the results of Coefficient of Determination R2 versus imposed limits on the standard
+deviation. For W1-WF3, logarithmic fits are included;
+for WF4, the randomness is too high or the statistics
+too low to provide a reasonable fit. From left to right,
+the data points represent acceptance of standard deviations lower than one, three, or any number of points,
+respectively; thus, data points further to the left on the
+horizontal axis indicate greater need for human grading,
+while the values on the vertical axis indicate better agreement between TA and AI grading.
+WF4 does not seem ready for production, as it is more
+
+unpredictable than the other workflows. Workflows WF1
+and WF2 clearly outperform WF3 (possibly simply because GPT-4-32k cannot add numbers). If, based on
+confidence measures, half of the exams are AI-graded,
+both models reach R2 ≈ 0.7. While these coefficients
+indicate strong correlations, it is important to note that
+they would be unacceptable for high-stakes exams.
+
+F.
+
+Total Exam Points and Passing or Failing
+
+Focussing on WF2, the overall grading performance
+is less than convincing: the Coefficient of Determination between the total points determined by the TAs
+
+16
+TABLE VI. Example of grading the student solution in Fig. 2 based on the sample solution by parts, following WF4
+Part AI 1.1 AI 1.2 AI 1.3 AI 1.4 AI 1.5 AI 2.1 . . . AI 4.5 AI 5.1 AI 5.2 AI 5.3 AI 5.4 AI 5.5 AI Ave. AI-SD TA
+a
+0
+1
+0
+1.875 0.25 1.5
+0.25 2.125 1.75 1.5
+2
+1.75 0.935
+0.760 2
+b
+0
+0.75 1.25 1.125 0
+1.25
+0
+2.25 1.5
+2.25 2.5
+2.25 0.9
+0.846 2.5
+c
+1.05 1.35 1.125 1.275 0.225 1.35
+0
+1.425 1.2
+1.425 1.35 1.5
+0.729
+0.601 1.5
+d
+3.375 2.25 2.25 4.05 0
+0
+. . . 1.8
+2.7
+2.7
+2.25 3.825 2.7
+1.989
+1.452 3
+e
+3.4
+4
+3.2
+2.2
+0.6
+0
+0
+2
+2.8
+2.4
+4
+2
+1.76
+1.397 2.5
+Total 7.825 9.35
+
+7.825 10.525 1.075 4.1
+
+. . . 2.05
+
+0.9
+
+Problem 1 - Limiting SD
+
+Coefficent of Determination R-squared
+
+0.8
+0.7
+0.6
+
+10.5
+
+9.95
+
+9.825 13.675 10.2
+
+6.313
+
+3.912 11.5
+
+The left panel of Fig. 18 shows the contingency table
+(separated by the red lines) for all 252 students, the right
+panel shows the same for the above outlined restrictions.
+Also indicated are the standard measures accuracy, precision, recall, and F2-score:
+TP + TN
+TP + TN + FP + FN
+TP
+Precision =
+TP + FP
+TP
+Recall =
+TP + FN
+(1 + 22 ) × Precision × Recall
+F2-score =
+22 × Precision + Recall
+Precision measures the ratio of correctly AI-assigned
+passing grades to the total number of AI-assigned passing grades, while recall measures the ratio of the correctly AI-assigned passing grades to the total number of
+TA-assigned passing grades. The workflow has very high
+precision, (0.9468 and 0.9589 without and with threshold
+criteria, respectively), but low recall (0.4972 and 0.4698,
+respectively). Thus, if the AI passed a student, very
+likely he or she actually passed the exam, but the AI
+missed more than half of the actually passing grades.
+The low recall is also what causes the low accuracy and
+the low F2-score.
+Accuracy =
+
+0.5
+WF1
+
+0.4
+
+WF2
+
+0.3
+
+WF3
+WF4
+
+0.2
+
+Log. (WF1)
+Log. (WF2)
+
+0.1
+
+Log. (WF3)
+
+0
+0
+
+20
+
+40
+60
+Percent Exams AI-Graded
+
+80
+
+100
+
+FIG. 17. Coefficient of determination R2 versus percentage
+of accepted AI-grades for Problem 1 as restrictions are put
+on the standard deviation σ of the AI-grades, comparing the
+different workflows.
+
+and those determined by AI is R2 = 0.46. When setting some additional thresholds, namely that the
+P sum of
+all standard deviations is less than 10 points ( σ < 10)
+to eliminate data points with low confidence, and also
+eliminating data points with less than one point total, as
+they are likely the result of a failure of the OCR process,
+one is left with 84% of the data and R2 = 0.49.
+Applying the same rule for the determination of the
+passing threshold as with the TA-score, 50% of the best
+AI-score is 25 points. The next gap in the score distribution occurs at 24 points, which would be a passing
+threshold that could be automatically determined from
+the AI-grades. One can define the following:
+• True Positive (TP): the AI grading passed a student
+who also passed with TA grading.
+• True Negative (TN): the AI grading failed a student
+who also failed with TA grading
+• False Positive (FP): the AI grading passed a student who failed with TA grading
+• False Negative (FN): the AI grading failed a student who passed with TA grading
+
+G.
+
+Summary and General Observations
+
+Two of the investigated workflows were hampered by
+the fact that LLMs are simply not good at bookkeeping:
+for WF1, it would lose rubric items, for WF3, it could
+not add numbers. All workflows were hampered by OCR,
+and none of them dealt well with diagrams like Fig. 7.
+Overall, model WF1, going by rubric, seems to be the
+most reliable workflow. In this study, it was not pursued
+for the whole exam because GPT-4-32k very frequently
+could not keep track of all of the fine-grained rubric items,
+leading to an unjustifiable large number of wasted tokens.
+A hybrid approach, running the model for each part with
+a handful of rubric items each might be a promising future approach. While that would entail four or five times
+more grading rounds (based on the number of problem
+parts), each one of those would likely return a viable result, as the system can reliably keep track of a handful
+of items.
+
+17
+Exam - WF2 - All
+
+Assigned Points - AI
+
+50
+
+FP
+5
+
+40
+
+Exam - WF2 - SD<10 and P>1.0 (84% of data)
+
+60
+
+Accuracy: 0.6230
+Precision: 0.9468
+Recall: 0.4972
+F2 Score: 0.5494
+
+FP Accuracy: 0.6132
+0.9589
+3 Precision:
+Recall: 0.4698
+
+50
+
+TP
+89
+
+Assigned Points - AI
+
+60
+
+30
+
+F2 Score: 0.5232
+
+40
+
+30
+
+20
+
+20
+
+FN
+90
+
+TN
+68
+
+10
+
+0
+
+10
+
+20
+
+30
+40
+Assigned Points - Teaching Assistants
+
+50
+
+TN
+60
+
+FN
+79
+
+10
+
+y = 0.7035x - 0.4218
+R² = 0.4594
+
+0
+
+TP
+70
+
+60
+
+y = 0.7274x - 0.9462
+R² = 0.4912
+
+0
+0
+
+10
+
+20
+
+30
+40
+Assigned Points - Teaching Assistants
+
+50
+
+60
+
+FIG. 18. Total exam points using WF2. The graphs show the linear interpolations, as well as the contingency table and quality
+measures for passing the exam.
+
+V.
+
+LESSONS LEARNED
+
+Between pseudonymization, sorting, rotating, marking
+up, and cleaning of the PDFs, considerable human effort
+went into the AI-assisted grading workflows, i.e., between
+the scanning and OCR process. When endeavoring to use
+the outlined workflows in production, a balance has to
+be found between the students working in a manner that
+does not distract from the subject matter and minimizing
+human effort on the part of the course personnel.
+
+A.
+
+Avoid Boxes
+
+During the OCR process, boxes created a surprising
+amount of problems: frames on paper that the students
+brought in or boxes that they drew around answers can
+lead to the OCR software identifying the box as a figure.
+Particularly problematic was if students wrote across the
+lines of a box or literally “outside the box.” While boxes
+can guide the human eye, they are a distraction to OCR
+software and should be avoided.
+
+B.
+
+Straight-line Layout
+
+An advantage of handwriting mathematical derivations
+is the ability to easily annotate terms (e.g., an arrow
+or underbrace, “this goes to zero,” or sub-calculations
+literally on the side). While OCR software is surprisingly good dealing with the two-dimensional character
+of mathematical expressions (e.g., nested fractions, even
+within column vectors), unfortunately, they cannot follow less structured graphical layouts, and those freefloating texts or calculations end up out of context within
+the flow of the larger calculations. Here, students might
+be asked to please stay within horizontal lines, also avoiding side-by-side multi-column layouts.
+
+C.
+
+Use Plain Paper
+
+The presence of lines and checkers on paper as in Fig. 2
+is surprisingly well ignored by the OCR processes, but
+still can cause further complications. A better approach
+is using plain paper, which leads to the next point:
+
+D.
+
+Provide the Paper
+
+Handwriting the problem derivations using pen-andpaper remains essential, but the bring-your-own-paper
+policy has created logistics problems, and redacting, sorting, rotating, and labeling the pages required considerable effort. OCR can read typewritten information with
+very high precision, and this feature can be used to automate several of these operations.
+For exams that expect relatively short answers, that is,
+just a few lines of derivations, simply provide space on
+the exam sheet. Instead of answer boxes, leave marker
+texts according to which the OCR’d text file can be separated, for example, print “Solution Problem #2:” at the
+beginning of the free space, and “Problem #3:” before
+the text of the next problem; markers like these do not
+distract the students but can easily be picked up by the
+evaluation scripts between the OCR and the grading.
+For exams that require longer derivations of unclear
+length (depending on the approach taken), a simple step
+would be to provide plain paper that has a normed header
+with a defined vocabulary. This header might look like
+the one depicted in Fig. 19. Note that there are no boxes.
+The terms “Student number, problem number, part, and
+page” will be read by the OCR software with very high
+precision, and subsequent scripts can easily divide and
+sort pages according to this pattern (note that it does
+not matter if the page number is absolute or relative to
+the problem start or the part start, as the pages would be
+first sorted by problem, then part, then number). Torn-
+
+18
+out pages from notebooks or oversized sheets can also
+cause paper jam during the automated scanning.
+Students would be instructed to not have more than
+one problem part on the same page. They would also
+be asked to use the paper in portrait orientation with
+the header on top, minimizing the need for later page
+rotations. Any pattern-matching would need to tolerant enough to deal with students’ errors that might be
+introduced by nervousness.
+
+VI.
+
+LIMITATIONS
+
+This study is decidedly empirical, investigating different workflows for AI-assisted grading of one thermodynamics using tool currently available (Spring 2024). The
+results are specific to the exam, the rubric (Table I), and
+the prompts (Figs. 10–12), so only limited generalizability can be claimed.
+
+VII.
+E.
+
+Encourage Students to Write More
+
+As can be seen when comparing Figs. 3 and 9, students tend to write much less than experts when solving
+problems. It is good practice to provide more explanations when deriving the answers to problems, and from
+a student point of view, it also provides more chances to
+get partial credit when the overall solution turns out to
+be wrong. For AI-grading, having more rather than less
+text and written out formula derivations greatly increases
+error-tolerance in both the OCR and the grading process. LLMs tend to be verbose in their answers, but they
+also appear to need the similar verbosity to make reliable
+statements on similarity; they are, after all, probabilistic language models, not deterministic symbolic algebra
+systems.
+
+F.
+
+Use Pencils and Erasers
+
+Scribbling out writing is not understood by OCR software; at times, the OCR software provides an interpretation of these expressions that the student wanted ignored, at other times, the model start hallucinating (see
+Fig. 4). Permanent markers are oftentimes mandated to
+avoid tampering with the exams once they are returned
+to the student, but the first step in this process is scanning. Thus, an electronic copy of the original student
+work is available, which would not only provide clear evidence of later tampering, but likely prevent this dishonest action in the first place. Students should erase wrong
+expressions rather than scribbling them out (providing
+extra pencils and clean, white erasers in the exam room
+is probably a good idea).
+
+OUTLOOK
+
+The logistics and format of high-stakes exams are hard
+to adapt according to the lessons in Sect. V, and a future
+study should consider a lower-stakes exam which can be
+adapted for AI-grading assistance, even if this comes at
+the expense of authenticity of the data. Based on the
+findings in this study, a workflow should be investigated
+that uses a detailed grading rubric, but only applies it
+to one problem part at a time to reduce the number of
+failed grading attempts.
+As even humans can sometimes only decipher handwritten solutions like Fig. 3 in context, future experiments with GPT-only OCR processes (like in WF4)
+might include the problem text in the reading prompt.
+Preliminary findings indicated that currently, this runs
+the risk of pushing the system over the token limit, and
+it can lead to increased hallucinations. In particular, the
+process runs the risk of the LLM attempting to solve
+the problem and “seeing what it expects to see;” further
+and more diligent prompt engineering would be needed
+to ensure that the system avoids OCR errors but does not
+fix physics errors.This is particularly true since currently
+when processing a page, it is unknown which problem
+is being answered, so at the moment, all problem texts
+would need to be included. It can be expected that future
+models have higher token limits.
+At the time of our study, GPT-4o [52] had not been
+available yet. There is anecdotal evidence that GPT-4o is
+worse than GPT-4 in mathematical and reasoning task,
+but better in handwriting recognition. For example, the
+excerpt in Fig. 3 gets interpreted as
+d) U = uf 2 + x (ug − uf 2 ) − mg(u2 − u1 ) + Q = Wv
+
+U (0.003 c) ⇒ uF c = −333.492
+G.
+
+uF c = −0.033
+
+Avoid Graphical Problems (for now)
+
+Our experiments showed that least for the moment,
+various steps in the workflows fail for graphical problems:
+the graphs might get “overlooked,” and their descriptions
+might be too vague to allow for a meaningful comparison
+to sample solutions.
+
+xf 2 =
+
+Un+2 − Uf 2
+ug − uf 2
+
+which is better than the results in Fig. 6. Also, GPT4o shows promise in interpreting graphs; Fig. 20 shows
+the GPT-4o description of the graph in Fig. 7.
+
+19
+
+Student number:
+
+42
+
+Problem number:
+
+3
+
+Part:
+
+d
+
+Page:
+
+2
+
+Energy needs to be conserved:
+FIG. 19. Suggested header for instructor-provided exam paper.
+
+Description of the Thermodynamic Cycle
+The diagram illustrates a thermodynamic cycle plotted on a TemperatureEntropy (T -S) diagram. The key points and processes are as follows:
+• The vertical axis represents Temperature (T ) in Kelvin [K].
+• The horizontal axis represents Entropy (S) in kilojoules per kilogram per Kelvin [ kgkJK ].
+• The cycle consists of five key points labeled 0 through 5.
+
+Processes
+1. Process 0-1: This is an isentropic process, indicated by a vertical
+line on the T -S diagram, showing that the entropy remains constant.
+2. Process 1-2: This process shows an increase in both temperature
+and entropy, moving upwards to the right.
+3. Process 2-3: This is an isobaric process (constant pressure), indicated by the label “isobare p2 = p3 ”. The process moves horizontally
+to the right, indicating an increase in entropy while the temperature
+remains constant.
+4. Process 3-4: This process involves a decrease in both temperature
+and entropy, moving downwards to the left.
+5. Process 4-5: This is another isentropic process, moving vertically
+downwards, indicating a constant entropy.
+6. Process 5-0: This is an isobaric process (constant pressure), indicated by the label “isobare p0 = p5 ”. The process moves horizontally
+to the left, indicating a decrease in entropy while the temperature
+remains constant.
+
+Additional Notes
+• A small inset in the top right corner of the diagram provides a
+simplified sketch of the cycle, highlighting key transitions between
+states.
+• The term “Zustandstabelle” at the bottom suggests a reference to a
+state table, typically used to list the properties of each state in the
+cycle.
+
+FIG. 20. GPT-4o description of the graph in Fig. 7
+
+Future work will explore a grading workflow that uses
+GPT-4o for handwriting and graphics interpretation, followed by using GPT-4 to grade each individual problem
+part with a detailed grading rubric, and summing up
+points using Python.
+
+assisting in free-form exam grading: they can deal with
+fuzzy data in a probabilistic manner.
+The biggest source of uncertainty was the conversion
+of handwriting to a machine-readable format, that is, the
+Optical Character Recognition which forms the base for
+all further grading steps. We found that some common
+sources of error can be addressed by changing the format
+of the exam sheets, and we had anecdotal evidence that
+newer multimodal LLMs perform better.
+Once the exams are in machine-readable format, in our
+case LaTeX, we found that the granularity of the grading
+prompts is essential to both the accuracy and the rate-offailure of automated grading assistance. A fine-grained
+grading rubric, applied to a whole problem at a time,
+leads to frequent bookkeeping errors and failed grading
+attempts. Grading the whole problems by a handful of
+parts, using the full sample solution, turned out to be
+more reliable, but misses some of the nuances and weightings of a rubric. When attempting to grade the whole
+problem all at once, the model resorted to grading it by
+part, but then failed to correctly add up the points; essentially, again, a bookkeeping error.
+Grading graphical solutions, in our case process diagrams, turned out to have much lower reliability than
+grading mathematical derivations. When those solutions
+were not “overlooked” in the first place, the descriptions of free-hand drawings were much less reliable than
+those resulting from careful construction on a computer;
+crooked lines or scribbles provided too much extraneous
+information, which the tool was unable to distinguish
+from the salient information. Also here, newer multimodal models may perform better.
+The overall gradings had high precision, that is, they
+identified exams that met passing criteria with high reliability. However, other performance measures such as
+accuracy, recall, and F2 were too low for failing students;
+exams that would lead to failing grades definitely require
+human validation. Noticeable were also high-confidence
+zero-point grades, which result from utter OCR failures.
+ACKNOWLEDGMENTS
+
+VIII.
+
+CONCLUSION
+
+While we found once again that Large Language Models (LLMs) can neither reliably count nor add numbers,
+they have unique properties that make them useful for
+1
+
+We would like to thank the students who participated
+in this study. We would also like to thank Fadoua Balabdaoui for statistical consulting, and Alina Yaroshchuk
+for assistance with exam logistics.
+
+20
+
+[1] OpenAI, ChatGPT, https://chat.openai.com/ (accessed April 2024).
+[2] A. M. Turing, Computing machinery and intelligence,
+Mind , 433 (1950).
+[3] OpenAI, ChatGPT, https://openai.com/research/
+gpt-4 (accessed April 2024).
+[4] T. H. Kung, M. Cheatham, A. Medinilla, ChatGPT,
+C. Sillos, L. De Leon, C. Elepano, M. Madriaga, R. Aggabao, G. Diaz-Candido, et al., Performance of chatgpt
+on usmle: Potential for ai-assisted medical education using large language models, medRxiv , 2022 (2022).
+[5] J. Achiam, S. Adler, S. Agarwal, L. Ahmad, I. Akkaya,
+F. L. Aleman, D. Almeida, J. Altenschmidt, S. Altman, S. Anadkat, et al., GPT-4 technical report, arXiv
+preprint arXiv:2303.08774 (2023).
+[6] Samantha Murphy Kelly, ChatGPT passes exams from
+law and business schools, https://edition.cnn.com/
+2023/01/26/tech/chatgpt-passes-exams/index.html
+(accessed January 2023).
+[7] G. Kortemeyer, Could an artificial-intelligence agent pass
+an introductory physics course?, Phys. Rev. Phys. Educ.
+Res. 19, 010132 (2023).
+[8] G. Polverini and B. Gregorcic, Performance of chatgpt
+on the test of understanding graphs in kinematics, Phys.
+Rev. Phys. Educ. Res. 20, 010109 (2024).
+[9] G. Kortemeyer and W. Bauer, Cheat sites and artificial
+intelligence usage in online introductory physics courses:
+What is the extent and what effect does it have on assessments?, Phys. Rev. Phys. Educ. Res. 20, 010145 (2024).
+[10] W. Yeadon and T. Hardy, The impact of AI in physics
+education: a comprehensive review from GCSE to university levels, Physics Education 59, 025010 (2024).
+[11] A. Sperling and J. Lincoln, Artificial intelligence and high
+school physics, The Physics Teacher 62, 314 (2024).
+[12] S. Küchemann, S. Steinert, N. Revenga, M. Schweinberger, Y. Dinc, K. E. Avila, and J. Kuhn, Can ChatGPT support prospective teachers in physics task development?, Phys. Rev. Phys. Educ. Res. 19, 020128 (2023).
+[13] G. Kortemeyer, Using artificial-intelligence tools to make
+LaTeX content accessible to blind readers, TUGboat 44,
+390 (2023).
+[14] P. Tschisgale, P. Wulff, and M. Kubsch, Integrating artificial intelligence-based methods into qualitative research
+in physics education research: A case for computational
+grounded theory, Physical Review Physics Education Research 19, 020123 (2023).
+[15] F. Kieser, P. Wulff, J. Kuhn, and S. Küchemann, Educational data augmentation in physics education research
+using ChatGPT, Phys. Rev. Phys. Educ. Res. 19, 020150
+(2023).
+[16] F. Reif, J. H. Larkin, and G. C. Brackett, Teaching general learning and problem-solving skills, American Journal of Physics 44, 212 (1976).
+[17] F. Reif, Millikan lecture 1994: Understanding and teaching important scientific thought processes, American
+Journal of Physics 63, 17 (1995).
+[18] L. Hsu, E. Brewe, T. M. Foster, and K. A. Harper, Resource letter rps-1: Research in problem solving, American journal of physics 72, 1147 (2004).
+[19] J. Hattie, Visible learning: A synthesis of over 800 metaanalyses relating to achievement (routledge, 2008).
+
+[20] F. Al-Salmani, J. Johnson, and B. Thacker, Assessing
+thinking skills in free-response exam problems: Pandemic
+online and in-person, Phys. Rev. Phys. Educ. Res. 19,
+010131 (2023).
+[21] D. A. Kashy, G. Albertelli, G. Ashkenazi, E. Kashy, H.-K.
+Ng, and M. Thoennessen, Individualized interactive exercises: a promising role for network technology, in Proc.
+Frontiers in Education, Vol. 31 (2001) pp. 1073–1078.
+[22] G. Kortemeyer, E. Kashy, W. Benenson, and W. Bauer,
+Experiences using the open-source learning content management and assessment system LON-CAPA in introductory physics courses, Am. J. Phys 76, 438 (2008).
+[23] J. Risley, Motivating students to learn physics using an
+online homework system, Newsletter of the APS Forum
+on Education , 3 (2001).
+[24] T. Stelzer and G. Gladding, The evolution of web-based
+activities in physics at illinois, Newsletter of the APS
+Forum on Education , 7 (2001).
+[25] R. J. Dufresne, D. Hart, J. P. Mestre, and K. Rath,
+The effect of web-based homework on test performance
+in large enrollment introductory physics courses, Journal
+of Computers in Mathematics and Science Teaching 21,
+229 (2002).
+[26] C. Fredericks, Patterns of Behavior in Online Homework
+for Introductory Physics, Ph.D. thesis, University of Massachusetts (2007).
+[27] M. Richards-Babb, J. Drelick, Z. Henry, and
+J. Robertson-Honecker, Online homework, help or
+hindrance? what students think and how they perform,
+Journal of College Science Teaching 40, 81 (2011).
+[28] D. C. Perdian, Early identification of student performance and effort using an online homework system: A
+pilot study, Journal of Science Education and Technology
+22, 697 (2013).
+[29] J. L. Docktor, J. Dornfeld, E. Frodermann, K. Heller,
+L. Hsu, K. A. Jackson, A. Mason, Q. X. Ryan, and
+J. Yang, Assessing student written problem solutions: A
+problem-solving rubric with application to introductory
+physics, Physical review physics education research 12,
+010130 (2016).
+[30] E. Burkholder, J. Miles, T. Layden, K. Wang, A. Fritz,
+and C. Wieman, Template for teaching and assessment of
+problem solving in introductory physics, Physical Review
+Physics Education Research 16, 010123 (2020).
+[31] T. Wan and Z. Chen, Exploring generative AI assisted
+feedback writing for students’ written responses to a
+physics conceptual question with prompt engineering
+and few-shot learning, Phys. Rev. Phys. Educ. Res. 20,
+010152 (2024).
+[32] J. Wilson, B. Pollard, J. M. Aiken, M. D. Caballero,
+and H. J. Lewandowski, Classification of open-ended responses to a research-based assessment using natural
+language processing, Phys. Rev. Phys. Educ. Res. 18,
+010141 (2022).
+[33] P. Mitros, V. Paruchuri, J. Rogosic, and D. Huang, An integrated framework for the grading of freeform responses,
+in The Sixth Conference of MIT’s Learning International
+Networks Consortium (2013).
+[34] M. O. Dzikovska, R. Nielsen, C. Brew, C. Leacock, D. Giampiccolo, L. Bentivogli, P. Clark, I. Dagan, and H. T.
+Dang, Semeval-2013 task 7: The joint student response
+
+21
+analysis and 8th recognizing textual entailment challenge, in Second Joint Conference on Lexical and Computational Semantics (* SEM), Volume 2: Proceedings of
+the Seventh International Workshop on Semantic Evaluation (SemEval 2013) (2013) pp. 263–274.
+[35] S. Burrows, I. Gurevych, and B. Stein, The eras and
+trends of automatic short answer grading, International
+journal of artificial intelligence in education 25, 60
+(2015).
+[36] C. Sung, T. Dhamecha, S. Saha, T. Ma, V. Reddy, and
+R. Arora, Pre-training BERT on domain resources for
+short answer grading, in Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on
+Natural Language Processing (EMNLP-IJCNLP) (2019)
+pp. 6071–6075.
+[37] S. Azad, B. Chen, M. Fowler, M. West, and C. Zilles,
+Strategies for deploying unreliable ai graders in hightransparency high-stakes exams, in Artificial Intelligence
+in Education: 21st International Conference, AIED
+2020, Ifrane, Morocco, July 6–10, 2020, Proceedings,
+Part I 21 (Springer, 2020) pp. 16–28.
+[38] M. Fowler, B. Chen, S. Azad, M. West, and C. Zilles, Autograding” explain in plain english” questions using nlp,
+in Proceedings of the 52nd ACM Technical Symposium on
+Computer Science Education (2021) pp. 1163–1169.
+[39] R. Stanyon, E. Martello, M. Kainth, and N. K. Wilkin,
+Demo of graide: Ai powered assistive grading engine, in
+Proceedings of the Ninth ACM Conference on Learning@
+Scale (2022) pp. 466–468.
+[40] S. Grassini, Shaping the future of education: exploring
+the potential and consequences of AI and ChatGPT in
+educational settings, Education Sciences 13, 692 (2023).
+[41] G. Kortemeyer, Toward AI grading of student problem
+solutions in introductory physics: A feasibility study,
+Phys. Rev. Phys. Educ. Res. 19, 020163 (2023).
+
+[42] S. Mori, C. Y. Suen, and K. Yamamoto, Historical review of ocr research and development, Proceedings of the
+IEEE 80, 1029 (1992).
+[43] H. Okamura, T. Kanahori, W. Cong, R. Fukuda,
+F. Tamari, and M. Suzuki, Handwriting interface for
+computer algebra systems, in Proceedings of the Fourth
+Asian Technology Conference on Mathematics (1999) pp.
+291–300.
+[44] H. Wang, C. Pan, X. Guo, C. Ji, and K. Deng, From object detection to text detection and recognition: A brief
+evolution history of optical character recognition, Wiley
+Interdisciplinary Reviews: Computational Statistics 13,
+e1547 (2021).
+[45] Mathpix, Mathpix OCR API for STEM, https://
+mathpix.com/ocr (accessed April 2024).
+[46] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit,
+L. Jones, A. N. Gomez, L. Kaiser, and I. Polosukhin, Attention is all you need, Advances in neural information
+processing systems 30 (2017).
+[47] M. Renze and E. Guven, The effect of sampling temperature on problem solving in large language models, arXiv
+preprint arXiv:2402.05201 (2024).
+[48] Microsoft, Azure AI Services, https://azure.
+microsoft.com/en-us/products/ai-services
+(accessed June 2024).
+[49] R Core Team, R: A Language and Environment for Statistical Computing, R Foundation for Statistical Computing, Vienna, Austria (2021).
+[50] T. M. Fruchterman and E. M. Reingold, Graph drawing by force-directed placement, Software: Practice and
+experience 21, 1129 (1991).
+[51] S. Epskamp, A. O. J. Cramer, L. J. Waldorp, V. D.
+Schmittmann, and D. Borsboom, qgraph: Network visualizations of relationships in psychometric data, Journal
+of Statistical Software 48, 1 (2012).
+[52] OpenAI, Hello GPT-4o, https://openai.com/index/
+hello-gpt-4o/ (accessed June 2024).
+
+

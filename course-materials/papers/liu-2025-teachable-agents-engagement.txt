@@ -1,0 +1,1063 @@
+www.nature.com/scientificreports
+
+OPEN
+
+Engagement patterns of middle
+school students with AI teachable
+agents in mathematics learning
+Zifeng Liu1, Wanli Xing1, Bach Ngo2, Xinyue Jiao3, Shangkun Jiang4 & Chenglu Li5
+This study investigates how secondary students engage with an AI teachable agent (TA) during
+mathematics learning, with particular focus on learners whose performance declined after interacting
+with the TA system. Using a mixed-methods design, we analyzed dialogue logs from two subgroups:
+a Declined Group (DG; n = 206), whose post-test scores decreased, and an Improved Group (IG; n
+= 327), whose scores increased. Analyses examined interaction modes and behavioral, emotional,
+and cognitive engagement. Passive interaction was most prevalent in DG (36 %), whereas IG more
+frequently demonstrated constructive interaction (62.78 %). DG exhibited high variability in behavioral
+engagement: although they completed more sessions and generated more utterances per session,
+their completion rate (0.35) was lower than that of IG (0.58). Regarding emotional engagement,
+boredom was the most frequent non-neutral emotion in DG (50.4 %) and tended to rise as sessions
+progressed, whereas IG expressed more positive (30 %) than negative emotions (17.94 %). For
+cognitive engagement, most students displayed surface-level knowledge acquisition with limited
+application to novel or complex tasks. Notably, within DG, greater behavioral activity and positive
+emotions were sometimes associated with lower learning gains, often when such activity reflected
+off-task dialogue or superficial goal completion. These findings highlight classroom challenges in AIsupported learning and suggest design implications for TAs that scaffold proactive interaction, detect
+emerging boredom, and redirect high-volume yet low-yield behaviors toward meaningful engagement.
+The integration of pedagogical agents in educational settings has earned increasing attention as a way to enhance
+student engagement and learning outcomes1,2. Teachable agents (TAs), as pedagogical agents grounded in the
+learning-by-teaching paradigm, typically function as virtual peers designed to simulate less knowledgeable
+learners, thereby prompting students to engage in the cognitive processes involved in both learning and
+teaching3. TAs such as Betty’s Brain engage students in constructing and refining a concept map, which helps
+them understand subject matter more deeply and develop metacognitive skills4. The system was found beneficial
+when applied in a middle school biology setting5. Researchers also found that TAs can effectively teach younger
+children scientific reasoning, improving their understanding of organisms, taxonomies, and ecosystems6.
+Recently, with the advancement of Generative AI (GenAI) technology, AI-supported TAs have introduced
+new opportunities in education. GenAI offers personalized learning experiences by providing tailored feedback,
+scaffolding, and interaction based on individual student needs1,7,8. With recent advancements in natural
+language processing (NLP), many empirical studies have found that AI teachable agents play a supportive role
+for language learners, enhancing their engagement, scaffolding their learning, and helping them become selfregulated learners8–10. Some studies also demonstrate the use of AI teachable agents for programming education
+were beneficial11–13. Prior research has demonstrated that intelligent tutoring systems including AI teachable
+agent can be nearly as effective as human tutors in improving learning outcomes14. Studies have also shown that
+emotionally adaptive AI systems can reduce frustration and increase student motivation, leading to enhanced
+emotional engagement15, while interactions with AI tutors have been found to foster cognitive engagement and
+improve learning compared to traditional instruction16. Despite the increasing interest in AI teachable agents,
+there remains a gap in understanding how these systems impact the different dimensions of student engagement
+(i.e., behavioral, emotional, and cognitive) and how these engagement patterns relate to learning outcomes.
+According to Fredricks and colleague’s work17, student engagement is a critical component of the learning
+process. Behavioral engagement involves active participation in learning tasks, such as attending sessions and
+interacting with instructional content18,19. Emotional engagement encompasses students’ affective responses to
+1College of Education, University of Florida, Gainesville 32611, USA. 2The Frazer School, Gainesville 32605, USA.
+
+3Steinhardt School of Culture, Education, and Human Development, New York University, New York 10012, USA.
+4College of Engineering, University of Florida, Gainesville 32611, USA. 5Department of Educational Psychology,
+
+University of Utah, Salt Lake City 84109, USA. email: wanli.xing@coe.ufl.edu
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+1
+
+www.nature.com/scientificreports/
+their learning experience, including emotions like boredom, frustration, and curiosity20. Cognitive engagement
+refers to the depth of students’ thinking and the strategies they employ to understand and apply knowledge21.
+Understanding the relationship between these dimensions of engagement and learning outcomes is essential
+for designing AI teachable agents that effectively support student needs. Besides, a recent review highlights the
+lack of clarity regarding how students engage with pedagogical agents in classroom settings and emphasizes the
+need for more qualitative or mixed methods research, which has been underrepresented in recent studies on
+pedagogical agents1,7.
+However, much of the existing research has focused on the overall functionality of AI systems (e.g., ), with
+limited attention in learning analytics on students’ interactions with these systems. Thus, the present study seeks
+to address the above gaps by exploring the interaction and engagement patterns of students using an AI teachable
+agent for math learning, specifically focusing on students who exhibited declines in learning performance after
+using the agent. Focusing on this subgroup is crucial because they are often the most vulnerable learners and
+require targeted scaffolding; if overlooked, educational technologies may fail to narrow gaps and can even widen
+inequalities across groups22,23. At the same time, average gains attributed to AI tools can mask heterogeneous
+effects across student subgroups, so we must examine who actually benefits from a fairness perspective24,25. Prior
+work also shows that when their needs are not addressed explicitly, certain groups (e.g., low- or high-achieving
+students) may see limited benefits or even negative effects26. This study aims to uncover the engagement patterns
+that may have contributed to their lack of learning improvement and provide insights into the design of more
+effective AI teachable agents. We proposed three research questions:
+1. RQ1: What interaction modes do students exhibit when engaging with an AI teachable agent during math
+learning?
+2. RQ2: What are the patterns of student engagement (i.e., behavioral, emotional, and cognitive) in math learning with an AI teachable agent?
+3. RQ3: How is student engagement related to their learning performance when using an AI teachable agent?
+To address RQ1, we coded student utterances using the ICAP framework27 and reported the frequency and
+proportion of each interaction mode. For RQ2, we computed behavioral engagement indicators (e.g., session
+count, mean session length, completion rate, and proactive-interaction count from RQ1). We then conducted
+an emotion analysis using seven categories commonly observed in mathematics learning (anxiety, frustration/
+confusion, boredom, neutral, curiosity, sense of accomplishment/enjoyment, and excitement). Cognitive
+engagement was examined at three levels built on previous studies7. This study contributes to the learninganalytics literature by providing a fine-grained account of student engagement with AI teachable agents. By
+identifying interaction and engagement patterns, it clarifies how AI agents can differentially affect learning,
+particularly for students who struggle in mathematics, and highlights the need for improved educational AI
+design.
+
+Related work
+
+AI teachable agents and its benefits and challenges
+
+TA systems represent a sophisticated pedagogical innovation rooted in the learning-by-teaching model3. AIsupported TA systems, however, adapt this model by having learners teach a virtual peer powered by artificial
+intelligence7.
+TAs offer a range of benefits and challenges that make them both a promising and complex tool for enhancing
+education3,7,28. Research has shown that TAs can play various roles in supporting student learning. These agents
+are designed to provide personalized, flexible, adaptive assistance, facilitating students’ engagement with content
+in multiple ways29–31. Whether acting as virtual peers, tutors, or learning companions, TAs can help reinforce
+subject knowledge, promote active learning through teaching, and encourage metacognitive processes. By
+offering valued feedback, prompting reflection, and enabling students to explore concepts interactively, TAs
+contribute to deeper understanding and improved academic outcomes across diverse educational settings.
+Research has demonstrated the effectiveness of TAs, such as Betty’s Brain, in fostering student engagement,
+metacognitive skills, and knowledge retention through the learning-by-teaching approach4. TAs facilitate deeper
+learning by encouraging students to reflect on and restructure their knowledge, while also promoting selfregulated learning and responsibility32. However, there are notable challenges in the design and implementation
+of AI-powered TAs. One key issue relates to the technical complexities of creating GenAI-powered TAs7,33 can
+adapt to students’ needs and respond to open-ended inputs, as many systems struggle to fully comprehend
+students’ responses, limiting meaningful interaction33,34. Additionally, the development of pedagogical models
+to effectively integrate TAs into learning environments is critical, as poorly designed AI cannot lead to significant
+educational gains35. More studies are needed to identify limitations in AI teachable agents.
+
+Students’ engagement in AI supported learning environment
+
+With the integration of AI into education, the context of student engagement has expanded to include how
+students interact with AI tools, intelligent tutoring systems, and adaptive learning platforms. AI-supported
+environments have the potential to significantly influence all three dimensions of engagement by providing
+personalized, adaptive learning experiences that respond to individual student needs in real time36. AI systems
+are increasingly being employed to facilitate personalized learning experiences, adaptive feedback, and realtime assessment of student progress. Several studies have explored the role of AI in promoting engagement. For
+instance, Holstein et al.16 found that students interacting with AI tutors showed increased cognitive engagement
+and better learning outcomes compared to traditional instruction. Similarly, research demonstrated that
+
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+2
+
+www.nature.com/scientificreports/
+emotionally adaptive AI systems can reduce frustration and increase student motivation, improving emotional
+engagement15.
+Recently, the rapid development of Generative AI provides empower in education fields, and many research
+have tried to integrate generative AI into a learning system to provide students different types of support and
+feedback. For instance, a study explores the integration of the ChatGPT API with the GPT-4 model and Microsoft
+Copilot Studio on the Microsoft Teams platform to promote students’ motivation and engagement37. Another
+study investigates the use of AI-powered multi-role chatbots as a means to enhance learning experiences and
+foster engagement in computer science education, providing insight into the potential of AI-powered multirole chatbots in K-12 education38. These studies represent preliminary explorations of AI chatbots and tutoring
+systems; however, limited studies employ comprehensive analyses of student learning processes within AI tutor
+systems to elucidate how students engage with these platforms.
+
+Methods
+
+AI teachable agent
+
+The AI teachable agent used in this study was developed by our team, incorporates five main features, as
+illustrated in Fig. 1. Grounded in the learning-by-teaching theory3, the AI teachable agent provides students
+with an instructor-like experience by functioning as a virtual peer, prompting students to explain specific
+mathematical concepts or solve problems. The AI teachable agent initiate the conversation and ask questions to
+the students, the students students interact by typing their responses in the input box (Fig. 1 (3)) using natural
+language. The AI teachable agent may provide feedback or ask follow-up questions based on the student’s input.
+The agent is integrated into a math learning platform (named Math Nation) to assist students in their learning.
+Students have the option to personalize their teaching experience by selecting math problems from three
+difficulty levels (i.e., simple, medium, and hard) and choosing from nine themes (e.g., environmental issues,
+as shown in Fig. 1 (1)) based on their interests. The virtual peer’s profile is displayed in Fig. 1 (2). When the
+virtual peer presents a math problem, students interact by typing their responses in the input box (Fig. 1 (3))
+using natural language. The AI teachable agent may provide feedback or ask follow-up questions based on the
+student’s input. The ranking board (Fig. 1 (4)) provides real-time updates on students’ ranks and points earned
+for teaching the virtual peer. Lastly, Fig. 1 (5) presents an introduction to the virtual peer, allowing students to
+choose peers with varying personalities to enhance their teaching experience. More information can be found in
+the supplementary document Appendix A.
+
+Fig. 1. The interface of the AI teachable agent.
+
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+3
+
+www.nature.com/scientificreports/
+Study context and participants
+
+We focused on students whose performance declined after learning with the AI teachable agent; however,
+we also analyzed the improved group to provide comparison and context. To determine whether students’
+performance declined or improved, participants completed the same 15-item multiple-choice mathematics test
+on the Math Nation platform (https://www.mathnation.com/) before and after using the AI teachable agent. The
+test aligned with the Florida Benchmarks for Excellent Student Thinking (B.E.S.T.). Scores were calculated as
+the proportion correct (0–1). We defined a change score as d = post − pre and classified students as improved
+(d > 0) or declined (d < 0). Appendix B of the supplementary document reports group sizes, proportions,
+and mean changes. This study was approved by the Institutional Review Board at University of Florida (IRB
+No. IRB202301838). All research procedures followed relevant ethical guidelines, and informed consent was
+obtained from the legal guardians of all participants.
+
+Data description
+
+We analyzed 1397 dialogue sessions from 206 students whose performance declined after using the AI teachable
+agent, and an additional 1332 sessions from students whose performance improved. The logs contain timestamped textual interactions with the agent, including problem-solving attempts and the agent’s responses. Each
+record includes a unique student ID and a session ID, allowing multiple sessions per student. For analysis,
+we organized the conversation data by (student ID, session ID) and then ordered messages chronologically
+using timestamps to form coherent dialogue sequences. These organized sequences constitute the corpus for all
+subsequent analyses and coding. Figure 2 shows an example snippet and the resulting data structure.
+
+Interactive mode analysis
+
+To understand how students interacted with the AI teachable agent, this study employed a deductive coding
+approach to analyze students’ interaction modes. The Interactive Constructive Active Passive (ICAP) framework27
+aligns well with the context of learning with an AI teachable agent in our study. ICAP classifies learning activities
+on a continuum, proposing four dimensions (i.e., interactive, constructive, active, and passive), each represented
+by a specific code. The framework suggests that learning outcomes improve as students progress from passive
+to interactive engagement. Previous studies have applied the ICAP framework to analyze students’ interactions
+and engagement in online discussions39. In this study, we utilized the ICAP framework to identify interaction
+patterns in students’ engagement with the AI teachable agent in math learning. Table 1 outlines the ICAP
+framework as applied in earlier studies, alongside the coding scheme we adopted for this study. The last column
+provides examples of students’ responses corresponding to the different interaction modes. Building upon
+previous frameworks, our coding scheme is specifically tailored to the context of students’ interactions with the
+AI teachable agent in mathematics learning.
+
+Engagement analysis
+
+Behavioral engagement
+Behavioral engagement encompasses the observable actions and participation of students during learning tasks.
+Key indicators of behavioral engagement in this context include the total number of sessions a student attends,
+the duration of each session, the completion status of sessions, and the frequency of proactive interactions by the
+student. Higher values for these variables are typically associated with greater levels of behavioral engagement.
+We calculated session counts based on unique student IDs and unique session IDs. Session length was
+determined by counting the number of students’ responses in each session . The completion status was analyzed
+by checking whether students helped the AI teachable agent solve the problem presented at the beginning of
+the session. If a student participated in n sessions and completed cn sessions, the completion status is defined
+
+Fig. 2. The data collected from the AI teachable agent.
+
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+4
+
+www.nature.com/scientificreports/
+
+ICAP category
+Literature
+
+Passive
+
+Active
+
+Constructive
+
+Interactive
+
+27
+
+Listen to explanations without
+any doing anything else
+
+Taking notes; highlight content
+
+Self-explaining; comparing and contrasting
+
+Discuss with a peer; drawing a diagram
+
+39
+
+Receives information without
+overtly doing anything
+
+Engages in any overt actions
+
+Produce additional outputs; shows evidence of
+knowledge construction
+
+Engage in substantive dialoguing; shows
+evidence of knowledge construction
+
+Our study
+
+The student listens to the AI
+teachable agent without providing
+any responses or only gives nonmeaningful responses
+
+The student responds to
+the AI teachable agent with
+math-related content, such as
+calculating, copying solution
+steps, summarizing, or giving
+simple feedback
+
+The student asks questions, reflects on the problem,
+explains mathematical concepts or processes, or
+compares and contrasts different approaches
+
+The student defends their solutions,
+engages in arguments, asks and
+answers comprehensive questions, or
+participates in debates and reasoning
+
+Student: Okay
+
+Student: that’s correct!
+you were right!
+
+Student: OK so x=101 right
+and when you get the inequality
+that means greater than or equal
+to so that mean 101 is
+greater than 100!
+
+Student: use bar graphs in every
+situation
+because it is good overall but for specific
+information that you might want to have
+more in depth then use the line graph
+
+Example
+
+Table 1. Interaction coding schema.
+
+Fig. 3. The analyzed features for the three engagement aspects. To gain a comprehensive understanding of
+students’ behavioral, emotional, and cognitive engagement when interacting with the AI teachable agent, we
+employed a mixed-methods approach to analyze these three dimensions.
+
+as cn/n. Proactive interaction was calculated based on the coding results in Table 1. We counted all dialogue
+modes except for passive modes as proactive interactions, and the total number of proactive interactions was
+obtained by summing these (see Fig. 3).
+Emotional engagement
+Emotional engagement refers to the emotional responses students exhibit during learning activities. We focus on
+the frequency of non-neutral emotional types, the types of emotions, and changes in emotions throughout the
+dialogue (see Fig. 3). This part of the analysis employs a mixed-method approach. First, researchers manually
+labeled the emotional states of all dialogues using a 7-point scale, where each point represents a distinct emotional
+state: anxiety, frustration/confusion, boredom, neutral, curiosity, sense of accomplishment/enjoyment, and
+excitement. These emotions were selected as they are commonly observed during math learning40,41. The unit
+of analysis is a student utterance. Discrepancies were resolved through discussion between the two coders to
+reach consensus; the consensus label was used for all subsequent analyses. We then calculated the frequency and
+change of emotional states based on these emotion labels. A table defining each emotion category with examples
+is provided in Appendix C of the supplementary material.
+Cognitive engagement
+Cognitive engagement refers to the mental effort students invest in learning, reflected in efforts to understand
+content, reason through ideas, solve problems, and apply knowledge. This conception aligns with the
+mathematical literacy literature and prior frameworks. For example, the Department of Basic Education frames
+mathematical literacy around content, competencies/skills, and real-world context42; Niemi et al. emphasize
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+5
+
+www.nature.com/scientificreports/
+
+Variables
+
+Interaction mode
+
+Behavioral engagement
+
+Emotional engagement
+
+Cognitive engagement
+
+Learning performance
+
+Performance-declined group
+Mean (SD)
+
+Performance-improved group
+Mean (SD)
+
+Passive
+
+14.82 (26.57)
+
+3.10 (5.16)
+
+Active
+
+9.88 (14.20)
+
+5.63 (6.28)
+
+Constructive
+
+9.77 (14.12)
+
+16.17 (14.10)
+
+Interactive
+
+4.46 (6.51)
+
+0.85 (1.57)
+
+Session count
+
+6.66 (7.41)
+
+3.79 (3.00)
+
+Session length
+
+52.84 (67.31)
+
+24.62 (21.19)
+
+Completion rate
+
+0.35 (0.31)
+
+0.58 (0.34)
+
+Proactive interactions
+
+30.85 (29.91)
+
+22.66 (19.74)
+
+Negative
+
+069 (2.21)
+
+1.31 (1.51)
+
+Neutral
+
+4.76 (5.56)
+
+3.41 (2.40)
+
+Positive
+
+0.31 (0.76)
+
+2.18 (1.79)
+
+CK
+
+15.68 (22.36)
+
+24.18 (21.35)
+
+CC
+
+6.50 (8.58)
+
+1.47 (2.36)
+
+CA
+
+1.90 (3.66)
+
+0.11 (0.40)
+
+Pre score
+
+0.48 (0.18)
+
+0.34 (0.19)
+
+Post score
+
+0.29 (0.16)
+
+0.58 (0.23)
+
+Learning gain
+
+− 0.19 (0.13)
+
+0.24 (0.19)
+
+Table 2. Comparison of two groups on key variables (mean and standard deviation per student).
+
+Group
+
+Passive + chat
+
+Active
+
+Constructive
+
+Interactive
+
+Performance-declined group
+
+36% + 5.5%
+
+24%
+
+23.7%
+
+10.8%
+
+Performance-improved group
+
+12.04%
+
+21.87%
+
+62.78%
+
+3.31%
+
+Table 3. Interaction modes by group: proportions.
+
+conceptual understanding, communication about mathematics, and usefulness in life and application43; and
+PISA describes the constructs as formulate, employ, and interpret/evaluate44. Building on a recent analysis of
+students’ online discussions that adopts a similar three-part structure (knowledge and content; competencies
+and skills; real-world application)7, we use this tripartite lens to assess cognitive engagement in our setting.
+Specifically, we coded students’ interactions with the AI teachable agent into three levels (see Fig. 3): (i)
+knowledge acquisition and content understanding (CK), (ii) competency to apply concepts and solve problems
+(CC), and (iii) application of knowledge in new or complex situations (CA). Appendix D in the supplementary
+document provides definitions and examples for each category.
+
+Manual coding process
+
+Two researchers conducted a deductive content analysis using the coding schema in Table 1 and
+Section Engagement analysis (see the supplementary document for more details). The corpus consisted
+of students’ time-stamped responses to the AI teachable agent (Fig. 2b). Each response was coded for three
+dimensions: interaction mode, emotion type, and cognitive engagement level. For the declined-performance
+group (1397 sessions), the two coders first reviewed the scheme and independently coded an initial set of 120
+sessions. Initial inter-rater reliability (IRR; Cohen’s kappa) was 0.65 for interaction mode, 0.70 for emotion type,
+and 0.58 for cognitive engagement. After reconciling disagreements, they independently coded another 120
+sessions; IRR improved to 0.84, 0.90, and 0.81, respectively. Having met the target reliability, the remaining
+sessions were divided between coders: one coded 820 sessions and the other coded 577 sessions. The average
+coding rate was approximately 50 sessions per hour per coder. The same procedure was applied to the improvedperformance group (1332 sessions); each coder coded 666 sessions.
+
+Results
+
+Descriptive results
+
+Table 2 reports descriptive statistics for all variables examined in the study (more descriptions can be found at
+Appendix E in the supplementary document ).
+
+Interaction mode
+
+We aggregated interaction modes from the coded data; Table 3 reports the distributions. In the declinedperformance group, the passive mode is most prevalent (36.0%), exceeding the other three interaction modes;
+chat (non-mathematical) interactions account for 5.5%. At the student level, 70 students (33.98%) exhibited
+more passive interactions than any other mode. A chat-dominant subgroup (n = 26) engaged primarily in
+off-topic exchanges (e.g., inquiries about the AI’s hobbies, place of residence, and similar personal topics);
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+6
+
+www.nature.com/scientificreports/
+illustrative examples are summarized in Appendix F of the supplementary document. In the improved group,
+the constructive mode is most prevalent, accounting for 62.78%.
+
+Engagement analysis
+
+Behavioral engagement
+Table 2 summarizes per-student session count, mean session duration, completion rate, and number of proactive
+interactions for the two groups. In the performance-declined group, students completed on average 6.66 sessions,
+with a mean session duration of 52.84 min, a mean completion rate of 0.34, and 30.85 proactive interactions per
+student. By contrast, students in the performance-improved group completed fewer and shorter sessions but
+achieved a higher completion rate (0.58).
+Emotional engagement
+Table 4 reports emotional engagement by group. In the Performance-Declined Group, non-neutral emotions
+comprised 19.32% of all responses. Within the non-neutral subset, boredom was most prevalent (9.73%),
+followed by curiosity (5.32%) and frustration/confusion (1.57%); anxiety (0.27%), sense of accomplishment/
+enjoyment (1.42%), and excitement (1.01%) were infrequent. By contrast, the Performance-Improved Group
+showed a more activated profile: positive emotions (i.e., curiosity, sense of accomplishment/enjoyment, and
+excitement) occurred in 30.09% of responses, exceeding negative emotions.
+Given our focus on the Performance-Declined Group, we further analyzed the emotional changes declinedperformance group students experienced throughout each session. Four examples were sampled from sessions
+of different lengths (i.e., less than 10, 10–20, 20–50, and greater than 50), as illustrated in Fig. 4. While neutral
+emotions were the most frequently observed and persisted throughout the sessions, boredom notably increased
+as the response index grew. This trend was consistently observed across all four subplots, indicating that as the
+session progressed, students were more likely to experience boredom.
+Cognition engagement
+Table 2 shows that students in both groups display low engagement at the CC and CA levels. In the PerformanceDeclined Group, the per-student means are CK = 15.68, CC = 6.50, and CA = 1.90. Across groups, CK exceeds
+CC and CA and also exhibits greater variability (variance> 20). Compared with the Declined Group, the
+Performance-Improved Group shows higher CK and lower CC.
+
+Engagement and the learning performance
+
+We further group the Performance-Declined Group students based on their behavior, emotional and cognition
+engagement patterns and compared their learning performance to see if there is any correlation between different
+engagement patterns and the learning performance. The results are shown in Fig. 5. For the behavioral pattern,
+we clustered students based on their four behavioral engagement indicators (i.e., session counts, average session
+length, completion rate, and proactive interaction counts) using K-means. The clustering results revealed two
+groups with high and low behavioral engagement, as shown in Fig. 5 (a). A subsequent t-test analysis indicated
+a significant difference in learning performance between the two groups (t =6.23, p = 0.01***). The high-group
+exhibited much higher behavioral engagement, such as an average session count of 17.31 compared to 4.16 in
+the low behavioral engagement group. However, their performance was significantly lower. For the emotional
+pattern, we categorized students into three groups: positive emotion dominant, balanced, and negative emotion
+dominant. ANOVA revealed a significant difference in learning performance across the three groups (F = 3.76,
+p = 0.03**). Further post-hoc analysis using Tukey’s HSD test indicated a significant difference between the
+positive dominant and balanced groups (p = 0.0486**< 0.05). In terms of cognitive engagement, students were
+classified as CK, CC, or CA dominant, with a tied group representing students who were balanced across all
+three aspects. ANOVA showed no significant difference in learning performance among these groups.
+The same cluster analysis and comparative tests were also conducted for the Performance-Improved Group.
+Figure A2 in supplementary document presents the results for behavioral and emotional dimensions. For
+behavioral engagement, no significant difference in performance gains was observed between the high- and
+low-engagement clusters (t = -1.53, p = 0.13). Similarly, for the emotional groups, neither the positive-dominant
+nor the negative-dominant students differed significantly from the balanced group in terms of learning gains (F
+= 0.22, p = 0.80). Regarding cognitive engagement, the majority of students were classified as CK-dominant, with
+only two students identified as CC-dominant or tied cognition, resulting in limited variability and no significant
+differences in performance outcomes.
+
+Group
+
+Anxiety
+
+Frustration/confusion
+
+Boredom
+
+Neutral
+
+Curiosity
+
+SA/enjoyment
+
+Excitement
+
+Performance-declined group
+
+0.27%
+
+1.57%
+
+9.73%
+
+80.68%
+
+5.32%
+
+1.42%
+
+1.01%
+
+Performance-improved group
+
+1.16%
+
+14.81%
+
+1.97%
+
+51.97%
+
+16.03%
+
+13.41%
+
+0.65%
+
+Table 4. Emotional engagement categories by group: proportions.
+
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+7
+
+www.nature.com/scientificreports/
+
+Fig. 4. Student Emotional engagement pattern. The x-axis represents the index of students’ responses in
+sequential order within a session, while the y-axis denotes the corresponding emotional states.
+
+Fig. 5. Student engagement pattern and learning performance. Performance was measured as the difference
+between students’ post-test and pre-test scores.
+
+Discussion
+
+RQ1: What interaction modes do students exhibit when engaging with an AI teachable agent
+during math learning?
+
+The findings revealed clear differences in the interaction modes between performance-declined and performanceimproved students. Students in the performance-declined group were more likely to engage in passive or offtask chat interactions, whereas constructive interactions dominated in the performance-improved group. These
+results align with the ICAP framework27, which emphasizes that constructive engagement is more conducive to
+deep learning. In contrast, passive engagement or off-task behaviors may reduce opportunities for meaningful
+knowledge construction. The chat-dominant subgroup further illustrates how learners may redirect the system
+toward social or irrelevant topics, potentially undermining intended learning outcomes.
+
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+8
+
+www.nature.com/scientificreports/
+Several factors may explain why passive interactions were so prevalent in the performance-declined group.
+First, acting as the “teacher” of an AI peer without sufficient guidance may have increased students’ cognitive
+load. Research shows that excessive cognitive load can discourage active learning strategies, as learners may
+struggle to analyze and internalize information effectively45,46. Second, prior studies suggest that students often
+find it challenging to use chatbots for complex tasks such as mathematics47, and the reliance on typing and textbased exchanges in this study may have further reduced comfort and engagement. Third, the AI teachable agent
+frequently offered detailed explanations before asking students to confirm correctness, a pattern that may have
+unintentionally positioned students as passive recipients rather than active contributors. As48 argued, simpler
+and more concise responses may be more effective in sustaining human-agent dialogue.
+These findings echo broader concerns that students often act as passive recipients when interacting with
+AI tutors or pedagogical agents, especially when the system dictates a pre-defined learning path49. Without
+intentional scaffolding or pedagogical interventions, the mere presence of an AI agent does not necessarily
+promote more active learning50. Consequently, the results highlight the importance of designing AI teachable
+agents that not only provide explanations but also deliberately prompt and support students to take proactive
+roles in constructing knowledge. Future designs should carefully consider the learning environment, learner
+characteristics, and the pedagogical strategies embedded within the agent to ensure that interactions foster
+agency and meaningful engagement2,51.
+
+RQ2: What are the patterns of student engagement (i.e., behavioral, emotional, and
+cognitive) in math learning with an AI teachable agent?
+
+Behaviorally, performance-declined students invested more time and interactions, yet their completion rates
+were substantially lower than performance-improved students. This pattern suggests inefficient engagement
+strategies, where more input does not necessarily translate into higher learning gains. Such behaviors resemble
+prior observations of students “gaming the system,” where frequent but superficial actions fail to contribute to
+genuine learning progress52. In this study, students in the performance-declined group completed on average
+6.66 sessions, however, their completion rate remained low (0.34). One possible explanation is that students
+had just been introduced to the mathematical content, and their limited prior knowledge made it difficult to
+sustain meaningful progress. Prior knowledge has been shown to influence how students interact with intelligent
+tutoring systems, with learners who start from a weaker foundation often achieving smaller learning gains in
+technology-supported environments53.
+Emotionally, the performance-declined group was characterized by high levels of boredom and neutrality,
+while the performance-improved group expressed substantially more curiosity and enjoyment. These findings
+support prior work showing that positive emotions can sustain attention and motivation, whereas boredom
+tends to accumulate over time and hinder persistence. In this study, boredom frequently appeared in the latter
+half of sessions, consistent with research suggesting that unresolved frustration can escalate into boredom15. The
+prevalence of boredom likely reflects the absence of adequate scaffolding when some students faced complex
+mathematical problems. By contrast, the performance-improved group’s greater expression of curiosity and
+accomplishment highlights the importance of positive affective states in sustaining engagement and promoting
+achievement.
+Cognitively, both groups demonstrated limited engagement beyond the knowledge level (CK), with minimal
+evidence of higher-order reasoning (CC, CA). Although the performance-improved group exhibited higher
+CK and lower CC, the overall low representation of higher-level cognition underscores a broader challenge in
+promoting complex thinking in AI-supported environments. A likely explanation is that the predominantly textbased interactions encouraged students to demonstrate surface-level understanding of concepts posed by the
+AI, while applying knowledge in novel or complex situations proved far more challenging. While emotionally
+adaptive AI systems have been shown to reduce frustration and increase motivation15, and intelligent tutoring
+systems have the potential to enhance cognitive engagement compared to traditional instruction, our findings
+reveal that students working with an AI teachable agent did not consistently reach higher-order cognitive
+engagement. This highlights the need for adaptive scaffolding strategies that deliberately encourage deeper
+reasoning processes.
+
+RQ3: How is student engagement related to their learning performance when using an AI
+teachable agent?
+
+The relationship between engagement and performance proved to be more complex than a simple positive
+correlation. For the performance-declined group, students who exhibited higher behavioral engagement actually
+demonstrated lower performance outcomes. This paradox suggests that raw behavioral intensity, such as longer
+sessions and more interactions, does not necessarily equate to productive engagement. Instead, the quality of
+engagement appears to be more important. Emotional engagement was significantly associated with performance
+in the performance-declined group. Yet students who expressed more positive emotions (e.g., curiosity) did not
+achieve better learning outcomes than those who maintained neutral emotions. A likely explanation is that much
+of this emotional activation arose in the context of off-task conversations with the AI (e.g., about its personal
+attributes), which stimulated curiosity but did not contribute to mathematics learning.
+Prior work in educational data mining underscores this finding. Observable increases in activity can reflect
+maladaptive behaviors such as gaming the system or inefficient help-seeking, which inflate interaction counts
+but undermine learning by reducing opportunities for practice52,54,55. Similarly, off-task behavior and mindwandering generate visible engagement without commensurate gains, ultimately lowering performance in
+computer-based environments55,56. From an affective perspective, control-value theory posits that emotions
+shape learning through appraisals of control and value rather than valence alone, so positive emotions are not
+uniformly beneficial57. The broaden-and-build theory further suggests that enjoyment and curiosity can foster
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+9
+
+www.nature.com/scientificreports/
+exploration, but in open-ended tutoring dialogues such exploration may drift toward seductive details, thereby
+diverting attention from core content and diluting immediate learning58–60.
+Moreover, the limited cognitive engagement observed in dimensions such as Conceptual Clarification (CC)
+and Application of Knowledge (CA) helps explain why students with high behavioral engagement and positive
+emotions did not achieve improved performance. Behavioral engagement alone, particularly when characterized
+by off-task interactions, does not guarantee effective knowledge construction61,62. These findings resonate with
+research on intelligent tutoring systems, which has shown that the effectiveness of such systems depends not on
+the quantity of interactions but on the depth and task relevance of those interactions14.
+In contrast, for the performance-improved group, neither behavioral nor emotional engagement showed
+significant associations with learning gains. One possible explanation is that these students were already
+employing relatively effective learning strategies, resulting in less variability in how engagement dimensions
+related to outcomes. The relatively balanced distribution of engagement types in this group suggests that once
+students possess adequate strategies for interacting with the AI teachable agent, their performance may no
+longer depend heavily on differences in behavioral or emotional engagement.
+Taken together, these results highlight that the engagement-performance relationship is contingent on both
+the quality and the context of engagement. For struggling students, scaffolding that redirects off-task behavior,
+sustains positive emotions, and promotes higher-order cognitive engagement is critical. For students already
+performing well, the priority should shift toward maintaining effective strategies and deepening reasoning
+opportunities. Future AI teachable agents should therefore integrate adaptive mechanisms that not only foster
+constructive engagement but also mitigate unproductive or curiosity-driven diversions, ensuring that student
+effort is aligned with meaningful learning outcomes35,63.
+
+Design implications for AI teachable agents
+
+Here we present three recommendations aim to discourage off-task conversations and foster deeper engagement
+when students interact with AI teachable agents.
+Our results showed that some students, particularly those in the performance-declined group, became bored
+after several rounds of interaction and engaged in off-task behaviors. One strategy to prevent such disengagement
+is to co-set a time box for problem solving before the interaction begins. This can be implemented in two
+complementary ways: (1) teachers announce a fixed duration for working with the AI teachable agent; and (2)
+the system interface displays a session goal, a countdown timer, and a visible progress indicator. Such features
+provide a clear, clickable task structure to keep students focused on solving the math problems. Prior research
+indicates that goal setting and time boxing can strengthen persistence64, while visible progress indicators can
+enhance task completion and the user experience65.
+Another strategy is to incorporate real-time mechanisms for detecting off-task behavior. This can be achieved
+using discourse features or multimodal signals. For example, an utterance may be flagged as potentially off-task
+if its semantic similarity to the current goal or the most recent turns falls below a threshold (e.g., 0.45). Students
+could be informed that their off-topic ideas have been added to a “curiosity list,” with the promise of a short
+free-chat window after completing the math task. This design acknowledges student curiosity while preserving
+task relevance. Evidence from affect-sensitive systems such as AutoTutor demonstrates that adaptive detection of
+learner states, combined with multimodal scaffolding and redirection, leads to deeper learning66.
+When off-task behavior occurs, effective redirection is critical. The system should first acknowledge the
+“interesting but unrelated” idea, then provide a bridging prompt that connects it back to the task (e.g., “Rewrite
+your example as an inequality that includes ‘at least’.”). A staged escalation policy may be applied: on the first
+occurrence, issue a gentle prompt with several on-task options; on the second, restate the goal, add the curiosity
+list, and propose a micro-task; on the third, apply a lightweight lock for 2 min where only task-relevant options
+are available, coupled with a brief rationale. If these measures prove ineffective, requesting teacher support is
+also necessary. This design echoes prior work on real-time classroom orchestration tools that empower teachers
+to intervene effectively67.
+
+Conclusion, limitations and future work
+
+This study conducted an exploratory analysis of students’ interaction and engagement patterns with an AI
+teachable agent, comparing students whose learning performance declined with those whose performance
+improved. The findings revealed clear contrasts between the two groups. For the performance-declined group,
+passive interaction mode was predominant, and high levels of behavioral engagement did not translate into
+improved learning outcomes. Instead, much of this engagement reflected off-task conversations that stimulated
+curiosity but did not contribute to mathematics learning. Boredom also emerged as the most persistent nonneutral emotion, becoming more frequent as sessions progressed. In terms of cognitive engagement, students
+in both groups primarily focused on CK, with minimal involvement in CC and CA, limiting opportunities
+for deeper reasoning and transfer. By contrast, students in the performance-improved group engaged more
+constructively with the AI and expressed more positive emotions, but in this group, neither behavioral nor
+emotional engagement was significantly associated with learning gains, likely because these students already
+employed relatively effective strategies.
+Several limitations must be considered when interpreting the findings. First, the study focused on short-term
+interactions, which may not capture the full impact of AI-supported learning on long-term outcomes or skill
+development. Second, although human annotation of students’ emotions and interaction logs provided valuable
+insights, it may not fully capture students’ internal affective or cognitive states without complementary selfreports. Finally, the study examined only interaction and engagement patterns, without accounting for external
+factors such as classroom context, peer dynamics, or teacher involvement that could have influenced students’
+experiences.
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+10
+
+www.nature.com/scientificreports/
+Future research should explore how to design AI teachable agents that not only increase interaction frequency
+but also enhance task-relevant engagement and foster higher-order cognitive processing. This could involve
+integrating adaptive learning pathways that adjust to students’ prior knowledge and learning trajectories, thereby
+preventing off-task behavior and strengthening conceptual understanding. Longitudinal studies with larger and
+more diverse samples are needed to examine how AI teachable agents affect student engagement and learning
+performance over time. In addition, future work should investigate emotionally adaptive features that can
+mitigate negative states such as boredom and promote sustained curiosity and enjoyment. Ultimately, advancing
+the design of AI teachable agents requires a holistic approach that considers behavioral, emotional, and cognitive
+dimensions simultaneously to ensure that engagement leads to meaningful learning gains.
+
+Data availability
+
+The data that support the findings of this study are not publicly available due to privacy or institutional restrictions but are available from the corresponding author upon reasonable request.
+Received: 14 July 2025; Accepted: 15 October 2025
+
+References
+
+1. Zhang, S., Jaldi, C. D., Schroeder, N. L. & Gladstone, J. R. Pedagogical agents in k-12 education: a scoping review. J. Res. Technol.
+Educ. https://doi.org/10.1080/15391523.2024.2381229 (2024).
+2. Zhang, S. et al. Pedagogical agent design for k-12 education: A systematic review. Comput. Educ. 223, 105165. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​
+0​1​6​/​j​.​c​o​m​p​e​d​u​.​2​0​2​4​.​1​0​5​1​6​5​​​​ (2024).
+3. Zhao, G. et al. Learning-by-teaching: Designing teachable agents with intrinsic motivation. J. Educ. Technol. Soc. 15, 62–74 (2012).
+4. Biswas, G., Segedy, J. R. & Bunchongchit, K. From design to implementation to practice: A learning by teaching system: Betty’s
+brain. Int. J. Artif. Intell. Educ. 26, 350–364 (2016).
+5. Chase, C. C., Chin, D. B., Oppezzo, M. A. & Schwartz, D. L. Teachable agents and the protégé effect: Increasing the effort towards
+learning. J. Sci. Educ. Technol. 18, 334–352 (2009).
+6. Chin, D., Dohmen, I. & Schwartz, D. L. Young children can learn scientific reasoning with teachable agents. IEEE Trans. Learn.
+Technol. 6, 248–257. https://doi.org/10.1109/TLT.2013.24 (2013).
+7. Song, Y., Xing, W., Li, C., Tian, X. & Ma, Y. Investigating the relationship between math literacy and linguistic synchrony in online
+mathematical discussions through large?scale data analytics. Br. J. Edu. Technol. 55, 2226–2256. https://doi.org/10.1111/bjet.13345
+(2024).
+8. Baranwal, D. A systematic review of exploring the potential of teachable agents in English learning. Pedag. Res. 1, 11553. ​h​t​t​p​s​:​/​/​d​
+o​i​.​o​r​g​/​1​0​.​2​9​3​3​3​/​p​r​/​1​1​5​5​3​​​​ (2022).
+9. Bozkurt, A. Unleashing the potential of generative ai, conversational agents and chatbots in educational praxis: A systematic
+review and bibliometric analysis of genai in education. Open Praxis 15, 261–270 (2023).
+10. Ghimire, P. R., Neupane, B. P. & Dahal, N. Generative ai and ai tools in English language teaching and learning: An exploratory
+research. English Lang. Teach. Persp. 9, 30–40. https://doi.org/10.3126/eltp.v9i1-2.68716 (2024).
+11. Jin, H., Lee, S., Shin, H. J. & Kim, J. “Teach ai how to code”: Using large language models as teachable agents for programming
+education. http://arxiv.org/abs/2309.14534 (2023).
+12. Ma, Q., Shen, H., Koedinger, K. & Wu, S. T. How to teach programming in the ai era? Using llms as a teachable agent for debugging.
+In International Conference on Artificial Intelligence in Education 265–279 (Springer, 2024).
+13. Dwivedi, U., Elsayed-Ali, S., Bonsignore, E. & Kacorri, H. Exploring ai problem formulation with children via teachable machines.
+In Proceedings of the CHI Conference on Human Factors in Computing Systems 1–18 (2024).
+14. VanLEHN, K. The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems. Educ. Psychol.
+46, 197–221. https://doi.org/10.1080/00461520.2011.611369 (2011).
+15. D’Mello, S. K. & Graesser, A. C. Autotutor and affective autotutor: Learning by talking with cognitively and emotionally intelligent
+computers that talk back. ACM Trans. Interact. Intell. Syst. 2(23), 1–39 (2012).
+16. Holstein, K., McLaren, B. M. & Aleven, V. Student learning benefits of a mixed-reality teacher awareness tool in ai-enhanced
+classrooms. In International Conference on Artificial Intelligence in Education (2018).
+17. Fredricks, J. A., Blumenfeld, P. C. & Paris, A. H. School engagement: Potential of the concept, state of the evidence. Rev. Educ. Res.
+74, 59–109 (2004).
+18. Liu, M., Calvo, R. A., Pardo, A. & Martin, A. Measuring and visualizing students’ behavioral engagement in writing activities. IEEE
+Trans. Learn. Technol. 8, 215–224 (2014).
+19. Griffin, M. A., Parker, S. K. & Neal, A. Is behavioral engagement a distinct and useful construct? Ind. Organ. Psychol. 1, 48–51
+(2008).
+20. Schaufeli, W. B. What is engagement? In Employee Engagement in Theory and Practice 15–35 (Routledge, 2013).
+21. Appleton, J. J., Christenson, S. L., Kim, D. & Reschly, A. L. Measuring cognitive and psychological engagement: Validation of the
+student engagement instrument. J. Sch. Psychol. 44, 427–445 (2006).
+22. Ahn, J. Exploring the negative and gap-widening effects of EdTech on young children’s learning achievement: Evidence from a
+longitudinal dataset of children in American K-3 classrooms. Int. J. Environ. Res. Public Health 19, 5430. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​3​3​9​0​/​i​
+j​e​r​p​h​1​9​0​9​5​4​3​0​​​​ (2022).
+23. Timotheou, S. et al. Impacts of digital technologies on education and factors influencing schools’ digital capacity and transformation:
+A literature review. Educ. Inf. Technol. 28, 6695–6726. https://doi.org/10.1007/s10639-022-11431-8 (2023).
+24. Alanazi, R. et al. Assessing the impact of AI tools on mobility and daily assistance for children with down syndrome in Saudi
+Arabia. Sci. Rep. 15, 30826. https://doi.org/10.1038/s41598-025-15085-7 (2025).
+25. Xing, W. et al. Development of a generative AI-powered teachable agent for middle school mathematics learning: A design-based
+research study. Br. J. Edu. Technol. 56, 2043–2077. https://doi.org/10.1111/bjet.13586 (2025).
+26. Liao, X., Zhang, X., Wang, Z. & Luo, H. Design and implementation of an AI-enabled visual report tool as formative assessment to
+promote learning achievement and self-regulated learning: An experimental study. Br. J. Edu. Technol. 55, 1253–1276. ​h​t​t​p​s​:​/​/​d​o​i​.​
+o​r​g​/​1​0​.​1​1​1​1​/​b​j​e​t​.​1​3​4​2​4​​​​ (2024).
+27. Chi, M. T. H. & Wylie, R. The icap framework: Linking cognitive engagement to active learning outcomes. Educ. Psychol. 49,
+219–243. https://doi.org/10.1080/00461520.2014.965823 (2014).
+28. Song, D. Designing a teachable agent system for mathematics learning. Contemp. Educ. Technol. 8, 176–190 (2017).
+29. Jin, H., Lee, S., Shin, H. & Kim, J. Teach ai how to code: Using large language models as teachable agents for programming
+education. In Proceedings of the CHI Conference on Human Factors in Computing Systems 1–28 (2024).
+30. Kim, J. & Cho, Y. H. My teammate is ai: Understanding students’ perceptions of student-ai collaboration in drawing tasks. Asia Pac.
+J. Educ. 1, 1–15 (2023).
+
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+11
+
+www.nature.com/scientificreports/
+31. Lim, J. The potential of learning with ai-generated pedagogical agents in instructional videos. In Extended Abstracts of the CHI
+Conference on Human Factors in Computing Systems 1–6 (2024).
+32. Roscoe, R. D. & Chi, M. T. Understanding tutor learning: Knowledge-building and knowledge-telling in peer tutors’ explanations
+and questions. Rev. Educ. Res. 77, 534–574 (2007).
+33. Crompton, H., Jones, M. V. & Burke, D. Affordances and challenges of artificial intelligence in k-12 education: A systematic review.
+J. Res. Technol. Educ. 1, 1–21 (2022).
+34. Matsuda, N., Weng, W. & Wall, N. The effect of metacognitive scaffolding for learning by teaching a teachable agent. Int. J. Artif.
+Intell. Educ. 30, 1–37 (2020).
+35. Chan, C. K.Y. & Tsi, L.H. The ai revolution in education: Will ai replace or assist teachers in higher education? Preprint at ​h​t​t​p​:​/​/​a​
+r​x​i​v​.​o​r​g​/​a​b​s​/​2​3​0​5​.​0​1​1​8​5​​​​ (2023).
+36. Luckin, R., Holmes, W., Griffiths, M. & Forcier, L. B. Intelligence Unleashed: An Argument for AI in Education (Pearson, 2016).
+37. Chen, W.-Y. Intelligent tutor: Leveraging chatgpt and microsoft copilot studio to deliver a generative ai student support and
+feedback system within teams. http://arxiv.org/abs/2405.13024 (2024).
+38. Cao, C. C., Ding, Z., Lin, J. & Hopfgartner, F. Ai chatbots as multi-role pedagogical agents: Transforming engagement in cs
+education. http://arxiv.org/abs/2308.03992 (2023).
+39. Sharma, P., Akgun, M. & Li, Q. Understanding student interaction and cognitive engagement in online discussions using social
+network and discourse analyses. Educ. Tech. Res. Dev. https://doi.org/10.1007/s11423-023-10261-w (2023).
+40. Mata, L. et al. Emotional profiles regarding maths among primary school children—a two-year longitudinal study. Eur. J. Psychol.
+Educ. 37, 391–415. https://doi.org/10.1007/s10212-020-00527-9 (2022).
+41. Leo, I. D., Muis, K. R., Singh, C. A. & Psaradellis, C. Curiosity… confusion? frustration! the role and sequencing of emotions
+during mathematics problem solving. Contemp. Educ. Psychol. https://doi.org/10.1016/J.CEDPSYCH.2019.03.001 (2019).
+42. Department of Basic Education. Curriculum and Assessment Policy Statement Grades. Tech. Rep. 10–12 (Department of Basic
+Education, 2011).
+43. Niemi, H., Shuanghong, N., Vivitsou, M. & Baoping, L. Digital storytelling for twenty-first-century competencies with math
+literacy and student engagement in china and finland. Contemp. Educ. Technol. 9, 331–353 (2018).
+44. PISA. Overview. https://pisa2022-maths.oecd.org/ca/index.html (2022).
+45. Kirschner, P. A., Sweller, J. & Clark, R. E. Why minimal guidance during instruction does not work: An analysis of the failure of
+constructivist, discovery, problem-based, experiential, and inquiry-based teaching. Educ. Psychol. 41, 75–86. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​2​
+0​7​/​s​1​5​3​2​6​9​8​5​e​p​4​1​0​2​_​1​​​​ (2006).
+46. Mayer, R. E. Multi-media Learning (Cambridge University Press, 2001).
+47. Jain, M., Kota, R., Kumar, P. & Patel, S. N. Convey: Exploring the use of a context view for chatbots. In Proceedings of the 2018 Chi
+Conference on Human Factors in Computing Systems 1–6 (2018).
+48. Weisz, J. D., Jain, M., Joshi, N. N., Johnson, J. & Lange, I. Bigbluebot: teaching strategies for successful human-agent interactions.
+In Proceedings of the 24th International Conference on Intelligent User Interfaces 448–459 (2019).
+49. Kim, J., Lee, H. & Cho, Y. Learning design to support student-ai collaboration: perspectives of leading teachers for ai in education.
+Educ. Inf. Technol. 27, 6069–6104. https://doi.org/10.1007/s10639-021-10831-6 (2022).
+50. Heidig, S. & Clarebout, G. Do pedagogical agents make a difference to student motivation and learning? Educ. Res. Rev. 6, 27–54
+(2011).
+51. Heidig, S. & Clarebout, G. Do pedagogical agents make a difference to student motivation and learning? Educ. Res. Rev. 6, 27–54.
+https://doi.org/10.1016/j.edurev.2010.07.004 (2011).
+52. Baker, R. S., Corbett, A. T., Roll, I. & Koedinger, K. R. Adapting to when students game an intelligent tutoring system. In Intelligent
+Tutoring Systems. ITS 2006. Lecture Notes in Computer Science, vol 4053 392–401. https://doi.org/10.1007/11774303_39 (Springer,
+2006).
+53. Chen, M., Wong, Y. & Wang, L. Effects of type of exploratory strategy and prior knowledge on middle school students’ learning
+of chemical formulas from a 3d role-playing game. Educ. Tech. Res. Dev. 62, 163–185. https://doi.org/10.1007/s11423-013-9324-3
+(2014).
+54. Aleven, V., McLaren, B. M., Roll, I. & Koedinger, K. R. Toward meta-cognitive tutoring: A model of help seeking with a cognitive
+tutor. Int. J. Artif. Intell. Educ. 16, 101–128 (2006).
+55. Cocea, M., Hershkovitz, A. & Baker, R. S. The impact of off-task and gaming behaviors on learning: Immediate or aggregate?
+In Proceedings of the 2009 Conference on Artificial Intelligence in Education: Building learning systems that care: From knowledge
+representation to affective modelling 507–514. https://doi.org/10.3233/978-1-60750-028-5-507 (IOS Press, 2009).
+56. Smallwood, J. & Schooler, J. W. The restless mind. Psychol. Bull. 132, 946–958. https://doi.org/10.1037/0033-2909.132.6.946 (2006).
+57. Pekrun, R. Control-value theory: From achievement emotion to a general theory of human emotions. Educ. Psychol. Rev. 36, 83.
+https://doi.org/10.1007/s10648-024-09909-7 (2024).
+58. Fredrickson, B. L. The broaden-and-build theory of positive emotions. Philos. Trans. R. Soc. Lond. Ser. B Biol. Sci. 359, 1367–1378.
+https://doi.org/10.1098/rstb.2004.1512 (2004).
+59. Harp, S. F. & Mayer, R. E. How seductive details do their damage: A theory of cognitive interest in science learning. J. Educ. Psychol.
+90, 414–434. https://doi.org/10.1037/0022-0663.90.3.414 (1998).
+60. Rey, G. D. A review of research and a meta-analysis of the seductive detail effect. Educ. Res. Rev. 7, 216–237. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​
+1​6​/​j​.​e​d​u​r​e​v​.​2​0​1​2​.​0​5​.​0​0​3​​​​ (2012).
+61. Chen, J., Huebner, E. & Tian, L. Longitudinal relations between hope and academic achievement in elementary school students:
+Behavioral engagement as a mediator. Learn. Individ. Differ. 78, 101824. https://doi.org/10.1016/j.lindif.2020.101824 (2020).
+62. Ortega-Ochoa, E., Quiroga Pérez, J., Arguedas, M., Daradoumis, T. & Marquès Puig, J. M. The effectiveness of empathic chatbot
+feedback for developing computer competencies, motivation, self-regulation, and metacognitive reasoning in online higher
+education. Internet of Things 25, 101101. https://doi.org/10.1016/j.iot.2024.101101 (2024).
+63. Song, Y., Kim, J., Liu, Z., Li, C. & Xing, W. Students’ perceived roles, opportunities, and challenges of a generative ai-powered
+teachable agent: A case of middle school math class. J. Res. Technol. Educ. 1, 1–19. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​8​0​/​1​5​3​9​1​5​2​3​.​2​0​2​4​.​2​4​4​7​7​2​
+7​​​(2025).
+64. Locke, E. A. & Latham, G. P. Building a practically useful theory of goal setting and task motivation: A 35-year odyssey. Am.
+Psychol. 57, 705–717. https://doi.org/10.1037/0003-066X.57.9.705 (2002).
+65. Conrad, F. G., Couper, M. P., Tourangeau, R. & Peytchev, A. The impact of progress indicators on task completion. Interact.
+Comput. 22, 417–427. https://doi.org/10.1016/j.intcom.2010.03.001 (2010).
+66. D’Mello, S. & Graesser, A. Autotutor and affective autotutor. ACM Trans. Interact. Intell. Syst. 2, 1–39. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​1​4​5​/​2​3​9​
+5​1​2​3​.​2​3​9​5​1​2​8​​​​ (2012).
+67. Holstein, K., McLaren, B. M. & Aleven, V. Co-designing a real-time classroom orchestration tool for teachers. J. Learn. Anal. 6,
+27–52. https://doi.org/10.18608/jla.2019.62.3 (2019).
+
+Author contributions
+
+Conceptualization: Z.L., W.X. Data collection: Z.L., B.N., X.J. Methodology: Z.L., W.X. Visualization: Z.L., S.J.,
+C.L. Writing—original draft: Z.L., B.N. Writing—review & editing: Z.L., W.X., B.N., X.J., S.J., C.L.
+
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+12
+
+www.nature.com/scientificreports/
+
+Funding
+
+This work is supported by the National Science Foundation (NSF) of the United States under grant numbers
+1503196 and 2105695. Any opinions, findings, and conclusions or recommendations expressed in this paper,
+however, are those of the authors and do not necessarily reflect the views of the NSF.
+
+Declarations
+Competing interests
+
+The authors declare no competing interests.
+
+Additional information
+
+Supplementary Information The online version contains supplementary material available at ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​
+0​.​1​0​3​8​/​s​4​1​5​9​8​-​0​2​5​-​2​4​8​4​1​-​8​​​​.​​
+Correspondence and requests for materials should be addressed to W.X.
+Reprints and permissions information is available at www.nature.com/reprints.
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps and
+institutional affiliations.
+Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives
+4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in
+any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide
+a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have
+permission under this licence to share adapted material derived from this article or parts of it. The images or
+other third party material in this article are included in the article’s Creative Commons licence, unless indicated
+otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence
+and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to
+obtain permission directly from the copyright holder. To view a copy of this licence, visit ​h​t​t​p​:​/​/​c​r​e​a​t​i​v​e​c​o​m​m​o​
+n​s​.​o​r​g​/​l​i​c​e​n​s​e​s​/​b​y​-​n​c​-​n​d​/​4​.​0​/​​​​.​​
+© The Author(s) 2025
+
+Scientific Reports |
+
+(2025) 15:40971
+
+| https://doi.org/10.1038/s41598-025-24841-8
+
+13
+
+

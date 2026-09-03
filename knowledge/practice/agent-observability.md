@@ -128,6 +128,69 @@ leakage rather than genuine issue resolution."*
 [the proximal/distal collapse](../concepts/vanlehn-2011.md), arriving from the agents literature
 with no knowledge of the education one.
 
+## ⭐ The practitioner standard — OpenTelemetry GenAI semantic conventions
+
+The papers above are research. **This is what the industry actually instruments against**, and it
+means we do not have to invent a schema. Read from the
+[semantic-conventions-genai repository](https://github.com/open-telemetry/semantic-conventions-genai)
+on 2026-09-03 — 65 span attributes, 38 agent-span attributes, 24 metrics.
+
+**Operations are first-class spans:** `invoke_agent`, `invoke_workflow`, `execute_tool`, keyed by
+`gen_ai.operation.name`.
+
+**Attributes that map onto problems this repository has already documented:**
+
+| Attribute | What it gives us |
+|---|---|
+| `gen_ai.conversation.id` | Threading a student's session across turns |
+| ⭐ `gen_ai.conversation.compacted` | **Context compaction is a recorded event** — directly relevant to [context rot and the harness finding](agent-architecture.md) |
+| `gen_ai.tool.call.arguments` · `gen_ai.tool.call.result` · `gen_ai.tool.name` | Every CoolProp lookup and verifier verdict, logged |
+| `gen_ai.retrieval.query.text` · `gen_ai.retrieval.documents` · `gen_ai.retrieval.top_k` | **RAG is in the standard** — retrieval failures become measurable, and [Jill Watson's 57% retrieval-failure rate](../systems/jill-watson.md) is the reason to measure them |
+| `gen_ai.memory.store.id` · `gen_ai.memory.query.text` · `gen_ai.memory.records` | **Memory is in the standard too** — the substrate for a student model |
+| `gen_ai.usage.cache_read.input_tokens` · `cache_write` | Cache accounting, which is most of the cost question |
+| `gen_ai.response.time_to_first_chunk` | Perceived latency, not just total |
+
+**Metrics that answer the questions [the ODU latency study raised](cost-economics.md):**
+`gen_ai.client.operation.duration`, `gen_ai.invoke_agent.duration`,
+`gen_ai.invoke_agent.inference_calls`, `gen_ai.invoke_agent.tool_calls`,
+`gen_ai.execute_tool.duration`, `gen_ai.server.time_to_first_token`,
+`gen_ai.server.time_per_output_token`, `gen_ai.client.token.usage`.
+
+**`invoke_agent.tool_calls` and `.inference_calls` per interaction are exactly the parallel-phase
+accounting** that determines whether we are in the P95-dominated regime.
+
+### ⭐⭐ Their content-capture pattern is our FERPA answer
+
+The spec is explicit that message content is dangerous:
+
+> *"This attribute is **likely to contain sensitive information including user/PII data**."*
+
+`gen_ai.input.messages` and `gen_ai.output.messages` are **`Opt-In`**, not recommended-by-default,
+and for memory attributes: *"Instrumentations **SHOULD NOT capture this attribute by default**.
+Capture SHOULD be gated by an explicit user opt-in."*
+
+They give three options, and **the third is the one we want**:
+
+1. Do not record instructions, inputs, or outputs at all.
+2. Record them on the spans — *"best suited for situations where telemetry volume is manageable and
+   either privacy regulations do not apply or the telemetry storage complies with them, **for
+   example, in pre-production environments**."*
+3. ⭐ **"Store content externally and record references on the spans. This pattern is recommended in
+   production environments."**
+
+**Option 3 separates the trace from the student data.** The trace holds structure — timings, tool
+calls, verdicts, retrieval hits, token counts — and *references* to content held in a
+FERPA-appropriate store with its own access controls and retention policy. That means the
+observability layer we need for engineering does **not** have to be the system of record for
+student work, which is the thing that makes the compliance conversation hard.
+
+**This is a concrete, standards-backed answer to a question `admin/irb.md` currently leaves open**,
+and it costs nothing if designed in from the start. → [IRB](../../admin/irb.md),
+[disclosure and ethics](disclosure-and-ethics.md)
+
+⚠ Note these conventions are marked **Development**, not Stable — attribute names will move. Pin a
+version and expect churn.
+
 ## What we should actually build
 
 Modest, and mostly free if done from the start:
@@ -151,9 +214,10 @@ Modest, and mostly free if done from the start:
 
 ## Open questions
 
-- [ ] **What does the industry actually use?** This node is all preprints. OpenTelemetry has GenAI
-      semantic conventions and there are established tracing products; none are covered here.
-      **A real gap** — practitioner sources, not papers.
+- [x] ~~What does the industry actually use?~~ **OpenTelemetry GenAI conventions now covered
+      above.** Still uncovered: the tracing/eval *products* built on them (Langfuse, Braintrust,
+      LangSmith, Phoenix and similar) — how teams actually run evals in CI, and what regression
+      testing against model upgrades looks like in practice.
 - [ ] Does an FSM mined from tutoring traces produce useful stuck-state detection? Testable on our
       own logs once we have any.
 - [ ] What is the tutoring analogue of reward hacking? Plausibly **the student gaming the

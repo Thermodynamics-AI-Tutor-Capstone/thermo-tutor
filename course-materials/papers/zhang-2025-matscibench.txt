@@ -1,0 +1,1867 @@
+arXiv:2510.12171v2 [cs.AI] 8 Jun 2026
+
+MatSciBench: Benchmarking the Reasoning Ability of
+Large Language Models in Materials Science
+Junkai Zhang∗
+
+Jingru Gan∗
+
+Xiaoxuan Wang
+
+University of California, Los Angeles
+Computer Science Department
+Los Angeles, California, USA
+zhang@cs.ucla.edu
+
+University of California, Los Angeles
+Computer Science Department
+Los Angeles, California, USA
+jrgan@cs.ucla.edu
+
+University of California, Los Angeles
+Computer Science Department
+Los Angeles, California, USA
+xw27@cs.ucla.edu
+
+Zian Jia
+
+Changquan Gu
+
+Jianpeng Chen
+
+University of Pennsylvania
+Department of Materials Science and
+Engineering
+Philadelphia, Pennsylvania, USA
+jiazian@foxmail.com
+
+University of California, Los Angeles
+Computer Science Department
+Los Angeles, California, USA
+zachkoo@cs.ucla.edu
+
+Virginia Tech
+Department of Computer Science
+Blacksburg, Virginia, USA
+jianpengc@vt.edu
+
+Yanqiao Zhu
+
+Mingyu Derek Ma
+
+Dawei Zhou
+
+University of California, Los Angeles
+Computer Science Department
+Los Angeles, California, USA
+yzhu@cs.ucla.edu
+
+University of California, Los Angeles
+Computer Science Department
+Los Angeles, California, USA
+ma@derek.ma
+
+Virginia Tech
+Department of Computer Science
+Blacksburg, Virginia, USA
+zhoud@vt.edu
+
+Ling Li
+
+Wei Wang
+
+University of Pennsylvania
+Department of Materials Science and
+Engineering
+Philadelphia, Pennsylvania, USA
+lzli@seas.upenn.edu
+
+University of California, Los Angeles
+Computer Science Department
+Los Angeles, California, USA
+weiwang@cs.ucla.edu
+
+Abstract
+Large Language Models (LLMs) have shown strong scientific reasoning ability, but their performance on materials science problems
+remains less studied. To fill this gap, we introduce MatSciBench,
+a comprehensive college-level benchmark comprising 1,340 problems that span the essential subdisciplines of materials science.
+MatSciBench features a structured and fine-grained taxonomy that
+categorizes materials science questions into 6 primary fields and 31
+subfields, together with a three-tier difficulty classification based on
+the reasoning length needed to solve each problem. MatSciBench
+includes detailed reference solutions for 946 questions, supports
+process-level error analysis, and contains 315 questions with images
+for evaluating multimodal reasoning. We evaluate leading thinking
+and non-thinking LLMs on MatSciBench, and further test three
+reasoning methods for non-thinking models: basic chain-of-thought
+prompting, tool augmentation, and self-correction. The results show
+∗ Equal contribution.
+
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+KDD ’26, Jeju Island, Republic of Korea
+© 2026 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-2259-2/2026/08
+https://doi.org/10.1145/3770855.3818888
+
+that current models still face clear limits in college-level materials science reasoning. DeepSeek-R1 achieves the highest score on
+text-only questions at 75.22% accuracy, and GPT-5 performs the
+best on questions with images at 53.02%. Our analysis shows that
+tool augmentation improves many non-thinking models in a tokenefficient way, while self-correction often fails to provide reliable
+gains and can revise correct answers into incorrect ones. We further
+analyze performance across difficulty levels, reasoning efficiency,
+multimodal reasoning, and failure patterns, and find that current
+models are mainly limited by domain knowledge gaps, calculation
+errors, problem comprehension failures, and difficulty in extracting
+precise information from scientific figures. We also evaluate small
+language models and find that they remain far behind larger models on knowledge-intensive materials science reasoning. Overall,
+MatSciBench provides a clear testbed for measuring current LLM
+limitations and guiding future work on scientific reasoning in materials science.
+Dataset: huggingface.co/datasets/JunkaiZ/MatSciBench
+Code: github.com/Jun-Kai-Zhang/MatSciBench.git
+
+CCS Concepts
+• Computing methodologies → Natural language processing; • Information systems → Information retrieval; • Applied
+computing → Physical sciences and engineering.
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Keywords
+Large Language Models, Materials Science, Benchmarking, Evaluation, Scientific Reasoning, Multimodal Reasoning
+ACM Reference Format:
+Junkai Zhang, Jingru Gan, Xiaoxuan Wang, Zian Jia, Changquan Gu, Jianpeng Chen, Yanqiao Zhu, Mingyu Derek Ma, Dawei Zhou, Ling Li, and Wei
+Wang. 2026. MatSciBench: Benchmarking the Reasoning Ability of Large
+Language Models in Materials Science. In Proceedings of the 32nd ACM
+SIGKDD Conference on Knowledge Discovery and Data Mining V.2 (KDD ’26),
+August 09–13, 2026, Jeju Island, Republic of Korea. ACM, New York, NY, USA,
+12 pages. https://doi.org/10.1145/3770855.3818888
+
+1
+
+Introduction
+
+Recent years have witnessed remarkable advancements of LLM reasoning abilities. From Chain of Thought (CoT) [62] to self-correction
+[56] and tool augmentation [25], the boundaries of LLM reasoning
+have expanded dramatically. What began with grade-school arithmetic calculations [13] has evolved to solving problems at the level
+of International Mathematical Olympiad (IMO) silver medalists [14].
+OpenAI’s o-series models can even solve a substantial portion of
+frontier mathematical problems that would typically require hours
+of concentrated effort from expert mathematicians [23, 51].
+Beyond LLMs’ notable achievements in mathematics, general
+scientific reasoning has emerged as a new area of interest, where
+solving problems requires a proper combination of reasoning and
+domain-specific knowledge [41, 42, 59]. Scientific reasoning benchmarks reveal that LLMs struggle to identify correct scientific assumptions and often demonstrate flawed understanding of scientific
+formulas and principles [61]. Those findings indicate that scientific reasoning presents unique challenges to LLMs compared to
+pure mathematical questions. Therefore, numerous benchmarks
+have been proposed to assess LLMs’ scientific reasoning capability,
+spanning from grade-school [39] to PhD-level [19] problems across
+domains [1, 34].
+Despite the abundance of scientific problem-solving benchmarks,
+LLMs’ reasoning abilities in materials science remain underexplored.
+Materials science occupies a unique position at the intersection
+of physics and chemistry, bridging fundamental science and engineering applications. This interdisciplinary field inherently relies
+on knowledge integration across multiple domains and requires
+complex reasoning capabilities. Existing reasoning benchmarks in
+materials science are limited by the lack of comprehensive evaluation and correct solutions [70], or by the dependence on synthetic
+data generated by LLMs themselves, which introduces unavoidable
+noise [2]. In addition, none of the existing benchmarks adequately
+assesses the multimodal reasoning ability of LLMs in materials
+science.
+To comprehensively evaluate LLMs’ reasoning abilities in materials science, we propose MatSciBench, a benchmark comprising
+1340 meticulously curated questions from 10 college-level textbooks
+spanning essential subdisciplines of materials science. All questions
+are open-ended to prevent model guessing while enabling objective
+assessment through rule-based judgment. For structured evaluation, MatSciBench constructs a comprehensive and fine-grained
+taxonomy with 6 primary fields (Materials, Properties, Structures,
+Fundamental Mechanisms, Processes, Failure Mechanisms) and 31
+
+Zhang et al.
+
+subfields that capture materials science’s interdisciplinary nature,
+enabling assessment of reasoning abilities on specific domains. In
+addition, questions are classified into three difficulty levels based
+on reasoning length required to solve the question, with 57.2%
+easy, 27.2% medium, and 15.6% hard questions. The 209 hard questions require long solving process, deliberately challenging models’
+complex reasoning capabilities. Detailed solutions to 946 of the
+questions are included to facilitate error categorization and processlevel evaluations. The benchmark also incorporates 315 questions
+with images to assess multimodal reasoning abilities.
+The o-series models from OpenAI, such as o4-mini, along with
+Gemini-2.5-Pro, DeepSeek-R1, GPT-5, Claude-Sonnet-4, and
+Qwen3-235B-A22B, represent a new class of LLMs that exhibit
+complex reasoning by generating extended intermediate outputs
+before producing final answers. These models are referred to as
+thinking models or reasoning models, distinguishing them from
+standard LLMs like GPT-4.1, Claude-Sonnet-3.7, DeepSeekV3, Llama-4-Maverick, and Kimi-K2-Instruct, classified as
+non-thinking models [10]. We conduct extensive experiments on
+MatSciBench to evaluate and compare the reasoning capabilities
+of these six thinking models against five non-thinking models in
+materials science problem solving. In addition, we also evaluate
+the effectiveness of self-correction and tool augmentation (i.e., integration of Python code) on non-thinking models in addition to the
+basic CoT. Our results indicate that while DeepSeek-R1 leads with
+approximately 75% accuracy, the best-performing non-thinking
+model Llama-4-Maverick achieves a comparable 70% with tool
+augmentation.
+Our systematic analysis examines LLM reasoning capabilities
+through reasoning efficiency, multimodal reasoning, and failure patterns. The key findings from our analysis are as follows. First, higher
+accuracy often comes with substantially longer outputs, showing
+a clear efficiency-accuracy trade-off. Thinking models generally
+achieve stronger performance by producing much longer reasoning
+traces, while tool augmentation provides a more token-efficient
+way to improve many non-thinking models. Second, questions with
+images cause a large performance drop compared with text-only
+questions for the same multimodal LLMs, showing that visual reasoning remains a major challenge in materials science. Further
+error analysis shows that visual data extraction is the dominant
+bottleneck, accounting for more than half of substantive multimodal errors, especially on mechanical plots and property plots
+that require precise numerical reading. Third, our failure analysis
+shows that model errors are mainly caused by domain knowledge
+gaps, calculation inaccuracies, and problem understanding deficiencies. Tool augmentation consistently reduces numerical errors, but
+self-correction does not lead to reliable improvement; instead, it
+often introduces false critiques, unnecessary revisions, or incorrect
+repairs. These findings suggest that improving materials-science
+reasoning requires not only longer reasoning outputs, but also better grounding in domain knowledge, more reliable extraction from
+scientific figures, and stronger external verification mechanisms.
+Our contributions are listed as follows:
+• We introduce MatSciBench, a comprehensive and challenging
+materials science reasoning benchmark comprising 1340 expertcurated questions from college-level textbooks across essential
+
+MatSciBench: Benchmarking the Reasoning Ability of Large Language Models in Materials Science
+
+subdisciplines, featuring a structured taxonomy of 6 primary
+fields and 31 subfields, three-tier difficulty classification, detailed
+solutions for 946 questions, and 315 questions with visual contexts for multimodal reasoning evaluation.
+• We benchmark state-of-the-art LLMs, including six thinking models and five non-thinking models. Additionally, we test the nonthinking models with three popular reasoning methods. This
+provides the most comprehensive evaluation and comparison of
+reasoning capabilities in materials science across different models
+and methods.
+• We present a comprehensive multi-dimensional analysis of LLM
+reasoning capability on MatSciBench, covering difficulty-stratified
+performance, reasoning efficiency, efficiency-accuracy trade-offs,
+multimodal reasoning, and failure patterns. We also evaluate
+small language models on MatSciBench to assess their ability
+to handle knowledge-intensive materials-science reasoning. This
+detailed evaluation provides a clearer understanding of current
+model limitations and offers guidance for future improvements
+in scientific reasoning models.
+
+2
+
+Related Work
+
+As LLMs continue to develop reasoning abilities, solving scientific
+problems is considered a fundamental dimension and has been the
+focus of numerous benchmarks. GSM8K [13], MATH [30], along
+with a series of benchmarks [46] evaluated the mathematical abilities of language models. With the emergence of multimodal LLMs,
+MathVista [38] further includes visual contexts to benchmark the
+multimodal reasoning abilities. With the growth of reasoning capabilities, competitive level questions like OlympiadBench [29] and
+PutnamBench [60], and advanced graduate-level math like Frontier
+Math [23] and HARDMATH [16] set new standards for reasoning
+models.
+Beyond mathematics, natural science questions involve not only
+reasoning but also domain knowledge, thus incentivizing increased
+interest, particularly in chemistry, physics, and biology [39, 53, 63].
+SciBench [61], MMMU [68], MMMU-Pro [69] cover college-level scientific problem solving, which requires both domain knowledge and
+sophisticated reasoning. OlympicArena [35] contributes Olympiadlevel, multimodal problems across seven scientific fields, and SuperGPQA [40] further expands coverage to 285 graduate-level disciplines. Besides problem solving, SciEval [57] and SciKnowEval [18]
+evaluate multi-level capabilities of LLM in scientific domain. In
+addition to those general natural scientific reasoning benchmarks,
+a series of works Acharya et al. [1], Li et al. [37] focus on specific
+domains. PhysReason [71], PHYSICS [19], and MM-PhyQA [3] specialize in physics questions; ChemEval [34] benchmarks chemistry
+abilities; Meshram et al. [43] for electronics.
+
+3 Dataset
+3.1 Data Collection and Processing
+For our materials science benchmark dataset, we curated a collection of problems from textbooks across multiple subfields. We
+selected widely-adopted undergraduate and graduate textbooks
+that include both comprehensive references (such as “The Science
+and Engineering of Materials”) and specialized resources focusing
+on specific domains (such as “Electronic, Magnetic, and Optical
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Materials”). The choice of textbooks was guided and validated by
+materials science experts. We first identified the major subfields of
+materials science and then selected textbooks in these areas that
+provide exercise solutions and are accessible online. These sources
+collectively provide diverse problem types that cover the breadth
+of materials science concepts. The full list of textbooks is presented
+in Table 1.
+Table 1: Textbooks Used for Question-answer Collection
+Textbook
+
+# QAs
+
+Introduction to Materials Science for Engineers [54]
+The Science and Engineering of Materials [7]
+Materials Science and Engineering: An Introduction [12]
+Fundamentals of Materials Science and Engineering: An
+Integrated Approach [11]
+Mechanical Behavior of Materials [31]
+Electronic, Magnetic, and Optical Materials [21]
+Materials and Process Selection for Engineering Design [17]
+Fundamentals of Ceramics [8]
+Physical Metallurgy [32]
+Polymer Science and Technology [20]
+
+349
+287
+61
+393
+
+Total
+
+1340
+
+83
+72
+27
+29
+27
+12
+
+We used Mistral optical character recognition (OCR) [47] to
+digitize both textual and visual content of these textbooks. Then we
+implemented a parsing algorithm to identify the example problems
+and solutions from the digital copies. Each question-answer pair
+was structured into a standardized format. Following the initial
+extraction, each entry was reviewed and corrected by humans with
+LLM assistance to ensure accuracy and completeness. We applied
+strict filtering criteria, retaining only questions with determinate
+answers in the form of numerical values or formulas.
+
+3.2
+
+Dataset Statistics
+
+Our benchmark comprises 1340 question-answer pairs structured
+in a standardized format. Questions are categorized as either numerical or formula-derivation type according to the type field, with
+1236 NUM questions (92.2%) and 104 FORMULA questions (7.8%).
+In addition, 315 questions (23.5%) include images.
+
+3.3
+
+Taxonomy Classification
+
+We developed a comprehensive hierarchical taxonomy to systematically categorize questions across fundamental materials science
+domains. Our taxonomy design was informed by established materials science curricula and reference texts, including [6, 54, 55]. The
+taxonomy framework follows the traditional organization of materials science education while covering key domains that characterize
+materials science problems, including materials, structures, properties, mechanisms, processes, and failure behaviors. The taxonomy
+consists of six primary fields, each containing detailed subcategories:
+(1) Materials: Metals, Polymers, Elastomers, Semiconductors, Ceramics, Glasses, Hybrids
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+Elastomers
+Polymers
+
+Ceramics
+
+Semiconductors
+
+provides coverage across difficulty levels, while differentiating questions in terms of the knowledge and reasoning length required to
+derive a correct solution.
+
+Glasses
+
+Metals
+Cellular
+
+Zhang et al.
+
+Hybrids
+
+Composites
+
+Materials
+
+Mechanical
+
+Thermal
+
+Structural
+Gradient
+
+Structures
+
+Surface
+Texture
+
+Failure
+Mechanisms
+
+Plastic
+
+Materials
+Sciences
+Taxonomy
+
+Optical
+
+Fundamental
+
+Mechanisms
+
+Fracture
+
+Corrosion
+
+Diffusion &
+Kinetics
+
+Impact
+Joining
+
+Shaping
+
+Atomic
+Bonding
+Crystal
+Structure
+
+Processes
+
+Fatigue
+Creep
+
+Electrical
+Magnetic
+
+Micro/Nanostructure
+
+Elastic
+
+Properties
+
+Phase
+Diagram
+
+Data Leakage Detection
+
+Data leakage is a key concern when constructing reliable benchmarks. We use the method proposed in [64] to detect potential data
+leakage in our benchmark. Because this method is restricted to
+locally served models and the released implementation is not optimized for very large models, we evaluate a set of small language
+models: Qwen-2.5-7B, Qwen-2.5-32B, Gemma-3-4B, Gemma-312B, and Gemma-3-27B. The results, reported in Table 2, show
+N-gram accuracy and PPL only slightly above 1 for all models, indicating minimal overlap with training data. We found no evidence
+of leakage in the tested small models.
+
+Finishing
+
+Figure 1: Taxonomy of MatSciBench Materials Science QAs.
+
+(2) Properties: Mechanical, Thermal, Electrical, Magnetic, Optical
+(3) Structures: Composites, Cellular, Structural Gradient, Surface
+Texture, Micro/Nano-structure
+(4) Fundamental Mechanisms: Atomic Bonding, Crystal Structure, Phase Diagram, Diffusion & Kinetics
+(5) Processes: Joining, Shaping, Finishing
+(6) Failure Mechanisms: Elastic, Plastic, Fracture, Fatigue, Creep,
+Impact, Corrosion
+Figure 1 shows our manually developed taxonomy that covers
+the domains of QAs collected in MatSciBench. The taxonomy
+consists of six primary fields: Materials, Properties, Structures, Fundamental Mechanisms, Processes, and Failure Mechanisms, each
+containing detailed subcategories. This multi-dimensional classification scheme enables us to capture the interdisciplinary nature
+of materials science problems, where a single question might span
+multiple domains. Our taxonomy not only provides a nuanced understanding of the dataset composition but also enables targeted
+evaluation of model performance across specific subfields and their
+intersections, offering insights into how AI models handle different
+aspects of materials science knowledge.
+
+3.4
+
+3.5
+
+Difficulty Classification
+
+We implemented a three-tier classification from easy, medium to
+hard, to assess question difficulty. Following the previous work Guha
+et al. [26], difficulty is assessed with response lengths from LLMs.
+To further mitigate the bias of classification from a single model,
+we choose a collective of 6 models: Claude-Sonnet-3.7, ClaudeSonnet- 4, DeepSeek- V3, GPT- 4.1, Llama- 4- Maverick, and
+Qwen3-235B-A22B, among which each pairwise Spearman rank
+correlation is above 0.5. Each model’s response length assigns a
+difficulty label to each question, and then we use majority voting
+to decide the final difficulty label. This gives us 766 easy questions,
+365 medium questions, and 209 hard questions. This distribution
+
+Table 2: Data Leakage Detection on Small Language Models.
+Model
+Qwen-2.5-Instruct-7B
+Qwen-2.5-Instruct-32B
+Gemma-3-4B-it
+Gemma-3-12B-it
+Gemma-3-27B-it
+
+N-gram Accuracy
+
+PPL
+
+1.28
+1.22
+1.04
+1.06
+1.09
+
+1.07
+1.06
+1.08
+1.10
+1.07
+
+An Example Question from MatSciBench
+Question
+A steel alloy to be used for a spring application must have
+a modulus of resilience of at least 2.07 MPa (300 psi). If the
+Young’s modulus of the steel is 207 GPa, what minimum
+yield strength must it have?
+Image None
+Solution
+The modulus of resilience, yield strength, and elastic modulus are related by
+𝜎 𝑦2
+𝑈𝑟 =
+.
+2𝐸
+Solving for the yield strength gives
+√︁
+𝜎 𝑦 = 2𝑈𝑟 𝐸.
+Using 𝑈𝑟 = 2.07 MPa and 𝐸 = 207 × 103 MPa,
+√︁
+𝜎 𝑦 = (2)(2.07 MPa)(207 × 103 MPa) = 926 MPa.
+Answer 926
+Unit MPa
+Primary Category Materials: Metals
+Categories
+Materials: Metals
+Properties: Mechanical
+Failure Mechanisms: Elastic
+Type NUM
+Difficulty Level Easy
+
+MatSciBench: Benchmarking the Reasoning Ability of Large Language Models in Materials Science
+
+Source Book Fundamentals of Materials Science and
+Engineering: An Integrated Approach
+
+4 Experiments
+4.1 Models and Methods
+For proprietary models, we evaluate GPT-4.1 [49], Claude-So
+nnet-3.7 [4], and the thinking models o4-mini [50], Gemini2.5-Pro [24], GPT-5 [48], Claude-Sonnet-4 [5]; for open-weight
+models, we evaluate DeepSeek-V3 [15], Kimi-K2-Instruct [58],
+Llama- 4- Maverick [44], and the thinking models DeepSeekR1 [27], Qwen3-235B-A22B [65]. Among these models, GPT-4.1,
+Claude-Sonnet-3.7, o4-mini, Gemini-2.5-Pro, GPT-5, ClaudeSonnet-4, and Llama-4-Maverick support visual inputs.
+For non-thinking models, we adopt three prompting methods: basic CoT, self-correction, and tool augmentation. The self-correction
+method follows Huang et al. [33], Kim et al. [36], Shinn et al. [56],
+invoking 3 rounds of conversation with the model: (1) the initial
+response, (2) detecting issues in the initial attempt, and (3) revising
+the initial attempt based on the detected problem. The tool augmentation method prompts the model to generate Python code,
+executes it using a code interpreter [25, 66], and derives the final
+answer based on the execution results. The detailed prompts are
+provided in Section A.1.
+
+4.2
+
+Evaluation
+
+The correctness of the output answers is evaluated using a hybrid
+approach that combines rule-based evaluation and LLM-based evaluation. We adapt the rule-based evaluation system from Qwen-2.5
+Math [66]. Following the previous works [28, 45], we apply a relaxed numerical tolerance of 5% to account for approximation errors
+in calculations and image recognition. To address the limitations of
+rule-based systems in handling complex formulas and equations, we
+supplement this approach with an optional LLM judge for formulatype questions. The LLM’s judgment serves as the final determinant
+of correctness for these complex mathematical expressions in our
+reported results. The performance in terms of accuracy score of
+all models on text-only questions is presented in Table 3, and the
+performance of multimodal models on questions with images is
+presented in Table 4.
+
+4.3
+
+Results
+
+Observation 1. Among the non-thinking models, Llama-4-Mave
+rick with tool augmentation achieves the best overall accuracy
+(70.15%). Kimi-K2-Instruct with tool augmentation obtains the
+second-best overall score (69.46%), followed by DeepSeek-V3 with
+tool augmentation and Kimi-K2-Instruct under basic CoT, both at
+68.78%. Under the basic CoT setting, Kimi-K2-Instruct performs
+best among non-thinking models (68.78%), slightly ahead of GPT4.1 (68.49%) and Llama-4-Maverick (67.41%).
+For thinking models, DeepSeek-R1 achieves the best overall
+result (75.22%), narrowly outperforming GPT-5 (75.02%). Gemini2.5-Pro ranks third with 74.44%, followed by Qwen3-235B-A22B
+(73.37%) and o4-mini (71.22%). Claude-Sonnet-4 reaches 68.49%,
+which is close to the strongest basic CoT non-thinking models but
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+below the best tool-augmented non-thinking model. These results
+show that open-weight thinking models remain highly competitive
+on MatSciBench, with DeepSeek-R1 slightly exceeding GPT-5 on
+text-only questions.
+Observation 2. Tool augmentation improves the overall performance for most non-thinking models, whereas self-correction degrades the performance for 4 out of 5 models. Specifically, tool augmentation improves the overall accuracy of Claude-Sonnet-3.7
+from 62.54% to 64.78%, DeepSeek-V3 from 67.02% to 68.78%, KimiK2-Instruct from 68.78% to 69.46%, and Llama-4-Maverick from
+67.41% to 70.15%. For GPT-4.1, tool augmentation leads to only a
+negligible decrease from 68.49% to 68.39%, indicating that its performance remains largely unchanged. In contrast, self-correction reduces the overall accuracy for nearly all models, including ClaudeSonnet-3.7 from 62.54% to 61.27%, DeepSeek-V3 from 67.02% to
+62.83%, GPT-4.1 from 68.49% to 67.32%, and Kimi-K2-Instruct
+from 68.78% to 66.93%. The only exception is Llama-4-Maverick,
+whose accuracy slightly increases from 67.41% to 67.71%. This
+suggests that self-correction does not provide reliable gains for
+non-thinking models and can hurt model performance by revising
+originally correct answers.
+Observation 3. In the multimodal evaluation, GPT-5 delivers
+the strongest performance, achieving the highest overall accuracy
+(53.02%) and leading across all individual categories. Gemini-2.
+5-Pro ranks second overall with 51.43%, while Llama-4-Mave
+rick ranks third with 46.03%. Claude-Sonnet-4 and o4-mini
+obtain the same overall accuracy (44.44%), with o4-mini showing
+especially strong performance on the Processes category (59.38%).
+Claude-Sonnet-3.7 reaches 40.95%, slightly ahead of GPT-4.1
+(40.00%). These results show that GPT-5 is the strongest model for
+multimodal materials science reasoning, while Gemini-2.5-Pro
+remains the closest competitor. However, the open-weight models
+still lag behind the leading proprietary models, suggesting that a
+clear gap remains between open-weight and proprietary models in
+multimodal materials science reasoning.
+
+4.4
+
+Performance of Small Language Models on
+MatSciBench
+
+Small language models (SLMs) have recently become promising
+for agentic AI [9]. To assess their performance in the science domain, we evaluate the Qwen-2.5 family [52] and the Gemma-3 family [22] on MatSciBench; the results are reported in Table 5. Overall, SLMs still struggle with knowledge-intensive scientific reasoning: even the best-performing model, Qwen-2.5-Instruct-32b,
+achieves only 44.88% accuracy. Performance is strongly correlated
+with model size.
+
+5 Analysis
+5.1 Performance across Difficulty Levels
+Our benchmark effectively differentiates models’ scientific reasoning capabilities through progressively challenging tasks that require
+domain knowledge, calculation precision, and multi-step reasoning.
+The accuracy scores of different models across difficulty levels are
+shown in Figure 2. Thinking models surpass non-thinking models
+by a significant margin at the most challenging level. This divergence highlights how reasoning capabilities become increasingly
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Zhang et al.
+
+Table 3: Experimental Results in Terms of Accuracy Score (%) on MatSciBench (questions without images). Boldface denotes the
+best result, and underlining denotes the second-best result.
+Model
+
+Fail. Mech.
+
+Fund. Mech.
+
+Materials
+
+Claude-Sonnet-3.7
++Correction
++Tool
+DeepSeek-V3
++Correction
++Tool
+GPT-4.1
++Correction
+
+62.64
+61.51
+66.79
+65.28
+66.04
+70.57
+66.04
+64.53
+
+58.40
+55.25
+59.03
+63.66
+59.03
+64.71
+65.34
+61.76
+
++Tool
+Kimi-K2-Instruct
++Correction
++Tool
+Llama-4-Maverick
++Correction
++Tool
+
+67.17
+71.70
+70.57
+69.81
+68.30
+67.92
+70.19
+
+66.39
+65.97
+63.87
+65.76
+61.97
+63.03
+65.76
+
+69.09
+70.20
+67.44
+69.65
+68.43
+68.76
+71.41
+
+Claude-Sonnet-4
+DeepSeek-R1
+Gemini-2.5-Pro
+Qwen3-235B-A22B
+GPT-5
+o4-mini
+
+71.32
+75.47
+76.23
+75.47
+74.34
+71.32
+
+64.08
+75.21
+73.11
+71.85
+74.58
+69.12
+
+Thinking Models
+69.09
+75.83
+74.50
+74.06
+76.05
+71.96
+
+Processes
+
+Properties
+
+Structures
+
+Overall
+
+60.95
+59.94
+64.27
+65.27
+62.97
+67.44
+67.00
+65.99
+
+63.06
+61.64
+64.92
+67.21
+63.61
+70.16
+69.29
+68.42
+
+62.54
+61.27
+64.78
+67.02
+62.83
+68.78
+68.49
+67.32
+
+58.59
+67.68
+64.65
+64.65
+65.66
+66.67
+66.67
+
+68.16
+67.29
+65.99
+67.58
+67.29
+67.58
+70.03
+
+69.51
+70.49
+68.20
+70.38
+68.31
+68.63
+71.26
+
+68.39
+68.78
+66.93
+69.46
+67.41
+67.71
+70.15
+
+65.66
+71.72
+65.66
+66.67
+74.75
+68.69
+
+67.29
+74.50
+72.62
+72.19
+72.77
+70.89
+
+68.96
+76.17
+75.08
+74.54
+76.61
+72.02
+
+68.49
+75.22
+74.44
+73.37
+75.02
+71.22
+
+Non-Thinking Models
+62.14
+55.56
+61.04
+53.54
+64.46
+56.57
+67.55
+60.61
+63.02
+60.61
+69.32
+67.68
+69.09
+57.58
+67.77
+53.54
+
+Table 4: Experimental Results in Terms of Accuracy Score (%) on MatSciBench (questions with images). Boldface denotes the
+best result, and underlining denotes the second-best result.
+Model
+
+Fail. Mech.
+
+Fund. Mech.
+
+Materials
+
+Processes
+
+Properties
+
+Structures
+
+Overall
+
+Claude-Sonnet-3.7
+Claude-Sonnet-4
+Gemini-2.5-Pro
+GPT-5
+o4-mini
+GPT-4.1
+
+28.57
+35.71
+46.43
+48.81
+33.33
+25.00
+
+47.31
+47.90
+52.10
+56.89
+47.31
+46.71
+
+42.54
+47.01
+54.10
+55.22
+45.15
+41.42
+
+43.75
+53.13
+56.25
+65.63
+59.38
+43.75
+
+36.84
+42.58
+51.67
+52.63
+42.58
+34.45
+
+42.25
+46.13
+52.46
+53.87
+44.72
+41.55
+
+40.95
+44.44
+51.43
+53.02
+44.44
+40.00
+
+Llama-4-Maverick
+
+40.48
+
+47.90
+
+48.13
+
+40.63
+
+42.11
+
+46.83
+
+46.03
+
+Table 5: Experimental Results in Terms of Accuracy Score (%) on MatSciBench (questions without images) for Small Language
+Models. Boldface denotes the best result, and underlining denotes the second-best result.
+Model
+
+Fail. Mech.
+
+Fund. Mech.
+
+Materials
+
+Processes
+
+Properties
+
+Structures
+
+Overall
+
+Gemma-3-4b-it
+Gemma-3-12b-it
+Gemma-3-27b-it
+Qwen2.5-7b-instruct
+
+9.81
+21.13
+38.87
+21.51
+
+9.24
+13.87
+31.30
+22.48
+
+12.36
+22.85
+39.74
+26.49
+
+7.07
+13.13
+30.30
+20.20
+
+10.95
+21.47
+38.18
+24.64
+
+12.46
+23.17
+39.45
+27.10
+
+12.39
+22.93
+38.83
+26.83
+
+Qwen2.5-32b-instruct
+
+44.91
+
+37.61
+
+44.48
+
+35.35
+
+43.23
+
+45.25
+
+44.88
+
+MatSciBench: Benchmarking the Reasoning Ability of Large Language Models in Materials Science
+
+Accuracy (%)
+
+easy
+80
+70
+60
+50
+40
+30
+20
+10
+0
+
+-3.7
+
+et
+onn
+de-S
+
+Clau
+
+t-4
+
+nne
+
+-So
+ude
+
+Cla
+
+3
+ek-V
+pSe
+e
+e
+D
+
+medium
+
+-5
+GPT
+
+-4.1
+GPT
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+t
+
+truc
+
+Ins
+K2imi-
+
+K
+
+hard
+
+rick
+
+ave
+
+4-M
+ma-
+
+Lla
+
+ro
+.5-P
+
+1
+
+ek-R
+
+pSe
+Dee
+
+ni-2
+emi
+
+G
+
+ini
+
+B
+
+A22
+5B-
+
+o4-m
+
+-23
+en3
+
+Qw
+
+Figure 2: The Performance of LLMs across Difficulty Levels.
+critical as problem complexity grows. All models exhibit performance degradation patterns with increasing difficulty, suggesting
+that complex reasoning processes prevent them from reaching correct answers.
+
+5.2
+
+Efficiency versus Accuracy
+
+76
+74
+
+Accuracy (%)
+
+72
+70
+68
+66
+64
+62
+103
+
+Method
+base
+tool
+correction
+
+Model
+DeepSeek-R1
+GPT-5
+Gemini-2.5-Pro
+Qwen3-235B-A22B
+o4-mini
+Llama-4-Maverick
+Kimi-K2-Instruct
+DeepSeek-V3
+Claude-Sonnet-4
+GPT-4.1
+Claude-Sonnet-3.7
+
+Average Tokens
+
+104
+
+Figure 3: Efficiency versus Accuracy.
+Thinking models often produce long outputs that include branching, backtracking, error checking, and correction [67]. These behaviors can help models reach correct answers, but they also increase inference cost. This reveals a clear trade-off between reasoning accuracy and efficiency. Figure 3 shows this trade-off by
+comparing accuracy and average token usage across models and
+prompting methods, where the boundary line marks the reasoning
+efficiency frontier. Under basic CoT prompting, thinking models
+achieve higher accuracy than non-thinking models, but require
+substantially more tokens. Self-correction further increases output
+length, yet does not lead to consistent performance gains and can
+even reduce accuracy for some models. In contrast, tool augmentation offers a more token-efficient strategy: it adds only a small
+number of tokens while improving accuracy for many non-thinking
+models. Therefore, tool-augmented results often lie on the Pareto
+frontier, showing a better balance between accuracy and token cost.
+
+5.3
+
+Performance Drop Due to Visual Context
+
+Questions with images are significantly more challenging than
+text-only questions for multimodal LLMs, with significantly lower
+accuracy scores, as presented in Figure 5.
+To further analyze the multimodal performance drop, we classify
+errors on questions with images into five substantive categories,
+excluding ambiguous, unparsed, and formatting-only cases. Across
+781 substantive multimodal errors, Visual Data Extraction is the
+dominant error source, accounting for 68.9%, with a range of 62.6%–
+78.0% across models. The other errors are less frequent: Domain
+Knowledge (16.9%), Calculation Error (6.9%), Spatial and Geometric
+Reasoning (4.1%), and Problem Comprehension (3.2%). This consistent pattern suggests that extracting correct information from
+scientific figures is a common bottleneck for multimodal LLMs.
+We group images into eight types and calculate accuracy for
+types with more than 100 question-model pairs, excluding Micrograph due to its small sample size. The lowest accuracies occur
+on Mechanical Plot (26.8%) and Property Plot (31.1%), followed by
+Phase Diagram (46.4%), Crystal Structure (49.6%), Mixed Visual
+(54.8%), Engineering Schematic (64.6%), and Data Table (66.5%). The
+two hardest reported image types all require precise numerical
+reading from plots or diagrams. Cross-analysis further shows that
+Phase Diagram and Property Plot have the highest Visual Data
+Extraction shares among substantive errors, at 85.1% and 85.0%,
+respectively, mainly due to misread temperatures, axis values, or
+interpolation along curved boundaries.
+
+5.4
+
+Failure Pattern
+
+To investigate the challenges LLMs face in solving materials science
+problems, we manually examined incorrect responses and identified
+five major error categories: problem understanding deficiencies,
+domain knowledge gaps, flawed solution strategies, calculation inaccuracies, and hallucinated content. To conduct systematic analysis
+of these error patterns automatically, we use an LLM to categorize
+mistakes across these five categories, evaluating all non-thinking
+models and prompting methods on text-only questions with reference solutions. When multiple errors exist, we classify them into
+the first appearing one in the solution.
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Claude-Sonnet-3.7
+Know.
+Strat.
+
+Strat.
+
+Zhang et al.
+
+DeepSeek-V3
+Know.
+
+Under.
+Calc.
+
+Under.
+Calc.
+
+Hall.
+
+Strat.
+
+GPT-4.1
+Know.
+Under.
+
+Calc.
+
+Hall.
+
+Kimi-K2-Instruct
+Know.
+Strat.
+
+base
+
+Hall.
+Methods
+correction
+
+Llama-4-Maverick
+Know.
+Strat.
+Under.
+
+Calc.
+
+Hall.
+
+Under.
+Calc.
+
+Hall.
+
+tool
+
+Figure 4: Error categorization for non-thinking models. Error types are problem understanding deficiencies (under.), domain
+knowledge gaps (know.), flawed solution strategies (strat.), calculation inaccuracies (calc.), and hallucinated content (hall.).
+
+70
+
+Has Image
+No
+Yes
+
+Accuracy (%)
+
+60
+50
+40
+30
+20
+10
+0
+
+d
+
+Clau
+
+.7
+et-3
+
+nn
+e-So
+
+-4
+
+net
+
+-Son
+
+de
+Clau
+
+i
+Gem
+
+ro
+.5-P
+
+ni-2
+
+-4.1
+GPT
+
+Model
+
+-5
+GPT
+
+Mav
+
+-4ama
+
+k
+
+eric
+
+ini
+o4-m
+
+Ll
+
+Figure 5: Performance comparison of MLLMs on questions
+with and without images.
+
+The error rates across categories are presented in Figure 4. These
+findings reveal consistent patterns across all models, with deficiencies in domain knowledge, calculation errors, and problem understanding deficiencies the most critical limitations. While errors
+caused by hallucinations are still present, they occur less frequently
+than other error types. As expected, tool augmentation methods reduced numerical errors across all models. Self-correction methods,
+on the other hand, did not provide consistent improvements across
+any of the tested models in any error category.
+
+5.5
+
+The Vulnerability of Self-correction
+
+We further analyze how answers change within standalone selfcorrection runs, comparing each model’s initial answer to its final
+revised answer. Across the five non-thinking models, self-correction
+worsens 342 answers and improves 233, giving a net accuracy drop
+of 2.1%. For initially correct answers that become incorrect, the
+main cause is false problem identification (69.6%), where the model
+incorrectly critiques a correct original answer and revises it into a
+wrong one. The second most common cause is over-correction in
+rounding or precision (8.7%), followed by introduced calculation
+errors (6.9%), knowledge confusion (6.0%), hallucinated constraints
+(5.4%), and answer-extraction errors (3.3%).
+For initially wrong answers that remain wrong, the major failure
+mode is simply repeating the same answer (56.1%), followed by
+producing a different wrong answer (28.1%) and identifying the
+
+wrong problem in the review step (9.8%). In contrast, when selfcorrection succeeds, it mainly does so by catching formula errors
+(28.6%), calculation errors (25.1%), conceptual errors (24.2%), reading errors (15.2%), or answer extraction errors (3.5%). By difficulty,
+self-correction degrades easy questions by 2.6%, medium questions
+by 1.8%, and hard questions by 1.1%. This decreasing degradation
+suggests that self-correction is most damaging when the model’s
+initial answer is already likely to be correct, while on harder questions there are fewer correct answers to corrupt and more real
+errors that can potentially be fixed.
+Overall, these results indicate that self-correction fails mainly
+because it depends on reliable self-evaluation. In materials science
+reasoning, checking whether a solution is correct often requires
+nearly the same domain knowledge and numerical care as solving
+the problem itself. Without an external verifier or grounded feedback, the review step can introduce false critiques, unnecessary
+changes, or incorrect repairs.
+
+6
+
+Conclusion
+
+In this work, we present MatSciBench, a college-level materials science reasoning benchmark containing 1,340 curated questions across core subdisciplines of materials science. We evaluate
+state-of-the-art thinking and non-thinking LLMs on MatSciBench,
+and further test three reasoning methods for non-thinking models: basic chain-of-thought prompting, self-correction, and tool
+augmentation. The results show clear performance gaps across
+models and reveal that different reasoning methods have uneven
+effects: tool augmentation improves most non-thinking models,
+while self-correction often fails to provide reliable gains. We also
+evaluate small language models and find that they remain limited
+on knowledge-intensive scientific reasoning tasks. Beyond overall
+accuracy, we analyze model behavior across difficulty levels, reasoning efficiency, multimodal reasoning, and failure patterns. These
+analyses show that current models are constrained by difficulty in
+accurately extracting information from scientific figures, domain
+knowledge gaps, calculation errors, and problem comprehension
+failures. Overall, MatSciBench provides a structured testbed for understanding current limitations and guiding future improvements
+in materials science reasoning.
+
+MatSciBench: Benchmarking the Reasoning Ability of Large Language Models in Materials Science
+
+Limitations and Ethical Considerations
+MatSciBench is designed to be broad and fine-grained, but it cannot fully represent the entire landscape of materials science curricula. Question distribution may contain residual subjectivity, and
+some topics may be under-represented. Our evaluation results are
+also sensitive to prompting, decoding choices, and model versions;
+moreover, closed-source models limit transparency regarding training data. There are no ethical concerns about this work.
+
+Acknowledgements
+This work was partially supported by DARPA HR001126CE054,
+NIH OT2OD038003, U54OD036472, U54HG012517, U54DK097771,
+NSF 2312501, 2106859, Amazon, Optum, NEC.
+
+References
+[1] Anurag Acharya, Sai Munikoti, Aaron Hellinger, Sara Smith, Sridevi Wagle, and
+Sameera Horawalavithana. 2023. Nuclearqa: A human-made benchmark for
+language models for the nuclear domain. arXiv preprint arXiv:2310.10920 (2023).
+[2] Nawaf Alampara, Indrajeet Mandal, Pranav Khetarpal, Hargun Singh Grover,
+Mara Schilling-Wilhelmi, N M Anoop Krishnan, and Kevin Maik Jablonka. 2024.
+MaCBench: A multimodal chemistry and materials science benchmark. In AI for
+Accelerated Materials Design - NeurIPS 2024. https://openreview.net/forum
+?id=Q2PNocDcp6
+[3] Avinash Anand, Janak Kapuriya, Apoorv Singh, Jay Saraf, Naman Lal, Astha
+Verma, Rushali Gupta, and Rajiv Shah. 2024. Mm-phyqa: Multimodal physics
+question-answering with multi-image cot prompting. In Pacific-Asia Conference
+on Knowledge Discovery and Data Mining. Springer, 53–64.
+[4] Anthropic. 2025. Claude 3.7 Sonnet and Claude Code. https://www.anthropi
+c.com/news/claude-3-7-sonnet. Accessed: 2025-05-15.
+[5] Anthropic. 2025. Introducing Claude 4. https://www.anthropic.com/news/c
+laude-4.
+[6] Michael F. Ashby, Hugh Shercliff, and David Cebon. 2019. Materials: Engineering,
+Science, Processing and Design (4 ed.). Butterworth-Heinemann, Oxford, UK.
+[7] Donald R. Askeland, Pradeep P. Fulay, and Wendelin J. Wright. 2011. The Science
+and Engineering of Materials, SI Edition (6th ed.). CL-Engineering.
+[8] M. W. Barsoum. 2003. Fundamentals of ceramics.
+[9] Peter Belcak, Greg Heinrich, Shizhe Diao, Yonggan Fu, Xin Dong, Saurav Muralidharan, Yingyan Celine Lin, and Pavlo Molchanov. 2025. Small Language
+Models are the Future of Agentic AI. arXiv preprint arXiv:2506.02153 (2025).
+[10] ByteDance Seed, Jiaze Chen, Tiantian Fan, Xin Liu, Lingjun Liu, Zhiqi Lin, Mingxuan Wang, Chengyi Wang, Xiangpeng Wei, Wenyuan Xu, Yufeng Yuan, Yu Yue,
+Lin Yan, Qiying Yu, Xiaochen Zuo, Chi Zhang, Ruofei Zhu, Zhecheng An, Zhihao Bai, Yu Bao, Xingyan Bin, Jiangjie Chen, Feng Chen, Hongmin Chen, Riwei
+Chen, Liangqiang Chen, Zixin Chen, Jinsong Chen, Siyan Chen, Kaiyuan Chen,
+Zhi Chen, Jin Chen, Jiecao Chen, Jinxin Chi, Weinan Dai, Ning Dai, Jiahui Dai,
+Shihan Dou, Yantao Du, Zhengyin Du, Jianhui Duan, Chen Dun, Ting-Han Fan,
+Jiazhan Feng, Junda Feng, Ziyuan Feng, Yuwei Fu, Wenqi Fu, Hanjie Fu, Hao
+Ge, Hongyi Guo, Mingji Han, Li Han, Wenhao Hao, Xintong Hao, Qianyu He,
+Jerry He, Feng He, Wen Heng, Zehua Hong, Qi Hou, Liang Hu, Shengding Hu,
+Nan Hu, Kai Hua, Qi Huang, Ziyue Huang, Hongzhi Huang, Zihao Huang, Ting
+Huang, Wenhao Huang, Wei Jia, Bin Jia, Xiaoying Jia, Yuhua Jiang, Haobin Jiang,
+Ziheng Jiang, Kaihua Jiang, Chengquan Jiang, Jianpeng Jiao, Xiaoran Jin, Xing Jin,
+Xunhao Lai, Zheng Li, Xiang Li, Liyi Li, Hongkai Li, Zheng Li, Shengxian Wan,
+Ya Wang, Yunshui Li, Chenggang Li, Niuniu Li, Siyu Li, Xi Li, Xiao Li, Aoyan
+Li, Yuntao Li, Nianning Liang, Xinnian Liang, Haibin Lin, Weijian Lin, Ye Lin,
+Zhicheng Liu, Guanlin Liu, Guanlin Liu, Chenxiao Liu, Yan Liu, Gaohong Liu,
+Juncai Liu, Chundian Liu, Deyi Liu, Kaibo Liu, Siyao Liu, Qi Liu, Yongfei Liu,
+Kang Liu, Gan Liu, Boyi Liu, Rui Long, Weiqiang Lou, Chenwei Lou, Xiang Luo,
+Yao Luo, Caiping Lv, Heyang Lv, Bole Ma, Qianli Ma, Hongzhi Ma, Yiyuan Ma,
+Jin Ma, Wenchang Ma, Tingting Ma, Chen Mao, Qiyang Min, Zhe Nan, Guanghan Ning, Jinxiang Ou, Haojie Pan, Renming Pang, Yanghua Peng, Tao Peng,
+Lihua Qian, Lihua Qian, Mu Qiao, Meng Qu, Cheng Ren, Hongbin Ren, Yong
+Shan, Wei Shen, Ke Shen, Kai Shen, Guangming Sheng, Jinlong Shi, Wenlei Shi,
+Guang Shi, Shuai Shuai Cao, Yuxin Song, Zuquan Song, Jing Su, Yifan Sun, Tao
+Sun, Zewei Sun, Borui Wan, Zihan Wang, Xiaohui Wang, Xi Wang, Shuguang
+Wang, Jun Wang, Qinlong Wang, Chenyuan Wang, Shuai Wang, Zihan Wang,
+Changbao Wang, Jiaqiang Wang, Shihang Wang, Xuwu Wang, Zaiyuan Wang,
+Yuxuan Wang, Wenqi Wang, Taiqing Wang, Chengzhi Wei, Houmin Wei, Ziyun
+Wei, Shufa Wei, Zheng Wu, Yonghui Wu, Yangjun Wu, Bohong Wu, Shuang
+Wu, Jingqiao Wu, Ning Wu, Shuangzhi Wu, Jianmin Wu, Chenguang Xi, Fan
+Xia, Yuqiao Xian, Liang Xiang, Boren Xiang, Bowen Xiao, Zhen Xiao, Xia Xiao,
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Yongsheng Xiao, Chao Xin, Shulin Xin, Yuwen Xiong, Jingjing Xu, Ziwen Xu,
+Chenyin Xu, Jiayi Xu, Yifan Xu, Wei Xu, Yufei Xu, Shikun Xu, Shipeng Yan, Shen
+Yan, Qingping Yang, Xi Yang, Tianhao Yang, Yuehang Yang, Yuan Yang, Ximing
+Yang, Zeyu Yang, Guang Yang, Yifan Yang, Xuesong Yao, Bairen Yi, Fan Yin,
+Jianian Yin, Ziqiang Ying, Xiangyu Yu, Hongli Yu, Song Yu, Menghan Yu, Huan
+Yu, Siyu Yuan, Jun Yuan, Yutao Zeng, Tianyang Zhan, Zheng Zhang, Yun Zhang,
+Mofan Zhang, Wang Zhang, Ru Zhang, Zhi Zhang, Tianqi Zhang, Xinyi Zhang,
+Zhexi Zhang, Sijun Zhang, Wenqiang Zhang, Xiangxiang Zhang, Yongtao Zhang,
+Yuyu Zhang, Ge Zhang, He Zhang, Yue Zhang, Renjie Zheng, Ningxin Zheng,
+Zhuolin Zheng, Yaowei Zheng, Chen Zheng, Xiaoyun Zhi, Wanjun Zhong, Cheng
+Zhong, Zheng Zhong, Baoquan Zhong, Xun Zhou, Na Zhou, Huan Zhou, Hang
+Zhu, Defa Zhu, Wenjia Zhu, and Lei Zuo. 2025. Seed1.5-Thinking: Advancing Superb Reasoning Models with Reinforcement Learning. arXiv:2504.13914 [cs.CL]
+https://arxiv.org/abs/2504.13914
+[11] William D. Callister and David G. Rethwisch. 2016. Fundamentals of Materials
+Science and Engineering: An Integrated Approach (5 ed.). Wiley Global Education.
+[12] William D Callister Jr and David G Rethwisch. 2020. Materials science and
+engineering: an introduction. John wiley & sons.
+[13] Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun,
+Lukasz Kaiser, Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano,
+et al. 2021. Training verifiers to solve math word problems. arXiv preprint
+arXiv:2110.14168 (2021).
+[14] DeepMind. 2024. AI achieves silver-medal standard solving International Mathematical Olympiad problems. https://deepmind.google/discover/blog/aisolves-imo-problems-at-silver-medal-level/
+[15] DeepSeek-AI, Aixin Liu, Bei Feng, Bing Xue, Bingxuan Wang, Bochao Wu,
+Chengda Lu, Chenggang Zhao, Chengqi Deng, Chenyu Zhang, Chong Ruan,
+Damai Dai, Daya Guo, Dejian Yang, Deli Chen, Dongjie Ji, Erhang Li, Fangyun
+Lin, Fucong Dai, Fuli Luo, Guangbo Hao, Guanting Chen, Guowei Li, H. Zhang,
+Han Bao, Hanwei Xu, Haocheng Wang, Haowei Zhang, Honghui Ding, Huajian
+Xin, Huazuo Gao, Hui Li, Hui Qu, J. L. Cai, Jian Liang, Jianzhong Guo, Jiaqi
+Ni, Jiashi Li, Jiawei Wang, Jin Chen, Jingchang Chen, Jingyang Yuan, Junjie
+Qiu, Junlong Li, Junxiao Song, Kai Dong, Kai Hu, Kaige Gao, Kang Guan, Kexin
+Huang, Kuai Yu, Lean Wang, Lecong Zhang, Lei Xu, Leyi Xia, Liang Zhao, Litong
+Wang, Liyue Zhang, Meng Li, Miaojun Wang, Mingchuan Zhang, Minghua Zhang,
+Minghui Tang, Mingming Li, Ning Tian, Panpan Huang, Peiyi Wang, Peng Zhang,
+Qiancheng Wang, Qihao Zhu, Qinyu Chen, Qiushi Du, R. J. Chen, R. L. Jin, Ruiqi
+Ge, Ruisong Zhang, Ruizhe Pan, Runji Wang, Runxin Xu, Ruoyu Zhang, Ruyi
+Chen, S. S. Li, Shanghao Lu, Shangyan Zhou, Shanhuang Chen, Shaoqing Wu,
+Shengfeng Ye, Shengfeng Ye, Shirong Ma, Shiyu Wang, Shuang Zhou, Shuiping
+Yu, Shunfeng Zhou, Shuting Pan, T. Wang, Tao Yun, Tian Pei, Tianyu Sun, W. L.
+Xiao, Wangding Zeng, Wanjia Zhao, Wei An, Wen Liu, Wenfeng Liang, Wenjun
+Gao, Wenqin Yu, Wentao Zhang, X. Q. Li, Xiangyue Jin, Xianzu Wang, Xiao Bi,
+Xiaodong Liu, Xiaohan Wang, Xiaojin Shen, Xiaokang Chen, Xiaokang Zhang,
+Xiaosha Chen, Xiaotao Nie, Xiaowen Sun, Xiaoxiang Wang, Xin Cheng, Xin
+Liu, Xin Xie, Xingchao Liu, Xingkai Yu, Xinnan Song, Xinxia Shan, Xinyi Zhou,
+Xinyu Yang, Xinyuan Li, Xuecheng Su, Xuheng Lin, Y. K. Li, Y. Q. Wang, Y. X.
+Wei, Y. X. Zhu, Yang Zhang, Yanhong Xu, Yanhong Xu, Yanping Huang, Yao
+Li, Yao Zhao, Yaofeng Sun, Yaohui Li, Yaohui Wang, Yi Yu, Yi Zheng, Yichao
+Zhang, Yifan Shi, Yiliang Xiong, Ying He, Ying Tang, Yishi Piao, Yisong Wang,
+Yixuan Tan, Yiyang Ma, Yiyuan Liu, Yongqiang Guo, Yu Wu, Yuan Ou, Yuchen
+Zhu, Yuduan Wang, Yue Gong, Yuheng Zou, Yujia He, Yukun Zha, Yunfan Xiong,
+Yunxian Ma, Yuting Yan, Yuxiang Luo, Yuxiang You, Yuxuan Liu, Yuyang Zhou,
+Z. F. Wu, Z. Z. Ren, Zehui Ren, Zhangli Sha, Zhe Fu, Zhean Xu, Zhen Huang, Zhen
+Zhang, Zhenda Xie, Zhengyan Zhang, Zhewen Hao, Zhibin Gou, Zhicheng Ma,
+Zhigang Yan, Zhihong Shao, Zhipeng Xu, Zhiyu Wu, Zhongyu Zhang, Zhuoshu
+Li, Zihui Gu, Zijia Zhu, Zijun Liu, Zilin Li, Ziwei Xie, Ziyang Song, Ziyi Gao, and
+Zizheng Pan. 2025. DeepSeek-V3 Technical Report. arXiv:2412.19437 [cs.CL]
+https://arxiv.org/abs/2412.19437
+[16] Jingxuan Fan, Sarah Martinson, Erik Y Wang, Kaylie Hausknecht, Jonah Brenner,
+Danxian Liu, Nianli Peng, Corey Wang, and Michael P Brenner. 2024. HARDMath:
+A Benchmark Dataset for Challenging Problems in Applied Mathematics. arXiv
+preprint arXiv:2410.09988 (2024).
+[17] Mahmoud M Farag. 2020. Materials and process selection for engineering design.
+CRC press.
+[18] Kehua Feng, Xinyi Shen, Weijie Wang, Xiang Zhuang, Yuqi Tang, Qiang Zhang,
+and Keyan Ding. 2025. SciKnowEval: Evaluating Multi-level Scientific Knowledge
+of Large Language Models. arXiv:2406.09098 [cs.CL] https://arxiv.org/ab
+s/2406.09098
+[19] Kaiyue Feng, Yilun Zhao, Yixin Liu, Tianyu Yang, Chen Zhao, John Sous, and
+Arman Cohan. 2025. PHYSICS: Benchmarking Foundation Models on UniversityLevel Physics Problem Solving. arXiv:2503.21821 [cs.AI] https://arxiv.org/
+abs/2503.21821
+[20] Joel R Fried. 2014. Polymer science and technology. Pearson Education.
+[21] Pradeep Fulay and Jung-Kun Lee. 2016. Electronic, magnetic, and optical materials.
+Crc Press.
+[22] Gemma Team, Aishwarya Kamath, Johan Ferret, Shreya Pathak, Nino Vieillard, Ramona Merhej, Sarah Perrin, Tatiana Matejovicova, Alexandre Ramé,
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Morgane Rivière, Louis Rouillard, Thomas Mesnard, Geoffrey Cideron, Jean
+bastien Grill, Sabela Ramos, Edouard Yvinec, Michelle Casbon, Etienne Pot, Ivo
+Penchev, Gaël Liu, Francesco Visin, Kathleen Kenealy, Lucas Beyer, Xiaohai Zhai,
+Anton Tsitsulin, Robert Busa-Fekete, Alex Feng, Noveen Sachdeva, Benjamin
+Coleman, Yi Gao, Basil Mustafa, Iain Barr, Emilio Parisotto, David Tian, Matan
+Eyal, Colin Cherry, Jan-Thorsten Peter, Danila Sinopalnikov, Surya Bhupatiraju,
+Rishabh Agarwal, Mehran Kazemi, Dan Malkin, Ravin Kumar, David Vilar, Idan
+Brusilovsky, Jiaming Luo, Andreas Steiner, Abe Friesen, Abhanshu Sharma, Abheesht Sharma, Adi Mayrav Gilady, Adrian Goedeckemeyer, Alaa Saade, Alex
+Feng, Alexander Kolesnikov, Alexei Bendebury, Alvin Abdagic, Amit Vadi, András
+György, André Susano Pinto, Anil Das, Ankur Bapna, Antoine Miech, Antoine
+Yang, Antonia Paterson, Ashish Shenoy, Ayan Chakrabarti, Bilal Piot, Bo Wu,
+Bobak Shahriari, Bryce Petrini, Charlie Chen, Charline Le Lan, Christopher A.
+Choquette-Choo, CJ Carey, Cormac Brick, Daniel Deutsch, Danielle Eisenbud,
+Dee Cattle, Derek Cheng, Dimitris Paparas, Divyashree Shivakumar Sreepathihalli, Doug Reid, Dustin Tran, Dustin Zelle, Eric Noland, Erwin Huizenga, Eugene
+Kharitonov, Frederick Liu, Gagik Amirkhanyan, Glenn Cameron, Hadi Hashemi,
+Hanna Klimczak-Plucińska, Harman Singh, Harsh Mehta, Harshal Tushar Lehri,
+Hussein Hazimeh, Ian Ballantyne, Idan Szpektor, Ivan Nardini, Jean PougetAbadie, Jetha Chan, Joe Stanton, John Wieting, Jonathan Lai, Jordi Orbay, Joseph
+Fernandez, Josh Newlan, Ju yeong Ji, Jyotinder Singh, Kat Black, Kathy Yu,
+Kevin Hui, Kiran Vodrahalli, Klaus Greff, Linhai Qiu, Marcella Valentine, Marina
+Coelho, Marvin Ritter, Matt Hoffman, Matthew Watson, Mayank Chaturvedi,
+Michael Moynihan, Min Ma, Nabila Babar, Natasha Noy, Nathan Byrd, Nick
+Roy, Nikola Momchev, Nilay Chauhan, Noveen Sachdeva, Oskar Bunyan, Pankil
+Botarda, Paul Caron, Paul Kishan Rubenstein, Phil Culliton, Philipp Schmid,
+Pier Giuseppe Sessa, Pingmei Xu, Piotr Stanczyk, Pouya Tafti, Rakesh Shivanna, Renjie Wu, Renke Pan, Reza Rokni, Rob Willoughby, Rohith Vallu, Ryan
+Mullins, Sammy Jerome, Sara Smoot, Sertan Girgin, Shariq Iqbal, Shashir Reddy,
+Shruti Sheth, Siim Põder, Sijal Bhatnagar, Sindhu Raghuram Panyam, Sivan
+Eiger, Susan Zhang, Tianqi Liu, Trevor Yacovone, Tyler Liechty, Uday Kalra,
+Utku Evci, Vedant Misra, Vincent Roseberry, Vlad Feinberg, Vlad Kolesnikov,
+Woohyun Han, Woosuk Kwon, Xi Chen, Yinlam Chow, Yuvein Zhu, Zichuan
+Wei, Zoltan Egyed, Victor Cotruta, Minh Giang, Phoebe Kirk, Anand Rao, Kat
+Black, Nabila Babar, Jessica Lo, Erica Moreira, Luiz Gustavo Martins, Omar Sanseviero, Lucas Gonzalez, Zach Gleicher, Tris Warkentin, Vahab Mirrokni, Evan
+Senter, Eli Collins, Joelle Barral, Zoubin Ghahramani, Raia Hadsell, Yossi Matias,
+D. Sculley, Slav Petrov, Noah Fiedel, Noam Shazeer, Oriol Vinyals, Jeff Dean,
+Demis Hassabis, Koray Kavukcuoglu, Clement Farabet, Elena Buchatskaya, JeanBaptiste Alayrac, Rohan Anil, Dmitry Lepikhin, Sebastian Borgeaud, Olivier
+Bachem, Armand Joulin, Alek Andreev, Cassidy Hardin, Robert Dadashi, and
+Léonard Hussenot. 2025. Gemma 3 Technical Report. arXiv:2503.19786 [cs.CL]
+https://arxiv.org/abs/2503.19786
+[23] Elliot Glazer, Ege Erdil, Tamay Besiroglu, Diego Chicharro, Evan Chen, Alex
+Gunning, Caroline Falkman Olsson, Jean-Stanislas Denain, Anson Ho, Emily
+de Oliveira Santos, et al. 2024. Frontiermath: A benchmark for evaluating advanced mathematical reasoning in ai. arXiv preprint arXiv:2411.04872 (2024).
+[24] Google DeepMind. 2025. Gemini 2.5: Our most intelligent AI model. https:
+//blog.google/innovation- and- ai/models- and- research/googledeepmind/gemini-model-thinking-updates-march-2025/#gemini-2-5thinking.
+[25] Zhibin Gou, Zhihong Shao, Yeyun Gong, Yelong Shen, Yujiu Yang, Minlie Huang,
+Nan Duan, and Weizhu Chen. 2023. Tora: A tool-integrated reasoning agent for
+mathematical problem solving. arXiv preprint arXiv:2309.17452 (2023).
+[26] Etash Guha, Ryan Marten, Sedrick Keh, Negin Raoof, Georgios Smyrnis, Hritik
+Bansal, Marianna Nezhurina, Jean Mercat, Trung Vu, Zayne Sprague, Ashima
+Suvarna, Benjamin Feuer, Liangyu Chen, Zaid Khan, Eric Frankel, Sachin Grover,
+Caroline Choi, Niklas Muennighoff, Shiye Su, Wanjia Zhao, John Yang, Shreyas
+Pimpalgaonkar, Kartik Sharma, Charlie Cheng-Jie Ji, Yichuan Deng, Sarah Pratt,
+Vivek Ramanujan, Jon Saad-Falcon, Jeffrey Li, Achal Dave, Alon Albalak, Kushal
+Arora, Blake Wulfe, Chinmay Hegde, Greg Durrett, Sewoong Oh, Mohit Bansal,
+Saadia Gabriel, Aditya Grover, Kai-Wei Chang, Vaishaal Shankar, Aaron Gokaslan,
+Mike A. Merrill, Tatsunori Hashimoto, Yejin Choi, Jenia Jitsev, Reinhard Heckel,
+Maheswaran Sathiamoorthy, Alexandros G. Dimakis, and Ludwig Schmidt. 2025.
+OpenThoughts: Data Recipes for Reasoning Models. arXiv:2506.04178 [cs.LG]
+https://arxiv.org/abs/2506.04178
+[27] Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Peiyi Wang, Qihao Zhu,
+Runxin Xu, Ruoyu Zhang, Shirong Ma, Xiao Bi, Xiaokang Zhang, Xingkai Yu,
+Yu Wu, Z. F. Wu, Zhibin Gou, Zhihong Shao, Zhuoshu Li, Ziyi Gao, Aixin Liu,
+Bing Xue, Bingxuan Wang, Bochao Wu, Bei Feng, Chengda Lu, Chenggang
+Zhao, Chengqi Deng, Chong Ruan, Damai Dai, Deli Chen, Dongjie Ji, Erhang Li,
+Fangyun Lin, Fucong Dai, Fuli Luo, Guangbo Hao, Guanting Chen, Guowei Li,
+H. Zhang, Hanwei Xu, Honghui Ding, Huazuo Gao, Hui Qu, Hui Li, Jianzhong
+Guo, Jiashi Li, Jingchang Chen, Jingyang Yuan, Jinhao Tu, Junjie Qiu, Junlong
+Li, J. L. Cai, Jiaqi Ni, Jian Liang, Jin Chen, Kai Dong, Kai Hu, Kaichao You, Kaige
+Gao, Kang Guan, Kexin Huang, Kuai Yu, Lean Wang, Lecong Zhang, Liang
+Zhao, Litong Wang, Liyue Zhang, Lei Xu, Leyi Xia, Mingchuan Zhang, Minghua
+Zhang, Minghui Tang, Mingxu Zhou, Meng Li, Miaojun Wang, Mingming Li,
+
+Zhang et al.
+
+Ning Tian, Panpan Huang, Peng Zhang, Qiancheng Wang, Qinyu Chen, Qiushi
+Du, Ruiqi Ge, Ruisong Zhang, Ruizhe Pan, Runji Wang, R. J. Chen, R. L. Jin,
+Ruyi Chen, Shanghao Lu, Shangyan Zhou, Shanhuang Chen, Shengfeng Ye,
+Shiyu Wang, Shuiping Yu, Shunfeng Zhou, Shuting Pan, S. S. Li, Shuang Zhou,
+Shaoqing Wu, Tao Yun, Tian Pei, Tianyu Sun, T. Wang, Wangding Zeng, Wen Liu,
+Wenfeng Liang, Wenjun Gao, Wenqin Yu, Wentao Zhang, W. L. Xiao, Wei An,
+Xiaodong Liu, Xiaohan Wang, Xiaokang Chen, Xiaotao Nie, Xin Cheng, Xin Liu,
+Xin Xie, Xingchao Liu, Xinyu Yang, Xinyuan Li, Xuecheng Su, Xuheng Lin, X. Q.
+Li, Xiangyue Jin, Xiaojin Shen, Xiaosha Chen, Xiaowen Sun, Xiaoxiang Wang,
+Xinnan Song, Xinyi Zhou, Xianzu Wang, Xinxia Shan, Y. K. Li, Y. Q. Wang, Y. X.
+Wei, Yang Zhang, Yanhong Xu, Yao Li, Yao Zhao, Yaofeng Sun, Yaohui Wang, Yi
+Yu, Yichao Zhang, Yifan Shi, Yiliang Xiong, Ying He, Yishi Piao, Yisong Wang,
+Yixuan Tan, Yiyang Ma, Yiyuan Liu, Yongqiang Guo, Yuan Ou, Yuduan Wang, Yue
+Gong, Yuheng Zou, Yujia He, Yunfan Xiong, Yuxiang Luo, Yuxiang You, Yuxuan
+Liu, Yuyang Zhou, Y. X. Zhu, Yanping Huang, Yaohui Li, Yi Zheng, Yuchen Zhu,
+Yunxian Ma, Ying Tang, Yukun Zha, Yuting Yan, Z. Z. Ren, Zehui Ren, Zhangli
+Sha, Zhe Fu, Zhean Xu, Zhenda Xie, Zhengyan Zhang, Zhewen Hao, Zhicheng
+Ma, Zhigang Yan, Zhiyu Wu, Zihui Gu, Zijia Zhu, Zijun Liu, Zilin Li, Ziwei Xie,
+Ziyang Song, Zizheng Pan, Zhen Huang, Zhipeng Xu, Zhongyu Zhang, and Zhen
+Zhang. 2025. DeepSeek-R1 incentivizes reasoning in LLMs through reinforcement
+learning. Nature 645, 8081 (2025), 633–638. doi:10.1038/s41586-025-09422-z
+[28] Ashim Gupta, Vivek Gupta, Shuo Zhang, Yujie He, Ning Zhang, and Shalin Shah.
+2024. Enhancing question answering on charts through effective pre-training
+tasks. arXiv preprint arXiv:2406.10085 (2024).
+[29] Chaoqun He, Renjie Luo, Yuzhuo Bai, Shengding Hu, Zhen Leng Thai, Junhao
+Shen, Jinyi Hu, Xu Han, Yujie Huang, Yuxiang Zhang, et al. 2024. Olympiadbench: A challenging benchmark for promoting agi with olympiad-level bilingual
+multimodal scientific problems. arXiv preprint arXiv:2402.14008 (2024).
+[30] Dan Hendrycks, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric
+Tang, Dawn Song, and Jacob Steinhardt. 2021. Measuring mathematical problem
+solving with the math dataset. arXiv preprint arXiv:2103.03874 (2021).
+[31] William F Hosford. 2010. Mechanical behavior of materials. Cambridge university
+press.
+[32] William F Hosford. 2010. Physical metallurgy. CRC press.
+[33] Jie Huang, Xinyun Chen, Swaroop Mishra, Huaixiu Steven Zheng, Adams Wei Yu,
+Xinying Song, and Denny Zhou. 2023. Large language models cannot self-correct
+reasoning yet. arXiv preprint arXiv:2310.01798 (2023).
+[34] Yuqing Huang, Rongyang Zhang, Xuesong He, Xuyang Zhi, Hao Wang, Xin
+Li, Feiyang Xu, Deguang Liu, Huadong Liang, Yi Li, et al. 2024. ChemEval: A
+Comprehensive Multi-Level Chemical Evaluation for Large Language Models.
+arXiv preprint arXiv:2409.13989 (2024).
+[35] Zhen Huang, Zengzhi Wang, Shijie Xia, Xuefeng Li, Haoyang Zou, Ruijie Xu,
+Run-Ze Fan, Lyumanshan Ye, Ethan Chern, Yixin Ye, et al. 2024. Olympicarena:
+Benchmarking multi-discipline cognitive reasoning for superintelligent ai. Advances in Neural Information Processing Systems 37 (2024), 19209–19253.
+[36] Geunwoo Kim, Pierre Baldi, and Stephen McAleer. 2023. Language models can
+solve computer tasks. Advances in Neural Information Processing Systems 36
+(2023), 39648–39677.
+[37] Chenyue Li, Wen Deng, Mengqian Lu, and Binhang Yuan. 2025. AtmosSciBench: Evaluating the Recent Advance of Large Language Model for Atmospheric
+Science. arXiv preprint arXiv:2502.01159 (2025).
+[38] Pan Lu, Hritik Bansal, Tony Xia, Jiacheng Liu, Chunyuan Li, Hannaneh Hajishirzi,
+Hao Cheng, Kai-Wei Chang, Michel Galley, and Jianfeng Gao. 2023. Mathvista:
+Evaluating mathematical reasoning of foundation models in visual contexts.
+arXiv preprint arXiv:2310.02255 (2023).
+[39] Pan Lu, Swaroop Mishra, Tony Xia, Liang Qiu, Kai-Wei Chang, Song-Chun
+Zhu, Oyvind Tafjord, Peter Clark, and Ashwin Kalyan. 2022. Learn to Explain:
+Multimodal Reasoning via Thought Chains for Science Question Answering.
+arXiv:2209.09513 [cs.CL] https://arxiv.org/abs/2209.09513
+[40] M-A-P Team, Xinrun Du, Yifan Yao, Kaijing Ma, Bingli Wang, Tianyu Zheng,
+King Zhu, Minghao Liu, Yiming Liang, Xiaolong Jin, Zhenlin Wei, Chujie Zheng,
+Kaixin Deng, Shawn Gavin, Shian Jia, Sichao Jiang, Yiyan Liao, Rui Li, Qinrui Li,
+Sirun Li, Yizhi Li, Yunwen Li, David Ma, Yuansheng Ni, Haoran Que, Qiyao Wang,
+Zhoufutu Wen, Siwei Wu, Tyshawn Hsing, Ming Xu, Zhenzhu Yang, Zekun Moore
+Wang, Junting Zhou, Yuelin Bai, Xingyuan Bu, Chenglin Cai, Liang Chen, Yifan
+Chen, Chengtuo Cheng, Tianhao Cheng, Keyi Ding, Siming Huang, Yun Huang,
+Yaoru Li, Yizhe Li, Zhaoqun Li, Tianhao Liang, Chengdong Lin, Hongquan Lin,
+Yinghao Ma, Tianyang Pang, Zhongyuan Peng, Zifan Peng, Qige Qi, Shi Qiu,
+Xingwei Qu, Shanghaoran Quan, Yizhou Tan, Zili Wang, Chenqing Wang, Hao
+Wang, Yiya Wang, Yubo Wang, Jiajun Xu, Kexin Yang, Ruibin Yuan, Yuanhao Yue,
+Tianyang Zhan, Chun Zhang, Jinyang Zhang, Xiyue Zhang, Xingjian Zhang, Yue
+Zhang, Yongchi Zhao, Xiangyu Zheng, Chenghua Zhong, Yang Gao, Zhoujun
+Li, Dayiheng Liu, Qian Liu, Tianyu Liu, Shiwen Ni, Junran Peng, Yujia Qin,
+Wenbo Su, Guoyin Wang, Shi Wang, Jian Yang, Min Yang, Meng Cao, Xiang Yue,
+Zhaoxiang Zhang, Wangchunshu Zhou, Jiaheng Liu, Qunshu Lin, Wenhao Huang,
+and Ge Zhang. 2025. SuperGPQA: Scaling LLM Evaluation across 285 Graduate
+Disciplines. arXiv:2502.14739 [cs.CL] https://arxiv.org/abs/2502.14739
+
+MatSciBench: Benchmarking the Reasoning Ability of Large Language Models in Materials Science
+
+[41] Mingyu Derek Ma, Chenchen Ye, Yu Yan, Xiaoxuan Wang, Peipei Ping, Timothy S
+Chang, and Wei Wang. 2024. CliBench: A Multifaceted and Multigranular Evaluation of Large Language Models for Clinical Decision Making. arXiv preprint
+arXiv:2406.09923 (2024).
+[42] Yubo Ma, Zhibin Gou, Junheng Hao, Ruochen Xu, Shuohang Wang, Liangming Pan, Yujiu Yang, Yixin Cao, Aixin Sun, Hany Awadalla, et al. 2024. Sciagent: Tool-augmented language models for scientific reasoning. arXiv preprint
+arXiv:2402.11451 (2024).
+[43] Pragati Shuddhodhan Meshram, Swetha Karthikeyan, Bhavya Bhavya, and Suma
+Bhat. 2025. ElectroVizQA: How well do Multi-modal LLMs perform in Electronics
+Visual Question Answering? arXiv:2412.00102 [cs.CV] https://arxiv.org/ab
+s/2412.00102
+[44] Meta AI. 2025. The Llama 4 herd: The beginning of a new era of natively
+multimodal AI innovation. https://ai.meta.com/blog/llama-4-multimod
+al-intelligence/. Accessed: 2025-05-15.
+[45] Nitesh Methani, Pritha Ganguly, Mitesh M Khapra, and Pratyush Kumar. 2020.
+Plotqa: Reasoning over scientific plots. In Proceedings of the ieee/cvf winter conference on applications of computer vision. 1527–1536.
+[46] Iman Mirzadeh, Keivan Alizadeh, Hooman Shahrokhi, Oncel Tuzel, Samy Bengio,
+and Mehrdad Farajtabar. 2024. Gsm-symbolic: Understanding the limitations of
+mathematical reasoning in large language models. arXiv preprint arXiv:2410.05229
+(2024).
+[47] Mistral AI Team. 2025. Mistral OCR. https://mistral.ai/news/mistral-ocr
+[48] OpenAI. 2025. Introducing GPT-5. https://openai.com/index/introducinggpt-5/. Accessed: 2025-09-24.
+[49] OpenAI. 2025. Introducing GPT-4.1 in the API. https://openai.com/index/g
+pt-4-1/.
+[50] OpenAI. 2025. Introducing OpenAI o3 and o4-mini. https://openai.com/ind
+ex/introducing-o3-and-o4-mini/.
+[51] OpenAI. 2025. OpenAI o3-mini. https://openai.com/index/openai-o3mini/
+[52] Qwen, An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen
+Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, Huan Lin, Jian Yang,
+Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jingren Zhou, Junyang
+Lin, Kai Dang, Keming Lu, Keqin Bao, Kexin Yang, Le Yu, Mei Li, Mingfeng Xue,
+Pei Zhang, Qin Zhu, Rui Men, Runji Lin, Tianhao Li, Tianyi Tang, Tingyu Xia,
+Xingzhang Ren, Xuancheng Ren, Yang Fan, Yang Su, Yichang Zhang, Yu Wan,
+Yuqiong Liu, Zeyu Cui, Zhenru Zhang, and Zihan Qiu. 2025. Qwen2.5 Technical
+Report. arXiv:2412.15115 [cs.CL] https://arxiv.org/abs/2412.15115
+[53] David Rein, Betty Li Hou, Asa Cooper Stickland, Jackson Petty, Richard Yuanzhe
+Pang, Julien Dirani, Julian Michael, and Samuel R Bowman. 2024. Gpqa: A
+graduate-level google-proof q&a benchmark. In First Conference on Language
+Modeling.
+[54] James F. Shackelford. 2015. Introduction to Materials Science for Engineers (8 ed.).
+Pearson, Upper Saddle River, NJ.
+[55] James F. Shackelford, Young-Hwan Han, Sukyoung Kim, and Se-Hun Kwon. 2016.
+CRC Materials Science and Engineering Handbook (4 ed.). CRC Press, Boca Raton,
+FL.
+[56] Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik
+Narasimhan, and Shunyu Yao. 2023. Reflexion: Language Agents with Verbal
+Reinforcement Learning. arXiv:2303.11366 [cs.AI] https://arxiv.org/abs/
+2303.11366
+[57] Liangtai Sun, Yang Han, Zihan Zhao, Da Ma, Zhennan Shen, Baocai Chen, Lu
+Chen, and Kai Yu. 2024. Scieval: A multi-level large language model evaluation
+benchmark for scientific research. In Proceedings of the AAAI Conference on
+Artificial Intelligence, Vol. 38. 19053–19061.
+[58] Kimi Team, Yifan Bai, Yiping Bao, Y. Charles, Cheng Chen, Guanduo Chen,
+Haiting Chen, Huarong Chen, Jiahao Chen, Ningxin Chen, Ruijue Chen, Yanru
+Chen, Yuankun Chen, Yutian Chen, Zhuofu Chen, Jialei Cui, Hao Ding, Mengnan
+Dong, Angang Du, Chenzhuang Du, Dikang Du, Yulun Du, Yu Fan, Yichen Feng,
+Kelin Fu, Bofei Gao, Chenxiao Gao, Hongcheng Gao, Peizhong Gao, Tong Gao,
+Yuyao Ge, Shangyi Geng, Qizheng Gu, Xinran Gu, Longyu Guan, Haiqing Guo,
+Jianhang Guo, Xiaoru Hao, Tianhong He, Weiran He, Wenyang He, Yunjia He,
+Chao Hong, Hao Hu, Yangyang Hu, Zhenxing Hu, Weixiao Huang, Zhiqi Huang,
+Zihao Huang, Tao Jiang, Zhejun Jiang, Xinyi Jin, Yongsheng Kang, Guokun Lai,
+Cheng Li, Fang Li, Haoyang Li, Ming Li, Wentao Li, Yang Li, Yanhao Li, Yiwei Li,
+Zhaowei Li, Zheming Li, Hongzhan Lin, Xiaohan Lin, Zongyu Lin, Chengyin Liu,
+Chenyu Liu, Hongzhang Liu, Jingyuan Liu, Junqi Liu, Liang Liu, Shaowei Liu,
+T. Y. Liu, Tianwei Liu, Weizhou Liu, Yangyang Liu, Yibo Liu, Yiping Liu, Yue Liu,
+Zhengying Liu, Enzhe Lu, Haoyu Lu, Lijun Lu, Yashuo Luo, Shengling Ma, Xinyu
+Ma, Yingwei Ma, Shaoguang Mao, Jie Mei, Xin Men, Yibo Miao, Siyuan Pan, Yebo
+Peng, Ruoyu Qin, Zeyu Qin, Bowen Qu, Zeyu Shang, Lidong Shi, Shengyuan Shi,
+Feifan Song, Jianlin Su, Zhengyuan Su, Lin Sui, Xinjie Sun, Flood Sung, Yunpeng
+Tai, Heyi Tang, Jiawen Tao, Qifeng Teng, Chaoran Tian, Chensi Wang, Dinglu
+Wang, Feng Wang, Hailong Wang, Haiming Wang, Jianzhou Wang, Jiaxing Wang,
+Jinhong Wang, Shengjie Wang, Shuyi Wang, Si Wang, Xinyuan Wang, Yao Wang,
+Yejie Wang, Yiqin Wang, Yuxin Wang, Yuzhi Wang, Zhaoji Wang, Zhengtao Wang,
+Zhengtao Wang, Zhexu Wang, Chu Wei, Qianqian Wei, Haoning Wu, Wenhao
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Wu, Xingzhe Wu, Yuxin Wu, Chenjun Xiao, Jin Xie, Xiaotong Xie, Weimin
+Xiong, Boyu Xu, Jinjing Xu, L. H. Xu, Lin Xu, Suting Xu, Weixin Xu, Xinran
+Xu, Yangchuan Xu, Ziyao Xu, Jing Xu, Jing Xu, Junjie Yan, Yuzi Yan, Hao Yang,
+Xiaofei Yang, Yi Yang, Ying Yang, Zhen Yang, Zhilin Yang, Zonghan Yang, Haotian
+Yao, Xingcheng Yao, Wenjie Ye, Zhuorui Ye, Bohong Yin, Longhui Yu, Enming
+Yuan, Hongbang Yuan, Mengjie Yuan, Siyu Yuan, Haobing Zhan, Dehao Zhang,
+Hao Zhang, Wanlu Zhang, Xiaobin Zhang, Yadong Zhang, Yangkun Zhang,
+Yichi Zhang, Yizhi Zhang, Yongting Zhang, Yu Zhang, Yutao Zhang, Yutong
+Zhang, Zheng Zhang, Haotian Zhao, Yikai Zhao, Zijia Zhao, Huabin Zheng,
+Shaojie Zheng, Longguang Zhong, Jianren Zhou, Xinyu Zhou, Zaida Zhou, Jinguo
+Zhu, Zhen Zhu, Weiyu Zhuang, and Xinxing Zu. 2026. Kimi K2: Open Agentic
+Intelligence. arXiv:2507.20534 [cs.LG] https://arxiv.org/abs/2507.20534
+[59] Daniel Truhn, Jorge S Reis-Filho, and Jakob Nikolas Kather. 2023. Large language
+models should be used as scientific reasoning engines, not knowledge databases.
+Nature medicine 29, 12 (2023), 2983–2984.
+[60] George Tsoukalas, Jasper Lee, John Jennings, Jimmy Xin, Michelle Ding, Michael
+Jennings, Amitayush Thakur, and Swarat Chaudhuri. 2024. PutnamBench:
+Evaluating Neural Theorem-Provers on the Putnam Mathematical Competition.
+arXiv:2407.11214 [cs.AI] https://arxiv.org/abs/2407.11214
+[61] Xiaoxuan Wang, Ziniu Hu, Pan Lu, Yanqiao Zhu, Jieyu Zhang, Satyen Subramaniam, Arjun R Loomba, Shichang Zhang, Yizhou Sun, and Wei Wang. 2023.
+Scibench: Evaluating college-level scientific problem-solving abilities of large
+language models. arXiv preprint arXiv:2307.10635 (2023).
+[62] Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei
+Xia, Ed Chi, Quoc Le, and Denny Zhou. 2023. Chain-of-Thought Prompting
+Elicits Reasoning in Large Language Models. arXiv:2201.11903 [cs.CL] https:
+//arxiv.org/abs/2201.11903
+[63] Johannes Welbl, Nelson F Liu, and Matt Gardner. 2017. Crowdsourcing multiple
+choice science questions. arXiv preprint arXiv:1707.06209 (2017).
+[64] Ruijie Xu, Zengzhi Wang, Run-Ze Fan, and Pengfei Liu. 2024. Benchmarking
+benchmark leakage in large language models. arXiv preprint arXiv:2404.18824
+(2024).
+[65] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng,
+Bowen Yu, Chang Gao, Chengen Huang, Chenxu Lv, Chujie Zheng, Dayiheng
+Liu, Fan Zhou, Fei Huang, Feng Hu, Hao Ge, Haoran Wei, Huan Lin, Jialong
+Tang, Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jing Zhou,
+Jingren Zhou, Junyang Lin, Kai Dang, Keqin Bao, Kexin Yang, Le Yu, Lianghao
+Deng, Mei Li, Mingfeng Xue, Mingze Li, Pei Zhang, Peng Wang, Qin Zhu, Rui
+Men, Ruize Gao, Shixuan Liu, Shuang Luo, Tianhao Li, Tianyi Tang, Wenbiao Yin,
+Xingzhang Ren, Xinyu Wang, Xinyu Zhang, Xuancheng Ren, Yang Fan, Yang Su,
+Yichang Zhang, Yinger Zhang, Yu Wan, Yuqiong Liu, Zekun Wang, Zeyu Cui,
+Zhenru Zhang, Zhipeng Zhou, and Zihan Qiu. 2025. Qwen3 Technical Report.
+https://arxiv.org/abs/2505.09388. arXiv:2505.09388 [cs.CL].
+[66] An Yang, Beichen Zhang, Binyuan Hui, Bofei Gao, Bowen Yu, Chengpeng Li,
+Dayiheng Liu, Jianhong Tu, Jingren Zhou, Junyang Lin, et al. 2024. Qwen2. 5math technical report: Toward mathematical expert model via self-improvement.
+arXiv preprint arXiv:2409.12122 (2024).
+[67] Edward Yeo, Yuxuan Tong, Morry Niu, Graham Neubig, and Xiang Yue. 2025.
+Demystifying Long Chain-of-Thought Reasoning in LLMs. arXiv preprint
+arXiv:2502.03373 (2025).
+[68] Xiang Yue, Yuansheng Ni, Kai Zhang, Tianyu Zheng, Ruoqi Liu, Ge Zhang, Samuel
+Stevens, Dongfu Jiang, Weiming Ren, Yuxuan Sun, et al. 2024. Mmmu: A massive
+multi-discipline multimodal understanding and reasoning benchmark for expert
+agi. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition. 9556–9567.
+[69] Xiang Yue, Tianyu Zheng, Yuansheng Ni, Yubo Wang, Kai Zhang, Shengbang
+Tong, Yuxuan Sun, Botao Yu, Ge Zhang, Huan Sun, et al. 2024. Mmmu-pro:
+A more robust multi-discipline multimodal understanding benchmark. arXiv
+preprint arXiv:2409.02813 (2024).
+[70] Mohd Zaki, Jayadeva, Mausam, and N. M. Anoop Krishnan. 2023. MaScQA: A
+Question Answering Dataset for Investigating Materials Science Knowledge of
+Large Language Models. arXiv:2308.09115 [cs.CL] https://arxiv.org/abs/
+2308.09115
+[71] Xinyu Zhang, Yuxuan Dong, Yanrui Wu, Jiaxing Huang, Chengyou Jia, Basura
+Fernando, Mike Zheng Shou, Lingling Zhang, and Jun Liu. 2025. Physreason:
+A comprehensive benchmark towards physics-based reasoning. arXiv preprint
+arXiv:2502.12054 (2025).
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Zhang et al.
+
+A Experimental Details
+A.1 Prompts
+Prompts we used for each method are as follows. For every example, the original problem statement is sent as the user message. When a
+question has a non-empty unit field, we append the unit information to this user message before querying the model. For single-answer
+questions, we append “The unit of the answer is {unit}.” For multiple-answer questions, we append “The units of each required answer are
+{unit}, respectively.” The system prompts still instruct the model to place only the final answer inside \boxed{...} and to omit the unit from
+the boxed answer.
+The Basic System Prompt is used in basic CoT and self-correction.
+Basic System Prompt
+You are a renowned materials science engineering professor with extensive knowledge in the field. Your students have presented
+you with a challenging question related to materials science. Please reason step by step, and put the final answer inside a single box
+using \boxed{...}. Include only the final answer inside the box, without the unit.
+The tool augmentation is prompted to use Python code to improve the computation.
+Tool System Prompt
+You are a renowned materials science engineering professor with extensive knowledge in the field. Your students have presented
+you with a challenging question related to materials science. If necessary, you could write a single clean Python code block that
+computes necessary numeric values. Enclose the code in triple backticks with ```python. Please reason step by step, if no code is
+needed, put the final answer inside a single box using \boxed{...}; otherwise, wait for the user to execute the code and give you
+the execution result, and then put the final answer inside a single box using \boxed{...}. Include only the final answer inside the
+box, without the unit.
+After code execution, the model gets the results and uses the results to produce the final answer.
+Tool Summary Prompt
+Here are the results of the code execution:\n\n{code_executed}\n\nBased on these results, what is the final answer to the original
+question?
+When using the self-correction, the model is first prompted to review and find the problem from its initial response.
+Review Prompt
+Review your previous answer and find problems with your answer.
+Then, the model is prompted to improve the initial response with the problem it found.
+Revise Prompt
+Based on the problems you found, improve your answer. Please reiterate your answer, with your final answer in the form
+\boxed{answer}.
+
+

@@ -1,0 +1,208 @@
+Ethel: A Virtual Teaching Assistant
+Gerd Kortemeyer∗
+Rectorate and AI Center, ETH Zurich, 8092 Zurich, Switzerland †
+(Dated: July 30, 2024)
+
+arXiv:2407.19452v1 [physics.ed-ph] 28 Jul 2024
+
+Note: The following article has been submitted to The Physics Teacher. After it is published, it
+will be found at https://pubs.aip.org/aapt/pte
+
+Generative AI has shown potential in solving physics
+problems [1, 2] and providing feedback on assessments [3].
+However, results are sometimes still inaccurate [4], at
+the wrong level, or using notations and definitions not
+appropriate for a particular course. A possible solution
+is augmenting the prompts with course-specific reference
+materials. Also, for feedback on homework solutions and
+grading exams, the problem text and the sample solution
+or grading rubric can be injected into the prompts [5].
+Project Ethel at ETH Zurich aims to construct a virtual
+teaching assistant using these practices.
+I.
+
+large introductory physics courses. Although the system
+sometimes provided incorrect answers, a survey revealed
+that the majority of students still found it helpful or very
+helpful. Despite concerns about misplaced trust in bots
+like Ethel [14, 15], an earlier survey among 4800 of our
+students indicated they were well aware of the limitations
+of LLMs and maintained healthy skepticism towards the
+responses [16]. A critique emerged that RAG was almost
+too efficient for study purposes, as it quickly provided
+specific definitions and statements from the lecture materials, exactly what students needed assistance understanding in the first place.
+
+CHATBOT
+II.
+
+Ethel’s chatbot utilizes course-specific materials (typically PDFs) through Retrieval Augmented Generation
+(RAG) [6], employing tools such as LangChain [7] and
+OpenAI’s ada embeddings [8]; this can be implemented
+in about 400 lines of code [9, 10]. Instead of complex
+tuning, these materials are stored in a reference database
+accessible to the bot, which uses a Large Language Model
+(LLM) for interaction.
+In multilingual contexts like Switzerland, proficiency in
+several languages is essential, hence the use of OpenAI’s
+commercial GPT-4 [11]. For monolingual English applications, similar RAG functionality is achievable with
+open-weight models like Llama [12]. Regardless of the
+model type, running any LLM (“inference”) round-theclock and at-scale currently requires commercial cloudbased platforms; while university high-performance computer clusters might have the necessary GPU-power, they
+are usually designed for batch operation. This raises data
+privacy concerns, currently addressed through the university’s agreement with Azure AI Services [13].
+Figure 1 depicts a dialogue where the prompt inquires
+about “that example of the table with the lights.” This
+prompt is adequate for the bot to pinpoint the relevant
+sections from the course’s 300-page German-language
+script, displayed on the left side. Despite a subsequent
+attempt to confuse the bot involving the Doppler shift,
+it accurately identified the reference and returned to the
+original topic.
+Ethel was deployed for over 1500 students across six
+courses during the Spring semester of 2024, including two
+
+∗ kgerd@ethz.ch
+† also at Michigan State University, East Lansing, MI 48823, USA
+
+HOMEWORK FEEDBACK
+
+Ethel’s homework component gives students feedback
+on handwritten solutions like the one shown in Fig. 2.
+Students could upload these as scanned PDFs to a course
+management system. For our experiment, we converted
+them to LaTeX using a combination of Mathpix [17] and
+GPT-4V [18]; in the future, we will use GPT-4o [19].
+Based on the sample solution provided by the instructor, the system then produces feedback like the one
+shown in Fig. 3. Initially, the system was prompted to
+address the student directly and be “encouraging,” but
+over future iterations, prompts were increasingly rewritten to provide more impersonal feedback. The novelty
+effect of anthropomorphizing the system quickly wore off,
+and the system also had a tendency to use patronizing
+formulations and give unsolicited study advice.
+Students rated the feedback to be helpful and correct
+in 3/4th of the cases. Ethel tended to underestimate
+the correctness of the students’ solutions, where the issue
+was mostly handwriting recognition, which students only
+rated as accurate in about half of the cases.
+
+III.
+
+EXAM GRADING
+
+Another task of TAs is exam grading. In a study
+involving the grading of a high-stakes thermodynamics
+exam for 252 students, we garnered insights on that [20].
+The study highlighted that while LLMs struggle with numerical tasks such as counting and addition, they are
+beneficial for grading free-form exam responses due to
+their ability to handle fuzzy data probabilistically. Also
+here, though, the primary challenge was handwriting
+recognition.
+
+2
+
+FIG. 1. Example of the chatbot component of Ethel. Shown on the left is a short excerpt of the lecture script, on the right a
+dialogue with the system.
+
+FIG. 2. Student solution to a homework problem.
+
+Further analysis revealed that grading prompt granularity significantly impacts the success of automated
+grading. Using a fine-grained rubric for entire problems
+often resulted in bookkeeping mistakes and grading failures. In contrast, dividing problems into several parts
+and using a comprehensive sample solution proved more
+reliable, although it occasionally missed nuanced details
+and specific rubric weightings. Grading graphical solutions, like process diagrams, was substantially less reliable than grading mathematical derivations, with inaccuracies often due to extraneous visual elements in freehand
+
+drawings. Overall, the grading system showed high precision in identifying passing exam solutions but had low
+recall, missing about half of the other passing solutions.
+
+IV.
+
+OUTLOOK
+
+Operating Ethel cost the university $7.50 per student
+per course per semester for Azure AI Services; we will
+continue to explore open-weight options and possibilities
+to run services on-premises. For the chatbot, we plan
+
+3
+
+FIG. 3. Ethel feedback to the student solution in Fig. 2, based on and referencing the sample solution.
+
+on implementing an instructor self-serve platform, enabling automatic integration of uploaded documents with
+the course-specific chatbot. This upgrade is expected
+to include connectivity with other campus systems, such
+as lecture recordings, to utilize already generated sub-
+
+titles seamlessly. Additionally, we plan to introduce direct links to the referenced material segments, allowing
+students to easily trace the sources of the chatbot’s responses. For the assessment components, handwriting
+and graphics recognition remain the largest challenges.
+
+[1] G. Kortemeyer, Could an artificial-intelligence agent pass
+an introductory physics course?, Phys. Rev. Phys. Educ.
+Res. 19, 010132 (2023).
+[2] W. Yeadon and T. Hardy, The impact of ai in physics education: a comprehensive review from gcse to university
+levels, Physics Education 59, 025010 (2024).
+[3] G. Kortemeyer, Toward AI grading of student problem
+solutions in introductory physics: A feasibility study,
+Phys. Rev. Phys. Educ. Res. 19, 020163 (2023).
+[4] S. Küchemann, S. Steinert, N. Revenga, M. Schweinberger, Y. Dinc, K. E. Avila, and J. Kuhn, Can chatgpt support prospective teachers in physics task development?, Physical Review Physics Education Research 19,
+020128 (2023).
+[5] S. Küchemann, S. Steinert, J. Kuhn, K. Avila, and
+S. Ruzika, Large language models — valuable tools that
+require a sensitive integration into teaching and learning
+physics, The Physics Teacher 62, 400 (2024).
+[6] P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin,
+N. Goyal, H. Küttler, M. Lewis, W.-t. Yih,
+T. Rocktäschel, et al., Retrieval-augmented generation for knowledge-intensive nlp tasks, Advances in
+Neural Information Processing Systems 33, 9459 (2020).
+[7] H.
+Chase,
+LangChain,
+https://github.com/
+langchain-ai (2024), accessed: 2024-07-28.
+[8] OpenAI, OpenAI Embeddings, https://platform.
+openai.com/docs/guides/embeddings (2024), accessed:
+2024-07-28.
+[9] G. Kortemeyer, Ethel chat source code, https:
+//gitlab.ethz.ch/ethel/etheltest/-/tree/main/rag
+(2024), accessed: 2024-07-28.
+[10] G. Kortemeyer, Embeddings and RAG with Azure OpenAI API, https://cscblog.ethz.ch/index.php/2024/
+
+02/06/az-open-ai-rag-chromadb-langchain/ (2024),
+accessed: 2024-07-28.
+[11] OpenAI,
+GPT-4,
+https://openai.com/index/
+gpt-4-research/ (2024), accessed: 2024-07-28.
+[12] Meta, Llama, https://llama.meta.com (2024), accessed: 2024-07-28.
+[13] Microsoft, Azure AI Services, https://azure.
+microsoft.com/en-us/products/ai-services (2024),
+accessed: 2024-07-28.
+[14] M. N. Dahlkemper, S. Z. Lahme, and P. Klein, How do
+physics students evaluate artificial intelligence responses
+on comprehension questions? a study on the perceived
+scientific accuracy and linguistic quality of ChatGPT,
+Phys. Rev. Phys. Educ. Res. 19, 010142 (2023).
+[15] L. Ding, T. Li, S. Jiang, and A. Gapud, Students’ perceptions of using chatgpt in a physics class as a virtual
+tutor, International Journal of Educational Technology
+in Higher Education 20, 63 (2023).
+[16] F. Balabdaoui, N. Dittmann-Domenichini, H. Grosse,
+C. Schlienger, and G. Kortemeyer, A survey on students’
+use of AI at a technical university, Discover Education 3,
+51 (2024).
+[17] Mathpix, Mathpix OCR API for STEM, https://
+mathpix.com/ocr (2024), accessed: 2024-07-28.
+[18] OpenAI,
+GPT-4V(ision)
+system
+card,
+https:
+//openai.com/index/gpt-4v-system-card/
+(2024),
+accessed: 2024-07-28.
+[19] OpenAI, Hello GPT-4o, https://openai.com/index/
+hello-gpt-4o/ (2024), accessed: 2024-07-28.
+[20] G. Kortemeyer, J. Nöhl, and D. Onishchuk, Grading
+assistance for a handwritten thermodynamics exam using artificial intelligence: An exploratory study, arXiv
+preprint arXiv:2406.17859 (2024).
+
+

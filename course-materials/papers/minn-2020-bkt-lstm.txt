@@ -1,0 +1,1005 @@
+BKT-LSTM: Efficient Student Modeling
+for knowledge tracing and student performance prediction
+Sein Minn∗
+
+arXiv:2012.12218v3 [cs.AI] 8 Jun 2021
+
+Abstract
+Recently, we have seen a rapid rise in usage of online educational platforms. The personalized education became crucially important in future learning environments. Knowledge
+tracing (KT) refers to the detection of students’ knowledge
+states and predict future performance given their past outcomes for providing adaptive solution to Intelligent Tutoring Systems (ITS). Bayesian Knowledge Tracing (BKT) is a
+model to capture mastery level of each skill with psychologically meaningful parameters and widely used in successful
+tutoring systems. However, it is unable to detect learning
+transfer across skills because each skill model is learned independently and shows lower efficiency in student performance
+prediction. While recent KT models based on deep neural
+networks shows impressive predictive power but it came with
+a price. Ten of thousands of parameters in neural networks
+are unable to provide psychologically meaningful interpretation that reflect to cognitive theory. In this paper, we
+proposed an efficient student model called BKT-LSTM. It
+contains three meaningful components: individual skill mastery assessed by BKT, ability profile (learning transfer across
+skills) detected by k-means clustering and problem difficulty.
+All these components are taken into account in student’s future performance prediction by leveraging predictive power
+of LSTM. BKT-LSTM outperforms state-of-the-art student
+models in student’s performance prediction by considering
+these meaningful features instead of using binary values of
+student’s past interaction in DKT. We also conduct ablation
+studies on each of BKT-LSTM model components to examine their value and each component shows significant contribution in student’s performance prediction. Thus, it has
+potential for providing adaptive and personalized instruction
+in real-world educational systems.
+
+1
+
+Introduction
+
+Knowledge Tracing (KT) is the assessment of students’ knowledge state dynamically and the prediction
+of whether students may or may not answer a problem correctly based on past item test outcomes. KT
+leverages machine learning and data mining techniques
+to provide better assessment, enabling supportive learning feedback and adaptive instructions. By tracing the
+knowledge state of the students, we can optimize instruction for individualization and personalization.
+Knowledge Assessment methods (student models)
+were initially proposed by psychometricians to analyse
+and predict student performance in static data (e.g.
+exam data) according to cognitive theory [1]. Early
+state-of-the-art methods are either based on modeling
+∗ Inria - Lille Nord Europe, France
+
+of temporal latent variables or factor analysis with temporal features. In recent years, there has been increasing interest by researchers from computer science background to provide a solution to assess student’s knowledge proficiency and predict student performance by using data mining, machine learning and deep learning
+techniques on dynamic data. A wide array of Artificial
+Intelligence (AI) and Knowledge Representation techniques have been utilized in the field of ITS [4]. Most of
+the main AI techniques have found their way into the
+building of adaptive learning environments, and in particular for the problem of knowledge tracing, which aims
+to model the student’s state of mastery of conceptual
+or procedural knowledge from observed performance on
+tasks [5]. Besides, it shows great success in student performance prediction than early student models [2, 3].
+Recurrent Neural Networks (RNNs) models, used in the
+Deep Knowledge Tracing (DKT) approach [2], are a
+more recent example.
+Bayesian Knowledge Tracing (BKT) is the earliest sequential approach to student modeling with psychologically meaningful parameters, which works on independent skills without considering learning transfer
+across skill. While Piech [2] argued that DKT has the
+ability to model some of the learning transfer occurring across skills by taking all past student’s interaction (binary values with associated skills). However all
+these information is in hidden layer of LSTM with ten
+of thousands of parameters and unable to provide psychologically meaningful interpretation [16].DKT shows
+better predictive performance than the preceding approaches, in part because they are known to preserve
+past information in sequential data, such as student outcome traces. Thus, we proposed an efficient student
+model called BKT-LSTM, which contains three meaningful components : skill mastery of individual skills assessed by BKT, learning transfer detected by k-means
+clustering and problem difficulty and then takes these
+three components into account in student performance
+prediction by using LSTM.
+This paper is organized as follows: we review
+knowledge assessment and knowledge tracing models
+in section 2. Then we propose an efficient knowledge
+
+tracing framework in section 3. We compare with
+state-of-the-arts knowledge tracing models and perform
+(2.2)
+ablation studies in section 4. Finally, we conclude in
+log P ({θi }, {βj }|D) =
+section 5.
+
+X
+
+r log f (θi − βj ) + (1 − r)
+
+(i,j,r,t)∈D
+
+2
+
+Background
+
+In successful learning environments like Cognitive tutors
+and the ASSISTments, KT plays as a mechanism for
+tracing learners knowledge [6]. In these systems, each
+problem is labeled with underlying skills required to
+correctly answer that problem. KT can be seen as the
+task of supervised sequential learning problem. The KT
+model is given student past interactions with system
+that includes: skills S = {s1 , s2 , .., st } [18] along with
+responses R = {r1 , r2 , .., rt } and predict the probability
+of getting correct answer for next problem is mainly
+depends on mastery of corresponding skill s associated
+with problems P = {p1 , p2 , .., pt } . So we can define the
+probability of getting correct answer as p(rt = 1|st , X)
+whereX = {x1 , x2 , .., xt−1 } and xt−1 = (st−1 , rt−1 ) is a
+tuple containing response r to skill s at time t−1. Then,
+we review here best known state-of-the-art KT modeling
+methods for estimating student’s performance.
+
+log(1 − f (θi − βj )) −
+−
+
+1X 2
+θ
+2 i i
+
+1X 2
+β + C.
+2 j j
+
+BIRT leverages the information of both items and students that directly interact in the system. Maximum a
+posteriori (MAP) estimates of θi and βj are computed
+by Newton-Raphson method. BIRT shows competitive
+performance to Deep Knowledge Tracing (DKT, a neural networks based knowledge tracing model mentioned
+in section 2.4) in term of student performance prediction.
+
+2.2 Bayesian
+Knowledge
+Tracing Bayesian
+Knowledge Tracing (BKT) is the earliest sequential
+approach to model a learner’s changing knowledge
+state and is arguably the first model to relax the
+assumption on static knowledge states. In original
+2.1 Item Response Theory In standardized tests, BKT, a single skill is tested per item and the learner’s
+students’ proficiency is assessed by one static latent state of skill mastery is inferred at each time step based
+variable for example Rash Model [7] which shows a on a sequence of her previous outcomes [5].
+strong theoretical background both in terms of being
+grounded in psychometric measurement and a sound
+mathematical framework. However, it is not possible
+to perform cognitive diagnosis. IRT takes dichotomous
+p(L0)
+p(T)
+p(T)
+item response outcomes and assigns student i with a
+K
+K
+K
+proficiency θi , which is not changing during the exam.
+Each item j has its own difficulty βj .
+p(G)
+P
+P
+The main idea of IRT is estimating a probability
+p(S) P
+that student i answers item j correctly by using student
+ability and item difficulty,
+
+(2.1)
+
+Pij = logistic(θi − βj ) =
+
+1
+1 + eθi −βj
+
+Figure 1: Architecture of BKT.
+
+BKT takes four probabilities: P (L0 ): the prior
+probability of a student knows the skill; P (T ): the
+Where θ is the student proficiency on the topic probability a student, who does not currently know the
+tested, and βj is the difficulty of item j.
+skill, will know it after the next practice opportunity;
+Recently Wilson et al. proposed a Bayesian exten- P (G): the probability a student guesses a question
+sion of IRT (We will refer this model as BIRT) [9] which and gets a correct answer despite not knowing the skill
+uses Bayesian approach and regularizes on logPij by im- (guess); and P (S): the probability a student answers a
+posing independent standard normal prior distributions question incorrectly despite knowing the skill (slip).
+In a typical learning environment with BKT, the
+over each θi and βj .It maximizes on log posterior probability of {θi , βj } given the response data {r(i, j, t) ∈ D}, estimate of student mastery of a skill is continually
+where response r ∈ {0, 1} and t is the time of each at- updated every time student gives a response to an item.
+tempt.
+The probability that a student knows the skill at time
+
+t is:
+
+It does not consider student proficiency θ, because
+it assumes that θ cannot be estimated ahead of time in
+adaptive situations [12].
+
+(2.3)
+P (Lt |1) =
+
+P (Lt−1 )(1 − P (S))
+P (Lt−1 )(1 − P (S)) + (1 − P (Lt−1 ))P (G)
+
+2.4 Deep Knowledge Tracing Piech [2] introduced
+Deep Knowledge Tracing (DKT) at the NIPS 2015
+conference. Akin to BKT, it uses data in which
+(2.4)
+skills are tried and the performance outcome to predict
+P (Lt−1 )P (S)
+P (Lt |0) =
+future sequence attempts. It encodes skill and student
+P (Lt−1 )P (S) + (1 − P (Lt−1 ))(1 − P (G))
+response attempt in a one-hot feature input vector as
+input for each time t. The output layer provides the
+(2.5) P (Lt ) = P (Lt |Action)+(1−P (Lt |Action))P (T ) predicted probability that the student would answer
+that particular next problem correctly at time t + 1.
+And the probability of student applying the skill corDKT uses Long Short-Term Memory (LSTM) to
+rectly with problem at time t is computed as.
+represent the latent knowledge space of students along
+(2.6)
+with the number of practices dynamically. This model
+P (Ct ) = P (Lt−1 ).(1 − P (S)) + (1 − P (Lt−1 )).P (G)
+compactly encodes the historical information from prewhere 0 represents incorrect attempt and 1 repre- vious time steps and determines what and how much
+sents correct attempt for Action by student. First, the information to remember by using input gate, forget
+probability that a student knows the skill before the re- gate and output gate of LSTM.
+sponse is updated with Action by using the equations
+Output
+2.3 or 2.4 according to the response evidence. Then, the
+y
+y
+y
+y
+system estimates the possibility that the student learns
+the skill during the problem step by using equation 3.10.
+Several extensions of BKT have been introduced,
+h
+h
+h
+h
+h
+Hidden layers
+such as the contextualization of estimates of guessing
+and slipping parameters, estimates of the probability of
+transition from the use of help features, and estimates of
+x
+x
+x
+x
+the initial probability that the student knows the skill.
+One-hot encoded input
+Item difficulty has also been integrated in this model.
+0
+
+2.3 Performance Factors Analysis Performance
+Factor Analysis (PFA) was adapted from Learning
+Factor Analysis (LFA, [11]) to allow the creation of a
+“model overlay” that traces predictions for individual
+students with individual skills so as to provide the
+adaptive instruction to automatically remediate current
+performance [12].
+Pavlik et al. adapted the LFA model with sensitivity to the indicator of student learning performance.
+The PFA model allows conjunction by summing the contributions from all skills needed in a performance. PFA
+also relaxes the static knowledge assumption and models
+multiple skills simultaneously [12]. Its basic structure is:
+
+1
+
+2
+
+3
+
+t
+
+1
+
+2
+
+3
+
+t
+
+1
+
+2
+
+3
+
+t
+
+Figure 2: DKT unfolded architecture.
+DKT uses large numbers of artificial neurons for
+representing latent knowledge state along with a temporal dynamic structure and allows a model to learn
+the student’s knowledge state from data. It is defined
+by the following equations:
+(2.8)
+
+ht = tanh(Whx xt + Whh ht−1 + bh ),
+
+(2.9)
+
+yt = σ(Wyh ht + by ).
+
+In DKT, both tanh and the sigmoid function are
+applied element wise and parameterized by an input
+X
+weight matrix Whx , recurrent weight matrix Whh , initial
+(2.7)
+log Pij = βj +
+(γk sik + ρk fik ),
+state h10 , and output weight matrix Wyh . Biases for
+k∈KCs
+latent and output units are represented by bh and by .
+where βj : the bias for the item j; γk : the bias for
+Where xt is a one-hot encoded vector of the student
+success attempt to skill k; ρk : the bias for failure interaction xt = {st , rt } that represents the combination
+attempt to skill k; sik : the number of successful of which skill st was practiced with student response
+attempts of student i on skill k; fik : the number of rt , so xt ∈ {0, 1}2M according to number M of unique
+skills. The output yt is a vector of number of skills,
+failure attempts of student i on skill k.
+
+In the training process, the initial value of both the
+where each value represents the predicted probability
+that the student would answer that particular problem key and the value matrices are learned. Each slot of the
+with associated skill correctly. Thus the prediction of key memory are embedded with concepts and is fixed in
+rt+1 of next problem associated with skill st+1 can be the testing process.
+retrieved from vector of yt .
+3 Proposed model: BKT-LSTM
+We propose a student model called BKT-LSTM which
+can predict student’s future responses by utilizing three
+meaningful features: individual skill mastery of a student assessed by BKT and learning transfer (across
+skills) detected by k-means clustering and problem difficulty.
+
+P(st)
+ft
+∑.
+
+mt
+v
+
+v
+
+Mt-1
+
+Mt+1
+
+v
+
+Mt
+
+1-
+
+Not learned
+
+softmax
+k
+
+M
+
+et
+
+at
+
+sigmod
+
+tanh
+
+kt
+st
+
+vt
+xt
+
+p(T)
+
+Learned
+
+p(L0)
+p(G)
+p(S)
+Incorrect
+
+p(G)
+p(S)
+correct
+
+Figure 3: DKVMN architecture.
+
+Figure 4: Example of standard BKT structure.
+
+2.5 Dynamic Key-Value Memory Networks for
+Knowledge Tracing DKVMN was proposed as an alternative to DKT that is inspired from the memory
+network architecture [13]. It utilises an external memory neural network module and uses two memory slots
+called key memory and value memory to encode the
+knowledge state of students. Assessments of knowledge
+state on particular skills are stored in memory slots and
+controlled by read and write operations through additional attention mechanisms. DKVMN calculates attention weight of inputs by using key memory, which
+is immutable, and reads and writes to the corresponding value memory. DKVMN takes a skill st as query,
+estimate the probability of response p(rt |st ) to the problem with associated skill st , and then updates the value
+memory with skill and response xt {st , rt }. Note that
+DKVMN consumes more memory storage than DKT.
+The overall model architecture of DKVMN is shown
+in Figure 3. Unlike DKT, DKVMN applies read and
+write operations to perform knowledge state transitions in memory rather than unstructured state-tostate knowledge transformation in hidden layer of DKT.
+Knowledge state of a student student is traced by reading and writing to the value memory slots using attention weight computed from input skill and the key memory slots. It comprises three main steps: Reading, Prediction and Writing. In addition to these three steps,
+two other processes should be mentioned, Optimization
+and Attention. See [13] for more details.
+
+3.1 Assessing skill mastery The formulation is
+inspired by Bayesian Knowledge Tracing (BKT), a well
+known knowledge tracing model with psychologically
+meaningful parameters. BKT is a Markov model to
+infer mastery states, from “not learned” to “learned”
+and to the extent the probabilities above depend either
+on fixed parameters and on the state in the previous
+time step t − 1 in Fig 4. As we mentioned in section 2.2,
+we apply brute-force search algorithm to fit BKT. We
+have P (L0 ), P (T ), P (G), P (S) of each skill after fitting
+BKT. BKT is based on skill specific modeling and able
+to provide skill mastery of each skill P (st ) = P (Lt−1 )
+according to:
+(3.10)
+P (Lt−1 ) = P (Lt−1 |Action)+(1−P (Lt−1 |Action))P (T )
+Note that: skill mastery is not binary value and
+which is the probability of learning skill st rather than
+the probability of student applying the skill correctly
+P (Ct ) . Besides, each skill model is learned independently with four parameters. So, the time t in BKT
+only represents number of trials student practised only
+on each specific skill. Other interleaved skills are ignored during modeling of that skill. So it doesn’t consider learning transfer across skills.
+3.2 Learning Transfer A strong limitation of BKT
+is skill independent. When a student is tried on a new
+
+skill, the learning she has gained on previous skills is not
+considered relevant to the new skill tried. This is known
+as the learning transfer mechanism that is lacking in
+BKT and in most KT models.
+Intuitively, learning transfer across skills is a naturally occurring phenomena. Most people would agree
+with the observation that general domain knowledge accumulates through practice and allows the student to
+solve new problems in the same domain with greater
+success, even if that problem involves new and specific
+skills. Learning transfer implies that students are able
+to transfer their acquired skills to new situations and
+across problems involving different skills set. Models
+such as Learning Factor Analysis (LFA[11]) and Performance Factor Analysis (PFA[12]) aim to capture this
+learning transfer phenomena by including a factor that
+represents the learning accumulated on all KCs through
+practice and include this factor as a predictor of success
+in further practice. These models have been shown to
+outperform the standard BKT model in general, and
+have given rise to further research on the subject.
+In BKT, learning transfer is ignored when the
+prediction is performed. So the model can not evaluate
+which type of learning transfer that student achieved at
+current time interval in long term learning process. Skill
+mastery is estimated independently without considering
+learning transfer across skills. In DKT, LSTM uses
+single state vector to encode the temporal information
+of student knowledge state with corresponding transfer
+learning and performs state-to-state transition globally
+and unable to assess the mastery of skills and it’s ability
+profile for learning transfer.
+3.2.1 Detecting ability profile : To detect the regularities on changes of learning transfer (ability profile
+of a student) over series of time intervals in long-term
+learning process, we refined the method proposed in
+DKT-DSC [14] for better simplicity without scarifying
+it’s originality and performance. It divides student’s interactions into multiple time intervals, then encodes student past performance for estimating her ability profile
+in current time interval. The ability profile ab is encoded
+as a cluster ID and computed from the performance vector (with Equation 3.12) of length equal to the number
+of skills, and updated after each time interval by using
+all previous attempts on each skill. The success rates on
+each skill from past attempts data are transformed into
+a performance vector for clustering student i at time
+interval 1:z as follows (for brevity we omit indexing all
+terms by i in equation 3.11):
+
+(3.11)
+
+R(xj )1:z =
+
+z
+X
+(xjt )
+t=1
+
+(3.12)
+
+|Njt |
+
+,
+
+di1:z = (R(x1 )1:z , R(x2 )1:z , ..., R(xn )1:z ),
+
+where
+• xjt : the attempts of skill xj being correctly answered at time interval t; successful attempts are
+set to 1 and 0 otherwise;
+• |Njt |: the total number of practices of skill xj up
+to time interval z;
+• n: the total number of skills;
+• R(xj )1:z represents ratios of skill xj being correctly
+answered from time interval 1 to current time
+interval z by student i. This is computed for all
+skills (x1 , x2 , .., xn );
+• di1:z represents a performance vector of student i on
+all skills from time interval 1 until z.
+Each student may have a different number of total
+time intervals in the lifetime of their interactions with
+the system (see Figure. 5).
+If a student’s time interval has no attempt between
+interval 0 : z, we apply 0.5 for success rate, R(xj )1:z .
+So data contains encoded vector of student’s past
+performance and it is accumulated and updated after
+each time interval. Time interval z and student i are
+ignored in training process and only used in clustering
+process later. Then k-means algorithm is used to evaluate the temporal long-term learning ability of students
+in both training and testing at each time interval z by
+measuring euclidean distance with centroids achieved
+after training process as like in DKT-DSC [14] and assigning into nearest cluster and applied label of cluster
+abz as temporal student learning ability at time interval
+z Evalution is started after first 20 attempts and then
+after every 20 attempts have been made by a student.
+For first time interval, every student is assigned with
+initial ability profile 1 as described in Fig 5 (Right).
+By adding this cluster ID abz (ability profile) of
+what group the student belongs to, we ensure that
+these high-level skill profiles are available to the model
+for making its predictions throughout the long term
+interaction with the tutor
+3.3 Calculating problem difficulty The integration of problem difficulty do predict student performance is a distinct feature. We calculate problem difficulty by using method suggested in [15, 3]. Calculation
+
+Find Clusters
+
+Temporal learning ability
+
+Find the centroids for
+each student group
+
+Student ID
+
+Training
+Data
+
+Testing
+Data
+
+group students
+Assign student into
+a student group
+at each time interval
+
+students
+
+Training
+Data
+
+Time intervals
+
+Time Interval ID
+
+Figure 5: Evaluation process of student’s learning ability (Left) and Detecting ability profile at each time interval
+in long-term learning process of random 56 students in ASSISTments 2009 dataset (Right)
+of the difficulty level is reconfigured for more details.
+Note that, in this study, we assume each problem is
+associated with a single skill, but the difficulty is associated with problems, not with skills themselves.
+The difficulty of a problem, pj , is determined on a
+scale of 1 to 10. This scale is used as an index into
+the one-hot vector: a value of 1 is set to the cell with
+the corresponding difficulty level, and 0 for all others.
+Problem difficulty level P D(Pj ) is calculated as:
+(
+δ(pj ), if |Nj |≥ 4
+(3.13) difficulty level(pj ) =
+5,
+else
+where:
+P|Nj |
+(3.14)
+
+δ(pj ) = modulo10
+
+i
+
+Oi (pj )
+· 10
+|Nj |
+
+!
+
+and where
+• pj : problem j
+• Nj is the set of students who attempted problem pj
+• Oi (pj ) the outcome of the first attempt from student i to problem pj , 1 if a success, 0 otherwise
+δ(pj ) is a function that maps the average success
+rate of problem pj onto (10) levels. Unseen problems,
+those that do not have any record, and problems with
+less than 4 students (|Nj |< 4) in the dataset, will have
+a difficulty level of 5.
+Figure 6 shows the distributions of successes and
+failures over skills as a function of problem difficulty,
+and along the number of opportunities of practice over
+that skill. As expected, more failures are found at the
+higher difficulty levels, and also at early attempts over
+a given skill. Notice also that failures after a number of
+attempts on a given skill do occur, but only at the higher
+problem difficulty levels. These results demonstrate
+that problem difficulty does play an important role on
+the chances of success or failures to a problem, even for
+well practiced skills.
+
+Figure 6: a student’s responses in different levels of
+problem difficulty at each trial: red is incorrect response
+and green is a correct response.
+3.4 BKT-LSTM To handle all deficiencies described in above, we proposed a novel model called
+BKT-LSTM by leveraging advantageous of predictive
+power of LSTM. BKT-LSTM contains three meaningful components: skill mastery assessed by BKT, learning transfer evaluated by k-means clustering and problem difficulty. BKT-LSTM predict student performance
+based on both of evaluated temporal student’s ability
+profile that capture learning transfer, assessed mastery
+of skills from BKT simultaneously and take difficulty
+level of a problem in performance prediction. In BKTLSTM, we defined LSTM by following equations:
+(3.15)
+(3.16)
+
+ht = tanh(Whx [ft ] + Whh ht−1 + bh ),
+yt = σ(Wyh ht + by ).
+
+Both tanh and the sigmoid function are applied
+elrt+1 ement wise and parameterized by an input weight
+matrix Whx , recurrent weight matrix Whh , and output
+weight matrix Wyh . Biases for latent and output units
+are represented by bh and by . The input features ft =
+{P (st ), abz , P D(Pj )} contains assessed skill mastery
+M (st ) of student i on skill s at time t, temporal ability
+
+K1
+
+h0
+
+K2
+
+Concact
+
+h1
+
+y1
+
+h2
+
+y2
+
+ht
+
+yt
+
+K1N
+s
+
+p(Lt)
+# of BKT models
+
+ft
+
+Student’s Ability Profile
+
+Difficulty Level (Pj)
+
+Figure 7: Architecture of BKT-LSTM.
+profile abz indicates the cluster ID Cluster(stuiz ), the
+Table 1: Overview of datasets
+temporal ability profile abz of student i at current time
+Number of
+interval z, and P D(Pj ) represents problem difficulty of
+Dataset Skills Problems Students Records
+Pj at time t. (for brevity we omit indexing all terms
+Algebra
+437
+15663
+574 808,775
+by student i from here on). The output yt is represents
+ASS-09
+123
+13002
+4,163 278,607
+the predicted probability that the student would answer
+ASS-14
+100
+NA
+19,840 683,801
+that particular problem with associated skill correctly.
+Thus the prediction of of problem associated with skill
+1
+st can be retrieved from vector of yt as described in tional settings: 1) ASSISTments : an online tutoring system that was first created in 2004 which engages
+Fig7.
+middle and high-school students with scaffolded hints
+3.4.1
+Optimization: To improve the predictive per- in their math problem. If students working on ASSISTformance of RNN based models, we trained with the ments answer a problem correctly, they are given a new
+cross-entropy loss l between probability of getting cor- problem. If they answer it incorrectly, they are provided
+rectly of problem j with skill s: pt = p(Pjs ) and actual with a small tutoring session where they must answer a
+few questions that break the problem down into steps.
+response rt for all RNN based models as follows:
+Datasets are as follows: ASSISTments 2009-2010 (skill
+builder), ASSISTments 2014-2015. 2) Cognitive Tutor.
+Algebra 2005-2006 2 :is a development dataset released
+X
+in KDD Cup 2010 competition from Carnegie Learning
+(3.17)
+l=
+(rt log pt + (1 − rt ) log(1 − pt )),
+of PSLC DataShop. For all datasets, only first correct
+t
+attempts to original problems are considered in our experiment. We remove data with missing values for skills
+It is to prevent overfitting during training, dropout
+and problems with duplicate records. To the best of
+was applied to ht when computing the prediction yt , but
+our knowledge, these are the largest publicly available
+not when computing the next hidden state ht+1 .
+knowledge tracing datasets.
+In this experiment, we assumed every 20 attempts
+4 Experimental Study
+made by student as a time interval for that student. The
+4.1 Datasets In order to validate the proposed total number of temporal values for student’s learning
+model, we tested it on three public datasets from two
+1 https://sites.google.com/site/assistmentsdata/
+distinct tutoring scenarios in which students interact
+2 https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp
+with a computer-based learning system in the educa-
+
+Table 2: AUC result for all tested datasets
+Datasets
+Models
+ASS-09 ASS-14 Algebra
+BIRT
+0.75
+0.67
+0.81
+PFA
+0.70
+0.69
+0.76
+BKT
+0.65
+0.61
+0.64
+DKT
+0.72
+0.70
+0.78
+DKVMN
+0.71
+0.71
+0.78
+BKT-LSTM
+0.80
+0.71
+0.85
+
+Table 3: RMSE result for all tested datasets
+Datasets
+Models
+ASS-09 ASS-14 Algebra
+BIRT
+0.44
+0.44
+0.37
+PFA
+0.45
+0.42
+0.39
+BKT
+0.47
+0.51
+0.44
+DKT
+0.45
+0.42
+0.38
+DKVMN
+0.45
+0.42
+0.38
+BKT-LSTM
+0.41
+0.42
+0.35
+
+ability used in our experiment is 8 (7 clusters and
+1 for initial ability before evaluation in initial time
+interval for all students). Five fold cross-validations
+are used to make predictions on all datasets. Each
+fold involves randomly splitting each dataset into 80%
+training students and 20% test students of the each
+datasets. For Input of DKVMN, Initial values in both
+key and value memory are learned in training process.
+For other models, one hot encoded method is applied.
+Initial values in value memory represents for initial
+knowledge state as prior difficulty for each skill and fixed
+in testing process.
+We compare next problem student performance
+prediction of our model with state-of-the-art models
+mentioned in above: Bayesian extensions of BIRT [9],
+BKT [5], PFA [12], DKT [2], DKVMN [13]. But we do
+not compare with other variant models, because those
+are more or less similar and do not show significant
+difference in performance. We implement the all NN
+models with Tensorflow and LSTM based models share
+same structure of fully-connected hidden nodes for
+LSTM hidden layer with the size of 200 for DKT. For
+speeding up the training process, mini-batch stochastic
+gradient descent is used to minimize the loss function.
+The batch size for our implementation is 32. We train
+the model with a learning rate 0.01 and dropout is
+also applied for avoiding over-fitting.We set the number
+of epochs into 100. All these models are trained and
+tested on the same sets of training and testing students.
+For BKT, we learn models for each skill and make
+predictions separately and the results for each skill are
+averaged.
+
+imum test AUC=0.80 when compared to DKT with
+AUC=0.72 and DKVMN has AUC=0.71. On the ASSISTments14 dataset, BKT-LSTM achieved maximum
+test AUC=0.70 only. In the latest ASSISTments14
+dataset (which contains more students and less data
+compared to other three datasets and without problem
+information) and a bit lower to DKVMN.
+In Table 3, when we compare the models in term of
+RMSE, BKT is minimum 0.46 in ASSISTments09, and
+ASSISTments14, and 0.44 in Algebra. RMSE results
+in all dataset with maximum of 0.40 for BKT-LSTM
+while all other models are no more than 0.42. According
+to these results, BKT-LSTM shows better performance
+than DKT, DKVMN and significantly than other models in Algebra, ASSISTments09, ASSISTments14.
+
+4.2 Results In Table 2, BKT-LSTM performs significantly better than state-of-the-art models in tested
+datasets. On the Algebra dataset, compared with the
+DKT and DKVMN which has an maximum test AUC
+of 78, 0.81 in IRT, 0.76 in PFA and 0.64 for BKT, but
+BKT-LSTM has 0.85 with a notable gain of 10% to original DKT and DKVMN .In ASSISTments09 dataset,
+BKT-LSTM also achieves about 10% gain with max-
+
+4.3 Ablation studies The results have so far suggest there may be different impacts of each factor on
+the predictive performance of NN based models, and in
+particular the impact of item difficulty. This question
+is further analyzed in this section.
+We compare our BKT-LSTM model through an
+ablation study with following factor combinations:
+• BKT-LSTM-1: skill mastery.
+• BKT-LSTM-2: skill mastery and ability profile.
+• BKT-LSTM-3: skill mastery and problem difficulty.
+• BKT-LSTM-4: skill mastery, ability profile and
+problem difficulty.
+In BKT-LSTM-1, it takes only skill mastery into account for student performance prediction which achieve
+higher performance than original BKT and have lower
+performance than DKT (where DKT takes only binary values of student previous interaction). When
+BKT-LSTM-2 takes skill mastery and ability profile of
+a student, it shows similar performance as DKT and
+much higher than BKT. It shows better performance
+than DKT while BKT-LSTM-3 takes skill mastery and
+
+Table 4: AUC result for ablation study
+Datasets
+Models
+ASS-09 ASS-14 Algebra
+BKT-LSTM-1
+0.686
+0.680
+0.730
+BKT-LSTM-2
+0.720
+0.701
+0.743
+BKT-LSTM-3
+0.792
+0.702
+0.849
+BKT-LSTM-4
+0.802
+0.707
+0.851
+
+Table 5: RMSE result for ablation study
+Datasets
+Models
+ASS-09 ASS-14 Algebra
+BKT-LSTM-1
+0.451
+0.426
+0.398
+BKT-LSTM-2
+0.439
+0.421
+0.394
+BKT-LSTM-3
+0.416
+0.421
+0.355
+BKT-LSTM-4
+0.409
+0.420
+0.353
+
+the models (including BIRT, see Tables 2 and 3) show
+similar performance, because it does not have problem
+information in dataset and we cannot calculate problem
+difficulty for each problem.
+5
+
+Contribution
+
+Neither BKT nor DKT method is a perfect method for
+assessing knowledge mastery (knowledge tracing) and
+student performance prediction at the same time, but,
+when combined, they account for different aspects of a
+model and provide us better understanding with these
+meaningful features. We proposed a student model
+called BKT-LSTM with three meaningful components:
+student’s skill mastery (probability of learning a skill),
+ability profile (learning transfer of a student) and problem difficulty to predict student performance. Not like
+DKT and DKVMN, which only take student past interaction (binary values) and learn all information in
+hidden state. BKT-LSTM can predict the student performance by summarizing information from skills, problems and student ability profiles. Experiments with
+three datasets show that the proposed model performs
+statistically and significantly better in predictive performance than state-of-the-art KT models. Dynamic evaluation of student’s ability profile at each time interval
+and problem difficulty at each time step plays critical
+roles and helps BKT-LSTM to capture more variance
+in the data, leading to more accurate and personalized
+performance predictions.
+
+problem difficulty. Our proposed model BKT-LSTM4 shows better performance than any state-of-the-art
+methods compared in this experiment. We conducts
+our analysis through Area Under Curve (AUC), Root
+Mean Squared Error (RMSE) and the Square of Pearson correlation (r2 ).
+The results are reported in tables 4, 5 and 6. Although ability profile provides indication in student
+ability evolution in student long-term learning process.
+It has mostly improved in student performance prediction around 2 to 4 % in BKT-LSTM 2 and 4 compared References
+to BKT-LSTM 1 and 3. Results from each model with
+different combination of factors show us which compo[1] Templin, J., Henson, R. A., et al. 2010. Diagnosnents provide more information in student performance
+tic measurement: Theory, methods, and applications.
+prediction among various datasets. In there, we can also
+Guilford Press.
+see that the problem difficulty factor is the most influ[2] Piech, C., Bassen, J., Huang, J., Ganguli, S.,
+ential factor to student performance prediction. When
+Sahami, M., Guibas, L. J., and Sohl-Dickstein, J.
+we apply problem difficulty to BKT-LSTM, it increases
+2015. Deep knowledge tracing. In Advances in neural
+information processing systems. 505–513.
+around 8 to 10 % respectively. It also reflects that is
+[3]
+Minn, S., Desmarais, M. C., Zhu, F., Xiao, J., and
+why BIRT shows better performance in student perforWang, J. 2019. Dynamic student classiffication on
+mance prediction among other models (except neural
+memory networks for knowledge tracing. In Pacificnetworks based models with problem difficulty see TaAsia Conference on Knowledge Discovery and Data
+bles 2, 3, 4 and 5). For ASSISTments14 dataset, all of
+
+Table 6: r2 result for ablation study
+Datasets
+Models
+ASS-09 ASS-14 Algebra
+BKT-LSTM-1
+0.095
+0.079
+0.146
+BKT-LSTM-2
+0.142
+0.100
+0.165
+BKT-LSTM-3
+0.228
+0.102
+0.32
+BKT-LSTM-4
+0.255
+0.106
+0.328
+
+Mining. Springer, 163–174.
+[4] Nkambou, R., Mizoguchi, R., and Bourdeau, J.
+2010. Advances in intelligent tutoring systems. Vol.
+308. Springer Science & Business Media.
+[5] Corbett, A. T. and Anderson, J. R. 1994. Knowledge tracing: Modeling the acquisition of procedural
+knowledge. User modeling and user-adapted interaction 4, 4, 253–278.
+[6] Desmarais, M. C. and d Baker, R. S. 2012. A
+review of recent advances in learner and skill modeling
+in intelligent learning environments. User Modeling
+and User-Adapted Interaction 22, 1-2, 9–38.
+
+[7] Hambleton, R. K., Swaminathan, H., and Rogers,
+H. J. 1991. Fundamentals of item response theory,
+Sage.
+[8] Briggs, D. C. and Wilson, M. 2003. An introduction to multidimensional measurement using rasch
+models.
+[9] Wilson, K. H., Karklin, Y., Han, B., and Ekanadham, C. 2016. Back to the basics: Bayesian extensions
+of irt outperform neural networks for proficiency estimation. arXiv preprint arXiv:1604.02336.
+[10] d Baker, R. S., Corbett, A. T., and Aleven, V.
+2008. More accurate student modeling through contextual estimation of slip and guess probabilities in
+bayesian knowledge tracing. In International conference on intelligent tutoring systems. Springer, 406–415.
+[11] Cen, H., Koedinger, K., and Junker, B. 2006.
+Learning factors analysis–a general method for cognitive model evaluation and improvement. In International Conference on Intelligent Tutoring Systems.
+Springer, 164–175.
+[12] Pavlik Jr, P. I., Cen, H., and Koedinger, K. R.
+2009. Performance factors analysis–a new alternative
+to knowledge tracing. Online Submission.
+[13] Zhang, J., Shi, X., King, I., and Yeung, D.-Y.
+2017. Dynamic key-value memory networks for knowledge tracing. In Proceedings of the 26th international
+conference on World Wide Web. 765–774.
+[14] Minn, S., Yu, Y., Desmarais, M. C., Zhu, F.,
+and Vie, J.-J. 2018. Deep knowledge tracing and
+dynamic student classification for knowledge tracing.
+In 2018 IEEE International conference on data mining
+(ICDM). IEEE, 1182–1187.
+[15] Minn, S., Zhu, F., and Desmarais, M. C. 2018. Improving knowledge tracing model by integrating problem difficulty. In 2018 IEEE International Conference
+on Data Mining Workshops (ICDMW). IEEE, 1505–
+1506.
+[16] Khajah, M., Lindsey, R. V., and Mozer, M. C.
+2016. How deep is knowledge tracing? arXiv preprint
+arXiv:1604.02416.
+[17] Fu, Shunkai, Yao Zhang, and Sein Minn, On the Recommender System for University Library International
+Association for Development of the Information Society,ERIC, 2013.
+[18] Minn, Sein and Desmarais, Michel C and Fu, ShunKai
+Refinement of a Q-matrix with an Ensemble Technique Based on Multi-label Classification Algorithms
+European Conference on Technology Enhanced Learning,Springer, 2016.
+
+

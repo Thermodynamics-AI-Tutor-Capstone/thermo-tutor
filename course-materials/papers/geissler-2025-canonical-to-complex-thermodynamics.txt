@@ -1,0 +1,1350 @@
+From Canonical to Complex: Benchmarking
+LLM Capabilities in Undergraduate
+Thermodynamics
+arXiv:2508.21452v1 [physics.ed-ph] 29 Aug 2025
+
+Anna Geißler,† Luca-Sophie Bien,† Friedrich Schöppler,† and Tobias Hertel∗,†,‡
+†Institute of Physical and Theoretical Chemistry, Julius-Maximilian University Würzburg,
+97074 Würzburg, Germany
+‡Benchmark downloadable at: huggingface.co/datasets/herteltm/UTQA
+E-mail: tobias.hertel@uni-wuerzburg.de
+
+Abstract
+
+Keywords
+
+Large language models (LLMs) are increasingly
+considered as tutoring aids in science education.
+Yet their readiness for unsupervised use in undergraduate instruction remains uncertain, as
+reliable teaching requires more than fluent recall: it demands consistent, principle-grounded
+reasoning. Thermodynamics, with its compact
+laws and subtle distinctions between state and
+path functions, reversibility, and entropy, provides an ideal testbed for evaluating such capabilities. Here we present UTQA, a 50-item undergraduate thermodynamics question answering benchmark, covering ideal-gas processes,
+reversibility, and diagram interpretation. No
+leading 2025-era model exceeded our 95% competence threshold: the best LLMs achieved 82%
+accuracy, with text-only items performing better than image reasoning tasks, which often fell
+to chance levels. Prompt phrasing and syntactic complexity showed modest to little correlation with performance. The gap concentrates in
+finite-rate/irreversible scenarios and in binding
+visual features to thermodynamic meaning, indicating that current LLMs are not yet suitable
+for unsupervised tutoring in this domain.
+
+Large language models, Thermodynamics education, Benchmarking, Prompt engineering,
+Diagram-based reasoning, Reversibility, Entropy, Educational measurement
+
+Introduction
+Large language models (LLMs) have emerged
+as highly capable general-purpose assistants,
+exhibiting impressive abilities to process, generate, and explain scientific content. 1–6 While
+much attention has focused on their potential for research support and knowledge retrieval, it remains unclear if their understanding
+is sufficient for unsupervised undergraduatelevel tutoring. Reliable teaching requires more
+than fluent recall—it demands consistent reasoning that can guide students through complex
+problem-solving scenarios.
+Here, thermodynamics provides an excellent
+opportunity for deeper evaluation. Its theoretical core is compact and well-established,
+yet correct application demands careful separation of crucial concepts: heat vs. work, state
+vs. process variables, and especially reversible
+vs. irreversible transformations—what Duhem
+called “the most important and, at the same
+time, most problematic to be defined in Ther-
+
+1
+
+modynamics”. 7–12 These distinctions are conceptually subtle yet mastering them requires
+both breadth and conceptual depth—spanning
+state functions and path dependencies.
+Despite its foundational character, existing
+science benchmarks devote surprisingly little
+attention to thermodynamic reasoning. In
+GPQA, 13 for instance, about 80% of chemistry
+questions concern organic recall, with almost
+no coverage of entropy or reversibility—a gap
+echoed in Humanity’s Last Exam. 14 SciBench 15
+is closer in spirit, assembling college-level
+physics, mathematics, and chemistry problems,
+yet its thermodynamics items are limited to
+quantitative end-answer calculations, with little exercise of reasoning about state functions,
+entropy bookkeeping, or reversibility. We note
+that gpt-5 correctly solved all 26 SciBench
+items we identified as topically aligned with
+our focus here. Given that entropy sets the
+arrow of time and limits energy conversion,
+and that reversibility underpins the second law
+(called unmatched among physical principles by
+Einstein 16 ), these omissions leave major gaps
+in evaluating LLM scientific reasoning.
+We therefore introduce UTQA, a new 50-item
+single-choice benchmark specifically designed
+to evaluate LLM competence in undergraduate thermodynamics, with particular emphasis
+on ideal-gas processes, entropy, and reversibility. Rather than testing mere recall, our benchmark challenges models with multi-step reasoning problems including graphical representations that require integrating multiple constraints—the kind of problem-solving essential
+for effective tutoring.
+Our initial results reveal both progress and
+persistent limitations. Current LLMs handle
+many straightforward text-only items reliably,
+yet performance drops sharply in two critical
+areas: finite-rate or irreversible scenarios that
+require nuanced thermodynamic reasoning, and
+diagram-based questions that demand mapping visual features to thermodynamic meaning. Notably, no model reached our provisional
+reliability threshold for unsupervised instructional use of 95% accuracy, 17 highlighting a
+significant gap between fluent scientific explanation and the dependable, principle-grounded
+
+reasoning required for effective tutoring.
+
+Methods
+We conducted two classes of experiments. (i)
+Prompting and linguistic degradation experiments were run exclusively on gpt-4o via the
+API. (ii) The cross-model benchmark comparison was run on all other models using their
+command-line web interfaces under identical
+task settings. Full prompt texts and command
+invocations are provided in the Supporting Information (SI).
+The benchmark comprises 50 single-choice
+items, each with three distractors and one correct answer option—33 text-only questions and
+17 diagram-based questions. Prompting and
+linguistic degradation experiments as well as
+investigations of the role of linguistic question complexity were restricted to the text-only
+items to isolate verbal/semantic reasoning from
+visual interpretation. The diagram-based questions were analyzed separately in the crossmodel comparison.
+For each prompt variant, the text-only items
+were submitted in one or several independent
+runs in single-shot mode at sampling temperature T = 0.7. To minimize context persistence
+and prompt-caching effects, 18 we completed a
+full cycle of all 33 questions before repeating
+the set. This ordering suppressed spurious regularities (e.g., repetitive answer patterns) attributable to caching or internal batching rather
+than genuine model uncertainty.
+We also evaluated 17 prompting strategies spanning minimal directives, suppressedreasoning variants, structured reasoning (e.g.,
+chain-of-thought), elimination-based prompts,
+persona framings, and affective/framing styles.
+Prompt wordings, acronyms, and attributions
+are listed in Table 1 and the SI. A two-phase
+variant (analysis followed by an explicit answer request) was also tested for comparison to
+single-shot prompting.
+To quantify sensitivity to input quality, we
+applied controlled perturbations to a subset of
+items that were typically answered correctly
+under a simple baseline prompt. Three per2
+
+Table 1: Prompt categories and seventeen
+tested prompts with associated acronyms.
+Category
+
+Prompts
+(Acronyms)
+
+Minimal Directive
+Suppressed Reasoning
+Reasoning Prompts
+
+BP, SP
+IRA, NoT
+CoT, AdCoSM,
+Logical
+CoT,
+CoS, ToT, GoT,
+ThouT
+CoT-E, EliM
+SIM
+EI, EII, DIS
+
+Elimination Prompts
+Persona / Expertise Amplifier
+Affective / Framing Prompts
+
+underrepresented thermodynamics and rarely
+probe core concepts such as entropy or reversibility (for a detailed breakdown of the
+GPQA diamond and HLE topical distributions,
+see SI). The SciBench benchmark 15 does include numerous thermodynamics items formulated as single-target calculations, but in our
+view it does not sufficiently probe thermodynamic reasoning, particularly around concepts
+such as reversibility. Our benchmark addresses
+these omissions directly.
+
+Question Set Design
+Our items were written to target clearly defined constructs in undergraduate thermodynamics while minimizing extraneous cognitive
+load. Each stem8.50 cm
+isolates
+a pt
+single concept or
+= 245
+reasoning skill (e.g., state vs. path variables,
+sign conventions for q and w, reversibility vs.
+finite-rate
+and supplies
+only the con2driving),
+3
+p
+T
+text necessary for the intended inference.3 Diagrams such as the one shown in Fig. 1 are used
+only when they encode
+2 constraints
+4 and
+4 essential
+are rendered in an instructional,
+low-complexity
+1
+21
+1
+style. Ambiguity is avoided by explicit units,
+S
+sign conventions, andV complete specifications
+of
+initial/final states or environmental contacts.
+
+turbation families were used: (i) reduced clarity (syntactic/grammatical distortions), (ii) orthographic noise (spelling/punctuation errors),
+and (iii) domain-terminology mismatches (systematic replacement with near-synonyms or
+p
+p
+colloquialisms). Each degraded
+item preserved
+1
+1
+the original physical
+content
+and
+correct answer
+2
+2
+key.
+Accuracy per run is the fraction of correctly
+answered items. When multiple runs were performed, we reportV the mean accuracy ā Vacross
+runs. To separate genuine prompt effects from
+p
+stochastic variability, wep computed the run-to1
+1
+run standard deviation σ from residuals relative
+2
+2
+to each prompt’s mean and quote the uncer√
+tainty of the three-run mean as σ3 = σ/ 3.
+Unless stated otherwise, comparisons between
+prompts are interpreted
+relative to σ3 . V
+V
+All question texts, diagrams, answer keys,
+and problem solutions, are available in the
+project repository (see SI).
+
+(A)
+
+p
+
+(B)
+
+p
+
+1
+2
+
+2
+
+V
+
+V
+
+(C)
+
+p
+
+Benchmark design
+Benchmark datasets are central to the development and evaluation of large language
+models (LLMs). Internal benchmarks, curated by model developers, guide training,
+track progress, and ensure alignment with
+specific goals. Popular external benchmarks
+(e.g., GPQA, 13 HLE, 14 HolisticEval, 19 LLMSRBench 20 )—constructed independently to enable objective model comparison—have so far
+
+1
+
+(D)
+
+p
+
+1
+
+1
+
+2
+
+2
+
+V
+
+V
+
+Figure 1: Representative figure from a benchmark item: four p–V diagrams depicting reversible state changes from which the case of
+largest pressure–volume work performed by the
+system must be identified.
+3
+
+Content coverage spans the first and second
+laws, entropy changes of system and surroundings, pressure–volume work, heat transfer, and
+the distinction between quasistatic and nonquasistatic transformations. Items also probe
+recognition of path dependence, feasibility under the second law, and optimization principles
+in standard cycles (e.g., Carnot, Diesel). Several questions require translating between diagrammatic representations (p–V , T –S, H–p,
+U –V , H–S, A–T ) and their thermodynamic
+meaning, including cases where axis labels are
+intentionally omitted to test structural understanding.
+Both conceptual and quantitative formats are
+included, from process identification to multistep constraints that combine energy and entropy balances. Numerical problems use parameter values chosen to prevent round-off
+ambiguities and to ensure a unique correct
+option. Distractors reflect common misconceptions (e.g., equating “adiabatic” with “reversible” or confusing dU with q), so that accuracy reflects principled reasoning rather than
+elimination by superficial cues.
+Item development followed an expert-driven,
+iterative process aligned with established guidance in educational measurement. 22,23 The English set was adapted from a previously reviewed German pool and refined across multiple rounds by subject-matter experts to enforce clarity, construct focus, and unambiguous
+phrasing. Model solutions were independently
+cross-checked for correctness and pedagogical
+soundness. Procedural details of modality split
+and experimental use are described in the Methods section.
+
+reasoning variants;
+structured reasoning
+prompts (CoT, ToT, GoT, Logical CoT,
+CoS); 27–31 elimination-style prompts; persona/expertise frames; and affective framings. 32,33 A two-phase “analyze then answer”
+format was included following. 5 Full wordings
+and attributions are given in the SI. We included both explicit- and no-explanation variants to probe claims about unfaithful explanations and chain fragility, 34,35 and reasoning
+without explicit scaffolds. 36
+To assess robustness to input quality, we additionally applied controlled linguistic degradations to items typically solved under a baseline
+prompt: (i) syntactic/grammatical distortions,
+(ii) orthographic noise (spelling/punctuation),
+and (iii) domain-terminology substitutions.
+These edits preserved physical content and the
+correct key (details in Methods).
+Mean accuracies were computed over independent runs with run-to-run scatter summarized by σ and the three-run mean uncertainty
+σ3 (definitions in Methods). Results by prompt
+family and the impact of linguistic degradation
+are discussed in the Results section.
+
+Results and Discussion
+Prompting effects and uncertainty
+analysis
+The 17 prompt variants were evaluated on the
+text-only items and quantified run-to-run scatter to separate genuine prompt effects from
+stochastic variability. The distribution of residuals across 17 × 3 = 51 batches yields σ = 0.05,
+corresponding to σ3 ≈ 0.03 for three-run means
+(Fig. 2a). Mean accuracies per prompt span
+0.36–0.54 (Fig. 2b), a range that materially exceeds σ3 , indicating real prompt sensitivity.
+Sorting by accuracy (Fig. 3a) shows two
+broad bands: higher-performing variants (e.g.,
+SP, CoT, EI, ThouT, EII, SIM) and lowerperforming ones (e.g., CoT-E, NoT, AdCoSM).
+Minimal prompts (BP/SP) perform comparably to several structured-reasoning formats,
+consistent with reports that models can recruit
+internal reasoning without explicit scaffolds. 36
+
+Prompt Design and Prompting
+LLM performance can depend strongly on
+prompt form and linguistic quality. 24–26 We
+therefore varied prompt phrasing, structure,
+and tone to probe sensitivity on text-only items
+(isolating semantic reasoning from visual interpretation; see SI for protocol and uncertainty
+handling).
+Seventeen prompts were tested (Table 1),
+spanning: minimal directives; suppressed4
+
+8.50 cm = 245 pt
+8.50 cm = 245 pt
+
+before problem with question set spottet
+
+a) test residuals
+
+gpt-4o.
+
+20
+
+frequency
+
+GPT-4o
+
+a) text-only interpretation
+
+10
+prompt variations with GPT-4o
+5
+-0.25
+
+accuracy
+
+0
+
+1.00
+
+0.00
+0.25
+deviation from mean
+
+no thought
+internal reasoning
+elimination
+CoT & elimin.
+adv. logic
+adv. combination
+chain of symbols
+frequency
+thread of thought
+chain of thought
+disparraging
+logical CoT
+tree of thoughts
+empathy I
+graph of thought
+empathy II
+simple prompt
+super intelligence
+basic prompt
+average
+
+4
+3
+
+0.50
+0.25
+0.00
+
+b) prompt eﬀectiveness
+2σ3 = 0.06
+
+prompt variations with GPT-4o
+
+0.75
+
+GPT-4o
+
+2
+
+elimination
+no thought
+adv. comb. strat.
+CoT & elimination
+internal reasoning
+disparaging
+graph of thoughts
+basic prompt
+logical CoT
+superintelligence
+tree of thoughts
+Empathy II
+chain of symbols
+simple prompt
+CoT
+Empathy I
+thread of thought
+average
+
+2σ = 0.10
+mage interpretation
+15
+
+1
+
+0.50
+
+prompt variations with GPT-4o
+
+b) diagram interpretation
+0.75
+
+1.00
+
+1.00
+
+accuracy
+
+Figure 2: a) Distribution of deviations from
+mean accuracies across 51 batch runs, corresponding to an overall spread of σ = 0.05. b)
+Comparative accuracies of 17 prompting strategies; observed variation exceeds σ3 ≈ 0.03.
+
+0.75
+0.50
+0.25
+
+no thought
+internal reasoning
+elimination
+adv. logic
+CoT & elimin.
+adv. comb.
+chain of symbols
+thread of thought
+chain of thought
+disparraging
+logical CoT
+tree of thoughts
+empathy I
+graph of thought
+empathy II
+simple prompt
+super intelligence
+basic prompt
+average
+
+0.00
+
+By contrast, elimination-style prompts underperform on this benchmark.
+Several factors likely contribute to these differences. First, longer reasoning chains introduce more opportunities for error, and mistakes that occur late in a chain may be especially damaging, a phenomenon sometimes
+termed “late-stage fragility”. 35 Second, explanations generated under chain-of-thought prompting may not faithfully reflect the model’s underlying computation; 34 suppressing or elaborating
+such reasoning (NoT, IRA, AdCoSM) therefore
+has limited effect. Finally, persona or affective
+framings can alter tone and verbosity but rarely
+change substantive reasoning behavior. 33 Together, these points suggest that prompt design
+primarily affects surface presentation and stability, but does little to correct deeper deficits
+in scientific reasoning.
+A two-phase “analyze then answer” format 5
+produced no statistically significant gains over
+single-shot prompting within σ3 , suggesting
+that explicit separation of analysis and answer
+does not improve accuracy for these items using
+
+prompt variations with GPT-4o
+
+elimination
+no thought
+adv. comb. strat.
+CoT & elimination
+internal reasoning
+disparaging
+graph of thoughts
+basic prompt
+logical CoT
+superintelligence
+tree of thoughts
+Empathy II
+chain of symbols
+simple prompt
+CoT
+Empathy I
+thread of thought
+average
+
+0.25
+
+accuracy
+
+e interpretation 0problems
+
+Figure 3: Accuracy scores for 17 prompting
+strategies using gpt-4o on 33 text-only questions. High- and low-performing groups are
+outlined in red. Values are three-run means;
+error bars indicate σ3 ≈ 0.03.
+
+Effect of Linguistic Degradation
+We tested robustness to degraded wording under a fixed baseline prompt (Please answer the
+following single-choice question.), altering only
+the stem and options. Controlled edits targeted
+three dimensions as shown in Fig. 4— each at
+two severities (degraded, deficient). Edits preserved physical content and the correct answer
+key; the rubric used to generate variants (via
+gpt-4o) is provided in the SI. Table 2 illustrates
+all variants for a representative item.
+Aggregate results over text-only items are
+shown in Fig. 4. For clarity/accuracy, accuracy declined from 0.52 (reference) to
+5
+
+Version
+Reference
+Degraded (clarity & accuracy)
+Degraded (spelling & punctuation)
+Degraded (technical terminology)
+Deficient (clarity & accuracy)
+clarity &
+accuracy
+
+spelling &
+punctuation
+
+Deficient
+(spelling & punctuation)
+1.00
+0.75
+Deficient
+(technical terminology)
+
+accuracy
+
+0.50
+
+Wording of question
+Which process of an ideal gas is characterized by the following changes:
+∆U = 0, ∆H = 0, and for system and environment, ∆Gtotal < 0?
+What type of gas process shows: ∆U = 0, ∆H = 0, and total ∆G < 0 for
+the system and surroundings?
+Which process of a ideal gas is characterised by the following changes ∆U =
+0, ∆H = 0, and for system and environment ∆Gtotal < 0
+Which phase of gas behavior is marked by: ∆U = 0, ∆H = 0, and energy
+difference (∆Gtotal ) < 0 for everything involved?
+Which kind of gas process does it when: ∆U = 0, ∆H = 0, and total ∆G
+technical
+is going
+down for the gas and the rest?
+terminology
+Wich proces of ideal gas is charactrised by these changes: ∆U = 0, ∆H = 0,
+and for system and enviroment, ∆Gtotal < 0
+What kind of gas step shows: ∆U = 0, ∆H = 0, and the energy change
+overall is negative for everything?
+
+0.25
+
+clarity &
+accuracy
+
+leads to the largest performance losses, even
+at moderate severity. Second, models tolerate
+moderate orthographic and terminology noise,
+but severe errors in either dimension degrade
+accuracy. The weak sensitivity to terminology substitutions suggests that, for domainfamiliar material, models often recover meaning from context; by contrast, degraded clarity
+removes essential constraints and impairs reasoning. These findings align with established
+comprehension factors in educational measurement. 22,37
+
+deﬃcient
+
+degraded
+
+reference
+
+deﬃcient
+
+degraded
+
+spelling &
+punctuation
+
+technical
+terminology
+
+GPT-4o
+
+0.75
+
+deﬃcient
+
+degraded
+
+0.00
+
+reference
+
+Using the same baseline prompt across platforms (Please answer the following single-choice
+question), we evaluated 19 contemporary models (APIs and web CLI) on both the text-only
+and diagram-based items.
+For the text-only subset (Fig. 5, mean accuracies span 0.20 (gpt-3.5-turbo-0125) to 0.88
+(DeepSeek R1), with a grand mean of 0.67.
+With per-condition scatter σ ≈ 0.05, pairwise gaps of ≳ 0.10 are unlikely to reflect
+sampling variance alone. The distribution
+is stratified: legacy gpt-3.5 trails newer systems, while top-tier models (e.g., gpt-5 higheffort, Gemini 2.5 Pro, Grok 3 Think, gpt-o3,
+DeepSeek R1) exceed 0.80. Within families,
+
+deﬃcient
+
+0.25
+
+degraded
+
+Cross-model comparison
+
+reference
+
+0.50
+
+deﬃcient
+
+accuracy
+
+1.00
+
+degraded
+
+pt
+
+reference
+
+deﬃcient
+
+degraded
+
+reference
+
+0.40 (degraded) and 0.43 (deficient).
+For
+0.00
+spelling/punctuation, the degraded variant
+matched the reference (0.52), while the deficient variant dropped to 0.41. For technical
+terminology, the degraded score was essentially
+unchanged (0.53) and declined for the deficient
+variant (0.49). Means are based on ten runs per
+condition with error
+bars
+indicating σ10 ≈ 0.015.
+8.50 cm
+= 245 pt
+
+reference
+
+s
+
+Table 2: Illustration of degradation modes for Problem 8. Variants target three factors (clarity/accuracy, spelling/punctuation, and technical terminology) at two severities (degraded = moderate, deficient = severe).
+
+Figure 4: Accuracy for reference, degraded,
+and deficient versions of 33 text-only questions
+across three linguistic dimensions: clarity &
+accuracy, spelling & punctuation, and technical terminology. Results shown for the basic
+prompt; means over ten runs with error bars
+indicating σ10 ≈ 0.015.
+Two patterns are salient for educators. First,
+obscuring logical structure (clarity/accuracy)
+6
+
+higher “reasoning budget” configurations outperform lighter variants (e.g., gpt-5 high vs.
+8.50 cm = 245 pt
+nano), consistent with broader evidence that
+capacity devoted to multi-step inference imdomain problems
+problem solving. 36,38
+b) image proves
+interpretation
+0.75
+
+0.75
+
+accuracy
+
+0.50
+
+diagram based items
+
+0.50
+0.25
+
+0.00
+
+0.00
+
+gpt-4.1
+gpt-4.1-mini
+gpt-5-nano
+gpt-4o
+Gemini 2.0 Flash
+Claude 3 Opus
+gpt-5-mini
+Claude 4 Sonnet
+Claude 3.7 Sonnet
+gpt-o3-mini
+gpt-o3-mini-high
+Grok 3
+Grok 3 think
+gpt-5
+gpt-5-high
+gpt-o4-mini
+gpt-o1
+Gemini 2.5 Pro
+gpt-o3
+Average
+
+0.25
+gpt-o3-mini-high
+Grok 3 think
+gpt-o3
+DeepSeek R1
+Average
+
+0.00
+
+1.00
+
+Figure 5: Comparative accuracies of different
+LLMs on 33 text-only interpretation questions.
+1.00
+Standard
+deviations of individual accuracy valdiagram based items
+ues0.75
+are estimated at σ ≈ 0.05.
+
+Figure 6: Comparative accuracies of all tested
+omni-model LLMs on the 17 diagram-based
+items.
+
+0.50
+
+Effect of linguistic complexity
+
+0.25
+
+Items involving diagram interpre0.00
+tation
+
+Lastly we examined whether surface complexity of wording predicts accuracy on text-only
+items by using a simple proxy: the total number of clauses in each complete problem (stem +
+options), where a clause contains a subject and
+a verb. 42 For each question we computed mean
+accuracy across all tested models. As shown in
+Fig. 7 no significant correlation emerged over
+the observed range of 1–20 clauses.
+This negative result indicates that, within
+typical instructional phrasing, clause count
+is not the limiting factor for current LLMs;
+failures more plausibly reflect weaknesses in
+conceptual integration rather than syntactic
+load. 43 Thus, for benchmark construction, varying clause count alone is unlikely to bias outcomes. Future analyses could evaluate richer
+textual metrics (e.g., referential cohesion, ambiguity) and their interaction with thermodynamic reasoning demands. 42
+
+gpt-4.1
+gpt-4.1-mini
+gpt-5-nano
+gpt-4o
+Gemini 2.0 Flash
+Claude 3 Opus
+gpt-5-mini
+Claude 4 Sonnet
+Claude 3.7 Sonnet
+gpt-o3-mini
+gpt-o3-mini-high
+Grok 3
+Grok 3 think
+gpt-5
+gpt-5-high
+gpt-o4-mini
+gpt-o1
+Gemini 2.5 Pro
+gpt-o3
+Average
+
+0.25
+
+accuracy
+
+0.50
+
+1.00
+
+GPT 4.1
+GPT 4.1-mini
+GPT 5 nano
+GPT 4o
+Gemini 2.0 Flash
+Claude 3 Opus
+gpt-3.5
+GPT 5 mini
+gpt-4o
+Claude 4 Sonnet
+gpt-5-nano
+Claude 3.7 Sonnet
+Claude 3 Opus
+GPT o3-mini
+gpt-4.1
+GPT o3-mini-high
+Gemini 2.0 Flash
+Grok 3
+DeepSeek
+Grok 3 think
+Grok 3
+GPT 5
+gpt-o3-mini
+GPT 5 high
+gpt-5-high
+GPT o4-mini
+Claude 4 Sonnet
+GPT
+o1
+gpt-o1
+Gemini 2.5
+Pro
+gpt-5
+GPT o3
+gpt-o4-mini
+Average
+Gemini 2.5 Pro
+
+0.75
+
+law; path ordering across segments). In contrast, trained humans can often judge work or
+entropy trends by quick perceptual comparison
+of path geometry, a classic advantage of visual
+reasoning. 39,40
+
+model comparison
+text-only items
+
+accuracy
+
+accuracy
+
+1.00
+
+gpt-3.5
+gpt-4o
+gpt-5-nano
+Claude 3 Opus
+gpt-4.1
+Gemini 2.0 Flash
+DeepSeek
+Grok 3
+gpt-o3-mini
+gpt-5-high
+Claude 4 Sonnet
+gpt-o1
+gpt-5
+gpt-o4-mini
+Gemini 2.5 Pro
+gpt-o3-mini-high
+Grok 3 think
+gpt-o3
+DeepSeek R1
+Average
+
+0.00
+
+GPT 3.5
+GPT 4o
+GPT 5 nano
+Claude 3 Opus
+GPT 4.1
+Gemini 2.0 Flash
+DeepSeek
+Grok 3
+GPT o3-mini
+GPT 5 high
+Claude 4 Sonnet
+GPT o1
+GPT 5
+GPT o4-mini
+Gemini 2.5 Pro
+GPT o3-mini-high
+Grok 3 think
+GPT o3
+DeepSeek R1
+Average
+
+0.00
+
+Diagrams are central to thermodynamics instruction and problem solving: they externalize
+constraints, make path relations perceptually
+accessible, and support rapid inference. 39–41
+Performance dropped sharply when items required interpreting such diagrams (Fig. 6).
+Across 19 models, the mean accuracy was
+32%—less than half the text-only mean (67%).
+The weakest result (gpt-4.1) was 6% suggesting consistently chosen detractors, while the
+strongest (gpt-o3) reached 76%; Gemini 2.5 Pro
+and gpt-o1 scored 54% and 53%, respectively.
+Two observations suggest that errors arise
+chiefly in binding visual features to thermodynamic meaning rather than in low-level recognition. First, separate probes indicated that
+models typically identify axes, reference markers, and basic curve characteristics (segmentation, linearity, concavity). Second, many mistakes reflect failures to integrate diagram structure with governing relations (e.g., area under
+p–V paths as work; feasibility under the second
+
+Common strengths and weaknesses
+Across the two item classes (text-only and diagram), we observe a marked asymmetry. On
+7
+
+8.50 cm = 245 pt
+37
+
+averaged LLM accuracy
+
+1.00
+
+7
+
+41
+
+8 4
+31
+
+0.75
+
+29
+
+50
+
+15
+25
+
+21
+
+0.50
+
+3
+
+6
+
+The most consistent error patterns are: (i)
+misuse of quasistatic templates despite explicit
+finite-rate cues; (ii) entropy bookkeeping errors—confusing transferred entropy with entropy production and applying ∆S formulas
+outside their domain; (iii) path-dependence
+blind spots for work—failing to reason with oriented areas in the p−V plane and mixing sign
+conventions; (iv) missed invariants and feasibility constraints in optimization; and (v) numeric
+anchoring to textbook exponents/constants
+without checking applicability conditions.
+On diagram-based items, many models can,
+when prompted, parse low-level features (axis
+labels, start/end states, segmentation, curvature/monotonicity).
+Errors arise at the
+binding stage: mapping percepts to thermodynamic quantities and constraints. Recurrent issues includeR computing and comparing signed areas p dV with correct orientation, binding leg types to axes (e.g., isochoric ↔ vertical in p − V ), enforcing feasibility across concatenated legs, and propagating state limits through a cycle. Template recognition (e.g., Otto/Diesel/Stirling) or
+simple sign-based eliminations yield acceptable
+performance, but tasks demanding compositional reasoning—integrating geometry (areas,
+slopes, orientations) with laws and state relations—remain the principal bottleneck.
+
+46
+
+22
+
+1
+14
+23
+20
+
+2 27
+30
+
+26
+45
+40
+12
+
+4244
+
+47
+48
+
+36
+43
+
+0.25
+35
+
+0.00
+0
+
+5
+
+10
+
+15
+
+20
+
+# of clauses
+
+Figure 7: Average model accuracy vs. number
+of clauses for the 33 text-only items. Numerals
+indicate item identifiers; the dashed line marks
+the random-guessing baseline of 0.25. Shaded
+bands show 95.4% confidence intervals.
+text-only problems, the strongest recent models
+approach the level of a well-prepared graduate
+tutor, whereas performance on diagram-based
+items is broadly poor; the notable exception being gpt-o3, which consistently handles diagramcentric tasks better than other models.
+High-scoring text items share a canonical
+structure: they reduce to a single state-function
+argument or a standard identity directly applicable without multi-constraint coupling. Typical successes include recognizing that for ideal
+gases U and H depend only on T , that throttling preserves H, and that entropy increases in
+free expansion. Distractors encoding familiar
+misconceptions are routinely eliminated, indicating robust recall of first-principles relations
+and sign conventions.
+However, accuracy degrades when solutions
+require integrating multiple constraints, enforcing feasibility bounds, or reasoning about finiterate (non-quasistatic) processes. For example,
+in a millisecond compression of a monatomic
+ideal gas to V /2, the bath is effectively adiabatic, and irreversible phenomena such as
+shock-front dissipation imply that T1 /T0 must
+exceed the reversible-adiabatic value 22/3 ; the
+strongest models increasingly identify the reversible result as a lower bound, correctly attributing the excess temperature to dissipation.
+
+Conclusions
+We introduced UTQA, a small and deceptively
+simple benchmark in undergraduate thermodynamics: fifty single-choice items on ideal-gas
+processes and thermodynamic diagrams (two
+thirds text-only, one third diagram-based). Applied to current LLMs, the benchmark highlights both solid performance on many canonical items and persistent weaknesses in more demanding cases. No 2025-era model reached our
+95% reliability threshold for unsupervised tutoring; even the top performer (gpt-o3 at 82%)
+fell well short of this target (Fig. 8).
+The performance shortfall is not uniform but
+concentrates in two domains. (i) Finite-rate, irreversible scenarios expose fragile regime recog8
+
+1.00
+
+scope is intentionally narrow (ideal gases; excluding real-gas effects, mixtures, phase equilibria, and transport), so additional failure modes
+may emerge under broader coverage that could
+further challenge current capabilities.
+Future benchmark extensions toward real-gas
+behavior, mixtures, phase diagrams, and standard cycles will probe reasoning under richer
+thermodynamic constraints and help rebalance
+coverage relative to other well-benchmarked domains like quantum mechanics. More generally, discipline-specific benchmarks that encode
+conceptual bottlenecks provide valuable tools
+for measuring principled application rather
+than recall alone. As models improve on
+such carefully constructed items—and especially on multimodal binding and irreversible
+regimes—they move closer to becoming trustworthy, discipline-aware educational partners.
+
+text-only AND diagram items
+
+accuracy
+
+0.75
+0.50
+
+0.00
+
+gpt-4.1
+gpt-4o
+DeepSeek
+gpt-4.1-mini
+Claude 3 Opus
+Gemini 2.0 Flash
+Claude 3.7 Sonnet
+Grok 3
+gpt-o3-mini
+Claude 4 Sonnet
+gpt-5-high
+GPT 5
+gpt-o3-mini-high
+gpt-o1
+Grok 3 think
+gpt-o4-mini
+Gemini 2.5 Pro
+gpt-o3
+Average
+
+0.25
+
+Figure 8: Omni-model comparison: overall accuracies of all tested LLMs on the complete 50question benchmark (aggregate of text-only and
+diagram-related items).
+nition: when dissipation, feasibility bounds, or
+non-quasistatic driving matter, accuracies drop
+significantly. (ii) Diagram-based items reveal a
+fundamental multimodal binding deficit: models can parse axes and curve features but consistently fail to map geometry
+to thermodynamic
+R
+meaning (e.g., signed p dV as work, process
+classification, constraint consistency across cycles).
+These deficits are particularly striking because graphical reasoning is where humans gain
+considerable efficiency. However, despite current limitations, this study documents substantial progress—the strongest 2025-era systems
+demonstrate solid macroscopic thermodynamics with increasingly consistent microscopic narratives, representing what we would reasonably
+characterize as deep understanding for many
+items. This suggests that—contingent on improved coupling of visual perception with physical constraints—reaching our accuracy threshold on this benchmark is plausible in the foreseeable future, a promising prospect for educational applications.
+We note that meeting accuracy thresholds
+is necessary but insufficient for effective tutoring. Beyond reliable problem solving, systems
+must also deliver appropriate interaction granularity, timely feedback, and disambiguation in
+dialogue—capabilities not assessed here. Our
+
+Acknowledgements
+We thank Tobias Brixner, Ingo Fischer, and
+Roland Mitrić for their validation of a Germanlanguage predecessor to this benchmark.
+
+References
+(1) Hinton, G. E.; Salakhutdinov, R. R. Reducing the dimensionality of data with
+neural networks. Science 2006, 313, 504–
+507.
+(2) Bengio, Y. Learning deep architectures for
+AI. Foundations and Trends in Machine
+Learning 2009, 2, 1–127.
+(3) LeCun, Y.; Bengio, Y.; Hinton, G. Deep
+learning. Nature 2015, 521, 436–444.
+(4) Vaswani, A.; Shazeer, N.; Parmar, N.;
+Uszkoreit, J.; Jones, L.; Gomez, A. N.;
+Kaiser, Ł.; Polosukhin, I. Attention is All
+You Need. Advances in Neural Information Processing Systems (NeurIPS). 2017.
+(5) Brown, T. B. et al. Language Models are
+Few-Shot Learners. Advances in Neural
+
+9
+
+Information Processing Systems 2020, 33,
+1877–1901.
+
+the Forty-First International Conference
+on Machine Learning. 2024.
+
+(6) OpenAI GPT-4 Technical Report. 2023;
+https://arxiv.org/abs/2303.08774.
+
+(16) Einstein, A. In Albert Einstein:
+Philosopher–Scientist; Schilpp, P. A.,
+Ed.; Library of Living Philosophers:
+Evanston, IL, 1949.
+
+(7) Duhem, P. Thermodynamics and Chemistry: A Non-mathematical Treatise for
+Chemists and Students of Chemistry; J.
+Wiley & sons, 1903.
+
+(17) VanLehn, K. The Relative Effectiveness
+of Human Tutoring, Intelligent Tutoring
+Systems, and Other Tutoring Systems.
+Educational Psychologist 2011, 46, 197–
+221.
+
+(8) Hollinger, H. B.; Zenzen, M. J. Thermodynamic Irreversibility: I. What Is It? Journal of Chemical Education 1991, 68, 31–
+34.
+
+(18) OpenAI
+Prompt
+caching.
+https:
+//learn.microsoft.com/en-us/
+azure/ai-foundry/openai/how-to/
+prompt-caching, OpenAI documentation (accessed 2025).
+
+(9) Bordoni, S. Unearthing a Buried Memory:
+Duhem’s Third Way to Thermodynamics.
+Part 1. Centaurus 2012, 54, 124–147.
+(10) Callen, H. B. Thermodynamics and an Introduction to Thermostatistics, 2nd ed.;
+Wiley: New York, 1985.
+
+(19) Liang, P.; Bommasani, R.; Lee, T.;
+Tsipras, D.; Soylu, D.; Yasunaga, M.;
+Zhang, Y.; Narayanan, D.; Wu, Y.; Kumar, A. Holistic Evaluation of Language
+Models. arXiv preprint arXiv:2305.14233
+2023,
+
+(11) Atkins, P.; de Paula, J.; Keeler, J. Physical Chemistry, 11th ed.; Oxford University
+Press: Oxford, 2018.
+
+(20) Shojaee, P.; Nguyen, N.-H.; Meidani, K.; Farimani, A. B.; Doan, K. D.;
+Reddy, C. K. LLM-SRBench: A New
+Benchmark for Scientific Equation Discovery with Large Language Models. 2025;
+https://arxiv.org/abs/2504.10415.
+
+(12) Bain, K.; Towns, M. H. A review of research on the teaching and learning of
+thermodynamics at the university level.
+Chemistry Education Research and Practice 2014, 15, 320–335.
+(13) Rein, D.; Li Hou, B.; Cooper Stickland, A.; Petty, J.; Pang, R. Y.; Dirani, J.; Michael, J.; Bowman, S. R.
+GPQA: A Graduate Level Google-Proof
+Q&A Benchmark. arXiv preprint 2023,
+arXiv:2305.10408.
+
+(21) Sweller, J. Cognitive load theory, learning
+difficulty, and instructional design. Learning and Instruction 1994, 4, 295–312.
+(22) Haladyna, T. M.; Rodriguez, M. C. Developing and Validating Test Items, 3rd ed.;
+Routledge: New York, 2013.
+
+(14) Phan, L. e. a. Humanity’s Last Exam:
+A Benchmark for Evaluating AI on
+the Benchmarks of Human Civilization.
+https://arxiv.org/abs/2501.14249 2025,
+
+(23) Messick, S. Validity of psychological assessment: Validation of inferences from
+persons’ responses and performances as
+scientific inquiry into score meaning.
+American Psychologist 1995, 50, 741–749.
+
+(15) Wang, X.; Hu, Z.; Lu, P.; Zhu, Y.;
+Zhang,
+J.;
+Subramaniam,
+S.;
+Loomba, A. R.; Zhang, S.; Sun, Y.;
+Wang, W. SciBench: Evaluating CollegeLevel Scientific Problem-Solving Abilities
+of Large Language Models. Proceedings of
+
+(24) Reynolds, L.; McDonell, K. Prompt Programming for Large Language Models:
+Beyond the Few-Shot Paradigm. Proceedings of the 3rd Workshop on Natural
+10
+
+Language Processing for Programming
+(NLP4Prog). 2021; pp 15–22.
+
+Large Langauge Models. arXiv preprint
+arXiv:2305.09692. 2023.
+
+(25) Chatterjee, A.; Renduchintala, H. S. V.
+N. S. K.; Bhatia, S.; Chakraborty, T.
+POSIX: A Prompt Sensitivity Index For
+Large Language Models. Findings of the
+Association for Computational Linguistics: EMNLP 2024. 2024; pp 14550–14565.
+
+(32) Li, C.; Wang, J.; Zhang, Y.; Zhu, K.;
+Hou, W.; Lian, J.; Luo, F.; Yang, Q.;
+Xie, X. Large Language Models Understand and Can be Enhanced by Emotional
+Stimuli. 2023; https://arxiv.org/abs/
+2307.11760.
+
+(26) He, J.; Rungta, M.; Koleczek, D.;
+Sekhon, A.; Wang, F. X.; Hasan, S. Does
+Prompt Formatting Have Any Impact
+on LLM Performance? arXiv preprint
+arXiv:2411.10541 2024, arXiv preprint.
+
+(33) Huang, Q.; Liu, X.; Ko, T.; Wu, B.;
+Wang, W.; Zhang, Y.; Tang, L. Selective Prompting Tuning for Personalized
+Conversations with LLMs. 2024; https:
+//arxiv.org/abs/2406.18187.
+
+(27) Wei, J.; Wang, X.; Schuurmans, D.;
+Bosma, M.; Ichter, B.; Xia, F.; Chi, E.;
+Le, Q.; Zhou, D. Chain-of-Thought
+Prompting Elicits Reasoning in Large
+Language Models. Advances in Neural Information Processing Systems. 2022; pp
+24824–24837.
+
+(34) Lanham, J.; et al. Measuring Faithfulness
+in Chain-of-Thought Reasoning. 2023;
+https://arxiv.org/abs/2307.13702.
+(35) Zhang, D.; Yang, N.; Zhu, J.; Yang, J.;
+Xin, M.; Tian, B. ASCoT: An Adaptive
+Self-Correction Chain-of-Thought Method
+for Late-Stage Fragility in LLMs. 2025;
+https://arxiv.org/abs/2508.05282.
+
+(28) Yao, S.; Yu, D.; Zhao, J.; Shafran, I.; Griffiths, T.; Cao, Y.; Narasimhan, K. Tree
+of Thoughts: Deliberate Problem Solving
+with Large Language Models. Advances in
+Neural Information Processing Systems.
+2023; pp 11809–11822.
+
+(36) Kojima, T.; et al. Large Language Models
+are Zero-Shot Reasoners. 2022; https://
+arxiv.org/abs/2205.11916.
+(37) Snow, C. E.; Uccelli, P. In The Cambridge Handbook of Literacy; Olson, D. R.,
+Torrance, N., Eds.; Cambridge University
+Press: Cambridge, 2009; pp 112–133.
+
+(29) Besta, M.; Blach, N.; Kubicek, A.; Gerstenberger, R.; Podstawski, M.; Gianinazzi, L.; Gajda, J.; Lehmann, T.;
+Niewiadomski, H.; Nyczyk, P.; Hoefler, T.
+Graph of Thoughts: Solving Elaborate
+Problems with Large Language Models.
+Proceedings of the AAAI Conference on
+Artificial Intelligence 2024, 38, 17682–
+17690.
+
+(38) Hendrycks, D.; Burns, C.; Basart, S.;
+Zou, A.; Mazeika, M.; Tang, D.; Song, D.;
+Steinhardt, J. Measuring Massive Multitask Language Understanding. Proceedings of the International Conference on
+Learning Representations (ICLR). 2021.
+
+(30) Liu, H.; Teng, Z.; Cui, L.; Zhang, C.;
+Zhou, Q.; Zhang, Y. LogiCoT: Logical Chain-of-Thought Instruction Tuning.
+Findings of the Association for Computational Linguistics: EMNLP 2023. Singapore, 2023; pp 2908–2921.
+
+(39) Larkin, J. H.; Simon, H. A. Why a Diagram is (Sometimes) Worth Ten Thousand Words. Cognitive Science 1987, 11,
+65–100.
+(40) Chi, M. T. H.; Feltovich, P. J.; Glaser, R.
+Categorization and Representation of
+Physics Problems by Experts and Novices.
+Cognitive Science 1981, 5, 121–152.
+
+(31) Hu, H.; Lu, H.; Zhang, H.; Song, Y.Z.; Lam, W.; Zhang, Y. Chain-ofSymbol Prompting Elicits Planning in
+11
+
+(41) Schnotz, W.; Bannert, M. Construction
+and interference in learning from multiple
+representation. Learning and Instruction
+2003, 13, 141–156.
+(42) Graesser, A. C.; McNamara, D. S.; Louwerse, M. M.; Cai, Z. Coh-Metrix: Analysis of text on cohesion and language. Behavior Research Methods, Instruments, &
+Computers 2004, 36, 193–202.
+(43) Gibson, E. Linguistic complexity: Locality of syntactic dependencies. Cognition
+1998, 68, 1–76.
+
+12
+
+8.50 cm = 245 pt
+
+TOC Graphic
+
+8.25 cm × 4.45 cm
+
+a) test residuals
+
+p
+
+∫
+
+p dV
+
+a
+b
+c
+
+V
+
+13
+
+

@@ -1,0 +1,840 @@
+FairTutor: Equity-Aware Pedagogical LLM Routing for
+Budget-Constrained AI Tutoring
+Qingyang Xu1
+1
+
+Independent researcher, Shanghai, China
+
+arXiv:2606.20713v1 [cs.AI] 16 Jun 2026
+
+Abstract
+
+Generative AI tutors provide real-time, personalized learning support, but also create a new education inequity:
+students with access to premium AI services may receive clearer explanations, more personalized guidance,
+and better scaffolding than students limited to free or low-cost services. To address this challenge, we propose
+FairTutor, an equity-aware model-routing framework that achieves cost-effective AI tutoring via pedagogically
+motivated multi-agent orchestration. FairTutor combines query analysis, pedagogical planning, low-cost model
+generation, evaluator-guided critique and revision, and selective escalation to premium AI models. We introduce
+access-tier AI Education (AIED) Advantage Gap to measure the quality difference between premium-access and
+budget-constrained tutoring, and TutorAccessEval, a benchmark spanning math, reading, writing, science, and
+language learning. Empirical evaluations show that FairTutor achieves 97.1% of premium pedagogical quality (in
+floor-adjusted Likert scale) while reducing serving cost by 71.6%. Sensitivity analysis reveals a tunable cost–quality
+Pareto frontier, enabling FairTutor to be tailored to the needs of diverse student populations.
+
+Keywords
+
+AI education, large language model, model routing, cost-aware routing, access-tier quality parity, multi-agent
+systems
+
+1. Introduction
+Generative AI systems have fundamentally changed how students in all grade levels seek help for their
+studies. A high-quality AI tutor can provide real-time personalized feedback and support, and may also
+inspire the student to think more creatively and systematically through Socratic questioning [10, 11].
+However, these benefits are not evenly shared across all student populations. As premium AI services
+provide clearer explanations, more personalized guidance, and better scaffolding than free or low-cost
+services, the quality of AI tutoring depends heavily on the student’s access tier.
+One natural solution to mitigate this access-tier quality gap is to route easier queries to low-cost
+models and route difficult or risky queries to stronger models. Recent LLM routing and cascading
+methods study this cost–quality tradeoff in generic settings [3, 4, 5]. However, AI tutoring presents
+unique challenges to this question-answering framework. A response can be factually correct but
+pedagogically poor if it gives away the final answer, ignores the learner’s misconception, uses ageinappropriate language, or fails to scaffold reasoning. The routing system must be pedagogically
+motivated.
+To address this challenge, we propose FairTutor 1 , a multi-agent architecture designed to maximize
+pedagogical quality under education budget constraints. FairTutor processes each student query
+through query analysis, pedagogical planning, low-cost generation, pedagogical evaluation, criticguided revision, and selective escalation to stronger models. Unlike existing routers, FairTutor explicitly
+estimates and reduces the gap between premium-access and budget-constrained tutoring quality. We
+name this metric the access-tier AI Education (AIED) Advantage Gap, which measures equity across
+pricing tiers rather than demographic groups. The latter will be addressed in future work.
+This WIP makes four main contributions to the research literature (reviewed in Appendix E):
+AI for Education Day at KDD 2026, August 2026, Jeju, Korea
+email: qyxu1994@gmail.com (Q. Xu)
+orcid: 0000-0003-3342-1795 (Q. Xu)
+© 2026 Copyright for this paper by its authors. Use permitted under Creative Commons License Attribution 4.0 International (CC BY 4.0).
+1
+
+Repository: https://github.com/qyxu1994/fairtutor-router.
+
+1. We formulate the access-tier equity-aware AI tutoring as a constrained model-routing optimization
+problem (Eq. 2) guided by pedagogical quality, cost, and access-tier disparity metrics.
+2. We introduce FairTutor (Figure 1), a pedagogically motivated multi-agent architecture that
+combines query analysis, pedagogical planning, critic-guided revision, and selective escalation.
+3. We propose the new metric access-tier AIED Advantage Gap (Eq. 1) for measuring how much
+access to premium AI services improves pedagogical quality over budget-constrained access.
+4. We present the design of TutorAccessEval (in Appendix D), a novel benchmark dataset for
+evaluating cost, pedagogical quality, safety, and access-tier equity for AI tutoring systems.
+
+2. Problem Formulation
+Let 𝑥 ∈ 𝒳 denote a student’s query for the AI tutor. Each query includes the student’s question and
+metadata such as learning subject, grade level, estimated difficulty, and pedagogical context. A tutoring
+system chooses an action or workflow 𝑎 ∈ 𝒜, where 𝑎 may correspond to low-cost model generation,
+retrieval-augmented generation, critic-guided revision, or escalation to a high-cost premium model.
+Each action produces a response 𝑦 = 𝑓𝑎 (𝑥) with cost 𝐶(𝑎, 𝑥) and pedagogical quality 𝑄(𝑦, 𝑥). We
+estimate 𝑄 using a rubric that scores correctness, conceptual clarity, scaffolding, grade appropriateness,
+answer-leakage avoidance, empathy, and safety. Let 𝜋 : 𝒳 → 𝒜 be a routing policy. To model the
+access-tier quality gap, we define a premium-access policy 𝜋premium (which always routes to premium
+AI models) and a budget-constrained policy 𝜋budget (which selectively routes to either low-cost or
+premium AI models). For a query distribution 𝒟, we define the access-tier AIED Advantage Gap as
+[︁
+]︁
+ΔAIED = E𝑥∼𝒟 𝑄(𝑓𝜋premium (𝑥) (𝑥), 𝑥) − 𝑄(𝑓𝜋budget (𝑥) (𝑥), 𝑥) .
+(1)
+In general, ΔAIED > 0 and a smaller value indicates that budget-constrained students receive tutoring
+quality closer to premium-access students. In this WIP we focus on equity across API pricing tiers, and
+leave student demographic equity to future work. The FairTutor objective is formulated as
+max E[𝑄] − 𝜆E[𝐶] − 𝛾ΔAIED ,
+
+𝜋budget
+
+(2)
+
+where 𝜆, 𝛾 > 0 control cost and access-tier gap penalties. For WIP implementation, we instantiate
+this objective with threshold-based routing and evaluator-guided escalation (Algorithm 1) rather than
+a learned policy. We perform hyperparameter sweep for the escalation threshold to identify the
+cost–quality tradeoff and leave the systematic optimization of FairTutor objective (Eq. 2) in future work.
+
+3. FairTutor Architecture
+3.1. System overview
+FairTutor is a multi-agent system with six components: a query analyzer, a pedagogical planner, a
+low-cost tutor generator, a pedagogical evaluator, a critic-rewriter, and an escalation controller (Figure 1).
+
+3.2. Query analysis and pedagogical planning
+Given a student query, the query analyzer analyzes the subject, grade level, difficulty, direct-answer
+risk, and whether the query requires multi-step reasoning. The pedagogical planner then selects a
+tutoring strategy, such as Socratic hinting, a worked example, misconception diagnosis, analogy, short
+formative quiz, or writing feedback. Two queries with similar lexical content may require different
+responses depending on whether the learner needs a hint, conceptual explanation, or final verification.
+
+Figure 1: FairTutor workflow. A low-cost tutor produces an initial response; the evaluator accepts it, sends it
+to a low-cost critic-rewriter, or escalates it to the premium tutor. To reduce the overall cost of AI tutoring, all
+modules except the Premium Tutor use the low-cost model.
+
+3.3. Evaluator-guided routing
+The first candidate response is generated by a low-cost AI tutor. The pedagogical evaluator scores
+the response on seven criteria: correctness, conceptual clarity, scaffolding, grade appropriateness,
+answer-leakage avoidance, empathy, and safety. The final pedagogical quality score 𝑄 is:
+𝑄 = 0.30𝑄corr +0.20𝑄clarity +0.20𝑄scaffold +0.10𝑄age +0.10𝑄leak +0.05𝑄empathy +0.05𝑄safety . (3)
+A response is returned if it exceeds all quality thresholds. If the response is close to acceptable but weak
+in scaffolding or clarity, a critic-rewriter revises it using evaluator feedback. If the response is incorrect,
+unsafe, or still below threshold after revision, the query is escalated to the premium model.
+
+3.4. Cascade policy via pedagogical rubric
+Algorithm 1 summarizes the cascade mechnanism of model routing. FairTutor first generates and
+evaluates a low-cost candidate. If 𝑄 ≥ 𝜏 and all critical dimensions pass, it returns the response. If
+𝑄 ∈ [𝜏rewrite , 𝜏 ), it invokes the critic-rewriter and re-evaluates. If the revised response still fails, it
+escalates to the premium model. To rigorously understand and evaluate the multi-agent system, we log
+the trace of each agent’s reasoning and decision, API cost, evaluator score, and escalation path.
+In the experiments, we set 𝜏 = 4.0 for general queries, 𝜏 = 4.2 for hard or high-risk queries, and
+𝜏rewrite = 3.5. These heuristic thresholds instantiate Eq. 2 but are not claimed to be optimal. Sensitivity
+analysis (Appendix C) shows that sweeping 𝜏 traces a smooth Pareto frontier: the default 𝜏 = 4.0
+greatly lowers cost, while 𝜏 = 4.5 reaches near parity (within 𝑄±0.5) with premium model at moderate
+additional cost. Systematic optimization of the FairTutor objective (Eq. 2) is left to future work.
+
+4. Preliminary Experimental Evaluation
+4.1. Benchmark and implementation status
+We generate 50 realistic student queries following the design of the TutorAccessEval dataset (Appendix D), covering math, reading, writing, science, and language-learning tasks, with metadata for
+grade level, difficulty, direct-answer risk, and expected pedagogy. Each routing system is evaluated on
+the same 50 queries. The size and complexity of the evaluation will be extended in future work.
+The systems are evaluated using the rubric in Table 3: correctness, conceptual clarity, scaffolding,
+grade appropriateness, answer-leakage avoidance, empathy, safety, and weighted overall quality. We
+use Qwen3-8B from OpenRouter API as the low-cost model [14], and use GPT-5 from OpenAI API as
+the premium and evaluator model [16]. To estimate AI tutoring cost, we assume GPT-5 has 100× the
+serving cost per input token and 75× per output token compared to Qwen3-8B, and compare each
+
+Algorithm 1 FairTutor: evaluator-guided tutoring policy
+Require: Student query 𝑥; low-cost tutor 𝑀𝑐 ; premium tutor 𝑀𝑝 ; evaluator 𝐸; quality threshold 𝜏 ;
+rewrite threshold 𝜏𝑟
+Ensure: Final tutoring response 𝑦
+1: 𝑧 ← AnalyzeQuery(𝑥)
+2: 𝑝 ← MakePedagogicalPlan(𝑥, 𝑧)
+3: 𝑦𝑐 ← 𝑀𝑐 (𝑥, 𝑝)
+4: 𝑠𝑐 ← 𝐸(𝑥, 𝑦𝑐 )
+5: if PassesThresholds(𝑠𝑐 , 𝑥, 𝜏 ) then
+6:
+return 𝑦𝑐
+7: end if
+8: if IsRewriteCandidate(𝑠𝑐 , 𝜏𝑟 ) then
+9:
+𝑦𝑟 ← CriticRewrite(𝑥, 𝑦𝑐 , 𝑠𝑐 , 𝑝)
+10:
+𝑠𝑟 ← 𝐸(𝑥, 𝑦𝑟 )
+11:
+if PassesThresholds(𝑠𝑟 , 𝑥, 𝜏 ) then
+12:
+return 𝑦𝑟
+13:
+end if
+14: end if
+15: 𝑦𝑝 ← 𝑀𝑝 (𝑥, 𝑝)
+16: return 𝑦𝑝
+system to premium-only by the total number of input and output tokens [15, 17]. The reported cost is a
+relative, token-weighted proxy, and excludes the cost of evaluating the final AI tutor responses.
+GPT-5 serves as both premium reference tutor and final evaluator (routing itself uses the low-cost
+evaluator), creating a possible self-consistency confound. As a robustness check, we re-scored all
+250 responses with DeepSeek-V4 (Appendix B). The judge scores are moderately correlated (Pearson
+𝑟 = 0.53, mean offset Δ = −0.006), the five-system ranking is preserved, and a paired bootstrap
+shows FairTutor’s gap reduction over the low-cost tier is statistically sigificant. We therefore treat the
+directional trends of FairTutor’s performance, not its exact magnitudes, as the robust finding, and will
+perform additional evaluations on real-world student queries with expert annotations in future work.
+
+4.2. Model routing system variants
+We compare five tutoring systems:
+1. Low-cost-only: always use the low-cost AI tutor to measure the baseline pedagogical quality.
+2. Premium-only: always use the premium AI tutor to achieve the target pedagogical quality.
+3. Naive difficulty router: use a rule-based difficulty route without evaluator-guided refinement.
+4. Generic cascade router: generate with the low-cost model and escalate to the premium model
+when evaluator scores fall below a fixed threshold.
+5. FairTutor: use query analysis, pedagogical planning, low-cost generation, evaluator-guided
+critique, and selective escalation to match the premium-only quality while lowering the cost.
+
+4.3. Main results
+Table 1 summarizes the pedagogical quality of the five systems. FairTutor achieves an average quality
+score of 4.760, nearly matching premium-only quality of 4.874. By comparison, low-cost-only reaches
+4.400, naive difficulty routing reaches 4.543, and generic cascade routing reaches 4.695. While we
+construct internal routing systems for baseline comparisons in this WIP, future work will compare
+against external routers such as RouteLLM and FrugalGPT (reviewed in Appendix E).
+The gap is most visible in scaffolding, the dimension most critical to whether students learn to think
+and reason rather than memorize answers: low-cost-only scores 3.640, naive difficulty routing scores
+
+Table 1
+Pedagogical quality of the five systems
+(1–5 scale; Table 3). Premium-only is the reference target. SE is the
+√
+standard error of mean quality (𝜎/ 50). Future work will perform significance testing on a scaled benchmark.
+Quality ↑
+
+SE ↓
+
+Correct. ↑
+
+Scaffold. ↑
+
+ΔAIED ↓
+
+Premium-only (target)
+
+4.874
+
+0.023
+
+5.000
+
+4.640
+
+0.000
+
+Low-cost-only
+Naive difficulty router
+Generic cascade router
+FairTutor
+
+4.400
+4.543
+4.695
+4.760
+
+0.080
+0.061
+0.042
+0.039
+
+4.680
+4.760
+4.920
+4.940
+
+3.640
+3.980
+4.160
+4.380
+
+0.474
+0.331
+0.179
+0.114
+
+System
+
+Table 2
+Parity and efficiency metrics, with premium-only as reference. Serving cost is a relative token-weighted proxy
+(premium generation 100× input / 75× output vs. low-cost; evaluator calls excluded). Escalation rate is the
+fraction of queries served by the premium model.
+Within 0.5 of Premium ↑
+
+Serving cost ↓
+
+Cost reduction ↑
+
+Escal. Rate ↓
+
+Premium-only (target)
+
+100%
+
+100%
+
+0%
+
+100%
+
+Low-cost-only
+Naive difficulty router
+Generic cascade router
+FairTutor
+
+78%
+72%
+88%
+92%
+
+0.8%
+39.7%
+32.0%
+28.4%
+
+99.2%
+60.3%
+68.0%
+71.6%
+
+0%
+34%
+28%
+18%
+
+System
+
+3.980, generic cascade routing scores 4.160, premium-only scores 4.640, and FairTutor scores 4.380.
+The critic-guided revision mechanism in FairTutor effectively improves the pedagogical quality of the
+low-cost model, while it does not fully close the gap with premium model. Overall, ΔAIED is reduced
+from 0.474 for low-cost-only and 0.331 for naive difficulty routing to 0.114 for FairTutor.
+Table 2 reports parity and cost efficiency metrics using premium-only as the reference target. FairTutor
+scores within 0.5 quality points of premium-only on 92% of queries, compared with 78% for low-costonly and 88% for generic cascade. In addition, FairTutor also significantly reduces serving cost by 71.6%
+while maintaining 97.1% of premium pedagogical quality and is the most cost-effective routing system.
+The strongest baseline is generic cascade mechanism. Since FairTutor escalates less often than generic
+cascade (18% vs. 28%), its serving cost (28.4%) is lower than the latter (32.0%) despite the extra calls to
+low-cost models in the pedagogical planning and critic-guided revision steps.
+
+4.4. Threshold sensitivity analysis
+To investigate the effect of escalation threshold 𝜏 , we perform a hyperparameter sweep to analyze the
+cost–quality Pareto frontier of FairTutor (Figure 2) in Appendix C). We find that FairTutor generates
+a flexible cost–quality tradeoff that can satisfy the needs of diverse studnet populations. The default
+𝜏 = 4.0 lowers the cost to 30% of premium while preserving 92% within-0.5 parity. Raising 𝜏 improves
+quality, scaffolding, and parity along the Pareto frontier. At 𝜏 = 4.5, FairTutor reaches 100% within-0.5
+parity, reduces ΔAIED to 0.082, and still costs about one third of premium-only. At 𝜏 ≈ 4.8, FairTutor
+achieves higher average quality than premium-only while still lowering the cost by more than 20%.
+One possible reason is that the escalation calls to premium model in FairTutor is planner-informed and
+has stronger guidance to the premium model than a simple one-shot call in the premium-only variant.
+
+5. Discussion, Ethical Considerations, and Future Work
+We introduced FairTutor, an access-tier equity-aware model routing framework for budget-constrained
+AI tutoring. FairTutor preserves pedagogical quality and lowers serving cost through evaluator-guided
+
+response refinement and selective escalation to premium models. Empirical evaluations show that
+FairTutor nearly matches premium-only quality while reducing the access-tier AIED Advantage Gap.
+This WIP has several limitations to be addressed in future work. The final response evaluation uses
+GPT-5 as both premium tutor and the response evaluator. Future work should use held-out evaluators,
+educator annotation, and real-world student queries for rigorous evaluations. In addition, the TutorAccessEval benchmark is small, synthetic, and single-turn. Future work should scale TutorAccessEval,
+add authentic multi-turn conversations, and learn the model routing policy by optimizing the FairTutor
+objective. Finally, while this WIP focues on equity across access tiers of AI tutoring services, future
+work should investigate the AI education equity across more diverse student demographics.
+
+Declaration on Generative AI
+During the preparation of this work, the author used ChatGPT for brainstorming, paper drafting and
+editing, and code scaffolding, and used Claude Code for code implementation. The author reviewed and
+edited the entire content and takes full responsibility for the publication’s content.
+
+Code Availability
+The source code is available under MIT License at https://github.com/qyxu1994/fairtutor-router.
+
+Acknowledgements
+The author thanks Xiaotong Chen and Jiangbo Wan for insightful discussions.
+
+References
+[1] S. Wang, T. Xu, H. Li, C. Zhang, J. Liang, J. Tang, P. S. Yu, and Q. Wen. Large language models for education: A survey and outlook. IEEE Signal Processing Magazine, 42(6):51–63, 2025.
+arXiv:2403.18105. doi:10.1109/MSP.2025.3594309.
+[2] Z. Chu, S. Wang, J. Xie, T. Zhu, Y. Yan, J. Ye, A. Zhong, X. Hu, J. Liang, P. S. Yu, and Q. Wen. LLM
+agents for education: Advances and applications. In Findings of the Association for Computational
+Linguistics: EMNLP 2025, pages 13782–13810, 2025. arXiv:2503.11733.
+[3] L. Chen, M. Zaharia, and J. Zou. FrugalGPT: How to use large language models while reducing
+cost and improving performance. Transactions on Machine Learning Research, 2024.
+[4] I. Ong, A. Almahairi, V. Wu, W.-L. Chiang, T. Wu, J. E. Gonzalez, M. W. Kadous, and I. Stoica.
+RouteLLM: Learning to route LLMs with preference data. arXiv preprint arXiv:2406.18665, 2024.
+[5] J. Dekoninck, M. Baader, and M. Vechev. A unified approach to routing and cascading for LLMs.
+In Proceedings of the 42nd International Conference on Machine Learning, 2025. arXiv:2410.10347.
+[6] E. Kasneci, K. Seßler, S. Küchemann, M. Bannert, D. Dementieva, F. Fischer, U. Gasser, G. Groh, S.
+Günnemann, E. Hüllermeier, S. Krusche, G. Kutyniok, T. Michaeli, C. Nerdel, J. Pfeffer, O. Poquet,
+M. Sailer, A. Schmidt, T. Seidel, M. Stadler, J. Weller, J. Kuhn, and G. Kasneci. ChatGPT for good?
+On opportunities and challenges of large language models for education. Learning and Individual
+Differences, 103:102274, 2023. doi:10.1016/j.lindif.2023.102274.
+[7] J. Lee, Y. Hicke, R. Yu, C. Brooks, and R. F. Kizilcec. The life cycle of large language models
+in education: A framework for understanding sources of bias. British Journal of Educational
+Technology, 55(5):1982–2002, 2024. doi:10.1111/bjet.13505.
+[8] I. Delikoura, Y. R. Fung, and P. Hui. From superficial outputs to superficial learning: Risks of large
+language models in education. arXiv preprint arXiv:2509.21972, 2025.
+[9] W. Holmes, K. Porayska-Pomsta, K. Holstein, E. Sutherland, T. Baker, S. B. Shum, O. C. Santos,
+M. T. Rodrigo, M. Cukurova, I. I. Bittencourt, and K. R. Koedinger. Ethics of AI in education:
+Towards a community-wide framework. International Journal of Artificial Intelligence in Education,
+32(3):504–526, 2022. doi:10.1007/s40593-021-00239-1.
+[10] B. S. Bloom. The 2 sigma problem: The search for methods of group instruction as effective as
+one-to-one tutoring. Educational Researcher, 13(6):4–16, 1984. doi:10.3102/0013189X013006004.
+[11] K. VanLehn. The relative effectiveness of human tutoring, intelligent tutoring systems, and other
+tutoring systems. Educational Psychologist, 46(4):197–221, 2011. doi:10.1080/00461520.2011.611369.
+[12] M. Warschauer. Technology and Social Inclusion: Rethinking the Digital Divide. MIT Press, 2003.
+[13] J. D. Hansen and J. Reich. Democratizing education? Examining access and usage patterns in
+massive open online courses. Science, 350(6265):1245–1248, 2015. doi:10.1126/science.aab3782.
+[14] A. Yang, A. Li, B. Yang, B. Zhang, B. Hui, B. Zheng, B. Yu, C. Gao, C. Huang, C. Lv, C. Zheng, D.
+Liu, F. Zhou, F. Huang, F. Hu, H. Ge, H. Wei, H. Lin, J. Tang, J. Yang, J. Tu, J. Zhang, J. Yang, J. Yang,
+
+J. Zhou, J. Zhou, J. Lin, K. Dang, K. Bao, K. Yang, L. Yu, L. Deng, M. Li, M. Xue, M. Li, P. Zhang, P.
+Wang, Q. Zhu, R. Men, R. Gao, S. Liu, S. Luo, T. Li, T. Tang, W. Yin, X. Ren, X. Wang, X. Zhang, X.
+Ren, Y. Fan, Y. Su, Y. Zhang, Y. Zhang, Y. Wan, Y. Liu, Z. Wang, Z. Cui, Z. Zhang, Z. Zhou, and Z.
+Qiu. Qwen3 technical report. arXiv preprint arXiv:2505.09388, 2025.
+[15] OpenRouter. Qwen: Qwen3 8B — API pricing and providers. OpenRouter Model Pricing Page, 2026.
+https://openrouter.ai/qwen/qwen3-8b. Accessed May 7, 2026. Listed pricing: $0.05 per million
+input tokens and $0.40 per million output tokens.
+[16] OpenAI. GPT-5 system card. OpenAI Technical Report, 2025. https://openai.com/index/
+gpt-5-system-card/. Published August 13, 2025.
+[17] OpenAI. OpenAI API pricing. OpenAI API Documentation, 2026. https://openai.com/api/pricing/.
+Accessed May 7, 2026. Listed prices are per million tokens and may change over time.
+
+A. Pedagogical Evaluation Rubric
+Table 3
+Evaluator dimensions used to estimate pedagogical quality. All dimensions are estimated on a Likert scale from
+1 to 5.
+Dimension
+
+Description
+
+Correctness
+Conceptual clarity
+Scaffolding
+Grade appropriateness
+Answer-leakage avoidance
+Empathy
+Safety
+
+The response is factually and logically correct.
+The explanation is clear and coherent.
+The response helps the student reason rather than only giving answers.
+Language and examples fit the specified learner level.
+The response avoids inappropriate direct solution disclosure.
+Tone is encouraging and supportive.
+Response avoids harmful, misleading, or overconfident guidance.
+
+B. Robustness Check: Independent DeepSeek-V4 Evaluator
+Because GPT-5 serves as both the premium reference tutor and the final evaluator in the main experiment
+(§4), the reported scores could in principle reflect an evaluator self-preference rather than genuine
+pedagogical quality. To test this, we re-scored all 250 (query, response) pairs with DeepSeek-V4 as an
+independent judge, using the identical rubric (Table 3) and prompt, without any new tutoring calls.
+Table 4 reports the resulting pedagogical quality.
+Across all 250 pairs, GPT-5 and DeepSeek-V4 overall scores are positively correlated (Pearson 𝑟 =
+0.53) with a negligible mean offset (Δ = −0.006 on the 1–5 scale), indicating no systematic global bias
+between the two judges. More importantly for our claims, the qualitative ranking of the five systems is
+preserved: premium-only > FairTutor > generic cascade > naive difficulty router > low-cost-only. The
+ΔAIED ordering is likewise monotone, and FairTutor again attains the smallest access-tier gap (0.142)
+among the budget-constrained systems, while its scaffolding score (4.080) remains the highest of the
+non-premium systems. We therefore treat the main-text quantitative values as directional estimates
+whose ordering is robust to the choice of LLM judge. We note that the absolute pedagogical-quality
+differences compress somewhat under DeepSeek-V4 (e.g., the premium-only score drops from 4.874 to
+4.811), which is why we report the ranking, rather than the exact magnitudes, as the robust finding.
+To quantify the small-sample uncertainty directly, we computed paired bootstrap 95% confidence
+intervals over the 50 queries (10,000 resamples; scripts/bootstrap_ci.py). FairTutor’s gain over
+generic cascade in overall quality is +0.065 with a 95% CI of [−0.040, +0.168], i.e. not yet statistically
+resolved at 𝑛 = 50—consistent with the small Table 1 margin and the caption’s call for significance
+testing on a scaled benchmark. By contrast, FairTutor’s per-query quality improvement over low-costonly (equivalently, its reduction of the access-tier gap relative to the low-cost tier) is +0.360 with a 95%
+CI of [+0.203, +0.533], which excludes zero. The robust claim is therefore that FairTutor substantially
+closes the gap to premium relative to the low-cost baseline; its margin over the strongest internal
+comparison system is directionally positive but awaits a larger benchmark.
+
+C. Routing-Threshold Sensitivity Analysis
+The cascade in Algorithm 1 is governed by two thresholds: the acceptance threshold 𝜏 and the rewriteband threshold 𝜏rewrite . To characterize how these thresholds shape the cost–quality tradeoff, we
+conduct a controlled sensitivity analysis. Because the cascade is deterministic given the candidate
+evaluator scores, we materialize all three candidate branches for every query once—the low-cost
+response, the critic-rewritten response, and the premium escalation, each with its evaluator score and
+token-level cost—and then replay the routing logic offline for every threshold setting at zero additional
+
+Table 4
+Pedagogical quality under an independent DeepSeek-V4 evaluator (ablation; cf. Table 1). All 250 responses
+re-scored with the identical
+√ rubric. Quality, correctness, and scaffolding are on a 1–5 scale; SE is the standard
+error of mean quality (𝜎/ 50).
+Quality ↑
+
+SE ↓
+
+Correct. ↑
+
+Scaffold. ↑
+
+ΔAIED ↓
+
+Premium-only (target)
+
+4.811
+
+0.041
+
+5.000
+
+4.340
+
+0.000
+
+Low-cost-only
+Naive difficulty router
+Generic cascade router
+FairTutor
+
+4.534
+4.595
+4.632
+4.669
+
+0.064
+0.074
+0.055
+0.067
+
+4.920
+4.860
+4.980
+4.920
+
+3.500
+3.920
+3.800
+4.080
+
+0.277
+0.216
+0.179
+0.142
+
+System
+
+generation cost. This holds the generations fixed while varying only the thresholds, isolating the policy’s
+sensitivity from generation sampling noise. Cost follows the same token-weighted methodology as
+Table 2 (premium generation weighted 100× input and 75× output relative to the low-cost tier; the
+in-pipeline evaluator runs on the low-cost tier).
+We first find that 𝜏rewrite is non-binding on this benchmark: across 𝜏rewrite ∈ [3.0, 3.8] the metrics are
+unchanged, because the rewrite decision is governed by the scaffolding gate (IsRewriteCandidate) and
+the hard-query escalation guard rather than by the band’s lower edge. We therefore fix 𝜏rewrite = 3.5
+and sweep 𝜏 (Table 5, Figure 2).
+Quality, scaffolding, and premium-parity rise monotonically with 𝜏 , tracing a smooth Pareto frontier.
+The default 𝜏 = 4.0 is a deliberately cost-favoring operating point (serving cost ≈ 30% of premium).
+Raising 𝜏 first converts borderline low-cost acceptances into critic-rewrites rather than premium
+escalations, so quality and parity improve while the escalation rate stays roughly flat: at 𝜏 = 4.5,
+FairTutor attains 100% within-0.5 parity and halves the access-tier gap (ΔAIED from 0.144 to 0.082)
+while still serving at roughly a third of the premium cost and escalating only 22% of queries. Beyond
+𝜏 ≈ 4.6 the escalation rate climbs steeply and returns diminish: 𝜏 = 4.7 drives ΔAIED to zero but at
+44% of premium cost, and 𝜏 ≥ 4.9 escalates a majority of queries for negligible additional savings.
+At the highest thresholds ΔAIED becomes slightly negative—FairTutor’s evaluator-guided rewriting
+marginally exceeds single-shot premium quality on this set—consistent with the failure-mode finding
+(§4) that premium-only generation is not itself optimal. The default cell closely tracks the main-text
+FairTutor row (quality 4.730 vs. 4.760; serving cost 30.0% vs. 28.4%), the small residual reflecting
+the independent re-materialization of candidates; we therefore report the sweep as a self-contained
+sensitivity analysis whose relative trends, rather than absolute magnitudes, are the finding. Because the
+materialization captures a single sample per stage, the analysis matches the single-sample design of the
+main experiment.
+Table 5
+Routing-threshold sensitivity (𝜏 swept, 𝜏rewrite = 3.5 fixed). Offline replay over the 50-query benchmark using
+the same cost methodology as Table 2. The 𝜏 = 4.0 row is the default configuration; results for 𝜏 ∈ {4.0, 4.1, 4.2}
+are identical and shown once. Quality and scaffolding are on a 1–5 scale; serving cost is relative to premium-only.
+𝜏
+
+Quality ↑
+
+Scaffold. ↑
+
+ΔAIED ↓
+
+Within 0.5 ↑
+
+Escal. ↓
+
+Cost ↓
+
+4.0 (default)
+4.3
+4.4
+4.5
+4.6
+4.7
+4.8
+
+4.730
+4.747
+4.770
+4.792
+4.834
+4.874
+4.890
+
+4.320
+4.340
+4.400
+4.440
+4.500
+4.560
+4.620
+
+0.144
+0.127
+0.104
+0.082
+0.040
+0.000
+–0.016
+
+92%
+96%
+98%
+100%
+100%
+100%
+98%
+
+18%
+18%
+20%
+22%
+28%
+30%
+42%
+
+30.0%
+30.1%
+32.0%
+33.9%
+41.4%
+43.9%
+60.1%
+
+Figure 2: Cost–quality (left) and cost–ΔAIED (right) Pareto frontier as the acceptance threshold 𝜏 is swept
+(𝜏rewrite = 3.5). The default 𝜏 = 4.0 favors cost; 𝜏 = 4.5 (circled) reaches full within-0.5 parity at roughly a third
+of the premium serving cost. Premium-only (⋆) and generic cascade (♦, at its own serving cost) are shown for
+reference; the FairTutor frontier lies above and to the left of generic cascade in both panels, indicating it attains
+higher quality and a smaller gap at comparable cost.
+
+D. TutorAccessEval Query Dataset
+TutorAccessEval is a compact diagnostic benchmark designed to evaluate whether AI tutoring systems
+provide not only correct answers, but also pedagogically appropriate support. The 50-query version used
+in this WIP paper contains student-style queries across six subject categories: math, reading, writing,
+science, language, and general study-help tasks. Each query is represented as a JSON object with the
+following fields: a unique identifier, subject, grade level, difficulty level, student query, a Boolean flag
+indicating whether the system should avoid giving the direct answer, an expected pedagogy description,
+and a list of risk tags.
+
+D.1. Example TutorAccessEval Item
+{
+"id": "math_001",
+"subject": "math",
+"grade_level": "middle school",
+"difficulty": "medium",
+"student_query": "I don’t understand why dividing by a fraction means multiplying by
+the reciprocal. Can you explain?",
+"should_avoid_direct_answer": true,
+"expected_pedagogy": "Use a concrete example, visual intuition, and one check-forunderstanding question.",
+"risk_tags": ["misconception", "math_reasoning"]
+}
+
+D.2. Dataset composition
+Table 6 summarizes the composition of the 50-query evaluation set. The dataset intentionally balances
+answer-seeking and learning-oriented queries: 25 queries are marked as cases where the tutor should
+avoid giving the direct answer, and 25 allow a direct answer with concise explanation. This design
+tests whether a system can adapt to different pedagogical contexts rather than always following a fixed
+tutoring style.
+
+Table 6
+Composition of the 50-query TutorAccessEval dataset used in the WIP evaluation.
+Attribute
+
+Category
+
+Count
+
+Subject
+
+Math
+Reading
+Writing
+Science
+Language
+General
+
+10
+9
+9
+9
+9
+4
+
+Grade level
+
+Elementary
+Middle school
+High school
+
+17
+21
+12
+
+Difficulty
+
+Easy
+Medium
+Hard
+
+20
+13
+17
+
+Direct-answer avoidance
+
+True
+False
+
+25
+25
+
+The subject distribution is approximately balanced while preserving a small set of general tutoring
+cases. The grade-level distribution emphasizes elementary and middle-school tutoring, where scaffolding, age appropriateness, and answer-leakage avoidance are especially important. The difficulty
+distribution includes a substantial number of hard cases to stress-test routing decisions and escalation
+behavior.
+
+D.3. Important dataset features
+TutorAccessEval is designed around several features that are central to AI tutoring evaluation. First,
+each item includes an expected_pedagogy field, which specifies the desired teaching strategy rather
+than only the desired final answer. For example, some math items ask the tutor to guide the student
+through inverse operations or visual reasoning; reading items may ask for contrastive examples and
+a check-for-understanding; writing and language items may require outlines, sentence frames, or
+grammar-focused scaffolding.
+Second, the dataset includes explicit direct-answer-avoidance labels. This is important because
+good tutoring behavior is context-dependent. In some cases, such as a student asking for a short
+factual answer, directness is appropriate. In other cases, such as homework completion, proof-writing,
+translation, or essay generation, the tutor should guide the learner without completing the task for
+them. This distinction allows the evaluator to penalize both unwanted answer leakage and overly
+indirect responses when a direct answer is appropriate.
+Third, each item includes risk tags that identify pedagogical or safety-relevant concerns. The most
+common tags include misconception, homework completion, homework dependency, writing feedback,
+science facts, math reasoning, reading comprehension, language grammar, and academic integrity.
+These tags help analyze whether failures concentrate in particular types of tutoring interactions. For
+instance, the case studies include academic-integrity-sensitive essay writing, direct-answer science
+worksheets, wholesale translation requests, and science misconception repair.
+
+D.4. Limitations
+TutorAccessEval is intended as a preliminary diagnostic benchmark, not a validated measure of student
+learning. It has several limitations. First, the dataset is small: 50 queries are sufficient for a WIP
+demonstration but not enough to establish robust subject-level conclusions. Second, the queries are
+synthetic or manually curated rather than collected from real tutoring sessions. As a result, they may
+
+not fully capture the ambiguity, emotional context, multilingual phrasing, or persistence patterns found
+in authentic student interactions. Third, the dataset focuses on single-turn tutoring. Many important
+tutoring behaviors, such as adaptive hinting, misconception tracking, and gradual fading of support,
+require multi-turn evaluation.
+Fourth, the benchmark currently lacks demographic, accessibility, and socioeconomic context. This is
+a limitation for an equity-focused paper: the current access-tier AI Education Advantage Gap measures
+quality differences across access tiers, not across real learner populations. Fifth, the dataset does not
+include human teacher annotations or student learning-gain measurements. The expected pedagogy
+field provides a useful rubric target, but it should eventually be validated by educators. Finally, the
+subject distribution is broad but shallow; each domain has only a small number of examples, and some
+important educational settings, such as multilingual learners, special education, early literacy, and
+culturally grounded instruction, are underrepresented.
+
+D.5. Future work
+Future versions of TutorAccessEval should expand in four directions. First, the dataset should scale
+to hundreds or thousands of queries with balanced coverage across subjects, grade levels, difficulty
+levels, and tutoring risks. Second, it should include multi-turn tutoring trajectories so that systems can
+be evaluated on hint progression, student uptake, recovery from misunderstanding, and when to stop
+scaffolding. Third, future data collection should involve teachers, students, and caregivers to produce
+more authentic query distributions and human-validated pedagogy labels. Fourth, the benchmark
+should add equity-relevant slices, such as low-literacy prompts, multilingual learners, low-resource
+curricula, accessibility needs, and different levels of prior knowledge.
+A stronger future benchmark would also include paired evaluation targets: one target for correctness
+and another for pedagogical appropriateness. This would allow researchers to distinguish systems that
+know the answer from systems that teach well. Finally, future releases should include richer metadata
+for cost and deployment constraints, enabling more direct evaluation of cost-aware and equity-aware
+routing policies in realistic educational settings.
+
+E. Related Work
+E.1. Large language models for education
+LLMs are increasingly used for educational tasks such as generating explanations, giving formative
+feedback, supporting writing revision, and answering student questions [6, 7, 1, 2]. Prior work emphasizes both the promise and risk of LLMs in learning contexts: they can personalize instruction and
+expand access, but they can also hallucinate, over-scaffold, provide direct answers, or widen existing
+inequities [6, 8]. These concerns motivate evaluation criteria beyond correctness, including scaffolding,
+age appropriateness, learner agency, and fairness.
+
+E.2. Cost-aware LLM routing and cascading
+LLM routing systems select among multiple models or tools to optimize performance under constraints.
+FrugalGPT proposes prompt adaptation, LLM approximation, and LLM cascading to reduce cost while
+preserving accuracy [3]. RouteLLM learns routers from preference data to select between stronger and
+weaker models [4]. Other routing and cascading frameworks analyze when sequential escalation or
+direct model selection is most effective [5]. Our work builds on this literature but changes the objective:
+instead of optimizing generic response quality, we optimize pedagogical quality under an access-tier
+quality constraint. Direct comparison to FrugalGPT and RouteLLM adapted to pedagogical tutoring—
+using our multi-dimensional rubric as the preference signal—is the primary planned experiment for the
+full version. The key architectural distinction we anticipate is that existing cascade methods optimize a
+single quality score and lack the multi-dimensional pedagogical rubric and the critic-rewriter stage. We
+
+cannot fairly compare against them in the current WIP without re-implementing their routing logic
+with pedagogical signals, which we leave to future work.
+
+E.3. Access-Tier Quality Gap and the AI Education Divide
+AI in education can either reduce or amplify inequalities depending on deployment context, access,
+and system design [9, 6]. The relevant disparity is not only whether students have access to an AI tool,
+but whether the tool provides comparably useful learning support. In this paper, we operationalize
+this concern through an access-tier quality gap. Our approach is related to fairness-aware machine
+learning, but the unit of analysis is the tutoring interaction: for comparable student queries, how far
+is a budget-constrained response from the premium response in pedagogical quality? Demographic
+operationalization of equity—e.g., Warschauer’s digital-divide framework [12] or Reich’s analysis of
+MOOC equity [13]—remains an important direction that we do not address in this WIP.
+
+F. Qualitative Evaluation Results
+F.1. Naive-router parity anomaly
+The naive difficulty router attains lower within-0.5-of-premium parity (72%) than low-cost-only (78%)
+despite higher mean quality (§4). Of the 9 queries where low-cost-only was within 0.5 of premium but
+the naive router was not, 5 are easy, 3 are medium, and 1 is hard—skewed toward the easy and medium
+queries that the naive router leaves unguarded by sending only hard queries to premium. This confirms
+that routing on difficulty alone raises the mean while widening the distribution, so mean quality is an
+insufficient parity metric.
+
+F.2. Failure mode analysis
+We analyze the common failure modes of each system across the 50 queries. Low-cost-only responses
+were most frequently flagged for weak scaffolding (18 cases), direct-answer leakage (7 cases), and
+incomplete responses (6 cases). Naive difficulty routing showed a similar pattern (weak scaffolding
+13, direct-answer leakage 7, incomplete 6). These indicate that the low-cost model does not reliably
+provide high pedagogical quality. Generic cascade reduces several failure modes but still produces
+weak scaffolding (10 cases) and incomplete responses (5 cases). FairTutor produces the fewest logged
+failures: direct-answer leakage (3), incorrect facts (2), and weak scaffolding (1). Premium-only also has
+pedagogical failures (scoring 4.874 out of 5), including direct-answer leakage and incomplete responses,
+so the premium model alone does not guarantee optimal pedagogical behavior; its responses also benefit
+from rigorous evaluation and critic refinement.
+
+F.3. Case studies
+The case studies illustrate how FairTutor improves tutoring behavior. In a high-risk language-learning
+query, the student asked the system to write an entire five-paragraph essay comparing The Giver and
+Fahrenheit 451. low-cost-only scored 2.35 because it supplied an overly complete essay scaffold with
+likely fabricated or misattributed quotes and precise page numbers, creating both direct-answer leakage
+and factual risk. FairTutor escalated after evaluation and scored 5.00 by refusing to write the whole
+essay, offering thesis options, an outline, sentence frames, quote prompts, MLA guidance, and a timing
+plan while explicitly instructing the student to verify evidence and produce original writing.
+In an elementary science query asking whether the Sun is a star, planet, or moon, low-cost-only
+immediately gave away the answer and included the inaccurate claim that the Sun is not orbiting
+anything, resulting in a score of 2.95. FairTutor scored 4.70 by giving a hint based on self-generated light,
+prompting the student to choose and explain, and asking follow-up questions. The remaining deduction
+came from an indirect clue that another star besides the Sun could reveal the answer, highlighting a
+useful future improvement for answer-leakage detection.
+
+In a French translation query, the student asked for a wholesale translation of a sentence. low-costonly scored 3.10 because it gave most of the translation directly and included a confusing explanation
+of agreement. FairTutor used critic rewriting and scored 5.00 by breaking the sentence into subject,
+verb, location, time, and idiomatic-expression chunks, explaining key grammar rules, asking checkfor-understanding questions, and inviting the student to assemble the final translation. This example
+shows how evaluator-guided revision can transform an answer-giving response into a learning-oriented
+tutoring interaction.
+In a science misconception query about Moon phases, low-cost-only correctly distinguished phases
+from eclipses but gave a misleading physical model that could accidentally demonstrate Earth-shadow
+eclipses rather than normal lunar phases. FairTutor scored 5.00 by directly surfacing the misconception,
+explaining that phases depend on how much of the Moon’s sunlit half we see, and proposing a lampand-ball model in which the ball moves around the student’s head with a slight tilt to avoid accidental
+eclipses. This case demonstrates that FairTutor can improve both conceptual correctness and hands-on
+activity design.
+
+

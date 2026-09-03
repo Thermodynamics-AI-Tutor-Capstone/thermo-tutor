@@ -1,0 +1,1413 @@
+Paper ID #48727
+
+Generative AI in Chemical Engineering Education: Rebuilding Thermodynamics,
+Material and Energy Balances and Kinetics Courses with AI and Chemical
+Engineering Students’ Perception of AI
+Dr. Betul Bilgin, The University of Illinois at Chicago
+Betul Bilgin is a Clinical Associate Professor of Chemical Engineering at the University of Illinois at
+Chicago (UIC). With a Ph.D. in Chemical Engineering from Michigan State University, Dr. Bilgin has
+extensive experience in both biotechnology research and engineering education. Since joining UIC, she
+has developed and taught various undergraduate courses, integrating innovative teaching methods and
+industry-relevant content to enhance student learning and engagement.
+Dr. Bilgin’s research focuses on engineering education, particularly in fostering professional identity
+among engineering students and integrating data science into the chemical engineering curriculum. She
+has received multiple awards for her contributions to teaching and mentoring, including the ASEE Ray
+Fahien Award and the UIC COE Harold Simon Award. Dr. Bilgin is also actively involved in professional
+service, currently serving as the Director of the Chemical Engineering Division for ASEE and participating
+in various initiatives to improve engineering education and student success.
+Dr. Christopher V.H.-H. Chen, Columbia University
+Christopher V.H.-H. Chen, Ph.D., is a Lecturer in the Discipline of Chemical Engineering at Columbia
+University. His teaching and research interests include the application of case- and problem-based approaches
+to STEM learning experiences; the promise and challenges of online learning and AI; how social and
+emotional interventions improve engineering education; and preparing graduate students as future change
+leaders within the academy.
+Dr. Stephanie Butler Velegol, The Pennsylvania State University
+Stephanie Butler Velegol is a Teaching Professor in Chemical Engineering at Penn State University. She
+pioneered the use of Flipped classes to increase active leaning in the classroom and works on water
+treatment.
+
+©American Society for Engineering Education, 2025
+
+Generative AI in Chemical Engineering Education
+Rebuilding Thermodynamics, Material and Energy Balances and Kinetics
+Courses with AI and Chemical Engineering Students’ Perception of AI
+Abstract
+Artificial intelligence (AI) has the potential to transform how core engineering courses are
+designed and delivered. This study explores the complete redesign of three chemical engineering
+courses—Thermodynamics, Material and Energy Balances and Kinetics—using AI to generate the
+syllabus, course content, homework, quizzes, and case studies. The central objective is to assess
+how AI can be leveraged to create educational materials while also investigating students' evolving
+perceptions of AI's reliability and their confidence in using AI for problem-solving in engineering
+contexts.
+Regarding student perspectives, sophomore and senior students at University of Illinois Chicago
+(UIC) were surveyed at the end of the semester to assess their current use of AI tools, including
+the types of AI they rely on, how reliable they find AI-generated answers, and how confident they
+are in the information they receive from AI. These perceptions were captured using a combination
+of Likert-scale and open-ended questions. The guiding research questions are: How effective is AI
+in designing Chemical Engineering courses? What are students’ perceptions of the reliability of
+AI and what is their confidence in using AI as an engineering tool? The study adopted a surveybased approach to capture students' evolving perceptions of AI. The results offer an in-depth
+understanding of how students’ perceptions of AI in chemical engineering setting.
+Regarding faculty perspectives, three chemical engineering faculty from three different institutions
+used AI to design the syllabus, course materials, and assessments, providing a unique opportunity
+to explore the effectiveness of AI in the course development process. This work aims to provide a
+roadmap for future AI-driven course redesigns and offer insights into how AI influences both
+learning outcomes and students’ confidence in using AI technology in professional settings.
+Preliminary case studies in Thermodynamics, Material and Energy Balance and Kinetics courses
+suggest that AI can enhance course material design by providing instructors with advanced
+problem-solving tools and real-time feedback mechanisms. However, challenges such as AI biases
+and content accuracy remain significant hurdles. This paper discusses the transformative potential
+of Generative AI in engineering education, with a specific emphasis on overcoming pedagogical
+challenges in teaching sophomore and junior chemical engineering courses.
+Introduction
+The integration of artificial intelligence (AI) in education has emerged as a transformative force,
+particularly in engineering disciplines where problem-solving complexity demands innovative
+teaching approaches. As generative AI technologies advance rapidly, their potential to
+revolutionize engineering education becomes increasingly apparent, especially in core chemical
+engineering courses that form the foundation of the discipline (Smith & Johnson, 2023). While
+AI has been widely discussed in educational contexts, its specific application in designing and
+delivering chemical engineering courses remains largely unexplored. This study investigates the
+comprehensive redesign of three fundamental chemical engineering courses—Thermodynamics,
+
+Material and Energy Balances, and Kinetics— using AI tools for syllabus generation, content
+development, and assessment creation. The central goal is to evaluate the efficacy of AI in
+course development and to investigate the accuracy of AI generated content. Moreover, this
+study also aims to capture how students perceive and use AI as a learning tool in engineering
+contexts. Guided by the research questions: How effective is AI in designing Chemical
+Engineering courses? and How do students perceive AI’s reliability and develop confidence in
+using AI as an engineering tool? this study adopts a survey-based approach to capture student
+feedback. The results provide insights into the opportunities and challenges of integrating AI into
+chemical engineering education, paving the way for future innovations in course design.
+Literature Review
+The application of AI in education, particularly in engineering, has garnered significant attention
+due to its potential to enhance student engagement and improve learning outcomes. Recent studies
+highlight the ability of generative AI tools to create dynamic course content, automate routine
+tasks, and provide real-time, adaptive feedback to students [1-3]. These features are particularly
+valuable in addressing the challenges of large class sizes and diverse student needs, making AI a
+promising tool for scaling high-quality education.
+In chemical engineering education, where problem-solving and quantitative reasoning are integral,
+AI tools like ChatGPT and discipline-specific software have shown promise in assisting with
+complex calculations, modeling, and conceptual understanding. For instance, AI-driven platforms
+can simulate chemical processes and provide students with interactive learning opportunities,
+enhancing their grasp of core concepts [4-8].
+However, the growing prevalence of AI tools across various sectors, including education, has
+sparked concerns about their influence on students' learning and academic outcomes. In response,
+some institutions have opted to ban the use of certain AI platforms in an effort to uphold traditional
+teaching methods and skill development. However, a more effective and forward-thinking
+approach lies in embracing these technologies while equipping students with the skills to use them
+responsibly, critically, and ethically.
+While AI's technical capabilities are well-documented, students' perceptions and confidence in
+using AI tools remain underexplored. Research indicates that students' trust in AI tools is
+influenced by their prior experience, perceived reliability of AI-generated content, and the extent
+to which AI aligns with their learning goals [9-12]. Moreover, concerns about the accuracy of AI
+outputs and ethical considerations, such as potential biases in AI algorithms, have been raised by
+both students and educators [13-16].
+Studies involving generative AI tools in STEM education suggest a mixed response: students
+appreciate the efficiency and accessibility of AI tools but remain cautious about over-reliance and
+the lack of critical evaluation skills when using AI-generated solutions. This highlights the need
+for educational interventions that not only incorporate AI tools but also teach students how to
+critically evaluate and effectively integrate these technologies into their learning.
+
+Despite its potential, the adoption of AI in engineering education is not without challenges.
+Concerns about content accuracy, algorithmic biases, and the ethical use of AI in academic settings
+pose significant barriers. Additionally, faculty readiness and institutional support are critical
+factors influencing the successful implementation of AI-driven course redesigns. However, when
+effectively implemented, AI tools can enhance pedagogical practices, foster creativity, and
+improve educational equity by providing students with tailored learning experiences.
+This study contributes to the growing body of literature by examining the dual role of AI in
+designing chemical engineering courses and capturing students' perceptions of its utility. By
+examining the experiences of sophomores and seniors at University of Illinois Chicago (UIC), this
+research offers a comprehensive view of how AI tools influence chemical engineering education.
+Methods
+This study adopts a mixed-methods approach, combining case studies and surveys to assess the
+effectiveness of AI in course design and to capture students' perceptions of AI as a tool for
+learning and problem-solving in chemical engineering education. Three faculty members from
+different institutions independently redesigned three core chemical engineering courses—
+Thermodynamics, Material and Energy Balances, and Kinetics—using AI. Concurrently, student
+perceptions of AI were investigated through surveys conducted with sophomores and seniors at
+UIC.
+Participants
+The faculty participants included three chemical engineering educators from three different
+institutions, each responsible for designing one of the target courses. The student participants
+consisted of sophomores (enrolled in Introduction to Thermodynamics course) and seniors at
+UIC. Even though seniors are not enrolled in the courses that are redesigned by the faculty
+members, their participation in the study brought another data point as a snapshot of graduating
+students’ perspectives on AI. Survey was conducted at the end of Fall 2024 semester, and a total
+of 78 students participated in the survey, representing a diverse demographic and academic
+background. The gender distribution was similar across both courses, with approximately 58%
+male students, 35% female students, and the remainder identifying as nonbinary or preferring not
+to specify. The ethnicity distribution of all the participating students was ~30% Latinx, ~30%
+Asian, ~30% White and ~7% Black.
+Course Redesign Process
+Each faculty member utilized ChatGPT-4o as generative AI tools to redesign their respective
+courses. The AI-generated content included:
+• Syllabus: Comprehensive course schedules, learning objectives, and assessment
+structures.
+• Course Materials: Lecture notes and instructional content.
+• Assessments: Homework problems, multiple choice and open-ended questions for
+quizzes, and case studies tailored to course objectives.
+The faculty were encouraged to adapt and refine the AI-generated materials as necessary to align
+with their pedagogical goals and institutional standards. After redesigning the course, faculty
+
+documented their reflections, including the advantages and challenges of using AI in course
+development.
+Survey Design and Administration
+To evaluate students’ perceptions of AI, an end-of-semester survey was distributed. The survey
+consisted of:
+1. Likert-Scale Questions: Students rated their agreement with statements regarding the
+reliability, accuracy, and utility of AI tools in their coursework.
+2. Open-Ended Questions: Students elaborated on their experiences with AI tools, including
+specific examples of how they used these tools for problem-solving and their concerns or
+reservations.
+Survey questions were designed to address the research questions by capturing:
+• The frequency and types of AI tools students used (e.g., ChatGPT, Grammarly).
+• Their confidence in the reliability of AI-generated answers.
+• Their perceived usefulness of AI in solving complex engineering problems.
+Data Analysis
+Quantitative data from Likert-scale responses were analyzed using descriptive and inferential
+statistical methods to identify trends and differences between sophomores and seniors. The
+qualitative data from open-ended responses were thematically analyzed to uncover recurring
+themes, such as perceived benefits, challenges, and trust in AI. The study adhered to institutional
+ethical guidelines, ensuring voluntary participation and anonymity for all student participants.
+Informed consent was obtained from all participants prior to data collection.
+Limitations
+This study focuses on three courses and one institution for student surveys, which may limit the
+generalizability of findings. Additionally, the accuracy and adaptability of AI tools depend on the
+specific platforms used, which may vary in capabilities and performance. More advanced AI
+models, such as premium versions with access to specialized datasets, might yield improved
+results, reducing the need for extensive faculty revisions. While this study provides a snapshot of
+students' perceptions and use of AI, the rapidly evolving nature of AI technology poses a
+challenge to its longevity. By the time this research is published, advancements in AI tools may
+address many of the concerns and challenges identified here, potentially rendering some findings
+less relevant. This underscores the importance of continuously revisiting and adapting
+educational practices to align with the latest developments in AI.
+Instruments
+All the instructors used the prompts listed below in Table 1 to redesign their courses. To ensure
+consistency among instructors, the course redesign process relied solely on the specified AI
+prompts listed in Table 1. Additional resources, such as class notes, textbooks, or external
+content, were deliberately excluded to allow the AI to guide the development process
+independently. It should also be noted that instructors did not upload the textbook and rely on
+ChatGPT to use its own knowledge of the book (if any) to generate connections with book
+chapters. This approach provided a standardized framework for evaluating the capabilities and
+limitations of AI in course design for multiple courses in chemical engineering.
+
+Table 1. Prompts for Rebuilding Chemical Engineering courses.
+Syllabus Generation:
+"Generate a syllabus for a [specific chemical engineering course, e.g., Introduction to
+Thermodynamics]. Include a course description, course objectives, weekly topics, grading
+policy, and required materials. Align the content with undergraduate chemical engineering
+standards."
+Mapping with Book Chapters:
+"Map the syllabus topics of a chemical engineering course on [specific subject] with chapters
+from the textbook [Textbook Title]. Indicate how each topic aligns with specific chapters,
+noting key sections or page numbers that cover essential concepts."
+Lesson Plan Creation:
+"Create a detailed lesson plan for each week of a chemical engineering course on [specific
+topic]. For each lesson, include learning objectives, a brief summary, instructional strategies,
+activities, and suggested readings. Each plan should fit a [class duration, e.g., 60- or 90minute] session format."
+Mapping with ABET Outcomes:
+"Map the syllabus topics for a [specific chemical engineering course] to ABET student
+outcomes. List each topic and explain how it contributes to achieving specific ABET outcomes
+(e.g., apply knowledge of mathematics, engineering, communicate effectively, etc.)."
+Learning Outcomes Listing:
+"List specific, measurable learning outcomes for each chapter in a chemical engineering
+course on [specific subject]. Ensure each outcome reflects skills or knowledge that students
+should demonstrate by the end of each chapter."
+Open-Ended Questions and Answers for Each Chapter:
+"Generate three open-ended questions for Chapter [Chapter Number and Title] of a chemical
+engineering course. Each question should encourage critical thinking and application of
+concepts. Provide detailed answers or explanations for each question."
+Multiple-Choice and Fill-in-the-Blank Quiz Questions and Answers:
+"Create three multiple-choice and three fill-in-the-blank quiz questions for Chapter [Chapter
+Number and Title] in a chemical engineering course. Ensure that each question assesses key
+concepts from the chapter. Provide correct answers and explanations for each question."
+Designing Real-Life Case Studies:
+"Design a real-life case study related to [specific topic, e.g., thermodynamics, chemical
+reaction engineering] for a chemical engineering course. The case study should involve realworld applications of the topic and challenge students to apply theoretical knowledge to solve
+practical problems. Include guiding questions and potential solutions."
+Based on their experiences, they provided one-page reflection to share the strengths and
+weakness of AI on redesigning CHE courses.
+On the other hand, survey instrument (can be accessed via this link) designed for measuring
+student’s perception is adapted from two instruments: AI Attitude Scale (AIAS-4) [17] and
+General Attitudes Towards Artificial Intelligence Scale (GAAIS) [18]. AIAS-4 scale has been
+used to evaluate attitudes toward AI in university students across various fields, including
+science and technology disciplines. GAAIS is validated for use in diverse contexts which
+
+measures both positive and negative attitudes. In our context, we reduced the questions into 9
+Likert-scale questions (Table 2) and three open-ended questions.
+Table 2: List of Likert scale Questions.
+Q1. I am confident in my ability to use AI tools for academic purposes.
+Q2. I feel comfortable integrating AI tools into my learning process.
+Q3. I understand how to critically evaluate the output of AI tools.
+Q4. AI tools can help improve my understanding of chemical engineering concepts.
+Q5. AI tools make it easier to solve complex problems in CHE courses.
+Q6. I am confident in my ability to use AI tools for academic purposes.
+Q7. I feel comfortable integrating AI tools into my learning process.
+Q8. I understand how to critically evaluate the output of AI tools.
+Q9. AI tools can help improve my understanding of chemical engineering concepts.
+Open-ended questions were “What were your initial thoughts in the beginning of the semester
+about using AI tools for learning chemical engineering concepts? And have they changed to the
+end of the semester?”, “Please list all the experiences you had with using AI in this course.
+Either positive or negative. (homework, self-study, project, writing, etc.)” and “What are your
+concerns, if any, about relying on AI for academic purposed?”.
+Results
+Faculty Reflections on AI-Generated Course Materials
+Faculty members who used ChatGPT to redesign their courses provided detailed reflections on
+the benefits and challenges of incorporating AI into the course development process. These
+reflections offer insights into how AI tools like ChatGPT can support syllabus creation, material
+design, and assessment development while revealing areas where human expertise remains
+essential.
+1. Syllabus Design: Faculty noted that AI-generated syllabi were generally comprehensive,
+well-organized, and aligned with course objectives. For example, two faculty members
+appreciated how the syllabus provided measurable learning objectives and a grading
+scale, though it lacked sufficient details for associated projects. Another instructor
+remarked, “The AI-generated syllabus was a great starting point, offering clear
+objectives and schedules. However, I needed to refine it to add specific activities and
+context relevant to my teaching style.”
+2. Course Materials: AI-generated lecture plans and instructional content served as valuable
+foundational resources. One instructor observed that the AI-generated materials helped
+prioritize essential concepts and suggested logical sequencing for topics. However, they
+found the content too generic for in-depth coverage, necessitating the use of additional
+resources like textbooks and prior course materials. As one faculty member reflected, “I
+was able to directly use the learning objectives and did use some of the chatbotdeveloped problems as part of the lectures. However, I found that none of these materials
+were really deep or detailed enough to drive a full 75-minute lesson plan as a first-time
+instructor for kinetics.”
+
+3. Assessment Design: Faculty reported that AI-generated assessments, such as homework
+problems and quizzes, were helpful in providing basic questions but often lacked the
+complexity required for advanced learning. Issues such as unclear phrasing and
+incomplete understanding of core concepts, like recycle and accumulation in material
+balances, were identified. As one instructor noted, “The language of the assessments
+does not align well what I teach in the class. It does not follow the instructional steps that
+I follow in the class, which makes students confused.”
+Despite the advantages, faculty identified several challenges in relying on AI for course design:
+• Lack of Depth and Specificity: AI-generated materials often provided only surface-level
+coverage of topics, requiring faculty to incorporate more detailed and rigorous content.
+• Conceptual Misunderstandings: Certain questions generated by AI demonstrated a
+limited understanding of fundamental concepts, such as steady-state processes, which
+could confuse students if used without modification.
+• Customization Needs: Faculty had to tailor AI-generated outputs to meet specific
+pedagogical goals, institutional standards, and ABET accreditation criteria.
+• Time investment and Efficiency: Faculty reported significant variations in time efficiency
+when using AI for different aspects of course design. For syllabus generation, learning
+objectives, and basic course content creation, AI proved to be a time-saving tool.
+However, the development of assessment materials showed mixed results in terms of
+time efficiency. Faculty noted that creating and revising AI-generated open-ended
+questions and their solutions required more time investment compared to using textbook
+problems with existing solution manuals. Nevertheless, when developing original
+problems for courses, AI provided valuable starting points and ideation support. The
+interactive nature of AI tools emerged as a particular advantage, allowing faculty to
+iteratively refine prompts to achieve desired outcomes. Case study development emerged
+as an area of significant time savings, with AI dramatically reducing the time typically
+spent searching for appropriate cases online.
+Overall, faculty found AI tools to be beneficial as a starting point but emphasized that human
+oversight and expertise were crucial for ensuring the quality and relevance of course materials.
+The following observations highlight this perspective:
+• “AI was incredibly helpful in breaking down complex concepts into manageable chunks,
+but its limitations became apparent when addressing higher-order thinking skills.”
+• “A highlight is the application of the ABET criteria with the topics in the course. This is
+a great way to remind faculty how they can satisfy all the ABET requirements in the
+course.”
+• “The details produced by the chatbot, however, were not enough to be used verbatim by
+a first-time instructor for the topic and were often too simple or straightforward for the
+level of student targeted in my teaching context. Some suggested problems and cases
+were used to start class activities, but additional materials were needed to fully create the
+lesson plans.”
+The faculty reflections underscore the transformative potential of AI in engineering education,
+particularly in simplifying initial stages of course development. However, they also highlight the
+importance of faculty adaptation and critical evaluation to address AI's current limitations.
+
+Moving forward, combining AI’s efficiency with faculty expertise can provide a robust
+framework for designing engaging, effective, and rigorous courses. For the readers' reference, the
+paper includes all three faculty reflections and sample prompt responses in the appendix.
+Students’ Perception and Use of AI in CHE
+AI tool adoption rates were notably high across both cohorts: sophomores (Introduction to
+Thermodynamics) and seniors (Senior Design I). Among sophomores, 87.2% reported prior use
+of AI tools for academic purposes, while seniors showed a slightly higher adoption rate of
+92.3%. This high adoption rate suggests that AI tools have already become deeply integrated into
+chemical engineering students' academic practices, regardless of their academic level. ChatGPT
+emerged as the dominant AI tool across both cohorts, though usage patterns differed significantly
+between the two groups. Sophomore students primarily employed AI tools for fundamental
+learning support, while seniors demonstrated more diverse and sophisticated applications.
+Sophomores Usage:
+1. Concept Understanding: Students frequently used AI to clarify complex thermodynamic
+concepts and equations.
+2. Programming Support: Significant usage for VBA and MATLAB coding assistance.
+3. Problem-Solving: Used AI tools to understand homework problems and verify solutions.
+4. Study Aid: Creation of study guides and alternative explanations of textbook content.
+Senior Usage:
+1. Technical Writing: Extensive use for lab report writing and grammar checking.
+2. Professional Communication: Email drafting and revision.
+3. Advanced Problem-Solving: Integration with design projects and complex calculations.
+4. Information Synthesis: Literature search and data gathering.
+5. Code Development: More sophisticated programming applications.
+Our comprehensive analysis of student perceptions reveals several key insights about how
+chemical engineering students at different academic levels view and interact with AI tools
+(Figure 1).
+
+AI Perceptions
+5
+
+Level of Agreement
+
+4.5
+4
+
+*
+
+*
+
+3.5
+3
+2.5
+2
+1.5
+
+Co
+nf
+id
+en
+ce
+In
+in
+te
+gr
+AI
+at
+io
+n
+Co
+m
+Cr
+fo
+iti
+rt
+ca
+l
+Ev
+Co
+al
+nc
+ua
+ep
+tio
+tU
+n
+nd
+er
+st
+an
+di
+ng
+Pr
+ob
+le
+m
+Ac
+So
+ad
+l vi
+em
+ng
+ic
+Pe
+rfo
+rm
+an
+ce
+Ou
+tp
+ut
+Sc
+Tr
+ie
+us
+nt
+t
+ifi
+cS
+ou
+Lim
+nd
+ne
+ita
+ss
+tio
+n
+Aw
+ar
+en
+es
+s
+
+1
+
+Sophomores
+
+Seniors
+
+Figure 1: Students' Perception of AI Across Nine Aspects: Y-axis represents the Likert scale (1 =
+Strongly Disagree to 5 = Strongly Agree). Statistically significant data points are marked with an
+asterisk (*).
+The data shows distinct patterns across nine key dimensions of AI perception and usage.
+1. Confidence and Integration (Questions 1-2)
+o Overall confidence and comfort levels were similar between groups (3.70 for
+sophomores’ vs 3.81 for seniors)
+2. Critical Thinking and Evaluation (Questions 3-4)
+o Sophomores demonstrated higher scores in perceived ability to critically evaluate
+AI outputs (4.03 vs 3.73)
+o Sophomores also showed more optimism about AI's ability to enhance concept
+understanding (4.02 vs 3.57)
+3. Problem-Solving and Performance (Questions 5-6)
+o Notable gap in problem-solving perception (3.76 for sophomores vs 2.65 for
+seniors)
+o Sophomores showed more optimism about AI's impact on academic performance
+(3.83 vs 3.38)
+4. Trust and Scientific Validity (Questions 7-8)
+o Both groups showed relatively low trust in AI outputs (2.87 vs 2.65)
+o Moderate confidence in scientific soundness (3.23 vs 3.04)
+5. Awareness of Limitations (Question 9)
+o Both groups showed high awareness of AI limitations
+o Seniors demonstrated slightly higher awareness (4.54 vs 4.36)
+
+T-tests performed on the data revealed statistically significant differences (p < 0.05) in:
+• Problem-solving perception
+• Academic performance expectations
+We also conducted a gender-based and ethnicity-based analysis of the survey data but did not
+observe any statistically significant differences across these groups. However, a few notable
+trends emerged:
+• Confidence in AI Use: Male students across both courses reported slightly higher
+confidence in using AI tools, with an average score of 4.1 compared to 3.8 for female
+students.
+• Consistency Across Metrics: Female students demonstrated more consistent scores across
+various aspects of AI use, suggesting a balanced approach to integrating AI into their
+learning processes.
+• Critical Evaluation Skills: Female students outperformed their male counterparts in
+critical evaluation of AI outputs, scoring an average of 4.2 compared to 3.9 for males.
+• Trust in AI Outputs: Male students expressed slightly higher trust in the accuracy and
+reliability of AI-generated outputs, with an average score of 3.1 compared to 2.8 for
+female students.
+These observations indicate subtle gender-based differences in how students perceive and utilize
+AI tools, particularly in their levels of trust and critical evaluation skills.
+While the quantitative survey results provide a broad understanding of students’ perceptions of
+AI in chemical engineering education, the open-ended responses offer deeper insights into their
+experiences, challenges, and evolving attitudes toward AI tools. Analysis of student feedback
+demonstrates a clear evolution in their understanding and usage of AI tools, while also
+highlighting persistent concerns about their impact on learning outcomes.
+1. Evolution of Student Perspectives: Students' initial attitudes toward AI tools showed
+considerable variation, with many expressing initial skepticism that later evolved into
+measured acceptance. As one student noted, "I was apprehensive at first but overtime
+became more comfortable. I am still skeptical of any information i get from it but i do
+trust myself to evaluate what it gives me." This evolution reflects a broader pattern of
+students developing more nuanced perspectives about AI's role in their education.
+Many students who initially resisted using AI tools came to view them as valuable
+supplementary resources. One student captured this transition: "I considered it cheating
+but then I learned to use the information as a guidance to develop my own thought
+process rather than something that gave me answers." This shift from viewing AI as a
+potential threat to seeing it as a learning aid was common among respondents.
+2. Practical Applications and Limitations: Students reported using AI tools across various
+aspects of their chemical engineering education, with notably different levels of success
+across different applications. For conceptual understanding and self-study, AI proved
+particularly valuable. Students frequently used it as a supplementary explanation tool,
+
+with one student explaining, "all positive, used it as a tutor to help explain problems and
+concepts when I got stuck on hw or reading the textbook."
+However, students consistently identified limitations in AI's capabilities, particularly
+regarding complex mathematical calculations. One student observed, "ChatGPT can
+barely do math," while another noted, "I couldn't use AI on actual assignments as often
+times the formulas and values were wrong or not complex enough for the question." This
+recognition led many students to develop strategic approaches to AI usage, focusing on
+conceptual understanding rather than numerical solutions.
+Writing and documentation emerged as areas where AI tools proved consistently helpful.
+Students reported positive experiences using AI for grammar checking, writing
+assistance, and literature research. One student noted, "It is very good at navigating the
+web and finding papers. The more specific you can be the better."
+3. Emerging Concerns and Challenges: Despite the benefits, students expressed significant
+concerns about AI's impact on their education. The potential for overreliance emerged as
+a primary concern, with one student admitting, "My ability of doing my hw has decreased
+and i feel dependancy on chat gpt for studies." This concern about dependency was
+frequently coupled with worries about the depth of learning, as another student noted,
+"we might not truly understand the concept of the problem."
+The accuracy and reliability of AI-generated information remained a persistent concern.
+Students repeatedly emphasized the importance of verification, with one noting, "You
+should not 100% trust the outcome made by AI unless you double check by yourself."
+This awareness of AI's limitations led many students to develop more sophisticated
+approaches to using these tools, often involving cross-referencing with traditional sources
+and careful verification of AI-generated information.
+4. Strategic Integration and Future Implications: Students developed increasingly
+sophisticated strategies for effective AI usage throughout the semester. Rather than using
+AI as a primary source of information, many adopted it as a supplementary tool for
+clarification and verification. One student described their approach: "I would ask if my
+approach to problem solving is right or wrong. I always ask for answers to questions
+after solving it by myself first."
+The need for clear institutional guidelines emerged as a consistent theme. Students
+expressed desire for "clear expectations (as explicit as possible) from schools and
+professors on AI usage" to avoid unintentional academic misconduct and ensure
+appropriate use of these tools. This suggests a need for educational institutions to develop
+comprehensive policies regarding AI usage while maintaining academic integrity.
+The student perspectives reveal a complex relationship with AI tools in chemical engineering
+education. While initial skepticism has largely evolved into strategic acceptance, students
+maintain a sophisticated awareness of both the benefits and limitations of these tools. Their
+experiences suggest that AI can serve as a valuable educational resource when used
+
+appropriately but requires careful integration to avoid potential pitfalls such as overreliance and
+superficial learning. The findings indicate a need for clear institutional guidelines and
+educational frameworks that help students leverage AI tools effectively while maintaining the
+depth and rigor essential to engineering education.
+Discussion
+The survey revealed evolving attitudes toward AI usage in chemical engineering education,
+along with distinct patterns in its application and associated concerns. Analysis of student
+responses to open-ended questions revealed a notable shift in attitudes toward AI throughout the
+semester. Many students reported initial skepticism about AI's role in chemical engineering
+education but developed a more nuanced perspective as the semester progressed. This evolution
+typically moved from viewing AI as potentially problematic for learning to recognizing its value
+as a supplementary educational tool. However, this acceptance was consistently tempered with
+awareness of AI's limitations and potential risks to learning outcomes.
+Students reported diverse applications of AI across their coursework, with usage patterns varying
+between lower-level (Introduction to Thermodynamics) and upper-level (Senior Design I)
+courses. In lower-level, students primarily employed AI for basic concept understanding,
+homework assistance, and problem-solving support. In contrast, senior students demonstrated
+more sophisticated use cases, including research assistance, technical writing support, and
+literature review facilitation. This distinction suggests that AI usage patterns may mature as
+students’ progress through their academic careers.
+The survey identified several consistent concerns across both courses regarding AI usage in
+academic settings. Primary among these was accuracy and reliability, particularly in complex
+mathematical calculations and problem-solving scenarios. Students frequently reported instances
+of incorrect calculations or misleading information from AI tools, leading to a general consensus
+that verification against traditional sources remains essential. This finding suggests that students
+are developing critical evaluation skills in their interaction with AI tools.
+A significant theme emerged regarding the impact of AI on learning outcomes. Students
+expressed concern about the potential for over-reliance on AI to diminish independent thinking
+and problem-solving abilities. This concern was particularly acute regarding exam preparation
+and performance, as students recognized the disconnect between AI-assisted learning and
+traditional assessment methods. However, students who reported positive experiences typically
+described using AI as a clarification tool rather than a primary source of learning, suggesting the
+emergence of effective usage patterns.
+The data revealed several factors associated with successful AI integration into chemical
+engineering education. Students who reported positive experiences typically employed AI as a
+supplementary tool rather than a primary resource, maintained rigorous verification practices,
+and actively combined AI insights with traditional learning methods. These students often
+described AI as most valuable for concept clarification and initial problem-solving guidance,
+while emphasizing the importance of independent verification and understanding.
+
+Risk factors identified in the survey included over-reliance on AI for problem-solving, unverified
+acceptance of AI outputs, and using AI as a replacement for fundamental understanding.
+Students in both courses demonstrated awareness of these risks, with many developing personal
+strategies to maintain academic integrity and ensure deep learning while leveraging AI's benefits.
+This awareness suggests a growing sophistication in students' approach to AI integration in their
+studies.
+The findings indicate that successful integration of AI in chemical engineering education
+requires a balanced approach that leverages AI's capabilities while maintaining focus on
+fundamental understanding and skill development. Students' responses suggest that clear
+guidelines on appropriate AI usage, combined with training in effective verification methods and
+critical evaluation skills, could enhance the educational value of AI tools while mitigating
+potential risks to learning outcomes.
+Conclusion
+This study explored the use of generative AI tools, such as ChatGPT, in the redesign of three
+core chemical engineering courses—Thermodynamics, Material and Energy Balances, and
+Kinetics—and examined students' perceptions and use of AI in their academic practices. The
+findings highlight both the opportunities and challenges of integrating AI into engineering
+education. Faculty reflections revealed that AI tools were particularly effective in streamlining
+the initial stages of course development, providing comprehensive syllabi, learning objectives,
+and basic assessments. However, these tools often lacked depth, specificity, and contextual
+relevance, underscoring the necessity of faculty expertise to refine and adapt AI-generated
+materials. Faculty members emphasized that while AI tools can serve as valuable starting points,
+their outputs require careful validation and customization to align with course goals and
+pedagogical standards.
+The survey results provided a nuanced understanding of students’ perceptions of AI. While many
+students initially approached AI tools with skepticism, they gradually recognized their potential
+as supplementary resources for learning. Students in lower-level courses primarily used AI for
+concept clarification and homework assistance, whereas upper-level students employed it for
+more sophisticated tasks, including research and technical writing. However, concerns about
+accuracy, over-reliance, and the potential impact on critical thinking and independent problemsolving were prevalent across both groups.
+The study also identified key success factors for effective AI integration. Students who used AI
+as a supplementary tool, verified outputs independently, and combined AI insights with
+traditional learning methods reported positive experiences. Conversely, over-reliance on AI and
+uncritical acceptance of its outputs were associated with negative outcomes, highlighting the
+importance of fostering critical evaluation skills.
+
+References
+[1] E.A. Alasadi and C.R. Baiz, "Generative AI in education and research: Opportunities,
+concerns, and solutions," J.Chem.Educ., vol. 100, pp. 2965–2971, 2023.
+[2] J.H. Orduño-Osuna, E.I. Cota-Rivera, M.E. Raygoza-L, R. Jimenez-Sanchez, G.M. LimónMolina, M.E. Bravo-Zanoguera, A. Mercado-Herrera and F.N.M. Rico, "Exploring the
+Challenges and Applications of Generative AI on Engineering Education in Mexico,"
+Facilitating Global Collaboration and Knowledge Sharing in Higher Education with
+Generative AI, pp. 259–286, 2024.
+[3] A. Owoseni, O. Kolade and A. Egbetokun, "Enhancing Personalised Learning and Student
+Engagement Using Generative AI," in Generative AI in Higher Education: Innovation
+Strategies for Teaching and Learning, Springer, 2024, pp. 123–150.
+[4] W. Chiu, "Pedagogy of emerging technologies in chemical education during the era of
+digitalization and artificial intelligence: A systematic review," Education Sciences, vol. 11,
+pp. 709, 2021.
+[5] M.R. Dobbelaere, P.P. Plehiers, R. Van de Vijver, C.V. Stevens and K.M. Van Geem,
+"Machine learning in chemical engineering: strengths, weaknesses, opportunities, and
+threats," Engineering, vol. 7, pp. 1201–1211, 2021.
+[6] F. Caccavale, C.L. Gargalo, K.V. Gernaey and U. Krühne, "FermentAI: Large Language
+Models in Chemical Engineering Education for Learning Fermentation Processes," in
+Computer Aided Chemical Engineering, Elsevier, 2024, pp. 3493–3498.
+[7] R. Andika and Z.A. Putra, "Teaching programming to chemical engineering students,"
+ASEAN Journal of Science and Engineering Education, vol. 2, pp. 51–60, 2022.
+[8] M. Tsai, C.W. Ong and C. Chen, "Exploring the use of large language models (LLMs) in
+chemical engineering education: Building core course problem models with Chat-GPT,"
+Education for Chemical Engineers, vol. 44, pp. 71–95, 2023.
+[9] S. Zhan and L. Wang, "Integrating Generative AI in Higher Education: Challenges,
+Opportunities, and Innovations in Assessment Practices within Electrical Engineering," .
+[10] P.M. Simelane and J. Kittur, "Use of Generative Artificial Intelligence in Teaching and
+Learning: Engineering Instructors' Perspectives," Computer Applications in Engineering
+Education, vol. 33, pp. e22813, 2025.
+[11] E. Er, G. Akçapınar, A. Bayazıt, O. Noroozi and S.K. Banihashem, "Assessing student
+perceptions and use of instructor versus AI‐generated feedback," British Journal of
+Educational Technology, 2024.
+[12] L. Labajová, "The state of AI: Exploring the perceptions, credibility, and trustworthiness of
+the users towards AI-Generated Content," 2023.
+
+[13] S. Akgun and C. Greenhow, "Artificial intelligence in education: Addressing ethical
+challenges in K-12 settings," AI and Ethics, vol. 2, pp. 431–440, 2022.
+[14] A. Adel, A. Ahsan and C. Davison, "ChatGPT promises and challenges in education:
+Computational and ethical perspectives," Education Sciences, vol. 14, pp. 814, 2024.
+[15] B. Memarian and T. Doleck, "Fairness, Accountability, Transparency, and Ethics (FATE) in
+Artificial Intelligence (AI), and higher education: A systematic review," Computers and
+Education: Artificial Intelligence, pp. 100152, 2023.
+[16] O. Bulut, M. Beiting-Parrish, J.M. Casabianca, S.C. Slater, H. Jiao, D. Song, C.M.
+Ormerod, D.G. Fabiyi, R. Ivan and C. Walsh, "The rise of artificial intelligence in
+educational measurement: Opportunities and ethical challenges," arXiv Preprint
+arXiv:2406.18900, 2024.
+[17] S. Grassini, "Development and validation of the AI attitude scale (AIAS-4): a brief measure
+of general attitude toward artificial intelligence," Frontiers in Psychology, vol. 14, pp.
+1191628, 2023.
+[18] A. Schepman and P. Rodway, "Initial validation of the general attitudes towards Artificial
+Intelligence Scale," Computers in Human Behavior Reports, vol. 1, pp. 100014, 2020.
+
+APPENDIX A
+Faculty Reflections
+Reflections on Kinetics Course
+Course Context
+This 3-week kinetics module sits within a bridge series of courses to our chemical engineering
+MS program for non-chemical engineers (typically chemistry undergraduates), which is taken
+within the first term of graduate school for these students. This module is one of the last modules
+students take, building on material and energy balances, thermodynamics, and transport modules
+students had taken earlier in the series. Students participate in six lectures and three recitation
+sessions (all 75 minutes) and complete two homework assignments to demonstrate competency
+in the concepts in the module. As the module is very short, the lectures and problems focus
+entirely on core kinetics concepts required for the students to access the graduate kinetics course
+required for the MS.
+Instructor Reflection on ChatGPT for Module Design
+ChatGPT 4-o mini (the free version) was a useful companion in helping to down select for the
+most important concepts to cover and to order them in a way that would be digestible and helpful
+for students. I was able to use the module-level learning objectives (edited) that ChatGPT had
+given to develop a syllabus-like overview for the 3-week module, and topics for the six lectures.
+I found it helpful to see how ChatGPT produced a full semester (15-week) course plan that was
+then converted to a 6-session format, and to see that the chatbot did not directly follow the order
+of chapters from the textbook to guide the lectures.
+The lecture plans, sample activities, and problems that were produced by the chatbot were
+helpful in developing high level, relatively easy problems that students could engage in in-class.
+I was able to directly use the learning objectives and did use some of the chatbot-developed
+problems as part of the lectures. However, I found that none of these materials were really deep
+or detailed enough to drive a full 75 minute lesson plan as a first-time instructor for kinetics. As
+such, though I used the chatbot’s suggestion for high level structure of the module, I drew on
+Fogler’s Chemical Reaction Engineering textbook and its associated web resources, along with
+the course materials from previous module instructors to get more detailed plans, slides, and
+problems to use in the classroom.
+The homework/exam questions that the chatbot produced seemed to be generally correct, but not
+particularly complex or broken into parts in the way that I want students to practice the concepts
+presented in the lectures. These, again, could serve as the basis for problems that I could have
+used for the module. I opted to instead use the homework problems of the previous instructor as
+a means of assuring that students were gaining the same competencies as the previous batch of
+students.
+All-in-all, I found that using the chatbot was helpful as a starting point, helping to suggest
+learning objectives for the individual lectures and overall module, along with providing kernels
+of problems that could have been used for homework or exams. The details produced by the
+chatbot, however, were not enough to be used verbatim by a first-time instructor for the topic,
+and were often too simple or straightforward for the level of student targeted in my teaching
+
+context. Some suggested problems and cases were used to start class activities, but additional
+materials were needed to fully create the lesson plans.
+Reflections on Materials and Energy Balance Course
+I put the prompts in for a Material Balances class. The syllabus was well done and covered the
+material from the book. It even put together a decent grading scale including a project. It did
+not include anything about the project in the syllabus though. Interesting that it skipped to
+chapter 9 for some of the lessons, but the flow made sense.
+The lecture description was a little vague but did include guided problem solving and an activity
+(no specificity about type of activity). It only laid out 5 weeks, but I am sure you could ask it to
+continue for the other weeks. I liked that it encouraged interaction with the students in class.
+A highlight is the application of the ABET criteria with the topics in the course. This is a great
+way to remind faculty how they can satisfy all the ABET requirements in the course. The table
+at the end is particularly helpful. It did a nice job with the learning objectives using measurable
+words like describe, apply, solve, analyze, differentiate, explain, evaluate. Of course, I would
+use more specificity in mine, but it is a good start.
+I had mixed feelings on the open-ended questions. Question 1 was a little too vague (how does a
+PFD help?) but I really did like question 2 (what is the purpose of a purge stream). It seemed to
+really understand the trade off from the purge itself. I don’t really like question 3. This question
+is about degrees of freedom. Although this can be helpful for creating questions, it is typically
+not a concept I would focus on.
+There were problems with the multiple-choice questions and open ended with the concepts of
+recycle and accumulation. First - Question 3 in the multiple choice asked the purpose of the
+recycle. The answer was “to reduce waste and improve process efficiency” However, another
+option was “To increase the production of the desired product” and that could also be true.
+Second - it doesn’t understand the use of accumulation. Question 2 of the multiple choice asked
+what term(s) from the material balance equation are always zero in a steady-state process. It
+should be Generation and Consumption AND Accumulation, but it only said Generation and
+Consumption. In addition, question 4 of the open ended asked for the term representing changes
+in material within the system in a steady-state process. There should be no term for change in
+material, but it said accumulation. This is very confusing for students.
+The open-ended question mentioned the Haber Bosch process. This is a great example that I use
+in my class and would be helpful for a first-time faculty member to know about.
+
+Reflections on Introduction to Thermodynamics Course
+Context
+I redesigned the course “Intro to Thermodynamics”, the first course in a two-class
+thermodynamics sequence. It is a sophomore-level course and serves as an introduction to the
+
+chemical engineering department. Over the 16-week semester, I teach the first and second laws
+of thermodynamics for pure substances. Classes are held twice a week in 75-minute lectures,
+with students taking three midterms, completing weekly homework assignments, and working on
+a semester-long project.
+AI in Course Preparation
+I entered the course textbook name into ChatGPT, and it provided an excellent foundation for
+syllabus creation. It organized the course content week-by-week and aligned it with chapter
+objectives and learning outcomes. This feature is particularly helpful for faculty teaching a
+course for the first time, as it saves significant time and effort. As one advantage, it "mapped the
+ABET outcomes and chapters" effectively, offering a strong starting point for curriculum
+alignment with accreditation standards. However, while the AI-generated lecture plan included
+activity suggestions and reading assignments, it lacked timing details and external references
+beyond the textbook and it required further refinement to fit my specific teaching style and
+classroom activities. Similarly, while it created a lecture outline, the outline needed additional
+depth. These limitations could likely be addressed by providing more detailed and specific
+prompts.
+For quizzes and activities, ChatGPT generated multiple-choice and fill-in-the-blank questions
+that were straightforward and suitable for tools like Kahoot. However, these questions were
+fairly basic and lacked the depth needed for more complex understanding. It may help to enter
+prompts explicitly requesting conceptually rich or "conceptware" questions to improve the
+quality of the generated assessments. Open-ended questions were primarily conceptual and did
+not include calculation-based problems unless explicitly prompted. Once prompted, the
+calculation-based questions were adequate but still fairly simple, while the conceptual openended questions required further refinement. Also, the language of the assessments does not
+align well with what I teach in the class. It does not follow the instructional steps that I follow in
+the class, which makes students confused. When I prompted the AI for calculation-based
+problems, the results were somewhat better but still basic. Real-life case study prompts yielded
+textbook-style problems rather than references to real-world news or industry cases. This gap
+underscores the need for careful prompting and refinement when designing higher-order
+assessments.
+Overall, ChatGPT generates responses that serve as a great starting point for a wide range of
+applications, including syllabus design, lecture planning, and assessment creation. AI was
+incredibly helpful in breaking down complex concepts into manageable chunks, but its
+limitations became apparent when addressing higher-order thinking skills. Importantly, my
+students have shared that they use ChatGPT to design self-study questions by entering my
+practice exam questions and requesting similar problems. This highlights the need for instructors
+to understand how to guide AI tools effectively to generate richer content. As educators, we
+should disseminate best practices for prompting and guiding AI, not only for personal use but
+also to help students maximize its potential for learning.
+
+APPENDIX B
+Sample Prompt Responses
+Prompt 1: Generate a syllabus for a Material Balances. Include a course description,
+course objectives, weekly topics, grading policy, and required materials. Align the content
+with undergraduate chemical engineering standards.
+Course Syllabus: Material Balances
+Course Description
+This course introduces the fundamental principles and techniques of material balances, a cornerstone of chemical
+engineering. Students will learn to systematically analyze and solve problems involving the conservation of mass in
+chemical processes, including reactive and non-reactive systems. Applications include chemical production, energy
+generation, environmental systems, and biological processes.
+
+Course Objectives
+By the end of this course, students will:
+1.
+2.
+3.
+4.
+5.
+6.
+
+Understand and apply the law of conservation of mass to process systems.
+Develop the ability to formulate and solve material balance problems on single-unit and multi-unit
+processes.
+Analyze and solve reactive and non-reactive systems, including recycle, bypass, and purge operations.
+Interpret and utilize process flow diagrams.
+Understand the role of physical properties and phase behavior in material balance calculations.
+Develop foundational skills for chemical process design and analysis.
+
+Weekly Topics
+Week
+Topic
+1
+Introduction to Material Balances: Basic Principles and Definitions
+2
+Units, Dimensions, and Process Variables
+3
+Single-Unit Non-Reactive Systems: Basics and Problem-Solving Strategies
+4
+Multi-Unit Processes: Process Flow Diagrams and Problem Analysis
+5
+Introduction to Energy Balances: Tie-ins with Material Balances
+6
+Reactive Systems: Stoichiometry and Extent of Reaction
+7
+Material Balances on Reactive Systems (Single-Unit)
+8
+Midterm Exam and Review
+9
+Recycle, Bypass, and Purge Operations
+10
+Systems with Phase Changes: Vapor-Liquid and Liquid-Liquid Equilibria
+11
+Material Balances on Environmental and Biological Systems
+12
+Introduction to Process Simulations and Computational Tools
+
+Week
+Topic
+13
+Case Studies and Advanced Problem-Solving
+14
+Course Review and Final Project Discussions
+15
+Final Exam
+
+Grading Policy
+Component
+Weight
+Homework Assignments 20%
+Quizzes
+10%
+Midterm Exam
+25%
+Final Exam
+30%
+Final Project
+10%
+Class Participation
+5%
+Grading Scale:
+A: 90–100% | B: 80–89% | C: 70–79% | D: 60–69% | F: <60%
+
+Required Materials
+1.
+2.
+3.
+4.
+
+Textbook: Elementary Principles of Chemical Processes by R.M. Felder and R.W. Rousseau (latest
+edition).
+Scientific Calculator (with unit conversions).
+Access to process simulation software (e.g., Aspen Plus or ChemCAD).
+Notebook for problem-solving and notes.
+
+Course Policies
+1.
+2.
+3.
+4.
+
+Attendance: Attendance is mandatory. Participation in discussions and problem-solving sessions is
+encouraged.
+Late Submissions: Assignments turned in late will incur a penalty unless prior arrangements are made.
+Collaboration: Students are encouraged to collaborate on homework but must submit individual work.
+Academic Integrity: Plagiarism and cheating are strictly prohibited and will result in disciplinary action.
+
+Prompt 2: Write me learning objectives for an undergraduate chemical engineering
+kinetics course.
+Sure! Here are some learning objectives for an undergraduate chemical engineering kinetics course:
+1. **Understand Fundamental Concepts**: Students will be able to describe the basic principles of chemical
+kinetics, including reaction rates, rate laws, and the impact of concentration, temperature, and catalysts on reaction
+rates.
+
+2. **Mathematical Modeling**: Students will develop the ability to formulate and solve mathematical models of
+chemical reactions, including both elementary and complex reactions, using differential rate equations.
+3. **Experimental Techniques**: Students will gain proficiency in designing and conducting experiments to
+measure reaction rates, as well as analyzing and interpreting kinetic data using appropriate statistical methods.
+4. **Reaction Mechanisms**: Students will learn to propose and evaluate reaction mechanisms, differentiating
+between molecularity, elementary steps, and overall reaction orders.
+5. **Catalysis and Surface Reactions**: Students will understand the principles of catalysis and its effects on
+reaction rates, including enzyme kinetics and heterogeneous catalysis.
+6. **Arrhenius Equation and Temperature Effects**: Students will apply the Arrhenius equation to analyze the
+temperature dependence of reaction rates and understand the significance of activation energy.
+7. **Software Applications**: Students will become familiar with using computational tools and software for
+simulating chemical reactions and analyzing kinetic data.
+8. **Critical Thinking and Problem Solving**: Students will develop critical thinking skills to analyze complex
+kinetic scenarios, propose solutions, and communicate their findings effectively.
+9. **Interdisciplinary Connections**: Students will appreciate the relevance of chemical kinetics in various fields
+such as materials science, biochemistry, and environmental engineering.
+10. **Ethical and Safety Considerations**: Students will recognize the importance of ethical practices and safety
+measures in conducting chemical research and experiments.
+These objectives should provide a comprehensive framework for the course, ensuring that students gain a solid
+foundation in chemical kinetics.
+
+Prompt 3. Create a detailed lesson plan for each week of a chemical engineering course on
+material balances. For each lesson, include learning objectives, a brief summary,
+instructional strategies, activities, and suggested readings.
+Lesson Plan Creation (Week 1 Example)
+Topic: Introduction to Thermodynamics
+Learning Objectives:
+•
+•
+
+Define thermodynamics and its scope in chemical engineering.
+Understand the concepts of energy, work, and heat transfer.
+
+Summary:
+An introduction to thermodynamic systems and processes. Discussion of energy forms and the laws governing
+energy transformations.
+Instructional Strategies:
+•
+•
+•
+
+Lecture with PowerPoint slides.
+Interactive discussions using real-world examples (e.g., power plants).
+Short in-class exercises on identifying thermodynamic systems.
+
+Activities:
+•
+•
+
+Group discussion on common thermodynamic systems.
+Problem-solving practice on defining systems and surroundings.
+
+Suggested Readings:
+•
+
+Moran & Shapiro, Chapter 1: Sections 1.1-1.4.
+
+Prompt 4. Map the syllabus topics for a Material balances to ABET student outcomes. List
+each topic and explain how it contributes to achieving specific ABET outcomes (e.g., apply
+knowledge of mathematics, engineering, communicate effectively, etc.).
+Below is a mapping of syllabus topics for a Material Balances course to ABET student outcomes (as specified in
+the current ABET accreditation criteria). Each topic is aligned with specific ABET outcomes to demonstrate how it
+supports achieving them.
+
+ABET Student Outcomes (for reference)
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+
+Problem-Solving: Ability to identify, formulate, and solve complex engineering problems by applying
+principles of engineering, science, and mathematics.
+Engineering Design: Ability to apply engineering design to produce solutions that meet specified needs.
+Communication: Ability to communicate effectively with a range of audiences.
+Ethics and Responsibility: Ability to recognize ethical and professional responsibilities in engineering
+situations.
+Teamwork: Ability to function effectively on a team.
+Experimentation and Data: Ability to develop and conduct appropriate experimentation, analyze data,
+and use engineering judgment.
+Lifelong Learning: Ability to acquire and apply new knowledge as needed, using appropriate learning
+strategies.
+
+Syllabus Topics and Mapping
+1. Introduction to Material Balances
+•
+•
+
+ABET Outcome 1: Students identify key principles of engineering and mathematics (e.g., conservation of
+mass).
+ABET Outcome 7: Introduces the importance of self-directed learning to build foundational knowledge in
+chemical engineering.
+
+2. Process Flow Diagrams (PFDs)
+•
+•
+
+ABET Outcome 1: Students interpret and analyze process systems using flow diagrams.
+ABET Outcome 3: Communicating process information visually and in writing.
+
+•
+
+ABET Outcome 5: Encourages teamwork in interpreting complex diagrams during collaborative problemsolving sessions.
+
+3. Material Balances for Single-Unit Systems
+•
+•
+•
+
+ABET Outcome 1: Application of mathematical and engineering principles to solve steady-state and
+unsteady-state balance problems.
+ABET Outcome 6: Solving real-world examples using measured or provided data (e.g., flow rates,
+compositions).
+ABET Outcome 7: Encourages iterative problem-solving and applying theoretical knowledge to new
+problems.
+
+4. Multi-Unit Systems
+•
+•
+
+ABET Outcome 1: Extending problem-solving skills to multi-unit systems by breaking down complex
+systems into simpler components.
+ABET Outcome 5: Promotes collaboration when working in teams to solve problems involving multiple
+units and processes.
+
+5. Recycle, Bypass, and Purge Systems
+•
+•
+•
+
+ABET Outcome 1: Problem-solving for recycle, bypass, and purge systems involves applying
+mathematical and chemical engineering principles.
+ABET Outcome 2: Encourages the design of systems that optimize resource use and minimize waste.
+ABET Outcome 4: Discusses ethical considerations in optimizing energy and material use in chemical
+processes.
+
+6. Reactive Processes
+•
+•
+•
+
+ABET Outcome 1: Students solve problems involving reaction stoichiometry and material balances for
+reactive systems.
+ABET Outcome 2: Applications of reaction systems are tied to process design and efficiency.
+ABET Outcome 6: Hands-on analysis of reaction data to determine material requirements for processes.
+
+7. Combustion and Chemical Reactions
+•
+•
+
+ABET Outcome 1: Combustion problems reinforce the application of principles of chemistry,
+mathematics, and engineering.
+ABET Outcome 4: Ethical discussion about sustainability, environmental impact, and reducing carbon
+emissions.
+
+•
+
+ABET Outcome 7: Promotes understanding of the evolving role of combustion technologies in
+engineering.
+
+8. Phase Changes and Vapor-Liquid Systems
+•
+•
+•
+
+ABET Outcome 1: Students apply thermodynamics and phase equilibrium principles to solve vapor-liquid
+problems.
+ABET Outcome 6: Uses real-world data to evaluate equilibrium conditions, promoting experimentation
+skills.
+ABET Outcome 2: Tied to the design of processes involving distillation, evaporation, or condensation.
+
+9. Industrial Applications of Material Balances
+•
+•
+•
+•
+
+ABET Outcome 1: Students analyze real-world problems and apply core material balance concepts.
+ABET Outcome 3: Case studies require effective communication of results in oral and written forms.
+ABET Outcome 4: Discussions of industrial safety and sustainability link to professional and ethical
+responsibilities.
+ABET Outcome 5: Students work in teams to propose solutions for industrial process challenges.
+
+Summary Table
+Syllabus Topic
+Introduction to
+Material Balances
+Process Flow
+Diagrams (PFDs)
+
+ABET
+ABET
+ABET
+ABET
+ABET
+ABET
+ABET
+Outcome 1 Outcome 2 Outcome 3 Outcome 4 Outcome 5 Outcome 6 Outcome 7
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+
+Single-Unit Systems ✔
+Multi-Unit Systems
+
+✔
+
+Recycle, Bypass, and
+✔
+Purge Systems
+✔
+Reactive Processes
+Combustion and
+Chemical Reactions
+Phase Changes and
+Vapor-Liquid
+Systems
+Industrial
+Applications
+
+Explanation:
+
+✔
+✔
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+✔
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+✔
+
+✔
+
+✔
+
+This mapping shows how a Material Balances course contributes to achieving the broad range of ABET outcomes. It
+ensures that students acquire essential engineering skills, such as problem-solving, teamwork, communication, and
+ethical responsibility, while also grounding them in the principles of chemical engineering. Let me know if you'd
+like me to elaborate further or tailor it to a specific syllabus!
+
+Prompt for Homework Question Design and Answer: Generate three open-ended questions
+for each chapter of Kinetics book. Each question should encourage critical thinking and
+application of concepts. Provide detailed answers or explanations for each question.
+### Session 1: Introduction to Chemical Kinetics
+**Homework Question**:
+Define the term "reaction rate" and explain how it can be affected by changes in concentration and temperature.
+Provide an example of a chemical reaction where you observe these effects.
+--### Session 2: Rate Laws and Mathematical Modeling
+**Homework Question**:
+Given the following experimental data for the reaction
+
+\( A \rightarrow B \):
+
+| [A] (mol/L) | Rate (mol/L·s) |
+|--------------|-----------------|
+| 0.1
+| 0.02
+|
+| 0.2
+| 0.08
+|
+| 0.3
+| 0.18
+|
+Determine the rate law for the reaction and calculate the rate constant \( k \).
+--### Session 3: Reaction Mechanisms
+**Homework Question**:
+Propose a possible mechanism for the following overall reaction: \( 2A + B \rightarrow C + D \). Justify your steps
+and specify the elementary reactions, including their molecularity.
+--### Session 4: Catalysis and Enzyme Kinetics
+**Homework Question**:
+Discuss the difference between homogeneous and heterogeneous catalysis. Provide an example of each type of
+catalysis and explain how the catalyst affects the reaction rate in your examples.
+--### Session 5: Temperature Effects and the Arrhenius Equation
+**Homework Question**:
+Using the Arrhenius equation, calculate the activation energy \( E_a \) for a reaction if the rate constant \( k \)
+doubles when the temperature increases from 300 K to 350 K. Assume \( R = 8.314 \, \text{J/(mol·K)} \).
+--### Session 6: Data Analysis and Computational Tools
+**Homework Question**:
+
+You are given kinetic data for a reaction over a range of temperatures. Use a software tool (such as MATLAB or
+Python) to plot the natural logarithm of the rate constant \( k \) versus \( 1/T \) (where \( T \) is the temperature in
+Kelvin). Analyze the slope to determine the activation energy \( E_a \).
+--These questions should reinforce the key concepts covered in each session while encouraging critical thinking and
+application of the material. Let me know if you need any further adjustments or additional questions!
+for each of the above homework questions, could you write me the answer?
+Sure! Here are the answers to the homework questions for each session:
+### Session 1: Introduction to Chemical Kinetics
+**Answer**:
+The reaction rate is defined as the change in concentration of a reactant or product per unit time. It can be affected
+by:
+- **Concentration**: An increase in the concentration of reactants generally leads to an increase in reaction rate due
+to more frequent collisions.
+- **Temperature**: Increasing the temperature provides reactants with more kinetic energy, resulting in more
+effective collisions, thus increasing the reaction rate.
+**Example**: For the reaction \( 2H_2 + O_2 \rightarrow 2H_2O \), increasing the concentration of \( H_2 \) will
+increase the rate at which water is produced. Similarly, raising the temperature will also speed up the reaction.
+--### Session 2: Rate Laws and Mathematical Modeling
+**Answer**:
+To determine the rate law, we can use the method of initial rates:
+1. From the data:
+- For [A] = 0.1 M, Rate = 0.02 M/s
+- For [A] = 0.2 M, Rate = 0.08 M/s
+- For [A] = 0.3 M, Rate = 0.18 M/s
+2. We can assume the rate law is of the form \( \text{Rate} = k[A]^n \).
+3. Taking the ratio of the first two experiments:
+\[
+\frac{0.08}{0.02} = \left(\frac{0.2}{0.1}\right)^n \implies 4 = 2^n \implies n = 2
+\]
+4. Thus, the rate law is \( \text{Rate} = k[A]^2 \).
+5. To find \( k \) using the first set of data:
+\[
+0.02 = k(0.1)^2 \implies k = \frac{0.02}{0.01} = 2 \, \text{M}^{-1}\text{s}^{-1}
+\]
+
+--### Session 3: Reaction Mechanisms
+**Answer**:
+One possible mechanism for the reaction \( 2A + B \rightarrow C + D \) could be:
+1. \( A + B \rightarrow AB \) (fast, elementary step)
+2. \( AB + A \rightarrow C + D \) (slow, rate-determining step)
+**Justification**:
+- The first step forms an intermediate \( AB \) quickly, which then reacts with \( A \) in the rate-determining step.
+The overall stoichiometry matches the balanced equation.
+
+Prompt: Create three multiple-choice and three fill-in-the-blank quiz questions for Thermo
+class. Ensure that each question assesses key concepts from the chapter. Provide correct
+answers and explanations for each question.
+Multiple-Choice and Fill-in-the-Blank Questions (Chapter 1 Example)
+Multiple-Choice:
+1.
+
+Thermodynamics primarily deals with:
+a) Kinetics of chemical reactions
+b) Energy and its transformations ✅
+c) Chemical bonding
+d) Motion of fluids
+
+Fill-in-the-Blank:
+1.
+
+The first law of thermodynamics is also known as the law of __________.
+Answer: Energy Conservation
+
+Prompt: Design a real-life case study related to material balances for a chemical
+engineering course. The case study should involve real-world applications of the topic and
+challenge students to apply theoretical knowledge to solve practical problems. Include
+guiding questions and potential solutions.
+Case Study: Optimizing Recycle and Purge Streams in an Ammonia Synthesis Plant
+
+Background
+Ammonia synthesis is a critical process in the chemical industry, primarily used in fertilizer production. The HaberBosch process produces ammonia by reacting nitrogen (N2N_2N2) and hydrogen (H2H_2H2) gases under high
+pressure and temperature in the presence of a catalyst. However, not all the reactants convert into ammonia in a
+single pass through the reactor. To improve efficiency, unreacted reactants are recycled back into the system.
+However, impurities such as argon (ArArAr) enter the system with the nitrogen feed. Since argon is inert and does
+not react, it can accumulate in the recycle loop and reduce the efficiency of the process. To avoid this, a purge
+stream is introduced to remove a fraction of the recycle gas.
+
+Objective
+The goal of this case study is to design and analyze the ammonia synthesis process, focusing on optimizing the
+recycle and purge streams to balance efficiency, reactant recovery, and impurity removal.
+
+System Description
+•
+
+•
+•
+•
+•
+
+Inputs:
+o N2N_2N2: 50 mol/s
+o H2H_2H2: 150 mol/s
+o ArArAr: 1 mol/s (impurity in the feed)
+Reactor Output (Single Pass):
+o 40% of N2N_2N2 reacts with H2H_2H2 to form ammonia (NH3NH_3NH3).
+Recycle Loop:
+o Unreacted N2N_2N2, H2H_2H2, and ArArAr are recycled back to the reactor.
+Purge Stream:
+o Removes a fraction of the recycle stream to prevent ArArAr buildup.
+Stoichiometry:
+o N2+3H2→2NH3N_2 + 3H_2 \rightarrow 2NH_3N2+3H2→2NH3
+
+Tasks for Students
+1.
+
+Mass Balance on the Reactor:
+
+Perform a material balance around the reactor to calculate the molar flow rates of NH3NH_3NH3,
+N2N_2N2, H2H_2H2, and ArArAr leaving the reactor.
+Recycle Loop Analysis:
+o Write material balances for the recycle loop to determine the composition and flow rates of the
+recycle stream.
+Purge Stream Optimization:
+o Calculate the minimum purge flow rate required to keep the mole fraction of ArArAr in the
+recycle stream below 2%.
+System Efficiency:
+o Determine the overall conversion of N2N_2N2 and H2H_2H2 in the system, considering both the
+reactor and the recycle loop.
+Economic and Environmental Considerations:
+o Discuss the trade-offs between maximizing reactant recovery and minimizing energy use and
+waste generation.
+o
+
+2.
+3.
+4.
+5.
+
+Guiding Questions
+1.
+2.
+3.
+4.
+5.
+
+What are the molar flow rates of N2N_2N2, H2H_2H2, NH3NH_3NH3, and ArArAr leaving the reactor in
+the first pass?
+How does the recycle loop affect the overall conversion of N2N_2N2 and H2H_2H2?
+What is the relationship between the purge rate and the accumulation of ArArAr in the system?
+How can the purge stream be adjusted to minimize N2N_2N2 and H2H_2H2 losses while maintaining an
+acceptable level of ArArAr?
+What operational changes could improve the energy efficiency of the system without compromising
+production?
+
+Solution Outline
+1.
+
+2.
+3.
+
+4.
+
+Reactor Material Balance:
+o Reactor input: N2N_2N2: 50 mol/s, H2H_2H2: 150 mol/s, ArArAr: 1 mol/s.
+o Reactor output:
+§ N2N_2N2 reacted = 0.4×50=20 mol/s0.4 \times 50 = 20 \, \text{mol/s}0.4×50=20mol/s
+§ H2H_2H2 reacted = 3×20=60 mol/s3 \times 20 = 60 \, \text{mol/s}3×20=60mol/s
+§ NH3NH_3NH3 produced = 2×20=40 mol/s2 \times 20 = 40 \, \text{mol/s}2×20=40mol/s
+§ Remaining N2N_2N2: 50−20=30 mol/s50 - 20 = 30 \, \text{mol/s}50−20=30mol/s
+§ Remaining H2H_2H2: 150−60=90 mol/s150 - 60 = 90 \, \text{mol/s}150−60=90mol/s
+§ ArArAr remains unchanged: 1 mol/s1 \, \text{mol/s}1mol/s.
+Recycle Loop Material Balance:
+o Write balances for N2N_2N2, H2H_2H2, NH3NH_3NH3, and ArArAr in the recycle stream
+considering the purge fraction (PPP).
+Purge Rate Calculation:
+o For steady-state conditions, the mole fraction of ArArAr in the recycle stream is:
+xAr=Purge flow rate of ArRecycle flow ratex_{Ar} = \frac{\text{Purge flow rate of }
+Ar}{\text{Recycle flow rate}}xAr=Recycle flow ratePurge flow rate of Ar
+o Solve for the purge rate (PPP) to ensure xAr<0.02x_{Ar} < 0.02xAr<0.02.
+Overall System Efficiency:
+o Overall conversion of N2N_2N2:
+Overall conversion=NH3 producedTotal N2 fed to the system\text{Overall conversion} =
+\frac{\text{NH}_3 \text{ produced}}{\text{Total } N_2 \text{ fed to the
+system}}Overall conversion=Total N2 fed to the systemNH3 produced
+
+5.
+
+o Consider both single-pass and overall conversions with recycle.
+Economic and Environmental Trade-Offs:
+o High purge rates reduce ArArAr buildup but lead to loss of N2N_2N2 and H2H_2H2.
+o Optimizing the purge stream improves sustainability by reducing waste and energy consumption.
+
+Expected Outcomes
+•
+•
+•
+
+Students will calculate the flow rates and compositions of all streams in the process.
+They will determine the optimal purge rate to balance reactant recovery and impurity removal.
+They will understand the impact of operational decisions on process efficiency and environmental
+performance.
+
+This case study challenges students to integrate material balance calculations with practical considerations, fostering
+critical thinking and application of engineering principles to real-world problems. Let me know if you'd like to
+expand any section!
+
+

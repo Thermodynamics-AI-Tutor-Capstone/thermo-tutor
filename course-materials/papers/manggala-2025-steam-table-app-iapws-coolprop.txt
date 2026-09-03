@@ -1,0 +1,601 @@
+https://doi.org/10.56862/irajtma.v4i3.351
+
+IRA Jurnal Teknik Mesin dan Aplikasinya (IRAJTMA)
+Vol. 4, No. 3, 2025, pp. 215-226, e-ISSN: 2962-4290
+Available online http://e-journals.irapublishing.com/index.php/IRAJTMA/
+
+Scientific Articles
+
+Development of a Portable Steam Table Application Integrating IAPWS-IF97
+and CoolProp for Thermodynamic Analysis
+Pengembangan Aplikasi Tabel Uap Portabel yang Mengintegrasikan IAPWS-IF97
+dan CoolProp untuk Analisis Termodinamika
+Agus Manggala1, Muhammad Yerizam2, Sahrul Effendy1
+1
+2
+
+Chemical Engineering-Energy Engineering, Politeknik Negeri Sriwijaya, Palembang 30139, Indonesia
+
+Chemical Engineering-Industrial Chemical Technology, Politeknik Negeri Sriwijaya, Palembang 30139, Indonesia
+*Corresponding author: agus.manggala@polsri.ac.id
+
+Diterima: 29-10-2025
+
+Disetujui: 02-12-2025
+
+Dipublikasikan: 29-12-2025
+
+IRAJTMA is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
+
+Abstract
+The advancement of modern thermodynamic technology requires educational software capable of accurately
+calculating and visualizing the thermophysical properties of water and steam in accordance with the IAPWS-IF97
+Industrial Formulation. This study presents the development of a standalone Python-based Steam Table application
+that integrates two thermodynamic property calculation backends, IAPWS-IF97 and CoolProp, into a single
+executable (.exe) package that operates without any additional installation. The application performs real-time
+calculations of thermodynamic properties, including enthalpy, entropy, pressure, and temperature, and provides
+interactive visualizations on h–s (Mollier) and T–s diagrams. The novelty of this research lies in integrating dual
+thermodynamic engines into an automated build-release system based on batch scripting, enabling efficient,
+reproducible compilation, version control, and distribution. Validation results show that the application operates
+stably in Windows 10–11 environments without external dependencies, producing results consistent with the IAPWSIF97 reference tables, with a maximum deviation of less than ±0.05% across all tested state points. This tool is
+expected to serve as a lightweight, open-source, and adaptable platform for thermodynamic learning and research,
+particularly for studies involving the Rankine cycle, steam power plants (PLTU), and geothermal energy systems.
+Keywords: Steam Table, IAPWS-IF97, CoolProp, Mollier Diagram, Thermodynamic Simulation, Python Application.
+
+Abstrak
+Kemajuan teknologi termodinamika modern menuntut adanya perangkat lunak edukatif yang mampu menghitung
+dan memvisualisasikan sifat-sifat termofisika air dan uap secara akurat sesuai dengan Industrial Formulation IAPWSIF97. Penelitian ini mempresentasikan pengembangan aplikasi Steam Table mandiri berbasis Python yang
+mengintegrasikan dua backend perhitungan sifat termodinamika, IAPWS-IF97 dan CoolProp, ke dalam satu paket
+executable (.exe) yang dapat dijalankan tanpa instalasi tambahan apa pun. Aplikasi ini melakukan perhitungan realtime terhadap sifat-sifat termodinamika seperti entalpi, entropi, tekanan, dan temperatur, serta menyediakan
+visualisasi interaktif melalui diagram h–s (Mollier) dan T–s. Kebaruan penelitian ini terletak pada integrasi dua mesin
+termodinamika (dual thermodynamic engines) di dalam sistem build release otomatis berbasis batch scripting, yang
+memungkinkan proses kompilasi, pengendalian versi, dan distribusi yang efisien serta dapat direproduksi. Hasil
+validasi menunjukkan bahwa aplikasi ini beroperasi secara stabil pada lingkungan Windows 10–11 tanpa dependensi
+eksternal, dengan hasil yang konsisten terhadap tabel acuan IAPWS-IF97 dan deviasi maksimum kurang dari ±0,05%
+untuk seluruh titik keadaan yang diuji. Perangkat ini diharapkan dapat menjadi platform yang ringan, open source,
+dan mudah diadaptasi untuk pembelajaran dan penelitian termodinamika, khususnya untuk kajian siklus Rankine,
+pembangkit listrik tenaga uap (PLTU), dan sistem energi panas bumi.
+Kata kunci: Tabel Uap, IAPWS-IF97, CoolProp, Diagram Mollier, Simulasi Termodinamika, Aplikasi Python.
+
+215
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+1. Introduction
+The continuous progress in energy conversion systems during the Industry 4.0 era requires
+a thermodynamic analysis that is fast, accurate, and flexible. One of the essential requirements
+in this field is determining the thermodynamic properties of working fluids such as water and
+steam, which play a crucial role in various energy conversion systems, including steam power
+plants (PLTU), geothermal power plants (PLTP), refrigeration cycles, and industrial cooling systems
+(Bell, Quoilin, and Wronski, n.d.), (Çengel and Boles 2014). In engineering practice, these property
+data are typically obtained from a steam table, which is an empirical compilation derived from
+mathematical formulations based on experimental data and thermodynamic equilibrium theory.
+This research continues the previous study, "Development of Excel VBA-Based Simulation
+Software for Steam Power Plant (PLTU) for Engineering Applications," which focused on
+developing a low-cost, educational simulation tool using Microsoft Excel and VBA. Building upon
+that foundation, the present work extends the simulation environment into a Python-based
+platform with enhanced computational performance, graphical interface, and modular design for
+broader engineering and research applications (Manggala, Yerizam, and Effendy 2025).
+The international standard for modern water and steam thermodynamic properties is
+established by the International Association for the Properties of Water and Steam (IAPWS)
+through the IAPWS Industrial Formulation 1997 (IAPWS-IF97) (Wagner and Pruß 2002). This
+formulation replaced the previous version (IF-88) by improving both computational accuracy and
+speed across a pressure range of 0.611 kPa to 100 MPa and temperatures up to 1073 K (Wagner
+et al. 2000). The IAPWS-IF97 formulation defines five distinct regions based on phase conditions
+and provides functions for calculating properties such as enthalpy, entropy, specific volume,
+internal energy, specific heat, and speed of sound (Figure 1). Direct application of this formulation
+yields results with a relative error of less than ±0.1% compared with experimental data.
+Consequently, this standard has become the primary reference for power generation and thermal
+energy systems industries worldwide.
+
+Figure 1. Region diagram IAPWS-IF97 (P–T log scale)
+However, implementing the IAPWS-IF97 formulation in commercial software such as
+REFPROP, EES, or MATLAB Cool Toolbox requires paid licenses and specific operating systems.
+Furthermore, several of these software packages are closed-source, making them unsuitable for
+open research and academic development in higher education institutions, particularly in
+developing countries such as Indonesia or Sudan (El-Awad and Elseory 2013). In the context of
+energy engineering education, students typically learn thermodynamic calculations using printed
+tables or simple spreadsheet tools. This method is inefficient because it requires manual
+216
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+interpolation and does not support the visualization of graphical relationships among parameters
+such as T–s and h–s diagrams. Several universities in Indonesia have developed auxiliary tools
+based on Microsoft Excel or MATLAB GUIs, yet these applications are limited to specific platforms
+and require licensed software. Therefore, the development of open-access educational software
+that is portable, lightweight, and executable without additional installation is a strategic solution.
+This approach aligns with the principle of open-source scientific computing, which emphasizes
+algorithmic transparency and the reproducibility of computational research results (Hidayat,
+Hidayat, and Irawan 2021).
+The Python programming language has become a popular choice for scientific software
+development due to its extensive community and comprehensive numerical libraries such as
+NumPy, SciPy, and Matplotlib. For thermodynamic property modeling, two widely used opensource libraries are IAPWS (Python Implementation) and CoolProp. The iapws library provides a
+direct implementation of the IAPWS-IF97 formulation and is particularly suitable for educational
+purposes because of its simplicity and transparent source code (Martin, Ranalli, and Moore
+2022). Meanwhile, CoolProp, developed by Ian Bell and collaborators, is a reference-quality
+thermophysical property library capable of computing over 100 fluids, including water,
+refrigerants, and hydrocarbons (Bell, Quoilin, and Wronski, n.d.). It is based on the Helmholtz
+energy equation of state and is compatible with multiple programming environments, including
+C++, Python, MATLAB, and Excel.
+Previous studies have used CoolProp to analyze power cycles, optimize Organic Rankine
+Cycles (ORCs), and design heat exchangers. (Banjarnahor, n.d.). However, most of these
+implementations still rely on Python environments that require additional dependencies, which
+limit their usability in non-programming settings. Although Python offers high-quality
+thermodynamic libraries, there has been limited effort to package them into a standalone, userfriendly application featuring an interactive graphical interface that runs without external
+installation (Dos Santos Junior, Daltro De Freitas, and Mariano 2025; Iacovino et al. 2021; Otis and
+Liu 2017).
+This research, therefore, aims to develop a portable Steam Table application in Python
+that integrates the IAPWS-IF97 and CoolProp thermodynamic libraries into a single executable
+package, featuring a Tkinter-based graphical user interface. The application can compute the
+thermodynamic properties of water and steam in real time for P–T, T–s, and h–s parameters,
+while providing dynamic visualization through Mollier (h–s) and T–s diagrams. The main novelty
+of this study lies in:
+1. The simultaneous integration of dual thermodynamic backends (IAPWS & CoolProp) in a
+single standalone executable that requires no Python installation or external
+dependencies.
+2. The implementation of an automated build–release system using batch scripting, which
+allows efficient compilation, version control, and consistent reproducibility.
+3. The development of an educational interface for validating Rankine cycle processes and
+geothermal power systems.
+4. The adoption of a reproducible software engineering approach for the creation of open
+scientific software in energy engineering education in Indonesia.
+2. Research Methodology
+This research adopts an engineering software development methodology that combines
+computational thermodynamics and reproducible programming principles. The primary stages
+include:
+217
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+1. System design and requirement analysis – defining software scope, backend selection,
+and interface layout.
+2. Algorithm development implementing property equations using IAPWS-IF97 and
+CoolProp libraries.
+3. GUI implementation: designing a Python Tkinter interface for interactive use.
+4. Build–release automation, developing a batch script pipeline for packaging the project
+into a standalone executable.
+5. Validation and performance testing comparing computed properties against reference
+data and commercial software.
+The research flow can be described as follows: property data for water and steam are
+computed using the IAPWS-IF97 and CoolProp backends, processed by Python algorithms, and
+displayed in a Tkinter-based GUI with interactive diagrams. Tkinter was chosen as the GUI
+framework because it is lightweight, included in the Python standard library, and does not require
+additional dependencies. Compared to PyQt or Kivy, which produce larger package sizes and
+require external libraries, Tkinter is better suited to the aim of this study: to develop a Steam
+Table application that is portable, simple, and easy to distribute as a single executable file to end
+users.
+2.1. Software Architecture
+The Steam Table application was designed with a modular architecture to simplify
+maintenance and ensure reproducibility. The directory structure consists of:
+
+Figure 2. Steam table software architecture
+This structure allows easy integration of additional fluids or modules in future versions.
+2.2. Dual-Backend Integration
+The application integrates two thermodynamic engines, IAPWS-IF97 and CoolProp, that
+work in parallel for comparison and cross-validation. For example, using IAPWS-IF97:
+from iapws import IAPWS97
+point = IAPWS97(P=8, x=0.5)
+print(point.h, point.s)
+And using coolprop
+from CoolProp.CoolProp import PropsSI
+h = PropsSI("H", "P", 8e6, "T", 773.15, "Water")
+s = PropsSI("S", "P", 8e6, "T", 773.15, "Water")
+218
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+A backend selection menu in the GUI allows users to toggle between the two engines,
+enabling direct comparison and improved validation.
+2.3. User Interface and Visualization
+The interface consists of four tabs:
+1.
+2.
+3.
+4.
+
+Property Table (P–T Input) – computes properties based on user inputs.
+T–s Diagram – displays temperature–entropy relationships.
+h–s (Mollier) Diagram – shows enthalpy–entropy relations with quality lines (x = 0.1–0.9).
+Settings and about allow users to clear inputs, switch backends, or view build version
+information.
+
+Visualization uses the Matplotlib library. Data points are dynamically plotted each time
+users update their inputs. The system automatically redraws the saturation dome and constantquality lines with labels at each endpoint, emulating industrial Mollier diagrams.
+2.4. Build Release Automation
+To support portability, a batch script automates the entire packaging process:
+1. Creating a virtual environment (python -m venv.venv).
+2. Installing dependencies (pip install iapws, CoolProp, matplotlib, pyinstaller).
+3. Compiling with PyInstaller:
+pyinstaller --onefile --windowed ^
+--collect-all CoolProp ^
+--collect-all iapws ^
+steamtable_app\app.py
+4. Generating a ZIP release file (SteamTableApp_vYYYYMMDD.zip) and auto-launching the
+built EXE.
+This ensures version control, consistent builds, and reproducible releases without manual
+configuration.
+3. Results and Discussion
+3.1. Numerical Validation
+Validation was conducted by comparing the results of the developed application with
+reference IAPWS-IF97 data and commercial software (REFPROP, EES). For each test condition
+(0.1–20 MPa, 100–500 °C), deviations were recorded for enthalpy, entropy, and specific volume.
+Table 1. Validation
+Property
+
+Reference
+
+IAPWS
+
+CoolProp
+
+Deviation (%)
+
+h (kJ/kg)
+
+2768.4
+
+2768.3
+
+2768.1
+
+±0.05
+
+s (kJ/kg·K)
+
+6.442
+
+6.443
+
+6.441
+
+±0.03
+
+The maximum deviation was within ±0.05%, confirming the numerical consistency of both
+backends under all tested conditions.
+From an engineering perspective, the observed maximum deviation of less than ±0.05%
+is entirely acceptable for both educational and preliminary design purposes. Typical uncertainties
+in thermodynamic analysis are dominated by measurement errors, instrumentation accuracy, and
+modeling assumptions, such as isentropic efficiency and heat losses, which often range from 0.1–
+1% or higher. In comparison, a 0.05% deviation in thermodynamic properties such as enthalpy
+219
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+and entropy is negligible and does not materially affect the resulting cycle efficiency, heat rate, or
+equipment sizing. Therefore, the application's validated accuracy is considered adequate for
+classroom demonstrations, laboratory exercises, and early-stage engineering studies.
+
+Figure 3. Steam Table App Interface for Thermodynamic Property Calculation (CoolProp
+Backend)
+
+Figure 4. Steam Table App Generating Saturated Water and Steam Properties by Temperature
+Using CoolProp Library
+The integration of dual thermodynamic backends, namely IAPWS-IF97 and Cool Prop,
+offers distinct advantages for both education and research compared to relying on a single engine.
+For educational use, the dual-backend configuration allows students to actively compare property
+values obtained from a dedicated industrial standard formulation (IAPWS-IF97) and a more
+general multi-fluid library (Cool Prop). This encourages critical thinking about model selection,
+numerical consistency, and the influence of property correlations on thermodynamic analyses,
+rather than treating steam tables as a "black box". For research and advanced study, the dual
+backends provide a built-in cross-checking mechanism that helps identify potential anomalies in
+specific regions of the thermodynamic space and facilitates sensitivity studies with respect to the
+choice of property source. At the same time, the use of IAPWS-IF97 as a reference ensures
+compatibility with established industrial practice in steam power plants and Rankine cycle
+analysis.
+220
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+Figure 5. Steam Table App Generating Saturated Water and Steam Properties by Pressure Using
+CoolProp Library
+The introduction of an automated build system based on batch scripting is also a
+significant step forward for the local open-source community, particularly in the Indonesian
+context. Many students and practitioners work on Windows-based computers with limited
+administrative privileges and intermittent internet access, which makes it challenging to install
+complex development environments or additional libraries. By encapsulating the compilation
+process, dependency handling, and version tagging into a single automated build script, the
+project reduces the technical barrier for contributors who wish to modify the source code and
+generate their own updated executables. This not only improves reproducibility and traceability
+of each release but also encourages collaborative development and reuse of the tool across
+different campuses and training centers. In practical terms, the Auto Build feature enables
+lecturers and researchers to distribute a consistently built, single-file executable to end users
+while maintaining a transparent, open development workflow at the source-code level.
+
+Figure 6. Steam Table App Generating Thermodynamic Properties of Superheated Steam at
+Fixed Pressure Using CoolProp Library
+221
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+Figure 7. Steam Table App Generating Thermodynamic Properties of Superheated Steam at
+Fixed Temperature Using CoolProp Library
+
+Figure 8. Steam Table App Generating Superheated and Supercritical Steam Properties by
+Pressure Using CoolProp Library
+
+Figure 9. Exported Saturation Table (by Temperature) from the Steam Table App to Microsoft
+Excel
+222
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+3.2. Diagram Representation
+The h–s (Mollier) and T–s diagrams generated by the application exhibit the same
+structure as standard thermodynamic charts. Each constant-quality line (x = 0.1–0.9) is annotated,
+and the dome region is plotted accurately using saturation data from IAPWS region 4. Dynamic
+plot updates enable real-time analysis. The accuracy of curve transitions between liquid, vapor,
+and superheated regions was verified visually and numerically, confirming the reliability of the
+plotting module.
+
+Figure 10. Temperature–Entropy (T–s) Diagram of Water and Steam Generated by the Steam
+Table App Using the IAPWS-IF97 Formulation
+
+Figure 11. Enthalpy–Entropy (h–s) Mollier Diagram of Water and Steam Generated by the Steam
+Table App Using the IAPWS-IF97 Formulation
+
+Figure 12. Pressure–Temperature (P–T) Diagram of Water and Steam Generated by the Steam
+Table App Using the IAPWS-IF97 Formulation
+223
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+3.3. Application Performance
+•
+•
+•
+
+Performance tests conducted on Windows 11 (Intel i7, 16 GB RAM) showed:
+Startup time: 1.6 s (EXE), 0.8 s (source code)
+Response time: 0.04 s per query
+Build time: 54 s (first build), 15 s (rebuild)
+
+The application demonstrates stable operation and responsiveness suitable for classroom
+and research environments.
+3.4. Comparison with Existing Tools
+Table 2. Existing Tools
+Feature
+
+REFPROP
+
+EES
+
+License
+
+Paid
+
+Paid
+
+Paid
+
+Free
+
+Free
+
+IAPWS-IF97
+
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+
+CoolProp
+
+✖
+
+✖
+
+Optional
+
+✖
+
+✔
+
+Script
+Multi
+Complex
+
+✖
+Win
+Simple
+
+✔ Auto
+Win Portable
+None
+
+✖
+
+✖
+
+✔
+
+Interactive Diagram
+Platform
+Installation
+
+Manual
+✖
+Multi
+Win
+Complex Moderate
+
+Auto Build
+
+✖
+
+MATLAB Toolbox Excel (Water97v13) This Work
+
+✖
+
+The developed application offers an optimal balance between computational accuracy,
+usability, and accessibility, outperforming commercial and academic alternatives in terms of
+openness and portability.
+4. Application Limitations
+Although the application performs well, several limitations are identified:
+1. Single working fluid (water/steam) — only IAPWS-IF97 and CoolProp water models are
+integrated; other fluids (e.g., R134a, CO₂) are not yet supported.
+2. Process simulation not included — only state-point calculations are implemented;
+Rankine or regenerative cycle analysis requires manual post-processing.
+3. Operating limits — valid for 273–1073 K and ≤100 MPa; performance outside this range is
+unverified.
+4. Windows dependency — EXE version tested on Windows only.
+5. 2D visualization only — no 3D thermodynamic surface plots.
+6. Large binary size — CoolProp increases the EXE file to ~80 MB.
+7. GUI-only input — batch or command-line processing not available.
+8. No automatic data export — results not yet stored in CSV or database formats.
+Thus, the current version serves primarily as an educational and validation tool rather
+than a full thermodynamic process simulator.
+5. Conclusion
+This study successfully developed a standalone Python-based Steam Table application
+that integrates IAPWS-IF97 and CoolProp into a single executable package. The program provides
+numerically validated, real-time calculations of thermodynamic properties for water–steam
+systems, with a maximum deviation of ±0.05% relative to IAPWS-IF97 reference data across all
+tested state points. In addition to delivering accurate property values, the application generates
+224
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+interactive T–s and h–s (Mollier) diagrams, enabling users to directly visualize thermodynamic
+processes and better understand the behavior of steam in power generation and related energy
+systems. The main achievements of this work can be summarized as follows:
+1. Dual-backend integration combining IAPWS-IF97 and CoolProp within one unified
+platform, achieving a maximum deviation of less than ±0.05% from reference data while
+enabling cross-checking and comparative analysis of property models.
+2. An automated build–release pipeline based on batch scripting, which supports one-click
+reproducible packaging, consistent versioning, and straightforward distribution of the
+application as a single executable file without requiring additional installations or external
+dependencies.
+3. A lightweight GUI design using Tkinter, which ensures a small package size, stability on
+Windows 10–11 environments, and practical usability for both classroom demonstrations
+and research-oriented thermodynamic studies.
+By combining high numerical accuracy, portability, and ease of deployment, the software
+contributes to the development of open-source thermodynamic education tools, particularly in
+contexts where access to commercial property libraries is limited. Students and engineers can
+perform steam property analysis, construct simple cycle studies, and explore the influence of
+different thermodynamic models without needing complex installation procedures or paid
+licenses. The dual-backend configuration further encourages critical thinking about model
+selection and the impact of property correlations on engineering calculations. Future
+developments will focus on extending the application's capabilities beyond the current water–
+steam implementation. Planned enhancements include:
+•
+•
+•
+•
+•
+
+Adding support for multiple working fluids and refrigerants to broaden its applicability to
+organic Rankine cycles and refrigeration systems,
+Implementing full Rankine cycle simulation, including components such as turbines,
+pumps, condensers, and feedwater heaters,
+Deploying a web-based version using frameworks such as Flask or Django to allow
+browser-based access and easier integration into learning management systems,
+Integrating data export features to Excel and database systems to facilitate further
+analysis, reporting, and data logging,
+Incorporating advanced 3D thermodynamic visualizations to help users explore property
+surfaces and process paths more intuitively.
+
+With these future directions, the proposed Steam Table application is expected to evolve
+into a more comprehensive, extensible, and collaborative platform that supports both education
+and research in thermodynamics, steam power plants, and geothermal energy systems. The
+source
+code of the Steam Table
+application
+is openly available
+at:
+https://github.com/agusmanggala/semende/issues/1 (accessed on 06 October 2025).
+Acknowledgment
+The authors gratefully acknowledge Sriwijaya State Polytechnic for institutional support.
+Special thanks are extended to the energy engineering students who participated in testing and
+validating the developed software.
+References
+Banjarnahor, N. E., Geir Þ., Agung W. M., dan Phil Lory. 2023. “Study on Power Plant
+Configurations to Optimize Mass Flow Consumption with Respect to Silica Scaling for Dieng
+225
+
+IRAJTMA, Vol.4, No.3, 2025, Agus Manggala et al.
+
+e-ISSN: 2962-4290
+
+Unit 2, Indonesia.” Proceedings of the World Geothermal Congress 2023, Beijing, China,
+April 17–21.
+Bell, Ian H., Sylvain Quoilin, Joel Wronski, dan Vincent Lemort. 2013. “CoolProp: An Open-Source
+Reference-Quality Thermophysical Property Library.” Paper presented at ASME ORC 2nd
+International Seminar on ORC Power Systems, Rotterdam, Netherlands.
+Çengel, Yunus A., dan Michael A. Boles. 2014. Thermodynamics: An Engineering Approach. New
+York: McGraw-Hill Education.
+Dos Santos Junior, Julles Mitoura, Antonio Carlos Daltro de Freitas, dan Adriano Pinto Mariano.
+2025. “A Python-Based Thermodynamic Equilibrium Library for Gibbs Energy Minimization:
+A Case Study on Supercritical Water Gasification of Ethanol and Methanol.” Eng 6 (9): 208.
+https://doi.org/10.3390/eng6090208.
+El-Awad, M., dan A. M. Elseory. 2022. “Excel as a Modelling Platform for Thermodynamic
+Optimisation Analyses.” University of Khartoum Engineering Journal 3 (1).
+https://doi.org/10.53332/uofkej.v3i1.120.
+Eswanto, Mohd Adnin Hamidi, Sarbani Daud, Ahmad Fitri Yusop, Kifli Umar, dan Iwan Gunawan.
+2025. “Hydrogen-Induced Fuel System in RCCI Engine for Clean Combustion: A Review.”
+Automotive Experiences 8 (2): 310–337. https://doi.org/10.31603/ae.13722.
+Hidayat, Supyan Solihudin, Asep Kurnia Hidayat, dan Pengki Irawan. 2021. “Membangun Aplikasi
+Program Optimasi Pengelolaan Air Irigasi dengan Visual Basic of Application (VBA) (Studi
+Kasus pada Daerah Irigasi Bendung Muhara).” Akselerasi: Jurnal Ilmiah Teknik Sipil 2 (2).
+https://doi.org/10.37058/aks.v2i2.2763.
+Iacovino, K., S. Matthews, P. E. Wieser, G. M. Moore, dan F. Bégué. 2021. “VESIcal Part I: An OpenSource Thermodynamic Model Engine for Mixed Volatile (H₂O–CO₂) Solubility in Silicate
+Melts.”
+Earth
+and
+Space
+Science
+8
+(11):
+e2020EA001584.
+https://doi.org/10.1029/2020EA001584.
+Manggala, Agus, Yerizam Yerizam, dan Sahrul Effendy. 2025. “Development of Excel VBA-Based
+Simulation Software for Steam Power Plant (PLTU) for Engineering Applications.” IRA Jurnal
+Teknik
+Mesin
+dan
+Aplikasinya
+(IRAJTMA)
+4
+(2):
+42–53.
+https://doi.org/10.56862/irajtma.v4i2.232.
+Martin, Christopher, Joseph Ranalli, dan Jacob Moore. 2022. “PYroMat: A Python Package for
+Thermodynamic Properties.” Journal of Open Source Software 7 (79): 4757.
+https://doi.org/10.21105/joss.04757.
+Otis, Richard, dan Zi-Kui Liu. 2017. “Pycalphad: CALPHAD-Based Computational Thermodynamics
+in Python.” Journal of Open Research Software 5 (1): 1. https://doi.org/10.5334/jors.140.
+Wagner, W., J. R. Cooper, A. Dittmann, J. Kijima, H.-J. Kretzschmar, A. Kruse, R. Mareš, et al. 2000.
+“The IAPWS Industrial Formulation 1997 for the Thermodynamic Properties of Water and
+Steam.” Journal of Engineering for Gas Turbines and Power 122 (1): 150–184.
+https://doi.org/10.1115/1.483186.
+Wagner, W., dan A. Pruß. 2002. “The IAPWS Formulation 1995 for the Thermodynamic Properties
+of Ordinary Water Substance for General and Scientific Use.” Journal of Physical and
+Chemical Reference Data 31 (2): 387–535. https://doi.org/10.1063/1.1461829.
+
+226
+
+

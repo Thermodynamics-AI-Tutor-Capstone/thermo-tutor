@@ -1,0 +1,1412 @@
+Superstudent intelligence in thermodynamics
+1
+
+1
+
+1
+
+2
+
+Rébecca Loubet, Pascal Zittlau, Marco Hoffmann, Luisa Vollmer, Sophie
+3
+
+2
+
+1
+
+1 4
+
+* 1
+
+arXiv:2506.09822v1 [cs.CE] 11 Jun 2025
+
+Fellenz, Heike Leitte, Fabian Jirasek, Johannes Lenhard, , and Hans Hasse ,
+1
+2
+
+Laboratory of Engineering Thermodynamics (LTD), RPTU Kaiserslautern, Germany
+
+Visual Information Analysis Research Group (VIA), RPTU Kaiserslautern, Germany
+3
+
+Machine Learning Research Group (ML), RPTU Kaiserslautern, Germany
+4
+
+Philosophy in Science and Engineering, RPTU Kaierslautern, Germany
+* E-mail: hans.hasse@rptu.de
+Phone: +49(0)631 205-3497. Fax: +49(0)631 205-3835
+
+1
+
+TOC Graphic
+Thermodynamics University Exam
+
+Number
+
+Students
+o3
+
+o3
+Points
+Not passed
+
+D
+
+C
+
+2
+
+B
+
+A
+
+Superstudent intelligence in thermodynamics
+1
+
+1
+
+1
+
+2
+
+Rébecca Loubet, Pascal Zittlau, Marco Hoffmann, Luisa Vollmer, Sophie
+3
+
+2
+
+1
+
+1 4
+
+* 1
+
+Fellenz, Heike Leitte, Fabian Jirasek, Johannes Lenhard, , and Hans Hasse ,
+1
+2
+
+Laboratory of Engineering Thermodynamics (LTD), RPTU Kaiserslautern, Germany
+
+Visual Information Analysis Research Group (VIA), RPTU Kaiserslautern, Germany
+3
+
+Machine Learning Research Group (ML), RPTU Kaiserslautern, Germany
+4
+
+Philosophy in Science and Engineering, RPTU Kaierslautern, Germany
+* E-mail: hans.hasse@rptu.de
+Phone: +49(0)631 205-3497. Fax: +49(0)631 205-3835
+
+Highlights
+• OpenAI’s new reasoning large language model o3 has outperformed 90 students in a
+university exam on thermodynamics in spring 2025.
+• The thermodynamics exam is a high hurdle for most students, the failure rate was
+58 %. One student achieved a grade A — o3 performed better.
+• This is a turning point, as a grade A in the thermodynamics exam is generally considered proof of the outstanding intellectual abilities of the candidate.
+• We present the results of our test and discuss the consequences of its outcome for
+teaching and engineering practice.
+
+1
+
+Superstudent intelligence in thermodynamics
+1
+
+1
+
+1
+
+2
+
+Rébecca Loubet, Pascal Zittlau, Marco Hoffmann, Luisa Vollmer, Sophie
+3
+
+2
+
+1
+
+1 4
+
+* 1
+
+Fellenz, Heike Leitte, Fabian Jirasek, Johannes Lenhard, , and Hans Hasse ,
+1
+2
+
+Laboratory of Engineering Thermodynamics (LTD), RPTU Kaiserslautern, Germany
+
+Visual Information Analysis Research Group (VIA), RPTU Kaiserslautern, Germany
+3
+
+Machine Learning Research Group (ML), RPTU Kaiserslautern, Germany
+4
+
+Philosophy in Science and Engineering, RPTU Kaierslautern, Germany
+* E-mail: hans.hasse@rptu.de
+Phone: +49(0)631 205-3497. Fax: +49(0)631 205-3835
+
+Abstract
+In this short note, we report and analyze a striking event: OpenAI’s large language
+model o3 has outwitted all students in a university exam on thermodynamics. The
+thermodynamics exam is a difficult hurdle for most students, where they must show
+that they have mastered the fundamentals of this important topic. Consequently, the
+failure rates are very high, A-grades are rare - and they are considered proof of the
+students’ exceptional intellectual abilities. This is because pattern learning does not
+help in the exam. The problems can only be solved by knowledgeably and creatively
+combining principles of thermodynamics. We have given our latest thermodynamics
+exam not only to the students but also to OpenAI’s most powerful reasoning model,
+o3, and have assessed the answers of o3 exactly the same way as those of the students.
+In zero-shot mode, the model o3 solved all problems correctly, better than all students
+who took the exam; its overall score was in the range of the best scores we have seen
+in more than 10,000 similar exams since 1985. This is a turning point: machines now
+
+1
+
+excel in complex tasks, usually taken as proof of human intellectual capabilities. We
+discuss the consequences this has for the work of engineers and the education of future
+engineers.
+
+1
+
+Background: LLMs solve thermodynamic problems
+
+Large language models (LLMs) are developing at a breathtaking pace. We started monitoring
+their performance in solving thermodynamic problems about a year ago. The results were
+published in Loubet et al. (2025) 1 and are therefore only briefly summarized here. In all
+studies, including the one we report here, zero-shot prompting was used, i.e., the LLMs
+were taken off the shelf and used without any special training. Two sets of textbook-style
+problems were used for the tests, a simple and an advanced one. The ones from the former
+set were far simpler than those we give to our students in the thermodynamics exam (see
+Section 2). The ones from the latter set were closer to exam problems. However, all problems
+were tuned for LLMs, e.g., by removing graphical input and not asking questions that require
+graphical output, such as diagrams. The following LLMs were used: GPT-3.5, GPT-4, and
+GPT-4o of OpenAI, Llama 3.1 70B of Meta, and le Chat (Mistral Large 2) of MistralAI.
+Table 1 gives an overview of their scores on the two sets. We will not repeat the discussion
+from Loubet et al. (2025) 1 here and only point out that there was a significant improvement
+going from GPT-3.5 to GPT-4 and GPT-4o but that in late 2024, when we carried out the
+test, none of the models was able to satisfactorily solve the advanced problems.
+Table 1: Scores of different LLMs in solving thermodynamic problems from different test
+sets. Results from Loubet et al. (2025). 1 The number reported for each model is the average
+percentage of the maximal achievable points obtained in the test.
+LLM
+Test set
+
+GPT-3.5
+
+GPT-4
+
+GTP-4o
+
+Llama 3.1 70B
+
+Le Chat
+
+Simple
+Advanced
+
+45.8 %
+n.a.
+
+88.6 %
+47.5 %
+
+87.1 %
+55.2 %
+
+75.9 %
+40.7 %
+
+72.8 %
+51.9 %
+
+A few months later, in April 2025, we extended the study of the performance of LLMs
+2
+
+in thermodynamics to the model o3 from OpenAI. 2 However, the test differed from the
+previous ones: we did not use the problems specifically tailored for LLMs. We simply took
+the exam that we had given to our students a few days earlier and gave it to o3, which had
+been released just a few days earlier. The exam also included graphical input and questions,
+for which graphical output was required. The outcome is breathtaking, as shown in the
+following section.
+
+2
+
+The exam and its results
+
+The exam we refer to here belongs to our first course in engineering thermodynamics. 90
+students took the exam this year. As we gave the same problems to the o3 model and our
+students and evaluated the results in the same way, we can directly compare the performance
+of the o3 model with that of our students. The exam and a solution are provided in the
+Supplementary Information. The test was carried out in German, but we know from our
+previous studies that the language has hardly any influence on the performance of LLMs
+in solving thermodynamic problems - at least as far as English and German are concerned.
+No special prompt engineering was used; the prompt was chosen based on some preliminary
+tests. In an English translation, the zero-shot prompt was:
+“You are an expert in thermodynamics. Solve the exam given below. There are
+three problems 1-3. In each of them, start by answering the first question a). If
+you are asked for plots, draw them.
+After this, the text of Problem 1 was prompted. After receiving the answer, the text for
+Problem 2 was prompted. Finally, the same was true for Problem 3. Three independent runs
+were carried out with o3. In contrast to our previous studies, 1 the results hardly differed,
+but we still report the three scores individually.
+The results from o3 and those of the students are compared in Figures 1 and 2 - the
+performance of o3 is impressive. Model o3 basically solved the first problem without errors.
+3
+
+The same holds for the second problem, where points were only lost because of minor issues
+of o3 with graphical representations. The only major mistake o3 made was in Problem 3,
+which relates to a fairly special topic: the constant-density fluid’s caloric properties.
+
+3
+
+Discussion
+
+The exam discussed here is that of a course in which the fundamental concepts of thermodynamics are introduced, including the first and second law, as well as fundamentals of
+describing thermodynamic properties of pure components. The corresponding author of this
+report has taught this course for several decades to more than 10,000 students at different
+universities. For most students, thermodynamics is a difficult hurdle; the failure rates in the
+exam are very high, and grades A are extremely rare. A grade A in thermodynamics is often
+considered indisputable proof of the exceptional intelligence of the student. This is because
+the problems in the thermodynamics exam are always new and carefully crafted, so they
+cannot be solved by relying on pattern learning but only by knowledgeably and creatively
+applying the principles of thermodynamics. The purpose of the course is to teach this to students, and the exam is designed to determine whether this was successful. In evaluating the
+results, points are earned for analyzing the problem, formulating the applicable equations,
+and combining them. The correct numerical solution gives points, but only comparatively
+few, so that grade A can be earned, in principle, without doing any numerical calculations.
+We have always maintained these standards in our thermodynamics courses over the many
+years, and the students’ results in the exam shown in Figure 2 are typical. The high failure
+rate is regrettable but a consequence of maintaining high standards and being accepted in
+the German academic system.
+The results described above demonstrate that LLMs are developing at an amazing pace,
+and so is their ability to solve complex tasks. In our tests carried out about six months ago,
+in autumn 2024, LLMs could score above 90 % only in simple thermodynamic problems,
+
+4
+
+ 3 U R E O H P  
+
+  
+
+ 1 X P E H U
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+   
+
+   
+
+   
+
+   
+
+   
+
+    
+
+    
+
+ 3 R L Q W V
+
+  
+
+    
+ P D [
+
+ 3 U R E O H P  
+
+ 1 X P E H U
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+   
+
+   
+
+   
+
+   
+
+   
+
+    
+
+ 3 R L Q W V
+
+    
+ P D [
+
+ 3 U R E O H P  
+
+ 1 X P E H U
+
+  
+
+  
+
+ 
+
+ 
+   
+
+   
+
+   
+
+   
+
+   
+
+    
+
+ 3 R L Q W V
+
+ 6 W X G H Q W V
+
+    
+
+ P D [
+
+ R 
+
+Figure 1: Distribution of points earned by o3 (three runs) and by 90 students in an exam in
+engineering thermodynamics in spring 2025. The three panels show the scores obtained in
+the three problems of the exam.
+5
+
+ 7 R W D O
+
+ 1 X P E H U
+
+ 
+
+ 
+
+ 
+
+ 
+   
+
+   
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+ 3 R L Q W V
+ 1 R W  S D V V H G
+
+ '
+
+ &
+
+ 6 W X G H Q W V
+
+ %
+
+ $
+
+ R 
+
+Figure 2: Distribution of points earned by o3 (three runs) and by 90 students in an exam in
+engineering thermodynamics in spring 2025. The panel shows the overall score with resulting
+grades.
+whereas they often scored below 50 % in advanced problems, see Table 1. In spring 2025, a
+reasoning LLM solves thermodynamic problems that are more demanding than the advanced
+problems from our recent study with scores above 90 %, see Figures 1 and 2.
+In two recent studies from the literature, several LLMs were tested on problems from
+the Physics Olympiad 3 and from undergraduate physics. 4 In both cases OpenAI’s reasoning
+models (o1-preview in Ref. 3 and o1-mini in Ref. 4 ) performed best - however, not as good as
+o3 performed in our study. In Ref., 3 where the performance of the LLMs was also compared
+to those of human candidates, o1-preview outperformed average candidates but scored much
+worse than the best candidate. We consider this a turning point in academic education,
+at least in thermodynamics. Some consequences are discussed below. The substantial improvement of the results in our test compared to those in Refs. 3,4 probably results from the
+improvements of the reasoning going from o1 to o3 rather than from the different nature of
+the studied problems.
+The findings from the present study also contribute to the ongoing discussion on the
+6
+
+relation between knowledge-based models and data-driven models. 5–10 We have recently
+described a knowledge-based system for solving thermodynamic problems (Vollmer et al.
+(2024) 11 ), which has the advantage that the correctness of the solution can be guaranteed,
+which is not the case for LLMs. However, in its current form, this model has only a limited
+scope (similar to that of the simple problems from Table 1), and setting up this model, even
+for this limited scope, was very tedious and so would be future extensions. The question
+of how to combine knowledge-based approaches with LLMs, e.g., for assessing their results,
+remains on the table, especially in science and engineering and in all fields where correctness
+guarantees for solutions are required.
+
+4
+
+A turning point and its consequences
+
+The results presented here are more than a substantial quantitative improvement; they mark
+a fundamental turning point. They show that machines now excel in complex tasks, which are
+usually taken as proof of human intellectual capabilities. In the following, we will therefore
+call such machines “intelligent”. Alan Turing made an analogous move in his famous paper 12
+on the imitation game (now called the Turing test). There, Turing argues that machines
+that can chat with a human in such a way that the human cannot determine whether he
+is interacting with a machine or another human pass the test and should be considered
+intelligent. The thermodynamics exam presents a shortcut to the test: if something can
+excel in the exam, i.e., successfully imitate a very bright student, this is sufficient to count
+as being intelligent. For an extended discussion on the intelligence of machines, we refer
+the reader to Refs. 13–15 Bubeck et al. 16 have recently attested ’sparks of artifical general
+intelligence’ to GPT-4 — we have found not only sparks but rather a blaze in our study of
+the distinctly more powerful OpenAI model o3.
+The advent of intelligent machines has far-reaching consequences. 17–20 In this short paper,
+we focus on the consequences for engineering. Our ambition here is to contribute to the
+
+7
+
+ongoing — and still early — discussion rather than to provide a comprehensive overview.
+The way engineers work will change. We will see human engineers and intelligent machines (you may call them “AI colleagues”) working closely together in mixed teams. Our
+results suggest that this could happen on a large scale very soon. In such mixed teams, as
+in purely human teams, the big question is how to best assign the different tasks. We will
+have to learn which tasks to assign to intelligent machines and which to humans. Our results
+demonstrate that one of the problems will be the rapid development of the capabilities of
+intelligent machines. We may not have enough time to fully explore the pros and cons of specific ways of collaboration in mixed teams before new, more capable AI colleagues replace
+the current ones. The high fluctuation among AI colleagues could pose an extraordinary
+challenge for such mixed teams.
+Another critical question is which results from which team members can be trusted and
+which should be double-checked. This question is also not new, but it may become more difficult to answer as the capabilities of AI colleagues change continuously and rapidly. We only
+note that for the tasks we have studied here, the assessment of the LLMs’ responses (though
+tedious because it was made by hand) was fairly straightforward and followed established
+routines, ensuring high confidence in the evaluation. This may be much more complicated
+in other situations.
+Decision-making and taking on responsibility are crucial in any team leadership. In
+mixed teams of humans and intelligent machines, challenging questions will arise here, such
+as: How should the results of intelligent machines be incorporated into team discussions?
+Which legal consequences has the incorporation of intelligent machines in workflows? Who
+will take the responsibility for decisions made based on their results? Do we always need to
+have humans in the decision process?
+Overall, the findings from our study indicate that intelligent machines will become important very rapidly and that it is high time to develop strategies for cooperating with them
+in the future — in engineering and beyond. 21
+
+8
+
+All this also has significant consequences for the education of the next generation of
+engineers. We must decide which skills are still needed and which tasks can be routinely taken
+over by intelligent machines. The answer will be highly dynamic, and it will be interesting
+to see if the study and examination regulations of universities can keep pace with the current
+changes. The future engineers will have to be trained to cooperate with intelligent machines.
+This requires special skills related to the input and output of the intelligent machine. On
+the input side, prompting, learning to ask the right questions, and learning to ask them in
+the right way is essential. On the output side, we face one of the most challenging tasks
+of future engineers: they will have to decide whether or not to trust the results provided
+by the intelligent machine and, even more importantly, whether or not to apply them in
+a specific situation in practice. Making these decisions requires that engineers continue to
+master their discipline. However, the profile will shift: engineers will no longer need to excel
+in operational tasks — fundamental understanding will become more important than ever.
+Intelligent machines can also support education. 18,22–31 They could help students as a
+kind of private teacher – if (and only if) they are trustworthy. Checking this is not as new
+a question as it may seem. In principle, the same question is always on the table when
+selecting student teaching assistants — and, even more importantly, when hiring professors.
+These current changes will also have to be taken into account for the academic exams.
+It is hard to motivate students to thoroughly prepare for an exam in which they know
+that an intelligent machine can easily outwit them. Rather than asking whether a student
+can perform certain tasks independently, the question may be whether the student has the
+fundamental understanding needed to produce reliable results in cooperation with intelligent
+machines. There is also a lively debate on using LLMs for grading exams. 32–34
+The developments we have described here may amplify inequalities in the engineering
+community: the performance of the best engineers will be boosted by cooperation with
+intelligent machines, and there will be fierce competition between companies to hire such
+engineers. Things may look less rosy at the other end of the distribution, which is more
+
+9
+
+populated, see Figure 1. Intelligent machines can take over many routine engineering tasks,
+or these tasks can be organized so that much less human input is needed than currently. We
+acknowledge that an extrapolation from our study on academic exams to real engineering
+tasks is bold. LLMs are certainly better suited for solving the former than the latter.
+However, even only a year ago, none of us would have believed that an LLM would almost
+perfectly solve all the problems of our cherished thermodynamics exam. We should prepare
+to cooperate with highly skilled intelligent machines.
+Last but not least, the findings we have discussed here are also relevant to the epistemology of engineering. We mention only two aspects here. Firstly, we have always claimed that,
+with our exam, we test whether the student has understood thermodynamics. The exams
+are designed in such a way that we can find this out. Following this argument, we must now
+admit that the machine understands thermodynamics. This leads directly to the problem of
+what understanding means. The second aspect is related: The current prevailing opinion is
+that learning the principles of a discipline and some examples showing how to utilize them
+provide the means to tackle all other situations. That is the point of general principles. The
+question is whether the intelligent machine has learned the principles or profits mainly from
+seeing so many applications. Coming to grips with these questions is likely to become a
+major issue of the future epistemology of engineering.
+
+Acknowledgement
+The authors gratefully acknowledge financial support by Deutsche Forschungsgemeinschaft
+(DFG) in the frame of its Priority Program 2331 Machine Learning in Chemical Engineering.
+
+References
+(1) Loubet, R.; Zittlau, P.; Vollmer, L.; Hoffmann, M.; Fellenz, S.; Jirasek, F.; Leitte, H.;
+Hasse, H. Using Large Language Models for Solving Thermodynamic Problems. 2025;
+10
+
+http://arxiv.org/pdf/2502.05195v1.
+(2) OpenAI OpenAI Platform. 2025; https://platform.openai.com/docs/models/o3.
+(3) Tschisgale, P.; Maus, H.; Kieser, F.; Kroehs, B.; Petersen, S.; Wulff, P. Evaluating
+GPT- and Reasoning-based Large Language Models on Physics Olympiad Problems:
+Surpassing Human Performance and Implications for Educational Assessment. 2025;
+https://arxiv.org/abs/2505.09438.
+(4) Xu, X.; Xu, Q.; Xiao, T.; Chen, T.; Yan, Y.; Zhang, J.; Diao, S.; Yang, C.; Wang, Y.
+UGPhysics: A Comprehensive Benchmark for Undergraduate Physics Reasoning with
+Large Language Models. 2025; https://arxiv.org/abs/2502.00334.
+(5) Jirasek, F.; Hasse, H. Combining Machine Learning with Physical Knowledge in Thermodynamic Modeling of Fluid Mixtures. Annual review of chemical and biomolecular
+engineering 2023, 14, 31–51.
+(6) Specht, T.; Nagda, M.; Fellenz, S.; Mandt, S.; Hasse, H.; Jirasek, F. HANNA: hardconstraint neural network for consistent activity coefficient prediction. Chemical science
+2024, 15, 19777–19786.
+(7) Meng, C.; Griesemer, S.; Cao, D.; Seo, S.; Liu, Y. When physics meets machine learning:
+a survey of physics-informed machine learning. Machine Learning for Computational
+Science and Engineering 2025, 1 .
+(8) Wu, Y.; Sicard, B.; Gadsden, S. A. Physics-informed machine learning: A comprehensive review on applications in anomaly detection and condition monitoring. Expert
+Systems with Applications 2024, 255, 124678.
+(9) Todorovski, L.; Džeroski, S. Integrating knowledge-driven and data-driven approaches
+to modeling. Ecological Modelling 2006, 194, 3–13.
+
+11
+
+(10) Dubois, D.; Hájek, P.; Prade, H. Knowledge-Driven versus Data-Driven Logics. Journal
+of Logic, Language and Information 2000, 9, 65–89.
+(11) Vollmer, L.; Fellenz, S.; Jirasek, F.; Leitte, H.; Hasse, H. KnowTD–An Actionable
+Knowledge Representation System for Thermodynamics. Journal of chemical information and modeling 2024, 64, 5878–5887.
+(12) Turing, A. M. I.—Computing Machinery and Intelligence. Mind 1950, LIX, 433–460.
+(13) Legg, S.; Hutter, M. Universal Intelligence: A Definition of Machine Intelligence. Minds
+and Machines 2007, 17, 391–444.
+(14) Chollet, F. On the Measure of Intelligence. 2019; http://arxiv.org/pdf/1911.
+01547v2.
+(15) French, R. M. The Turing Test: the first 50 years. Trends in Cognitive Sciences 2000,
+4, 115–122.
+(16) Bubeck, S.; Chandrasekaran, V.; Eldan, R.; Gehrke, J.; Horvitz, E.; Kamar, E.; Lee, P.;
+Lee, Y. T.; Li, Y.; Lundberg, S.; Nori, H.; Palangi, H.; Ribeiro, M. T.; Zhang, Y.
+Sparks of Artificial General Intelligence: Early experiments with GPT-4. 2023; https:
+//arxiv.org/abs/2303.12712.
+(17) Eloundou, T.; Manning, S.; Mishkin, P.; Rock, D. GPTs are GPTs: An Early Look at
+the Labor Market Impact Potential of Large Language Models. 2023; https://arxiv.
+org/abs/2303.10130.
+(18) Kasneci, E. et al. ChatGPT for good? On opportunities and challenges of large language
+models for education. Learning and Individual Differences 2023, 103, 102274.
+(19) Messeri, L.; Crockett, M. J. Artificial intelligence and illusions of understanding in
+scientific research. Nature 2024, 627, 49–58.
+
+12
+
+(20) Binz, M. et al. How should the advancement of large language models affect the practice
+of science? Proceedings of the National Academy of Sciences of the United States of
+America 2025, 122, e2401227121.
+(21) Smuha, N. A. Regulation 2024/1689 of the Eur. Parl. & Council of June 13, 2024 (Eu
+Artificial Intelligence Act). International Legal Materials 2025, 1–148.
+(22) Chu, Z.; Wang, S.; Xie, J.; Zhu, T.; Yan, Y.; Ye, J.; Zhong, A.; Hu, X.; Liang, J.;
+Yu, P. S.; Wen, Q. LLM Agents for Education: Advances and Applications. 2025;
+https://arxiv.org/abs/2503.11733.
+(23) Shojaei, M. F.; Gulati, R.; Jasperson, B. A.; Wang, S.; Cimolato, S.; Cao, D.;
+Neiswanger, W.; Garikipati, K. AI-University: An LLM-based platform for instructional alignment to scientific classrooms. 2025; https://arxiv.org/abs/2504.08846.
+(24) Supan, K. Using Artificial Intelligence Case Studies in a Thermodynamics Course. 2024
+ASEE Annual Conference & Exposition Proceedings. 23.06.2024 - 12.07.2024.
+(25) Fuligni, C.; Figaredo, D. D.; Stoyanovich, J. Would You Want an AI Tutor? Understanding Stakeholder Perceptions of LLM-based Chatbots in the Classroom. http:
+//arxiv.org/pdf/2503.02885v1.
+(26) Levonian, Z.; Henkel, O.; Li, C.; Postle, M.-E. Designing Safe and Relevant Generative
+Chats for Math Learning in Intelligent Tutoring Systems. Journal of Educational Data
+Mining 2025, 17, 66–97.
+(27) Caines, A.; Benedetto, L.; Taslimipoor, S.; Davis, C.; Gao, Y.; Andersen, O.; Yuan, Z.;
+Elliott, M.; Moore, R.; Bryant, C.; Rei, M.; Yannakoudakis, H.; Mullooly, A.;
+Nicholls, D.; Buttery, P. On the application of Large Language Models for language
+teaching and assessment technology. 2023; https://arxiv.org/abs/2307.08393.
+
+13
+
+(28) Henkel, O.; Horne-Robinson, H.; Kozhakhmetova, N.; Lee, A. Effective and Scalable
+Math Support: Evidence on the Impact of an AI- Tutor on Math Achievement in
+Ghana. http://arxiv.org/pdf/2402.09809v2.
+(29) Shen, J. T.; Yamashita, M.; Prihar, E.; Heffernan, N.; Wu, X.; Graff, B.; Lee, D.
+MathBERT: A Pre-trained Language Model for General NLP Tasks in Mathematics
+Education. http://arxiv.org/pdf/2106.07340v5.
+(30) Lieb, A.; Goel, T. Student Interaction with NewtBot: An LLM-as-tutor Chatbot for
+Secondary Physics Education. Extended Abstracts of the CHI Conference on Human
+Factors in Computing Systems. New York, NY, USA, 2024; pp 1–8.
+(31) Vanzo, A.; Chowdhury, S. P.; Sachan, M. GPT-4 as a Homework Tutor can Improve
+Student Engagement and Learning Outcomes. 2024; https://arxiv.org/abs/2409.
+15981.
+(32) Kortemeyer, G. Toward AI grading of student problem solutions in introductory physics:
+A feasibility study. Physical Review Physics Education Research 2023, 19 .
+(33) Kortemeyer, G.; Nöhl, J.; Onishchuk, D. Grading assistance for a handwritten thermodynamics exam using artificial intelligence: An exploratory study. Physical Review
+Physics Education Research 2024, 20 .
+(34) Flodén, J. Grading exams using large language models: A comparison between human
+and AI grading of exams in higher education using ChatGPT. British Educational
+Research Journal 2025, 51, 201–224.
+
+14
+
+TOC Graphic
+Thermodynamics University Exam
+
+Number
+
+Students
+o3
+
+o3
+Points
+Not passed
+
+D
+
+C
+
+15
+
+B
+
+A
+
+Supporting Information:
+Superstudent intelligence in thermodynamics
+1
+
+1
+
+1
+
+2
+
+Rébecca Loubet, Pascal Zittlau, Marco Hoffmann, Luisa Vollmer, Sophie
+3
+
+2
+
+1
+
+1 4
+
+* 1
+
+Fellenz, Heike Leitte, Fabian Jirasek, Johannes Lenhard, , and Hans Hasse ,
+1
+2
+
+Laboratory of Engineering Thermodynamics (LTD), RPTU Kaiserslautern, Germany
+
+Visual Information Analysis Research Group (VIA), RPTU Kaiserslautern, Germany
+3
+
+Machine Learning Research Group (ML), RPTU Kaiserslautern, Germany
+4
+
+Philosophy in Science and Engineering, RPTU Kaierslautern, Germany
+* E-mail: hans.hasse@rptu.de
+Phone: +49(0)631 205-3497. Fax: +49(0)631 205-3835
+
+Contents
+1 Exam on Thermodynamics (in German)
+
+S-1
+
+2 Solution of the Exam on Thermodynamics
+
+S-10
+
+1
+
+Exam on Thermodynamics (in German)
+
+In this section, we present the exam in thermodynamics that has been given to our students
+this year as well as to the model o3. The exam has been written in German.
+
+S-1
+
+Name:
+Vorname:
+Matr.-Nr.:
+Fachrichtung:
+Semester:
+Unterschrift:
+
+Prüfung
+Thermodynamik I
+Montag, 07.04.2025
+9:00 Uhr – 10:30 Uhr
+
+Teil
+
+A1
+
+A2
+
+A3
+
+Gesamt
+
+Note
+
+Punkte
+Korrektor
+
+--
+
+--
+
+Bearbeitungszeit: 90 Minuten
+Die Aufgabenblätter sind mit abzugeben. Es können nur solche Lösungsblätter anerkannt
+werden, auf denen oben der Name des Bearbeiters vermerkt ist.
+Die Prüfungsergebnisse werden voraussichtlich am 09.05.2025 im QIS veröffentlicht.
+Wiederholer sind verpflichtet, ihre Prüfungsergebnisse einzusehen und sich ggf. für eine
+mündliche Nachprüfung bereitzuhalten.
+Als Hilfsmittel ist nur ein nicht-programmierbarer Taschenrechner zulässig.
+
+Prüfung Thermodynamik I
+
+07.04.2025
+
+2/8
+
+1. Aufgabe (15 Punkte)
+Eine zunächst adiabatisch isolierte Versuchsanlage besteht aus zwei Kammern, wobei eine
+Kammer mit Sauerstoff (O2, mO2 = 10, 0 g) und die andere mit Stickstoff (N2, mN2 = 8,0 g)
+gefüllt ist. Zwischen den Kammern befindet sich ein Kolben, der zunächst arretiert ist. Im
+Zustand 1 haben beide Kammern das gleiche Volumen, die Temperatur des Sauerstoffs beträgt
+
+348,15 K , die des Stickstoffs 288,15 K . Das Gesamtvolumen der beiden Kammern ist
+konstant und beträgt VGesamt = 4,0 l. Nach dem Lösen der Arretierung bewegt sich der Kolben
+reibungsfrei und es stellt sich im Zustand 2 das mechanische und thermische Gleichgewicht
+ein. Dann wird die adiabatische Isolierung entfernt und beide Kammern werden tiefgekühlt. Im
+Zustand 3 herrscht erneut das mechanische und thermische Gleichgewicht, der Druck beträgt 1
+bar, der Sauerstoff liegt im Nassdampfgebiet vor, der Stickstoff ist weiter gasförmig.
+a) Bestimmen Sie die Drücke in den beiden Kammern im Zustand 1 und die Volumina der
+beiden Kammern im Zustand 2. (4,5 Punkte)
+b) Bestimmen Sie die Temperatur und den Druck im Zustand 2. (2,5 Punkte)
+c) Skizzieren Sie die Zustandsänderungen 1 → 2 sowohl für O2 als auch für N2 in einem
+gemeinsamen p,V-Diagramm, das auch die Isothermen der beiden Gase in den
+Zuständen 1 und 2 enthalten soll. (4 Punkte)
+d) Berechnen Sie den Dampfgehalt x3,O2 des Sauerstoffs im Endzustand. (4 Punkte)
+
+Annahmen:
+• Änderungen der kinetischen und potentiellen Energie sollen vernachlässigt werden.
+Stoffdaten:
+•
+
+Stickstoff ist ein perfektes Gas mit cv = 1,040 kJ/(kg K) und R = 0, 297 kJ/(kg K) .
+
+•
+
+Gasförmiger Sauerstoff ist ein perfektes Gas mit cv = 0,915 kJ/(kg K) und
+
+•
+
+R = 0, 260 kJ/(kg K) .
+Auszug aus der Dampftafel von Sauerstoff:
+p / bar
+
+T/K
+
+v‘ / m3/kg
+
+u‘ / kJ/kg
+
+u‘‘ / kJ/kg
+
+1
+
+90,1
+
+0,00088
+
+-133,7
+
+56,9
+
+Hinweis:
+•
+
+Wenn Sie den Aufgabenteil b) nicht lösen können, rechnen Sie mit dem (falschen)
+Wert T2 = 333 K weiter.
+
+•
+
+Im p,V – Diagramm soll das Volumen V, nicht das spezifische Volumen v dargestellt
+werden.
+
+Prüfung Thermodynamik I
+
+07.04.2025
+
+3/8
+
+2. Aufgabe (13 Punkte)
+In einem Blockheizkraftwerk (siehe Skizze) wird ein Luftstrom ( m = 0, 2 kg/s ) aus der
+Umgebung ( t1 = 20C , p1 = 1 bar ) in einem adiabatisch isolierten Verdichter irreversibel auf
+den Druck p2 = 5 bar komprimiert. Die Antriebsleistung beträgt W12 = 35 kW . Im Anschluss
+wird der Luftstrom in einer Brennkammer isobar auf t3 = 600 °C aufgeheizt und danach in
+einer adiabatisch isolierten, reversibel arbeitenden Turbine auf
+
+p4 = p1
+
+entspannt.
+
+Anschließend wird der Luftstrom in einem isobaren Wärmeübertrager auf t5 = 60 °C
+abgekühlt. Der dabei anfallende Wärmestrom QHeiz,A wird als Heizwärme genutzt. In einem
+weiteren isobaren Wärmeübertrager wird die Luft dann weiter bis zur Umgebungstemperatur
+t6 = t1 abgekühlt. Der dabei anfallende Wärmestrom Q56 wird einer reversibel arbeitenden
+Wärmepumpe (WP) zugeführt, die bei einer konstanten Temperatur von 60 °C Wärme abgibt,
+die als Heizwärme QHeiz,B genutzt wird. Die Antriebsleistung der Wärmepumpe WWP und des
+Kompressors W12 werden von der Turbine bereitgestellt, der Rest der Turbinenleistung Wel wird
+in einem Generator in elektrischen Strom umgewandelt.
+
+a) Zeichnen Sie die Zustandspunkte 1 – 6 in ein T , s -Diagramm ein, das auch die Isobaren
+
+p1 und p2 enthalten soll. (3 Punkte)
+b) Berechnen Sie die Leistung der Turbine und die Heizleistung QHeiz,A . (3,5 Punkte)
+c) Kennzeichnen sie die der Wärmepumpe zugeführte Wärme im T , s -Diagramm und
+ermitteln Sie die Heizleistung QHeiz,B . (4,5 Punkte)
+d) Ermitteln Sie die dem Generator zugeführte Leistung Wel . (2 Punkte)
+Die Fortsetzung der Aufgabe finden Sie auf Seite 4/8.
+
+Prüfung Thermodynamik I
+
+07.04.2025
+
+4/8
+
+Annahmen:
+•
+
+Änderungen der potentiellen und kinetischen Energie sollen vernachlässigt werden.
+
+•
+
+Der Prozess ist stationär.
+
+Stoffdaten:
+•
+
+Luft ist ein perfektes Gas mit R = 0, 28 kJ/(kg K) und c p = 1,1 kJ/(kg K).
+
+Hinweise:
+•
+
+Gehen Sie zur Ermittlung der Heizwärme Qheiz,B zwecksmäßigerweise von einer
+Entropiebilanz der reversibel arbeitenden Wärmepumpe aus. Beachten Sie dabei, dass
+nur die Wärmeabfuhr bei konstanter Temperatur erfolgt, nicht aber die Wärmezufuhr.
+
+•
+
+Wenn Sie die Heizwärme Qheiz,B in Aufgabenteil c) nicht berechnen können, rechnen
+Sie mit dem (falschen) Wert von 10,5 kW weiter.
+
+Prüfung Thermodynamik I
+
+07.04.2025
+
+5/8
+
+3. Aufgabe (13,5 Punkte)
+Betrachtet wird folgender Rankine Prozess:
+1→2
+
+isentrope Kompression ausgehend von der Siedelinie bei p1 = 0,2 MPa auf
+
+p2 = 1 MPa
+2→3
+
+isobare Vorwärmung bis zur Siedelinie
+
+3→4
+
+vollständige isobare Verdampfung bis zur Taulinie
+
+4→5
+
+isentrope Expansion
+
+5→1
+
+isobare Kondensation.
+
+a) Berechnen Sie, jeweils pro Kilogramm des Arbeitsmediums, die der Pumpe zugeführte
+Arbeit und die Wärmezufuhr bei der Vorwärmung. (4,5 Punkte)
+b) Ergänzen Sie die unten angegebene Dampftafel des Arbeitsmediums. (5 Punkte)
+c) Berechnen Sie den thermischen Wirkungsgrad des Prozesses. (4 Punkte)
+
+Annahmen:
+•
+
+Änderungen der kinetischen und potentiellen Energie sollen vernachlässigt werden.
+
+Die Fortsetzung der Aufgabe finden Sie auf Seite 6/8.
+
+Prüfung Thermodynamik I
+
+07.04.2025
+
+6/8
+
+Stoffdaten Arbeitsmedium:
+•
+
+Das flüssige Arbeitsmedium wird als Fluid konstanter Dichte mit liq = 988 kg/m3
+und konstanter Wärmekapazität cliq = 4, 2 kJ/(kgK) betrachtet.
+
+•
+
+Die Verdampfungsenthalpie ist konstant und beträgt hv = 2222 kJ/kg.
+
+•
+
+Dampfdruckkurve:
+
+ ps 
+4820
+ln 
+ = 10,5 −
+T /K
+ MPa 
+•
+
+Dampftafel des Arbeitsmediums mit vorgegebener Normierung (fehlende Angaben
+bitte ergänzen):
+p / MPa
+
+T/K
+
+0,2
+
+h‘ / kJ/kg
+
+h‘‘ / kJ/kg
+
+0
+
+s‘ / kJ/(kgK)
+
+s‘‘ / kJ/(kgK)
+
+0
+
+1
+
+Hinweis:
+•
+
+Wenn Sie Aufgabenteil b) nicht lösen können, rechnen Sie mit der folgenden (falschen)
+Dampftafel weiter:
+p / MPa
+
+T/K
+
+h‘ / kJ/kg
+
+h‘‘ / kJ/kg
+
+s‘ / kJ/(kgK)
+
+s‘‘ / kJ/(kgK)
+
+0,2
+
+380
+
+0
+
+1988
+
+0
+
+5,2
+
+1
+
+493
+
+475
+
+2463
+
+1,1
+
+5,1
+
+Prüfung Thermodynamik I
+
+07.04.2025
+
+7/8
+
+Formelsammlung
+Grundlegende Zusammenhänge
+h = u + pv
+du = T ds − p dv
+
+dh = T ds + v dp
+
+ u 
+du = cv dT +   dv
+ v T
+
+ h 
+dh = c p dT +   dp
+ p T
+
+ u 
+ p 
+  =T 
+ −p
+ v T
+ T v
+
+ h 
+ v 
+  = v −T 
+
+ T  p
+ p T
+
+ 2 p 
+ cv 
+=
+T
+ 2
+
+
+ v T
+ T v
+
+ c p 
+  2v 
+T
+=
+−
+
+
+ 2
+ T  p
+ p T
+
+ds = cv
+
+dT  p 
++
+ dv
+T  T v
+
+ds = c p
+
+dT  v 
+−
+ dp
+T  T  p
+
+Ausdehnungskoeffizient  , isotherme Kompressibilität  , Spannungskoeffizient 
+
+1  v 
+=  
+v  T  p
+
+1  v 
+
+ =−  
+v  p T
+
+=
+
+1  p 
+
+
+p  T v
+
+ = p 
+
+Ideales Gas
+
+M
+
+pv = RT
+
+R=
+
+ = c p / cv
+
+c p − cv = R
+
+ = 8,314
+
+J
+mol K
+
+Perfektes Gas:
+T
+v
+T
+p
+v
+p
+s2 − s1 = cv ln 2 + R ln 2 = c p ln 2 − R ln 2 = c p ln 2 + cv ln 2
+T1
+v1
+T1
+p1
+v1
+p1
+
+Polytrope Zustandsänderung
+
+p v n = konst.
+und für n  1 :
+n −1
+
+
+n
+
+
+p
+n
+2
+
+p v dp = n − 1 p1v1  p1  − 1
+1
+
+
+
+p2
+
+p1v1   v1 
+1 −  
+d
+p
+v
+=
+
+n − 1   v2 
+v1
+
+
+v2
+
+für ideale Gase:
+
+p1−nT n = konst.
+
+T v n −1 = konst.
+
+n −1
+
+
+
+
+
+Prüfung Thermodynamik I
+
+07.04.2025
+
+8/8
+
+Clausius-Clapeyron Gleichung
+Auf der Phasengrenzkurve gilt:
+
+dp s − s
+h − h
+=
+=
+dT v − v T ( v − v )
+
+Nassdampf
+x=
+
+Dampfanteil:
+
+m
+m
+=
+m m + m
+
+Für spezifische Zustandsgrößen z gilt: z = (1 − x ) z  + x z 
+
+Van der Waals-Fluid
+a
+
+ p + 2   ( v − b ) = RT
+v 
+
+
+Anpassung a , b an kritische Daten: a =
+
+27 R 2Tc2
+64 pc
+
+b=
+
+Feuchte Luft
+Beladung/Feuchtegrad/Wassergehalt:
+
+XW =
+
+mW
+= XD + XF + XE
+mL
+
+mW = mD + mF + mE
+pD
+S
+pW
+
+Relative Feuchte:
+
+=
+
+Umrechnungen (für   1 ):
+
+XW =
+
+S
+RL  pW
+S
+RD p −  pW
+
+=
+
+S
+p / pW
+RL
+1+
+RD X W
+
+Chemische Thermodynamik
+
+vA A + vB B
+
+Kx =
+
+R v = vC + vD − vA − vB
+
+vCC + vD D
+
+xCvC xDvD
+xAvA xBvB
+
+ p 
+K = Kx  o 
+p 
+
+R v
+
+ T ln K (T ) = − R h (T ) + T  R s (T , p o )
+
+Kontinuitätsgleichung
+m =  c A = konst.
+
+Umrechnung von Molenbruch xi( n ) und Massenbruch xi( m)
+( m)
+
+xi
+
+( n) M i
+
+= xi
+
+M
+
+M =  xi M i
+( n)
+
+i
+
+x( m)
+1
+= i
+M
+i Mi
+
+RTc
+8 pc
+
+2
+
+Solution of the Exam on Thermodynamics
+
+In this section, we present a solution, which was used to evaluate the students as well as the
+o3 model on the exam in thermodynamics.
+
+S-10
+
+Kurzlösung Prüfung Thermodynamik I 07.04.2025
+
+Aufgabe 1
+a)
+
+p1,O2 = 4,53 bar
+p1,N2 = 3, 42 bar
+V2,O2 = 2, 09 l
+V2,N2 = 1,91 l
+
+b) T2 = 319,58 K
+p2 = 3,98 bar
+
+c)
+
+d) x3,O2 = 0,793
+
+1/2
+
+Kurzlösung Prüfung Thermodynamik I 07.04.2025
+
+Aufgabe 2
+a)
+
+b) Wt,34 = −64,57 kW
+Q45 = QHeiz,A = −54, 23 kW
+
+c)
+
+QHeiz,B = 9,37 kW
+
+d) Wel = 29,0 kW
+Aufgabe 3
+a) wt = 809,7 J/kg
+q23 = 256, 2 kJ/kg
+
+b)
+p / MPa
+0,2
+1,0
+
+T/K
+398
+459
+
+h‘ / kJ/kg
+0
+257,1
+
+h‘‘ / kJ/kg
+2222
+2479
+
+s‘ / kJ/(kg K)
+0
+0,6
+
+s‘‘ / kJ/(kg K)
+5,6
+5,4
+
+c)  = 0,13
+2/2
+
+
