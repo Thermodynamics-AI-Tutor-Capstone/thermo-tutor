@@ -13,6 +13,7 @@ Deployment reality — the constraints that decide whether any of this happens.
 | [Institutional landscape](institutional-landscape.md) | 74% of US institutions have production AI. Building a tutor isn't novel |
 | [Disclosure and ethics](disclosure-and-ethics.md) | Students need to know *where* the tutor is unreliable, not just that it's an AI |
 | [**Agent architecture**](agent-architecture.md) | **Reliability decays geometrically in step count — every model falls to near zero within 16 steps. The harness matters as much as the model** |
+| [**The map of our field**](its-engineering-education-map.md) `[read]` | **PRISMA review, 46 studies. Instructor-facing features appear in fewer than 10 of them, and chatbots and progress views are negatively correlated — nobody builds both** |
 | [**Agent memory**](agent-memory.md) | **The architecture that wins at 3 weeks loses at 9. A semester is 15. Store beliefs with expiry, and classify every write** |
 | [**Agent observability**](agent-observability.md) | **A trace has two consumers: the human and the agent. Log an append-only ledger from day one — it is the one irreversible decision** |
 | [**Content generation**](content-generation.md) | **54% of AI-generated MCQs pass a basic quality bar, worst at high Bloom levels. Two refinement passes, small batches, raw transcripts** |

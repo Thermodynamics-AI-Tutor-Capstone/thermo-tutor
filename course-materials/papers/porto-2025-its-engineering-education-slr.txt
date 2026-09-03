@@ -1,0 +1,2930 @@
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.
+Digital Object Identifier 10.1109/ACCESS.2024.0429000
+
+A Systematic Literature Review of AI-Driven
+Intelligent Tutoring Systems in Engineering
+Education: Emphasizing Personalization,
+Feedback, and Student Monitoring
+BÁRBARA RODRIGUES1 , and RUI PINTO2 ,(Member, IEEE), and GIL GONÇALVES 2 , (Senior
+Member, IEEE)
+1
+2
+
+Departamento de Informática, Faculdade de Engenharia, Universidade do Porto, Porto, Portugal (e-mail: up202007163@edu.fe.up.pt)
+SYSTEC-ARISE, Faculdade de Engenharia, Universidade do Porto, Porto, Portugal (e-mail: rpinto@fe.up.pt)
+
+Corresponding author: Rui Pinto (e-mail: rpinto@fe.up.pt).
+This work is financially supported by national funds through the FCT/MCTES (PIDDAC), under the Associate Laboratory Advanced
+Production and Intelligent Systems – ARISE LA/P/0112/2020 (DOI 10.54499/LA/P/0112/2020) and the Base Funding
+(UIDB/00147/2020) and Programmatic Funding (UIDP/00147/2020) of the R&D Unit Center for Systems and Technologies – SYSTEC.
+
+ABSTRACT Artificial Intelligence (AI) technologies are reshaping educational environments, particularly
+through Intelligent Tutoring Systems (ITS) that enable personalized instruction and real-time adaptability.
+This Systematic Literature Review (SLR) explores the application of AI-powered ITS in engineering
+education, a field where learners often struggle with abstract and technically complex content. Guided by
+the PRISMA methodology, the review analyzes 46 peer-reviewed studies featuring components such as
+Natural Language Processing (NLP), adaptive learning pathways, real-time feedback, and learner progress
+tracking. Unlike prior reviews that emphasize general pedagogical frameworks, this work offers three key
+contributions: a focused synthesis of AI-based ITS solutions tailored to engineering education; a novel
+analysis of underexplored feature combinations, such as the integration of teacher-facing analytics with
+student-facing personalization; and the identification of research gaps in dual-user support for both learners
+and instructors. These findings provide actionable insights for researchers and developers aiming to design
+next-generation ITS platforms that are pedagogically robust, technically scalable, and aligned with the
+discipline-specific demands of engineering education.
+INDEX TERMS Artificial Intelligence in Education, Intelligent Tutoring Systems, Engineering Education,
+Personalized Learning, Real-Time Feedback, Natural Language Processing, Adaptive Learning Systems,
+Student Progress Tracking, Systematic Literature Review, Educational Technology.
+I. INTRODUCTION
+
+A
+
+RTIFICIAL Intelligence (AI) has increasingly become
+a transformative force in educational contexts [1], particularly through the development of Intelligent Tutoring Systems (ITS) [2]. These AI-driven platforms have demonstrated
+significant potential in delivering personalized learning experiences, especially in domains like engineering education,
+where students often face challenges with abstract and technically complex material [3]. This paper presents a Systematic
+Literature Review (SLR) that investigates the current landscape of AI-based tutoring systems with a dedicated focus
+on their implementation and impact in engineering education
+environments.
+
+The review places particular emphasis on key technological
+components such as adaptive learning mechanisms, and realtime feedback integration. These elements are critical for
+designing ITSs capable of tailoring instruction to individual
+learner needs, enhancing both conceptual understanding and
+student engagement. To guide the study, the following research questions were formulated:
+RQ1: How are Artificial Intelligence techniques being integrated into Intelligent Tutoring Systems to support personalization, real-time feedback, and student
+progress monitoring in engineering education?
+• RQ2: To what extent do current AI-powered Intelligent
+Tutoring Systems address the needs of both students and
+•
+
+1
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+instructors through dual-user support features, and what
+gaps remain in their design and implementation?
+To ensure methodological rigor and replicability, the study
+follows the Preferred Reporting Items for Systematic Reviews
+and Meta-Analyses (PRISMA) guidelines [4]. The review
+process involved the construction of targeted search queries
+across multiple academic databases, alongside the application
+of defined inclusion and exclusion criteria. This framework
+supported the identification of relevant, high-quality studies
+that contribute meaningfully to the discourse on AI in engineering education. The insights obtained form a foundation
+for future research and the development of AI-enhanced educational technologies that address discipline-specific learning
+needs.
+The main contributions of this paper are threefold. First, it
+provides a focused synthesis of AI-powered ITSs specifically
+applied to engineering education, distinguishing itself from
+broader reviews that examine general pedagogical frameworks. Second, it offers a novel analysis of underexplored
+feature combinations, particularly the integration of studentfacing personalization mechanisms with instructor-facing analytics and feedback tools. Third, it identifies critical gaps in
+current ITS designs, especially regarding dual-user support,
+and outlines future research opportunities to enhance the
+scalability, transparency, and pedagogical effectiveness of AIbased educational platforms.
+This paper is organized as follows. Section II introduces
+the key AI techniques and ITS features, while outlines the
+uniqueness of this review in comparison to existing work.
+Section III describes the systematic methodology adopted,
+including data sources, selection criteria, and analysis techniques. Section IV presents the key findings derived from the
+reviewed studies. Section V identifies critical research gaps
+and opportunities for future exploration. Section VI discusses
+the main findings in light of the research questions and synthesizes their broader implications. Finally, Section VII offers
+concluding remarks and highlights the contributions of this
+review for researchers and practitioners.
+II. RELATED WORK
+
+This section is divided into two parts. The first introduces
+the core AI techniques and ITS functionalities that form the
+analytical framework of this review. The second provides an
+overview of existing review studies related to AI in education,
+with a focus on engineering domains, and highlights the gaps
+that motivate this study.
+A. CONCEPTUAL BACKGROUND
+
+This review adopts a concept- and feature-driven analytical
+perspective. To support the taxonomy applied in later sections, this section introduces the core AI techniques and ITS
+features that underpin the selected studies.
+1) Artificial Intelligence Concepts in ITS
+
+The integration of AI in ITS spans a diverse array of technologies and modeling techniques [5]. To structure this review, we
+
+identified and grouped AI-related approaches based on their
+role in personalization, student modeling, and instructional
+decision-making.
+Language and Interaction Technologies (LIT): Natural Language Processing (NLP) [6] is foundational for
+enabling conversational interfaces and semantic understanding in ITS platforms. It supports features such as
+dialog-based tutoring, question generation, and reading
+comprehension. A specific task within NLP, Machine
+Reading Comprehension (MRC) [7], allows systems to
+derive answers from unstructured text, enriching interactive learning environments.
+Large Language Models (LLMs) [8], including prominent architectures such as Generative Pretrained Transformers (GPT) [9], represent a significant advancement
+in AI-driven education. These models empower tutoring
+systems with context-aware generation of explanations,
+personalized feedback, and dynamic instructional content. Generative AI (GAI) [10], often built upon GPT
+foundations, enables rich dialog and interactive support
+that closely mimics human tutoring.
+Moreover, techniques like Retrieval-Augmented Generation (RAG) [11] enhance factual reliability by integrating LLMs with structured or unstructured knowledge
+bases, improving the relevance and correctness of generated responses. Complementing these approaches, Information Retrieval (IR) techniques [12] support keywordbased queries and semantic content navigation, contributing to more effective and personalized learner interactions.
+• Learner Modeling and Knowledge Representation
+(LMKR): Understanding and representing learner
+profiles is central to adaptive instruction. Bayesian
+Models (BM) [13], including Bayesian Networks
+(BN) [14], offer probabilistic frameworks to model student knowledge and uncertainty. Knowledge Graphs
+(KG) [15] are also applied to represent semantic relationships among concepts, learning objectives,
+and student interactions. Related algorithms, such
+as Depth-First Search (DFS) [16], support traversal and reasoning over graph-based knowledge structures. Abstract Syntax Trees (ASTs) [17] represent
+the syntactic structure of student input (e.g., formulas or code) in hierarchical form, enabling precise semantic interpretation and logic-based feedback. Neural architectures such as Deep Knowledge Tracing
+(DKT) [18], [19] are commonly employed to model
+student progress over time, while learning style models
+like the Visual–Auditory–Reading/Writing–Kinesthetic
+(VARK) model [20] or the Felder–Silverman Learning
+Style Model (FSLSM) [21] are occasionally adopted
+to tailor content delivery, though these rely more on
+educational psychology than AI.
+• Learning Algorithms and Adaptation (LAA): Machine Learning (ML) [22] underpins many ITS features
+•
+
+2
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+by enabling data-driven personalization, prediction, and
+continuous system adaptation. Common methods include K-Nearest Neighbor (K-NN) [23] for classification tasks and Reinforcement Learning (RL) [24] for
+optimizing instructional strategies based on interaction
+outcomes. Federated Learning (FL) [25] extends ML to
+decentralized contexts, enabling model training across
+distributed devices without transferring raw student data,
+thus enhancing privacy and scalability.
+Logistic Regression (LR) is frequently used for predictive modeling tasks in ITS [26], offering interpretable estimations of student success likelihood based on historical performance, behavioral indicators, and time constraints. Its simplicity and efficiency make it suitable for
+decision-making in environments with limited data or
+real-time constraints.
+Online Learning algorithms [27] represent an incremental learning paradigm where models are updated
+continuously as new learner data becomes available.
+These methods are well-suited to ITS contexts where
+sequential decisions must be made dynamically, such as
+selecting the next instructional resource based on realtime student performance and context, while minimizing
+regret over time.
+Deep Learning (DL) approaches [28], particularly those
+leveraging Neural Networks (NN) [29], are widely employed for their capacity to extract complex patterns
+from learner data. Within this scope, Self-Organizing
+Maps (SOM) [30] support unsupervised clustering of
+learner behaviors, while Multi-Layer Feed-forward Networks (MLFF) [31] perform supervised classification.
+More advanced architectures, including attention mechanisms and Long-Term Attention Models (LTAM) [32],
+are used for sequential modeling and adaptive content
+recommendation.
+In addition, pattern mining techniques such as Association Rule Mining (ARM) [33] and FP-Growth (FPG) [34] are applied to uncover frequent behavioral patterns, supporting intelligent decision-making for adaptive sequencing and personalized feedback.
+• Decision-Making Systems and Personalization Strategies (DMPS): This category encompasses techniques
+that support adaptive decision-making within ITS by
+selecting or recommending instructional actions based
+on evolving learner profiles and contextual information.
+Rule-Based Systems (RB) [35] codify instructional logic
+through expert-defined rules, enabling interpretable,
+goal-oriented tutoring behavior. Finite State Machines
+(FSMs), rooted in Automata Theory [36], offer a procedural framework for modeling learning sequences and
+transitions between instructional states, especially in
+structured dialog or feedback control. Decision Trees
+(DT) [37], as interpretable machine learning models,
+are also employed for adaptive decision-making by
+hierarchically mapping learner inputs—such as performance or confidence—onto instructional actions like
+
+feedback or content selection. Case-Based Reasoning
+(CBR) [38], [39] draws upon prior learner cases to
+propose analogous solutions, facilitating experiential
+adaptation. Multi-Agent Systems (MAS) [40] simulate collaborative or distributed learning environments,
+where autonomous agents manage specific instructional
+roles such as progress tracking or feedback delivery. Additionally, Multi-Armed Bandits (MAB) algorithms [41]
+optimize decision-making under uncertainty by balancing exploration and exploitation, making them wellsuited for adaptive content sequencing and personalized
+assessment pathways.
+• Pedagogical Foundations for AI Integration (PFAI):
+Although not computational in nature, several pedagogical theories underpin the design and adaptation strategies
+of ITS systems.
+The Zone of Proximal Development (ZPD) [42], derived
+from Vygotsky’s theory [43], informs adaptive scaffolding by guiding instruction within the learner’s potential
+development range.
+Learning style models, such as Visual, Auditory,
+Reading/Writing, Kinesthetic (VARK) [20] and the
+Felder–Silverman Learning Style Model (FSLSM) [21],
+are frequently used to initialize learner profiling and
+personalize content presentation, despite ongoing debate
+about their scientific robustness.
+Additionally, the constructivist learning theory [44] emphasizes active, learner-driven exploration, which has
+inspired the design of systems that support self-paced
+learning and personalized pathways. Humanistic approaches, rooted in self-determination theory and learner
+empowerment, inform ITS systems that prioritize student autonomy, motivation, and engagement.
+While these frameworks are not AI techniques themselves, they are crucial in shaping the logic, constraints,
+and goals of intelligent algorithms for personalization,
+adaptation, and feedback generation.
+This taxonomy of AI and adjacent concepts reflects the
+multidisciplinary essence of ITS research. It illustrates how
+technical methodologies intersect with pedagogical insights
+to create adaptive, personalized, and student-centered learning environments.
+2) ITS Functional Features
+
+The selected studies implement a variety of ITS features that
+align with specific pedagogical goals and system capabilities [45]:
+Real-Time Feedback (RTF) [46]: Immediate system responses to learner actions, helping correct errors and
+reinforce learning.
+• Step-by-Step Guidance (SSG) [47]: Sequential hints or
+scaffolding provided during problem-solving tasks.
+• Problem-Solving Assistance (PSA) [48]: Intelligent interventions that help students overcome cognitive or
+strategic blocks.
+
+•
+
+3
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+Personalized Learning Paths (PLP) [49]: Custom sequences of learning materials adapted to each student’s
+progress and needs.
+• Adaptive Content Selection (ACS) [50]: Dynamic selection of learning resources based on learner profiles and
+performance data.
+• Pre- and Post-Testing Mechanisms (PTPT) [51]: Evaluation modules used to measure learning gains and inform
+instruction.
+• Overview of Students’ Progress (OSP) [52]: Dashboards
+or summaries that visualize engagement and achievement over time.
+• Students’ Knowledge Representation (SKR) [53]: Internal learner models used to estimate and track knowledge
+acquisition.
+• Aggregates Students by Learning Level (ASLL) [54]:
+Grouping mechanisms based on ability or performance
+tiers.
+• Continuous Assessment (CA) [55]: Ongoing evaluation
+strategies embedded throughout learning activities.
+• Question-and-Answer Systems (QAS) [56]: Modules that
+allow natural language interaction and inquiry-based
+learning.
+• Content Personalization by Teachers (CPT) [57]: Tools
+that let instructors modify or prioritize content based on
+learner needs.
+• Teachers’ Access to Students’ Progress (TASP) [58]:
+Features that give instructors insight into learner trajectories and difficulties.
+• Student Abilities Estimation (SAE) [59]: Analytical
+models that infer cognitive or skill-level metrics.
+• Authentication Requirements (AUTH) [60]: Access
+mechanisms that support user identity, progress tracking,
+and system personalization.
+These concepts and features collectively provide the analytical lens used to categorize and compare AI-based ITS
+approaches across the studies included in this review.
+•
+
+B. UNIQUENESS OF THIS REVIEW
+
+This review aims to address a unique set of challenges and
+research gaps that remain underexplored in the existing literature. While prior reviews have made valuable contributions to
+understanding ITSs and broader AI applications in education,
+few have comprehensively addressed the combined integration of real-time feedback, personalized question-answering,
+and student progress tracking tailored specifically to engineering education. The following subsection elaborates on
+how this review differentiates itself from existing work in the
+field.
+1) Scope and Contribution Compared to Existing Reviews
+
+Several prior reviews, summarized in Table 1, have offered
+important perspectives on ITS and AI-enhanced learning environments. However, their scopes tend to be confined to
+specific dimensions of educational technology. For example, Feng et al. [73] concentrate on pedagogical strategies
+
+within ITSs applied to Science, Technology, Engineering, and
+Mathematics (STEM) disciplines, with particular attention to
+scaffolding techniques and student learning outcomes. Similarly, Soofi et al. [69] explore evaluation frameworks used
+in ITS research across diverse educational domains. While
+these contributions are valuable, they fall short of examining systems that incorporate personalized question-answering
+capabilities or that offer dual support for both students and
+instructors—especially within the context of engineering education.
+Daradoumis et al. [61] identified challenges in the personalized management, delivery, and assessment of Massive
+Open Online Courses (MOOC) systems. Huang et al. [67]
+and Feng et al. [74] examined trends in Artificial Intelligence
+in Education (AIED), focusing on the field’s evolution, hot
+topics, and knowledge structures. However, these works lack
+technical depth on AI and ML methods used in ITS, omitting
+key technologies like NLP, FL, or CBR. They also overlook core pedagogical concepts such as the ZPD and VARK
+learning styles, as well as critical ITS features like real-time
+feedback, adaptive content selection, and student monitoring.
+Recent advances—including LLMs, affective computing, and
+GAI—are similarly unaddressed.
+Reviews such as Djunaidi et al. [81] and Ivanova et al. [72]
+provide assessments of ITS models and intelligent learning
+technologies; however, they do not specifically address adaptive or personalized instructional strategies within engineering education. Additionally, while Mthombeni et al. [76]
+investigate the role of AI-powered chatbots in engineering
+learning environments, their analysis is primarily limited to
+the design and pedagogical implications of chatbot systems.
+Broader ITS capabilities—such as diagnosing student misconceptions or delivering individualized learning recommendations—remain outside the scope of their study.
+2) Methodological Contributions
+
+This review adopts and extends methodological practices seen
+in earlier bibliometric and systematic studies. For example,
+Vinh et al. [83] apply bibliometric techniques to explore
+broad trends in AI applications in education, while Huang et
+al. [67] investigate keyword patterns to map the evolution of
+educational AI research. Although these studies offer valuable insights into the structure and development of the field,
+they do not investigate the detailed integration of specific ITS
+functionalities—such as real-time feedback or personalized
+question-answering mechanisms.
+Likewise, the mapping review by Feng et al. [74] contributes a high-level overview of AI in education, yet lacks
+a focused analysis of how ITS features can be effectively
+applied within engineering learning environments. By combining both qualitative thematic synthesis and quantitative
+review techniques, this study offers a balanced methodological framework that bridges empirical rigor with practical
+relevance in the context of engineering education.
+
+4
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+TABLE 1. Review Articles on AI-Powered ITSs and Related Educational Technologies.
+
+Work
+Daradoumis et al.
+(2013) [61]
+Nye (2015) [62]
+Hernández et al.
+(2016) [63]
+Bimba
+et
+al.
+(2017) [64]
+Aljabali et al.
+(2018) [65]
+Abu-Alsaad et al.
+(2019) [66]
+Huang
+et
+al.
+(2019) [67]
+Taufik and Nurjanah (2019) [68]
+Soofi et al. (2019)
+[69]
+Alfaro
+et
+al.
+(2020) [70]
+Yeung
+et
+al.
+(2021) [71]
+Ivanova et al.
+(2021) [72]
+Feng et al. (2021)
+[73]
+Feng et al. (2021)
+[74]
+Mikić et al. (2022)
+[75]
+Mthombeni et al.
+(2023) [76]
+Maladzhi et al.
+(2023) [77]
+Moloi et al. (2023)
+[78]
+Bahroun et al.
+(2023) [79]
+El Azhari et al.
+(2023) [80]
+Djunaidi et al.
+(2023) [81]
+Qureshi et al.
+(2024) [82]
+Vinh et al. (2024)
+[83]
+Furman
+(2024)
+[84]
+El Hadbi et al.
+(2024) [85]
+Al Husaeni et al.
+(2024) [86]
+Ahmad et al.
+(2024) [87]
+McGrath et al.
+(2024) [88]
+
+Scope
+MOOCs
+
+Key Themes
+Delivery, assessment, personalization challenges in
+MOOC platforms
+Barriers to adoption, local vs. external development
+
+Methodology
+State-of-the-art
+review
+Systematic review
+
+Techniques, delivery modes, and evaluation metrics
+
+Systematic review
+Systematic review
+
+Gamified learning
+
+Comparative analysis of adaptation strategies in learning
+systems
+Personalization strategies in gamified educational systems
+
+Adaptive e-learning
+
+Agent-based systems and design challenges
+
+Narrative review
+
+AIED overview
+
+Evolution, frontier analysis, and bibliometric trends
+
+Bibliometric analysis
+
+AI-supported learning
+
+Intelligent assistance, uncertainty modeling, Bayesian
+methods
+Techniques, delivery modes, and evaluation approaches in
+ITS
+ITS models, design components, pedagogical implications
+
+Systematic review
+
+Technology impact on learning outcomes across academic
+settings
+AI tech classifications and trends in e-learning and ITS
+
+Systematic review
+
+Systematic review
+
+AIED trends
+
+Pedagogical scaffolding, learning outcomes, and system
+features
+Knowledge clusters, bibliometric keyword trends in AIED
+
+Personalization in elearning
+Chatbots in engineering
+
+Techniques and impact on engagement and academic success
+Benefits, challenges, and implications of AI chatbots
+
+Systematic review
+
+Chatbots in engineering
+
+AI chatbot contributions and ethical concerns
+
+Narrative review
+
+AI risks in education
+
+Ethical, social, and pedagogical concerns of AI adoption
+
+Systematic review
+
+GAI
+
+Tools, research distribution, collaboration patterns
+
+Bibliometric review
+
+AI chatbots
+
+Chatbot limitations and proposed improvements
+
+Systematic review
+
+ITS characteristics
+
+Comparative analysis of ITS features and AI components
+
+Systematic review
+
+AI in personalization
+
+Narrative review
+
+AI in education
+
+Cognitive, motivational, and psychological profiling in
+ITS
+AI adoption, LLMs, ITS, and teaching analytics
+
+AI for engineering students
+Personalized ITS
+
+Analytics-driven personalization and curriculum optimization
+Adaptive learning strategies, feature integration
+
+Systematic review
+
+Chatbots in education
+
+Deployment steps, frameworks, and benefits in e-learning
+
+Bibliometric analysis
+
+AI applications in education
+Chatbots in higher education
+
+Role of data-driven AI tools, limitations, and trends
+
+Bibliometric analysis
+
+Pedagogical theories behind chatbot deployment
+
+Systematic review
+
+ITS in developing countries
+ITS usage by domain
+Adaptive feedback
+
+ITS adoption by domain
+ITS in education
+Educational technology
+ITS architectures
+ITS in STEM
+
+Systematic review
+
+Systematic review
+Narrative review
+
+Narrative review
+
+Bibliometric review
+
+Systematic review
+
+Bibliometric review
+
+Systematic review
+
+5
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+3) Addressing Gaps in Related Work
+
+While prior studies such as Bimba et al. [64] and AbuAlsaad et al. [66] examine elements like adaptive feedback and agent-based learning systems, they tend to isolate
+these components without exploring their integration into
+a cohesive ITS framework. Furthermore, recent reviews by
+Bahroun et al. [79] and El Hadbi et al. [85] acknowledge
+the transformative potential of GAI and adaptive ITSs but
+fall short of examining how these technologies can jointly
+support individualized student learning while simultaneously
+providing data-driven feedback to instructors.
+In response, the present review adopts a comprehensive
+lens, analyzing how systems that combine real-time feedback,
+personalized Q&A interfaces, and educator support tools can
+address the unique instructional needs of engineering students. This integrated perspective aims to guide the development of ITSs that are both pedagogically effective and
+practically deployable.
+4) Distinctive Features and Contributions
+
+What sets this review apart is its concentrated focus on ITS
+features that simultaneously serve both learners and educators
+in engineering education. In contrast to Nye’s work [62],
+which emphasizes institutional and infrastructural barriers
+to ITS adoption, or Qureshi et al. [82], which broadly surveys personalized learning technologies, this study prioritizes
+actionable strategies to enhance engagement and learning
+efficacy in engineering-specific contexts.
+Additionally, by identifying underexplored areas, such as
+the absence of Q&A systems capable of leveraging historical
+learner data, this review offers new directions for research
+and development. Through its integrative analysis, it not only
+highlights current technological limitations but also provides
+a roadmap for building ITS platforms that are adaptive,
+context-aware, and educationally impactful.
+III. METHODOLOGY
+A. DATABASES SEARCHED
+
+To ensure a robust and comprehensive literature review, three
+primary academic databases were selected: Institute of Electrical and Electronics Engineers (IEEE) Xplore, Scopus, and
+SpringerLink. These platforms were chosen based on their
+extensive collections of peer-reviewed publications in the
+domains of artificial intelligence, educational technology, and
+engineering education. Their inclusion allowed for wide coverage of journal articles, conference proceedings, and technical papers relevant to AI-driven ITSs.
+B. EXCLUSION CRITERIA
+
+The review focused exclusively on research studies that presented validated solutions or technologies with relevance to
+ITSs in education. Prior to executing the search strategy,
+specific exclusion criteria were established to maintain the
+relevance and quality of the selected literature.
+First, only peer-reviewed sources—namely, journal articles and conference papers—were included, while non-peer-
+
+reviewed materials such as books, book chapters, and gray
+literature were excluded. Second, to maintain consistency and
+accuracy in interpretation, only English-language publications were considered. Third, the search was limited to studies
+published between 2010 and 2024, a period characterized
+by significant advancements in AI, adaptive learning, and
+intelligent tutoring technologies.
+Furthermore, the review prioritized studies that directly
+addressed educational applications, particularly those involving e-learning or digital learning environments. Articles focusing on generic ML use cases, intelligent systems
+in non-educational domains, or those primarily involving
+Virtual/Augmented Reality (VR/AR) technologies were excluded, as they fell outside the scope of this investigation.
+C. SEARCH STRATEGY
+
+To identify relevant studies, a structured set of search queries
+was developed using Boolean operators and domain-specific
+keywords. The search strings (see Table 2) were designed
+to capture literature related to AI-based tutoring systems,
+adaptive learning environments, and their applications in engineering education. Each query was tailored to emphasize
+one or more core aspects of the review, such as personalization, feedback mechanisms, or the role of natural language
+processing in intelligent educational systems.
+TABLE 2. Search Strings and Databases
+
+Query
+SQ1
+
+SQ2
+
+Database
+
+Search String
+
+IEEE & Springer
+
+("AI based tutor* system?" OR "intelligent tutor* system?" OR "AI chatbot?")
+AND engineer* NEAR/1 education
+
+SCOPUS
+
+("AI based tutor* system?" OR "intelligent tutor* system?" OR "AI chatbot?")
+AND "engineer* education"
+
+All
+
+("AI based tutor* system?" OR "intelligent tutor* system?" OR "AI chatbot?") AND ( "teaching support" OR
+"self learning" OR "e learning")
+
+To formulate effective search strategies, two primary
+search queries (SQ1 and SQ2) were designed, each targeting
+different facets of AI-based tutoring in engineering education.
+SQ1 focused on capturing studies that explicitly address
+"AI-based tutoring systems," "intelligent tutoring systems,"
+or "AI chatbots" within the context of engineering education.
+To enhance the breadth of the search—especially in Scopus—we relaxed proximity constraints (i.e., replacing "engineer* NEAR/1 education" with the broader co-occurrence of
+"engineer*" and "education") to retrieve a larger and more
+diverse set of relevant articles.
+SQ2 was tailored to identify literature emphasizing the
+pedagogical role of AI systems. Terms such as "AI chatbot," "intelligent tutoring system," "teaching support," "selflearning," and "e-learning" were included to ensure the retrieval of articles discussing intelligent systems as educational
+tools that support autonomous and guided learning.
+
+6
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+FIGURE 1. PRISMA flow diagram of exclusions for the SLR.
+
+To maximize recall and minimize omission of relevant
+studies, wildcard characters (e.g., "chatbot?", "tutor*", "engineer*") were employed to account for plural forms, spelling
+variations, and related word derivatives across different
+databases.
+Search queries were executed across the three selected
+databases outlined in Section III-A, yielding a total of 2,212
+references: 1,038 from IEEE Xplore, 981 from Scopus, and
+193 from SpringerLink. These were imported into Zotero for
+reference management [89].
+During the initial deduplication phase, Zotero automatically identified and removed 159 duplicate records. Additional filtering was performed using Zotero’s metadata capabilities: 3 non-English articles were excluded, along with 392
+publications predating 2010, 140 records that were not journal
+articles or conference papers, and 1 retracted publication.
+After applying these filters, a total of 1,517 unique and
+relevant references advanced to the screening and eligibility
+phases, as illustrated in Figure 1.
+
+D. SCREENING PROCESS
+
+1) Title and Abstract Screening
+
+An initial screening was performed on all 1,517 references
+by reviewing titles and abstracts following the predefined
+exclusion criteria. During this phase, 110 records were excluded due to publication type: these included six short or
+preliminary works (e.g., white papers and work-in-progress
+submissions) and 104 items categorized as reviews, surveys,
+books, or book chapters.
+Subsequently, 854 records were excluded for not aligning
+with the domain of "Educational Technology". An additional
+371 studies were removed for lacking a clear focus on AIdriven tutoring or adaptive learning systems. Moreover, 29
+publications primarily addressed VR/AR, which falls outside
+the scope of this review. One retracted article and six duplicate
+entries were also removed.
+Following this screening phase, 146 records were deemed
+relevant for full-text eligibility assessment.
+2) Full-Text Eligibility Screening
+
+The full-text content of the 146 shortlisted publications was
+evaluated to confirm compliance with the inclusion criteria
+described earlier (see Figure 1). Four articles were excluded
+due to their focus on non-educational applications of learning
+7
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+systems, and two additional papers were removed for addressing domains related to VR/AR.
+A further 33 studies were excluded for lacking any form
+of empirical validation or testing of the proposed solutions.
+Several other documents were disqualified due to the unavailability of their full-text PDFs. In total, 46 studies satisfied
+all eligibility criteria and were included for subsequent data
+extraction and synthesis.
+
+Springer ranks second with 21.7%, highlighting its extensive
+coverage across multidisciplinary journals and conferences.
+Other publishers, including ACM Digital Library, ScienceDirect, and ScitePress, also contributed to the literature,
+albeit to a lesser extent. While their quantitative impact is
+lower, these platforms continue to support niche research
+contributions in adaptive and intelligent learning systems.
+
+IV. RESULTS
+
+This section summarizes the principal findings derived from
+the selected 46 studies. Table 3 provides an overview of each
+publication, including the proposed ITS, its key features, and
+application domain. It also outlines the core technical concepts, such as algorithms, models, and system architectures,
+utilized in the development of each solution.
+A. YEAR-WISE PUBLICATION ANALYSIS
+
+As illustrated in Figure 2, there has been a notable increase
+in publications presenting AI-based educational solutions,
+particularly in recent years. The most prolific period was
+2021–2024, during which 16 studies (45.7% of the total)
+were published. The preceding intervals also demonstrated
+moderate research activity, with 7 publications (20%) each.
+Among the individual years, 2022 saw the highest number
+of publications (n = 8), followed by 2021 and 2024 with 5
+publications each.
+This trend reflects a growing academic and practical interest in ITS, driven by the expanding integration of artificial intelligence technologies into educational practices. The surge
+in publications underscores the increasing relevance of AIpowered tools to enhance teaching, learning, and assessment
+processes.
+
+FIGURE 2. Evolution of research on ITSs from 2010 to 2024.
+
+B. PUBLISHER CONTRIBUTIONS OVERVIEW
+
+Figure 3 presents the contribution distribution by publisher
+within the field of ITS research. The IEEE accounts for the
+largest share of publications (47.8%), reflecting its strong
+focus on emerging technologies and engineering education.
+
+FIGURE 3. Contributions from publishers.
+
+C. CONCEPTS AND TECHNIQUES ADDRESSED IN THE
+LITERATURE
+
+The selected studies span a diverse set of macro categories reflecting the multifaceted nature of ITS, as represented in Figure 4 (derived from Table 3). The most represented category
+is DMPS, appearing in 20 studies. This highlights the central
+role of adaptive instructional decision-making mechanisms
+in tailoring learning experiences based on student profiles,
+behaviors, and performance. Close behind, LAA is found in
+19 studies, emphasizing the growing reliance on ML, DL,
+and pattern mining techniques to support predictive modeling,
+behavior classification, and continuous system improvement.
+PFAI is identified in 12 publications, demonstrating an
+ongoing concern for grounding intelligent systems in established educational theories such as VARK learning styles
+and ZPD. LIT is present in 9 studies, reflecting the increasing incorporation of conversational agents, natural language
+understanding, and LLMs to enhance learner-system communication and accessibility. Finally, LMKR appears in 7
+publications, addressing the structuring of cognitive models
+and knowledge bases that inform personalization logic and
+system feedback.
+This distribution illustrates a strong interdisciplinary convergence, with DMPS and LAA forming the technological
+backbone of ITS, while PFAI, LIT, and LMKR contribute
+
+8
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+TABLE 3. Overview of the selected publications. Each row describes a study, identifying its core system or solution and categorizing it by macro categories
+and specific AI or pedagogical concepts. Macro Categories: LAA – Learning Algorithms and Adaptation; DMPS – Decision-Making and Personalization
+Strategies; LMKR – Learner Modeling and Knowledge Representation; PFAI – Pedagogical Foundations for AI Integration; LIT – Language and Interaction
+Technologies. Concepts: RB – Rule-Based Systems; FSM – Finite State Machines; CBR – Case-Based Reasoning; MAS – Multi-Agent Systems; MAB –
+Multi-Armed Bandits; ML – Machine Learning; FL – Federated Learning; NN – Neural Networks; K-NN – K-Nearest Neighbors; MLFF – Multi-Layer
+Feedforward Networks; SOM – Self-Organizing Maps; ARM – Association Rule Mining; FP-G – Frequent Pattern Growth; RL – Reinforcement Learning;
+LTAM – Long-Term Attention Models; AST – Abstract Syntax Trees; KG – Knowledge Graphs; BN – Bayesian Networks; BM – Bayesian Models; DKT – Deep
+Knowledge Tracing; DFS – Depth-First Search; VARK – Visual-Auditory-Reading/Writing-Kinesthetic; FSLSM – Felder-Silverman Learning Style Model; ZPD –
+Zone of Proximal Development; LLMs – Large Language Models; GPT – Generative Pretrained Transformer; NLP – Natural Language Processing; RAG –
+Retrieval-Augmented Generation; IR – Information Retrieval; MRC – Machine Reading Comprehension.
+
+Ref.
+[90]
+[91]
+[92]
+[93]
+[94]
+[95]
+[96]
+[97]
+[98]
+[99]
+[100]
+[68]
+[101]
+[63]
+[102]
+[103]
+[104]
+[105]
+[106]
+[107]
+[108]
+[109]
+[110]
+[111]
+[112]
+[113]
+[114]
+[115]
+[116]
+[117]
+[118]
+[119]
+[120]
+[121]
+[122]
+[123]
+[124]
+[125]
+[126]
+[127]
+[128]
+[129]
+[130]
+[131]
+[132]
+[43]
+
+Authors & Date
+Hsu and Li (2015)
+K-Hetmańska and Nguyen (2011)
+Singh et al. (2022)
+Green et al. (2015)
+Tccson and Rodrigo (2021)
+Fang and Guo (2013)
+Awad et al. (2022)
+Díaz et al. (2018)
+Cabada et al. (2015)
+Li and Zhao (2010)
+Castro-Schez et al. (2021)
+Taufik and Nurjanah (2019)
+Panagiotis et al. (2016)
+Hernández et al. (2016)
+Considine et al. (2017)
+Prihar et al. (2022)
+Deveci Topal et al. (2021)
+Luburić et al. (2022)
+Bradáč et al. (2022)
+Lo et al. (2012)
+Sharma et al. (2022)
+Zhang et al. (2022)
+Morgan et al. (2018)
+Šarčević et al. (2024)
+Tekin et al. (2015)
+Nafiseh and Gholam Ali (2013)
+Alshaikh et al. (2021)
+Stathaki et al. (2018)
+Marcus et al. (2011)
+Özcan et al. (2013)
+Verdú et al. (2017)
+Roldán-Álvarez and Mesa (2024)
+De Carvalho et al. (2020)
+Xiao and Bai (2022)
+Eilermann et al. (2023)
+Lavendelis and Grundspenkis (2011)
+Sakulwichitsintu (2023)
+Troussas et al. (2023)
+Wang et al. (2020)
+Liu et al. (2011)
+Kohlhase et al. (2024)
+Alasmari et al. (2024)
+Allen et al. (2024)
+Binh et al. (2021)
+Nabizadeh et al. (2017)
+Damasceno et al. (2020)
+
+Proposed Solution
+CBGL platform for guided-learning paths
+ITS for scenario personalization
+Seis Tutor for adaptive learning
+ChiQat-Tutor for data structures
+ILSA for adaptive learning
+Dynamics tutor for energy principles
+CAL system for efficiency
+Java e-learning with VARK
+Java Sensei with NN
+ITS for knowledge gap detection
+Proletool 3.0 for predictive parsing
+ITS for adaptive exercises
+APLe agent-based system
+ITS for IT project training
+Experimental guidance tutor
+APLS personalized support service
+"Matter" topic chatbot
+CaDET for clean code refactoring
+ITS for study plan generation
+Adaptive system using cognitive styles
+Programming tutor with CBR
+Emotional feedback chatbot
+ElectronixTutor platform
+GAI chatbot for programming
+eTutor for content sequencing
+PITS for learner ability estimation
+Java dialogue authoring chatbot
+i-Prolog tutor
+Adaptive tutorial generator
+UZWEBMAT for math tutoring
+INTUITEL personalized system
+DL tutor for programming Q&A
+Hybrid model for personalization
+iTutor with AI-guided interaction
+KIAAA tutor for automation
+MIPITS agent-based math tutor
+ParichartBOT Q&A chatbot
+Chatbot with rule-based FL
+POEM with RL for content selection
+Poly-X ITS with modules
+VoLL-KI modular toolbox
+Python OCTS for novices
+GAI Q&A module bot
+WinITS for responsive learning
+RUTICO path recommender
+STUART scalable support system
+
+Concepts
+DMPS: RB|CBR
+LMKR: BN
+LAA: FL|ML
+DMPS: MAS
+DMPS: FSMs
+DMPS: RB
+LMKR: BM
+PFAI: VARK
+LAA: NN|K-NN
+LAA: ARM|FP-G
+LAA: FL
+LMKR: BM|DKT
+DMPS: MAS; PFAI: VARK
+DMPS: CBR
+DMPS: RB
+DMPS: MAB
+LIT: NLP
+LAA: FL
+LAA: FL
+LAA: MLFF
+DMPS: CBR
+LAA: LTAM
+LIT: NLP
+LIT: LLMs|RAG
+DMPS: MAB
+DMPS: MAS
+LMKR: AST; LIT: NLP
+LAA: FL
+DMPS: RB
+DMPS: RB; PFAI: VARK
+DMPS: DT
+PFAI: ZPD; LIT: NLP
+LAA: SOM|NN
+LMKR: KG
+LMKR: DKT; DMPS: RB
+DMPS: MAS
+LIT: NLP
+DMPS: RB; LAA: FL
+LAA: RL; PFAI: ZPD
+PFAI: ZPD
+PFAI: ZPD
+DMPS: RB
+LIT: NLP|IR|LLMs|GPT
+LAA: ML; PFAI: FSLSM
+LAA: ML
+LAA: ML; LIT: NLP|MRC;
+PFAI: ZPD; LMKR: DFS
+
+9
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+pedagogical alignment, interactivity, and knowledge formalization.
+
+FIGURE 4. Most frequently addressed categories across the selected
+studies.
+
+1) Decision-Making Systems and Personalization Strategies
+
+CBR approaches leverage historical cases to deliver contextrelevant guidance, enabling ITSs to suggest actions or resources based on successful past experiences. Fang and
+Guo [95] proposed a classic ITS with rule-based personalization. The tutor operates based on a structured logic of student interactions, while the ITS provides immediate feedback
+and instructional redirection. Hernández et al. [63] proposed
+an e-learning environment to enhance user training in Information Technology (IT) engineering projects. Sharma et
+al. [108] proposed an ITS to enhance the learning experience of students in programming. Hsu and Li [90] proposed
+the Competency-Based Guided Learning (CBGL) self-study
+platform that generates personalized guided-learning paths
+thanks to a new algorithm called Competency-Based GuidedLearning Algorithm (CBGLA). The CBGLA algorithm is
+a rule-based and model-driven mechanism that personalizes learning content presentation based on student competency acquisition and past performance. It includes decisionmaking logic that determines when and how learners progress
+through materials. Also, Alasmari et al. [129] proposed a
+Python Online Coding Tutorial System (OCTS), which is
+designed to assist novice programmers in overcoming learning challenges associated with coding. The system primarily
+leverages rule-based decision-making and basic learner modeling for adaptive learning pathways in Python programming.
+Similar to RB and CBR in guiding flow and personalization, Tccson and Rodrigo [94] used FSMs within Automata
+Theory in the ILSA, an ITS where students are modeled based
+on mastery vs. performance goals, a psychological trait that
+influences how they use the system. Marcus et al. [116]
+proposed an adaptive e-learning platform that employs a
+custom rule-based system using IF-THEN logic to deliver
+adaptive feedback and teacher support. Özcan et al. [117]
+
+proposed UZWEBMAT, an adaptive and intelligent individualized e-learning environment designed to teach mathematics. UZWEBMAT strongly emphasizes tailoring content
+and pacing to individual learner needs—principles rooted
+in constructivist and human-centered educational paradigms.
+Also, Verdú et al. [118] proposed the INTUITEL system, an
+ITS designed to provide personalized learning experiences.
+INTUITEL uses DTs, based on the performance level and
+confidence level of learners, to trigger feedback actions. Finally, Considine et al. [102] proposed an ITS that aims to
+provide personalized guidance and feedback to students as
+they conduct experiments. The system is strongly rule-based
+and constructivist in philosophy.
+The architecture of some ITSs is further enriched by MAS,
+where autonomous agents collaborate to manage different tutoring functions such as content delivery, learner monitoring,
+or adaptive intervention. Lavendelis and Grundspenkis [123]
+demonstrate how MAS can simulate instructor-like support or
+peer collaboration, by proposing MIPITS, a MAS-based ITS
+that aims to provide adaptive learning experiences by generating unique problems tailored to the individual learner’s
+knowledge level and learning style. Nafiseh and Gholam
+Ali [113] proposed the Personalized ITS (PITS) framework,
+which aims to enhance the estimation of learner abilities
+and provide personalized recommendations based on learners’ feedback and performance. Also, Green et al. [93] proposed ChiQat-Tutor, an ITS designed to teach foundational
+Computer Science concepts, particularly focusing on data
+structures. The system is explicitly designed as agent-based,
+employing multiple autonomous agents with specific roles
+(e.g., teaching agent, student agent, feedback agent). These
+agents collaborate to personalize content and provide realtime feedback based on learner interactions.
+Related to MAS, MAB is also used for adaptive content
+sequencing and personalized assessment pathways. Prihar et
+al. [103] proposed the Automatic Personalized Learning Service (APLS) that provides personalized support to students
+based on their learning context and needs. Tekin et al. [112]
+proposed the eTutor system, which personalizes online learning, based on the MAB framework, by adapting the sequence
+and type of teaching materials presented to each student,
+considering their contexts and feedback. This online learning
+algorithm leverages regret minimization strategies to personalize education.
+2) Learning Algorithms and Adaptation (LAA)
+
+FL is frequently employed to personalize learning pathways
+by tailoring content to individual learner profiles while maintaining data privacy through decentralized model training.
+Several studies emphasize its role in facilitating differentiated
+instruction and adaptive assessment strategies. Troussas et
+al. [125] proposed a chatbot designed to deliver tailored
+responses based on the learner’s input and knowledge level.
+Singh et al. [92] Seis Tutor, an ITS designed to provide adaptive and personalized learning experiences, while Stathaki et
+al. [115] proposed i-Prolog, an ITS designed to facilitate
+
+10
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+the learning of Prolog through a personalized and interactive
+approach. Luburić et al. [105] proposed CaDET ITS, specialized for clean code analysis and refactoring. Castro-Schez et
+al. [100] proposed Proletool 3.0, an ITS designed to facilitate active learning in predictive parsing techniques. Finally,
+Bradáč et al. [106] proposed an ITS to create personalized
+study plans tailored to individual students’ needs.
+Complementing this, ML techniques are extensively
+adopted to analyze learner behavior, predict performance, and
+adapt instructional content in real time. Studies by Binh et
+al. [131] and Damasceno et al. [43] exemplify how predictive
+modeling enhances system responsiveness and personalization. Nabizadeh et al. [132] proposed RUTICO, a recommender system that generates personalized learning paths for
+students under constraints (e.g., time, success probability).
+The RUTICO system utilizes predictive modeling, namely
+LR, to estimate learner success probability based on previous
+learning trajectories.
+Similarly, NN, particularly through DL techniques, have
+been employed to model student behavior, recognize affective
+states, and personalize instruction at scale. Cabada et al. [98]
+proposed Java Sensei, an intelligent learning environment
+based on NN, designed to facilitate learning Java programming. Also, De Carvalho et al. [120] proposed a hybrid ITS
+model, using SOM, designed to create a personalized learning
+experience for students. Lo et al. [107] proposed an adaptive
+Web-based learning system, based on MLFF, which adapts
+the learning content and interface according to students’ cognitive styles based on their browsing behaviors. Moreover,
+Eilermann et al. [122] proposed KIAAA, an ITS based on
+DKT and RB, designed to provide personalized and adaptive
+learning support for programming in the context of automation. Finally, Zhang et al. [109] proposed an LTAM-based
+educational Chatbot designed to provide tailored feedback
+and encouragement based on the learner’s emotional state and
+progress.
+3) Pedagogical Foundations for AI Integration
+
+The pedagogical grounding provided by the ZPD concept is
+also evident across several ITS designs. Inspired by Vygotsky’s learning theory [43], these systems implement scaffolding strategies that allow students to gradually progress
+toward independent problem solving. Roldán-Álvarez and
+Mesa [119] proposed a DL-based ITS designed to assist
+students in programming courses by providing real-time answers to their questions and relevant examples. Damasceno et
+al. [43] proposed STUART, an ITS designed to enhance
+the scalability of distance education by providing automated
+support to students. Moreover, Wang et al. [126] proposed
+POEM, a personalized online education scheme that utilizes
+RL to adaptively select educational content based on individual learner performance and preferences. Finally, Liu et
+al. [127] proposed Poly-X, an ITS designed to enhance online
+learning through various integrated modules, that aims to
+provide a personalized learning experience by adapting to
+individual student needs and facilitating interactive learning.
+
+There is also some literature about using the VARK model
+in systems designed to align content delivery with learner
+preferences. Overall, the VARK model is used to support
+multimodal strategies that enhance engagement and knowledge retention. Panagiotis et al. [101] proposed APLe, an
+agent-based ITS designed to enhance personalized learning in
+distance education. Also, Díaz et al. [97] proposed an adaptive e-learning platform that tailors educational content for
+engineering students studying object-oriented programming
+in Java. Finally, Kohlhase et al. [128], in the VoLL-KI project,
+proposed a modular toolbox of AI-based educational technology components designed to support personalized learning in
+higher education. The system supports exploratory, studentdriven learning paths with continuous adjustment to learner
+behavior—aligned with constructivist principles.
+4) Language and Interaction Technologies
+
+NLP, on the other hand, is a foundational component in
+systems that rely on conversational agents or open-ended
+learner input. It enables dialog-based interactions and semantic analysis that underpin real-time feedback and intelligent question-answering mechanisms. Deveci Topal [104]
+proposed a chatbot designed to assist 5th -grade students in
+learning about "Matter and the Changing State of Matter".
+Sakulwichitsintu [124] proposed ParichartBOT, a chatbot
+designed to provide automatic answers to questions posed by
+master’s degree students. Binh et al. [131] proposed WinITS,
+an ITS that combines learning styles, students’ performance,
+prerequisite relationships, and real-time responsiveness to
+adaptively present educational content. Morgan et al. [110]
+proposed ElectronixTutor, an ITS that used NLP to engage
+in mixed-initiative dialogue with learners. It supports dialogbased tutoring with semantically rich interactions to enhance
+the teaching of electronics. Also, Alshaikh et al. [114] proposed a chatbot that automates the creation of dialogues based
+on Java code examples, providing tailored tutoring experiences. AST is employed to parse and understand student
+answers in structured formats, especially for mathematical
+and logical expressions.
+Recent literature also reflects growing interest in the use
+of LLMs for open-domain tutoring and educational chatbot
+design, by exploring the GAI capabilities of LLMs to enhance
+natural interaction and dynamic content generation. Šarčević et al. [111] proposed an open-source GAI Chatbot, based
+on RAG, to assist students in the "Introduction to Programming" course. Allen et al. [130] proposed Q-Module-Bot, a
+GPT-based question and answer system designed to assist
+students with inquiries related to specific module content.
+5) Learner Modeling and Knowledge Representation
+
+BM is another key strategy, offering probabilistic approaches
+to manage uncertainty in knowledge estimation. These models integrate prior knowledge and learner performance data to
+inform instructional decisions, as shown by Taufik and Nurjanah [68] and K-Hetmańska and Nguyen [91]. Particularly,
+Awad et al. [96] proposed a Computer Adaptive Learning
+11
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+(CAL) system to provide a personalized learning experience,
+enhancing learning efficiency. Also, Xiao and Bai [121] proposed the iTutor, an ITS designed to enhance online learning
+through AI-guided knowledge interaction.
+Collectively, these diverse concepts reflect the convergence
+of educational theory and computational intelligence in shaping the evolution of ITSs. The reviewed studies illustrate
+how foundational pedagogical models, data-driven inference
+techniques, and advanced AI capabilities interact to produce
+flexible, learner-centered educational experiences.
+D. FEATURE ANALYSIS AND DESCRIPTION
+
+A thorough understanding of the features implemented in
+ITS is essential for identifying prevailing research trends
+and uncovering opportunities for innovation. This subsection
+presents a detailed analysis of the most commonly integrated
+features in ITS, derived from a review of recent scholarly
+publications.
+This analysis offers insights into the functional focus of
+contemporary systems by highlighting the distribution of
+features across surveyed studies. It not only emphasizes the
+characteristics that dominate current ITS designs but also
+uncovers under-explored functionalities, thereby providing
+valuable guidance for future development and research.
+The features integrated into ITS reflect a wide spectrum of
+capabilities designed to enhance personalized learning, support student progress, and assist educators in monitoring and
+adjusting instructional strategies. Table 4 outlines the principal features identified, including their abbreviations, descriptions, and frequency of appearance across the reviewed
+publications.
+A prominent focus within ITS development lies in the
+implementation of functionalities that dynamically adapt to
+individual learner needs. One of the most frequently integrated features is ACS (38 occurrences), which recommends
+tasks or instructional materials based on a student’s current
+knowledge level. Similarly, RTF appears in 34 publications
+and plays a crucial role in providing immediate guidance,
+thereby fostering active engagement and timely correction of
+misunderstandings.
+Understanding and modeling student knowledge is another
+core objective. SKR (29 occurrences) enables systems to identify mastered topics and pinpoint areas needing improvement.
+Building on this, PLP (28 occurrences) is used to create customized educational trajectories. CA (18 occurrences) supports ongoing evaluation through integrated testing mechanisms, while PSA (14 occurrences) offers hints or strategies
+to help students navigate challenging tasks.
+Several features occur with moderate frequency. SSG and
+QAS (each with 12 occurrences) focus on simplifying complex tasks and enabling interactive query resolution, respectively. PTPT (10 occurrences) facilitates the measurement of
+learning gains over time, while OSP (9 occurrences) helps
+summarize academic performance and areas needing reinforcement. Teacher-oriented features such as CPT (9 occur-
+
+rences) and ASLL (8 occurrences) support instructional customization and strategic student grouping.
+More specialized and less common functionalities include
+AR and TASP (each reported in only 3 instances) indicating a growing interest in emotional awareness and advanced
+teacher analytics. Finally, features like SAE and AUTH highlight emerging trends toward predictive personalization and
+access control mechanisms.
+Figure 5 represents a pie chart to visualize the frequency
+of feature inclusion in current ITS, based on the data summarized in Table 4. This distribution reflects the relative
+emphasis placed on certain functionalities by developers and
+researchers, offering insights into prevailing priorities in ITS
+design. Understanding this distribution is essential for identifying dominant trends and uncovering areas that warrant
+further exploration or innovation.
+
+FIGURE 5. Feature Distribution in the ITS Systems
+
+Among the most frequently implemented features are ACS
+(15.8%), RTF (14.2%), and SKR (12.1%). These functionalities align with the increasing demand for personalized
+and responsive learning environments that adapt dynamically
+to individual learner needs. Other notable features include
+PLP (11.7%) and CA (7.5%), both emphasizing sustained
+guidance and progress monitoring throughout the learning
+process.
+Conversely, features such as QAS (5.0%) and PTPT (4.2%)
+appear in fewer systems, suggesting more selective implementation. Several additional features, such as OSP, CPT, and
+access to learner analytics for educators, are so infrequent
+
+12
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+TABLE 4. Feature Presence Across Publications
+(RTF = Real-Time Feedback, SSG = Step-by-Step Guidance, PSA = Problem-Solving Assistance, PLP = Personalized Learning Paths, ACS = Adaptive Content
+Selection, PTPT = Pre and Post-testing Mechanisms, OSP = Overview of Students’ Progress, SKR = Students’ Knowledge Representation, ASLL = Aggregates
+Students by Learning Level, CA = Continuous Assessment, QAS = Question-and-Answer Systems, CPT = Content Personalization by Teachers, TASP =
+Teachers’ Access to Students’ Progress, AR = Affective Recognition, SAE = Student Abilities Estimation, AUTH = Authentication Requirements)
+
+Ref.
+
+RTF
+
+SSG
+
+[90]
+[91]
+[92]
+[93]
+[94]
+[95]
+[96]
+[97]
+[98]
+[99]
+[100]
+[68]
+[101]
+[63]
+[102]
+[103]
+[104]
+[105]
+[106]
+[107]
+[108]
+[109]
+[110]
+[111]
+[112]
+[113]
+[114]
+[115]
+[116]
+[117]
+[118]
+[119]
+[120]
+[121]
+[122]
+[123]
+[124]
+[125]
+[126]
+[127]
+[128]
+[129]
+[130]
+[131]
+[132]
+[43]
+
+✓
+
+✓
+
+PSA
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+
+ACS
+
+PTPT OSP
+
+SKR
+
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+✓
+
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+PLP
+
+✓
+✓
+✓
+✓
+
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+✓
+
+✓
+✓
+✓
+
+✓
+✓
+
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+ASLL CA
+
+✓
+✓
+✓
+✓
+
+✓
+✓
+
+✓
+
+✓
+
+✓
+✓
+✓
+
+✓
+
+that they are not represented in the pie chart. Their limited
+adoption may stem from implementation complexity, lower
+demand, or resource constraints.
+
+TASP AR
+
+SAE
+
+✓
+
+✓
+
+✓
+✓
+
+✓
+✓
+
+✓
+
+AUTH
+✓
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+✓
+
+✓
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+✓
+
+✓
+
+CPT
+
+✓
+✓
+
+✓
+✓
+✓
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+QAS
+
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+✓
+
+✓
+
+✓
+✓
+
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+✓
+✓
+
+✓
+
+✓
+
+✓
+✓
+✓
+✓
+✓
+
+✓
+
+✓
+
+✓
+✓
+
+✓
+✓
+
+To provide a more comprehensive perspective, Figure 6
+presents a histogram showing the detailed distribution of
+feature adoption across reviewed publications.
+
+tend to incorporate mechanisms for granular guidance and
+continuous monitoring, promoting more adaptive and supportive learning environments. Such combinations are evident
+in systems designed by Hernández et al. [63] and Cabada et
+al. [98], particularly in skill-based and formative learning
+contexts.
+
+Figure 7 reveals a heatmap of the co-occurrence and correlation patterns among ITS features. The color gradient, from
+deep red to blue, represents the strength and direction of these
+correlations, with red indicating strong positive correlations
+and blue reflecting negative ones. This visualization sheds
+light on commonly implemented feature combinations and
+potential design gaps.
+
+Another significant cluster includes ACS, SKR, PTPT, and
+PLP, all of which show moderate to strong positive correlations. These features collectively form the foundation for
+content customization based on learners’ performance and
+progression, as seen in ITS implementations by Considine et
+al. [102], Nafiseh and Gholam Ali [113], and De Carvalho et
+al. [120].
+
+A closer look at the heatmap shows that RTF is positively
+correlated with features such as SSG, PSA, and OSP. This suggests that ITS platforms emphasizing immediate interaction
+
+In contrast, features like AR and SAE exhibit weaker correlations with most others. Despite their importance in detecting emotional states and estimating cognitive skills, these
+13
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+FIGURE 6. Feature Distribution Across Publications
+
+functionalities are rarely integrated alongside teacher-facing
+features such as progress dashboards. This reveals an opportunity for future ITS solutions to enhance learner modeling by
+fusing affective computing with traditional assessment tools.
+Negative correlations, though less common, offer meaningful insights. For instance, AUTH shows a weak negative
+relationship with RTF and SSG. This could imply that some
+ITS prioritize lightweight, frictionless user experiences, potentially at the expense of personalized tracking and analytics.
+These findings underscore both the strengths and limitations of current ITS designs. For example, integrating AR
+with ACS could allow systems to dynamically adjust content
+based on students’ emotional states, improving engagement
+and retention. Similarly, linking features like ASLL with TASP
+could facilitate classroom-level insights and interventions.
+Addressing such underexplored combinations may not only
+enhance personalized learning but also improve instructional
+decision-making. The following section identifies these and
+other research gaps more explicitly, laying the groundwork
+for targeted advancements.
+V. CROSS REFERENCE ANALYSIS
+
+A closer look at the compiled evidence reveals several important trends regarding the interplay between instructional
+features and the macro categories of techniques used to implement them. Certain macro categories consistently underpin
+specific instructional features, suggesting a level of methodological alignment between pedagogical goals and technological strategies. Table 5 represents a cross-referencing matrix
+between ITS features and macro categories, which can be
+used as a framework to analyze correlations between ITS
+system features and their underlying conceptual foundations
+across publications.
+Across the corpus, DMPS stands out as the most widely
+applied macro category. Its presence is particularly dominant
+in features such as RTF, SSG, CA, and CPT, all of which rely
+on rule-based logic, instructional sequencing, and automated
+pedagogical intervention. For instance, RTF is repeatedly
+enabled through DMPS logic in systems like those proposed
+by Hsu and Li [90], Green et al. [93], and Marcus et al. [116],
+
+which use pedagogically informed rule engines or behaviortriggered actions to deliver feedback in real time.
+However, some features exhibit more nuanced implementation patterns. PLP and ACS are examples where multiple
+macro categories are involved, most notably DMPS, LAA,
+and PFAI. This suggests that personalization requires both
+pedagogical logic and data-driven profiling. For instance, the
+PLP component in Bradáč et al. [106] and Wang et al. [126]
+is driven by LAA techniques to infer student profiles, while
+other studies like Panagiotis et al. [101] use DMPS to guide
+progression paths.
+LAA is the backbone of SKR and SAE, where statistical
+inference, clustering, and feature extraction play a vital role.
+In the case of SKR, LAA methods are used extensively across
+studies such as Cabada et al. [98], Castro-Schez et al. [100],
+and Troussas et al. [125], each leveraging analytics to infer
+cognitive states, knowledge levels, or conceptual maps. SAE
+implementations follow similar lines, with predictive models
+built from usage traces and assessment history.
+Meanwhile, PFAI techniques are strongly associated with
+features that rely on state estimation or anticipation, such
+as AR and ASLL. AR, for example, is primarily enabled
+using multimodal emotion detection or sentiment analysis
+models, as seen in Cabada et al. [98], Zhang et al. [109], and
+Alshaikh et al. [114].
+LIT unsurprisingly dominate the implementation of QAS,
+where natural language understanding and dialogue generation are essential. Systems like the ones proposed by Deveci Topal et al. [104], Šarčević et al. [111], and Allen et
+al. [130] showcase conversational agents that integrate QAS
+functionality using LIT-based NLP frameworks. While LIT
+appears in other features sporadically, its primary use remains
+grounded in dialogic interfaces.
+Interestingly, LMKR, though less common overall, appears in features where deep contextualization of the learner
+is required, such as PTP and AUTH. In K-Hetmańska and
+Nguyen [91], AUTH is driven by knowledge-based profiling,
+while PTP again in K-Hetmańska and Nguyen [91] and Liu et
+al. [127] reflects LMKR’s ability to formalize instructional
+workflows through modeling.
+Notably, some ITS features are implemented through multiple macro categories, either within the same work or across
+different implementations. RTF, for example, is built using
+LAA in Singh et al. [92], DMPS in Green et al. [93], and even
+LMKR in K-Hetmańska and Nguyen [91]. This diversity
+illustrates that implementation strategies are often shaped by
+system architecture, available data, and design intent, not only
+by the nature of the instructional feature.
+Lastly, there are clear dominant approaches per feature.
+DMPS techniques are central to pedagogically grounded
+functionalities (RTF, SSG, CA, CPT), while LAA underpins
+analytic profiling (SKR, SAE), and PFAI is indispensable for
+affective and predictive tasks (AR, ASLL). LIT is reserved
+for interaction-heavy systems (QAS), and LMKR appears
+selectively where formal representations are essential.
+
+14
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+FIGURE 7. Feature Co-occurrence Heatmap
+
+In summary, the analysis supports the idea that while instructional features can be approached from multiple technological angles, there is often a methodological convergence
+around the macro category that best fits the cognitive or pedagogical function of the feature. These findings can inform
+both the design of future AI-powered educational tools and
+the classification of existing systems.
+A. RESEARCH GAPS IDENTIFICATION
+
+The review of the literature reveals that most chatbot-based
+ITSs focus narrowly on programming-related support. For
+example, Šarčević et al. [111] observes that systems like those
+by Roldán-Álvarez and Mesa [119] and Alasmari et al. [129]
+assist learners in solving coding exercises. Other questionand-answer systems serve a more general pedagogical role.
+Alshaikh et al. [114], for instance, developed a system to
+foster critical thinking through guided questioning.
+However, deeper analysis of the heatmap (Figure 7) shows
+that many QAS offering RTF fail to provide personalized
+guidance. They deliver generic responses regardless of user
+background or past performance. For example, Sakulwichitsintu [124] introduced ParichartBOT, which offers automated answers to graduate students at Sukhothai Thammathirat Open University. While efficient in delivering information, it lacks mechanisms to tailor responses or track user
+history for contextual adaptation.
+
+Similarly, Allen et al. [130] developed Q-Module-Bot, a
+GAI-based assistant for module-related queries. Although it
+enhances accessibility and reduces teacher workload, it does
+not personalize content or recommend resources based on
+individual student needs.
+Only one reviewed system explicitly adapts Q&A responses based on learner profiles. Damasceno et al. [43]
+presented STUART, which provides proactive pedagogical
+recommendations based on student backgrounds. However,
+the system is not tailored specifically for engineering education, leaving a gap in addressing the challenges of abstract,
+domain-specific knowledge.
+CPT and TASP are similarly underrepresented. Figure 6
+confirms the low adoption of these teacher-oriented features.
+For instance, Marcus et al. [116] employs solution trace
+graphs to help teachers reflect on student progress. Yet, unlike
+Özcan et al. [117], this system does not provide learners with
+insights into their own misconceptions, a critical component
+for self-regulated learning.
+Moreover, the heatmap reveals a negative correlation between QAS and features like OSP for both learners and
+educators. This implies that these capabilities are rarely combined in existing systems. Addressing this gap could lead to
+more comprehensive ITS that serve both instructional and
+learning needs.
+This issue is particularly relevant in engineering educa15
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+TABLE 5. Cross-Referencing Matrix Between ITS Features and Macro Categories
+(Macro Categories: LAA – Learning Algorithms and Adaptation; DMPS – Decision-Making and Personalization Strategies; LMKR – Learner Modeling and
+Knowledge Representation; PFAI – Pedagogical Foundations for AI Integration; LIT – Language and Interaction Technologies.
+ITS Features: RTF = Real-Time Feedback, SSG = Step-by-Step Guidance, PSA = Problem-Solving Assistance, PLP = Personalized Learning Paths, ACS =
+Adaptive Content Selection, PTPT = Pre and Post-testing Mechanisms, OSP = Overview of Students’ Progress, SKR = Students’ Knowledge Representation,
+ASLL = Aggregates Students by Learning Level, CA = Continuous Assessment, QAS = Question-and-Answer Systems, CPT = Content Personalization by
+Teachers, TASP = Teachers’ Access to Students’ Progress, AR = Affective Recognition, SAE = Student Abilities Estimation, AUTH = Authentication
+Requirements)
+
+Feature
+RTF
+
+SSG
+PSA
+
+PLP
+
+ACS
+
+PTPT
+OSP
+SKR
+
+ASLL
+CA
+
+QAS
+
+CPT
+TASP
+AR
+SAE
+AUTH
+
+DMPS
+[90], [94], [95], [101],
+[63], [103], [108],
+[116], [118], [123],
+[125], [129]
+[129], [102], [95], [90],
+[116], [125], [63], [118]
+[129], [102], [122],
+[123], [103], [108],
+[125], [63]
+[102], [122], [93], [90],
+[123], [113], [117],
+[101], [108], [112],
+[63], [118]
+[102], [122], [93], [90],
+[123], [116], [113],
+[117], [101], [103],
+[108], [112], [125],
+[63], [118]
+[102], [95], [93], [90],
+[113]
+[122], [90], [117],
+[101], [63]
+[102], [122], [90],
+[113], [117], [101],
+[103], [108], [112],
+[125], [63], [118]
+[101], [112], [125]
+[129], [95], [93], [90],
+[123], [116], [94], [63],
+[118]
+[102], [125]
+
+LAA
+[98], [99], [100], [109],
+[115], [120], [125],
+[131], [43]
+
+[116], [108], [63], [118]
+[116], [117]
+[113]
+[129], [90], [101]
+
+PFAI
+[101], [127], [128],
+[131], [43]
+
+[98], [120], [115], [125]
+
+LMKR
+[114], [121]
+
+LIT
+[104], [110], [111],
+[114], [124], [43]
+
+[114]
+
+[114]
+
+[98], [100], [105],
+[115], [125]
+
+[119]
+
+[122]
+
+[104], [119]
+
+[131], [106], [98],
+[100], [120], [99],
+[107], [132], [92], [126]
+
+[131], [97], [127],
+[117], [101], [126]
+
+[122], [91], [121]
+
+[110]
+
+[131], [106], [98],
+[100], [43], [120],
+[99], [107], [105], [92],
+[115], [125], [126],
+[109]
+[120], [115]
+
+[131], [43], [97], [128],
+[127], [117], [101],
+[119], [126]
+
+[114], [96], [122], [91],
+[68], [121]
+
+[114], [43], [110], [119]
+
+[127]
+
+[68], [91]
+
+[100], [120], [99]
+
+[97], [117], [101]
+
+[122]
+
+[131], [106], [98],
+[120], [99], [107], [92],
+[115], [125], [109]
+
+[131], [128], [127],
+[117], [101]
+
+[114], [96], [122], [91],
+[68], [121]
+
+[114], [110]
+
+[120], [99], [125]
+[98], [120], [99], [115]
+
+[97], [128], [127], [101]
+[127]
+
+[114], [96], [91], [121]
+
+[114]
+
+[43], [125], [109]
+
+[43], [128], [119]
+
+[114], [121]
+
+[120]
+[115]
+[98], [109]
+[131], [132], [92]
+
+[127], [119]
+[117]
+
+[114], [96]
+
+[130], [114], [43],
+[104], [119], [124],
+[111]
+[114], [119]
+
+[131], [127]
+[127], [101]
+
+tion, where abstract concepts often require iterative, tailored
+support. Developing ITS that combines student-facing personalization with teacher-facing analytics could significantly
+improve outcomes in such complex domains.
+VI. ADDRESSING THE RESEARCH QUESTIONS
+
+This section provides answers to the research questions posed
+in the introduction, synthesizing the evidence gathered from
+the selected 46 studies.
+A. ANSWER TO RQ1: INTEGRATION OF AI TECHNIQUES IN
+ITS FOR PERSONALIZATION, FEEDBACK, AND
+MONITORING
+
+This study reveals that AI techniques are extensively used
+in ITS to enable personalization, real-time feedback, and
+progress monitoring—key features in supporting engineering
+
+[114]
+[96], [91], [68]
+[91]
+
+[114]
+
+students’ learning. Among the most frequently applied methods are NLP in the LIT category, FL and ML under LAA,
+BM in the LMKR category, and RB under DMPS. These are
+often deployed to interpret learner input, adapt instructional
+content dynamically, and model individual progress.
+Personalization is achieved primarily through ACS and
+PLP, which appeared in 38 and 28 of the reviewed studies,
+respectively. RTF, present in 34 studies, allows students to
+receive immediate responses, reinforcing learning outcomes
+and minimizing misconceptions. Progress monitoring is enabled by features like SKR and CA, which help track individual learning trajectories and performance over time.
+Furthermore, the heatmap analysis (Figure 7) shows strong
+positive correlations between these features, suggesting that
+effective ITS implementations often combine them. For example, systems integrating ACS and SKR frequently also
+
+16
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+implement PLP and RTF, as seen in publications such as De
+Carvalho et al. [120], and Alasmari et al. [129].
+Overall, AI techniques play a central role in enabling responsive, adaptive, and individualized learning experiences
+tailored to the cognitively demanding nature of engineering
+education.
+B. ANSWER TO RQ2: DUAL-USER SUPPORT AND DESIGN
+GAPS IN CURRENT ITS IMPLEMENTATIONS
+
+While many ITS solutions are designed to support student
+learning, far fewer provide explicit support for instructors,
+such as access to analytics or customization tools. Features
+that enable dual-user support, such as TASP, CPT, and
+ASLL, were among the least implemented, appearing in
+fewer than 10 studies each.
+Only a few systems, such as STUART [43], were found
+to proactively support both learners and educators by combining learner profiling with data-driven recommendations
+and instructor-facing dashboards. In contrast, most QAS reviewed, like ParichartBOT [124] and Q-Module-Bot [130],
+focused exclusively on student interaction and lacked mechanisms to adapt content or provide feedback based on prior
+learner data or performance history.
+This imbalance indicates a design gap: while ITS research increasingly prioritizes personalization for learners,
+instructor support remains limited and underutilized. The review suggests that more comprehensive dual-user ITSs could
+enhance instructional decision-making, improve curriculum
+adaptation, and ultimately increase educational impact.
+C. SYNTHESIS AND IMPLICATIONS
+
+Together, the answers to RQ1 and RQ2 highlight both the
+advances and limitations of current AI-based ITS implementations in engineering education. While personalization and
+feedback mechanisms are well-supported by diverse AI techniques, instructor-oriented functionalities and holistic learning analytics remain underdeveloped. Bridging this gap requires the integration of dual-user support into ITS design,
+along with context-aware mechanisms capable of leveraging
+both learner behavior and pedagogical intent.
+These findings point to actionable directions for future research: enhancing the synergy between student-facing adaptivity and teacher-facing insight, developing explainable
+models for dual-feedback loops, and advancing scalable ITS
+architectures that support domain-specific learning needs in
+engineering and beyond.
+VII. CONCLUSION
+
+This SLR examined the role of AI in the design and implementation of ITSs within engineering education. By analyzing 46 peer-reviewed studies, the review identified prevalent
+AI techniques, such as NLP, ML, and FL, and their integration
+into features like adaptive content selection, real-time feedback, and student progress tracking. These features contribute
+significantly to the personalization of learning pathways and
+
+the timely diagnosis of learning gaps in technically demanding educational domains.
+Furthermore, the study highlighted an underexplored but
+crucial area in ITS development: dual-user support for both
+students and instructors. While most systems focus on student
+adaptivity, relatively few offer instructor-facing tools such as
+analytics dashboards or mechanisms for content customization. This imbalance suggests a need for future ITS platforms
+to adopt more comprehensive and context-aware designs that
+serve both ends of the teaching–learning spectrum.
+This review is not without limitations. First, only three
+major databases (IEEE Xplore, Scopus, and SpringerLink)
+were used, excluding others like ACM Digital Library due
+to interoperability constraints. Second, the review focused
+exclusively on peer-reviewed journal articles and conference
+papers published in English between 2010 and 2024, potentially overlooking relevant non-English, gray literature, and
+very recent pre-print studies. Additionally, while the review
+provides a broad synthesis of AI-based ITS, it does not include a quantitative meta-analysis of effect sizes or learning
+outcomes.
+The findings of this review suggest several promising directions for future work:
+Instructor-facing Features: Future ITS research should
+prioritize the development of teacher-oriented tools, including real-time class analytics, predictive dashboards,
+and customizable learning sequences.
+• Explainability and Trustworthiness: As ITS increasingly
+incorporates complex AI models (e.g., LLMs), there
+is a growing need for explainable AI mechanisms that
+provide transparency in both feedback and decisionmaking.
+• Emotion and Engagement Detection: Affective computing remains rare in current ITS implementations. Future
+systems should explore integrating emotion recognition
+with adaptive feedback to enhance learner engagement
+and motivation.
+• Domain-specific and Multimodal ITS: Few ITS are tailored for advanced engineering subfields (e.g., control
+systems, thermodynamics). There is also a lack of ITS
+that combine multiple interaction modalities (e.g., voice,
+diagrams, code) to support diverse learner profiles.
+• Scalability and Real-world Deployment: Further research should focus on scalable, cloud-based ITS architectures that can be deployed across institutions, with
+real-world validation beyond controlled lab environments.
+•
+
+In summary, AI-driven ITS have made significant progress
+in supporting individualized learning experiences in engineering education. However, fully realizing their potential
+will require interdisciplinary efforts to bridge current design
+gaps, enhance dual-user support, and improve the pedagogical robustness of these systems.
+17
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+REFERENCES
+[1] B. Du Boulay, ‘‘Artificial intelligence as an effective classroom assistant,’’
+IEEE Intelligent Systems, vol. 31, no. 6, pp. 76–81, 2016.
+[2] H. S. Nwana, ‘‘Intelligent tutoring systems: an overview,’’ Artificial Intelligence Review, vol. 4, no. 4, pp. 251–277, 1990.
+[3] A. Seldon and O. Abidoye, The fourth education revolution. Legend
+Press Ltd, 2018.
+[4] A. A. Selçuk, ‘‘A guide for systematic reviews: Prisma,’’ Turkish archives
+of otorhinolaryngology, vol. 57, no. 1, p. 57, 2019.
+[5] C.-C. Lin, A. Y. Q. Huang, and O. H. T. Lu, ‘‘Artificial intelligence in
+intelligent tutoring systems toward sustainable education: a systematic
+review,’’ Smart Learning Environments, vol. 10, no. 1, p. 41, Aug 2023.
+[Online]. Available: https://doi.org/10.1186/s40561-023-00260-y
+[6] J. Paladines and J. Ramirez, ‘‘A systematic literature review of intelligent
+tutoring systems with dialogue in natural language,’’ IEEE Access, vol. 8,
+pp. 164 246–164 267, 2020.
+[7] C. Zeng, S. Li, Q. Li, J. Hu, and J. Hu, ‘‘A survey on machine reading
+comprehension—tasks, evaluation metrics and benchmark datasets,’’
+Applied Sciences, vol. 10, no. 21, 2020. [Online]. Available: https:
+//www.mdpi.com/2076-3417/10/21/7640
+[8] Y. Pian and Y. Lu, ‘‘Leveraging large language models to enhance the
+inner loops of intelligent tutoring systems,’’ in Artificial Intelligence in
+Education, A. I. Cristea, E. Walker, Y. Lu, O. C. Santos, and S. Isotani,
+Eds. Cham: Springer Nature Switzerland, 2025, pp. 218–230.
+[9] G. Yenduri, M. Ramalingam, G. C. Selvi, Y. Supriya, G. Srivastava,
+P. K. R. Maddikunta, G. D. Raj, R. H. Jhaveri, B. Prabadevi, W. Wang,
+A. V. Vasilakos, and T. R. Gadekallu, ‘‘Gpt (generative pre-trained transformer)— a comprehensive review on enabling technologies, potential
+applications, emerging challenges, and future directions,’’ IEEE Access,
+vol. 12, pp. 54 608–54 649, 2024.
+[10] U. Mittal, S. Sai, V. Chamola, and D. Sangwan, ‘‘A comprehensive review
+on generative ai for education,’’ IEEE Access, vol. 12, pp. 142 733–
+142 759, 2024.
+[11] Z. Li, Z. Wang, W. Wang, K. Hung, H. Xie, and F. L. Wang, ‘‘Retrievalaugmented generation for educational application: A systematic survey,’’
+Computers and Education: Artificial Intelligence, vol. 8, p. 100417,
+2025. [Online]. Available: https://www.sciencedirect.com/science/article/
+pii/S2666920X25000578
+[12] C. Zhai, ‘‘Large language models and future of information retrieval:
+Opportunities and challenges,’’ in Proceedings of the 47th International
+ACM SIGIR Conference on Research and Development in Information
+Retrieval, ser. SIGIR ’24. New York, NY, USA: Association for
+Computing Machinery, 2024, p. 481–490. [Online]. Available: https:
+//doi.org/10.1145/3626772.3657848
+[13] R. B. Kaliwal and S. L. Deshpande, ‘‘Study on intelligent tutoring system
+for learner assessment modeling based on bayesian network,’’ in Proceedings of International Joint Conference on Advances in Computational Intelligence, M. S. Uddin, P. K. Jamwal, and J. C. Bansal, Eds. Singapore:
+Springer Nature Singapore, 2022, pp. 389–397.
+[14] T. Käser, S. Klingler, A. G. Schwing, and M. Gross, ‘‘Dynamic bayesian
+networks for student modeling,’’ IEEE Transactions on Learning Technologies, vol. 10, no. 4, pp. 450–462, 2017.
+[15] S. Tiwari, F. N. Al-Aswadi, and D. Gaurav, ‘‘Recent trends in
+knowledge graphs: theory and practice,’’ Soft Computing, vol. 25, no. 13,
+pp. 8337–8355, Jul 2021. [Online]. Available: https://doi.org/10.1007/
+s00500-021-05756-8
+[16] B. Yang, D. Wen, L. Qin, Y. Zhang, X. Wang, and X. Lin,
+‘‘Fully dynamic depth-first search in directed graphs,’’ Proc. VLDB
+Endow., vol. 13, no. 2, p. 142–154, Oct. 2019. [Online]. Available:
+https://doi.org/10.14778/3364324.3364329
+[17] C.-Y. Chung, I.-H. Hsiao, and Y.-L. Lin, ‘‘Ai-assisted programming
+question generation: Constructing semantic networks of programming
+knowledge by local knowledge graph and abstract syntax tree,’’ Journal
+of Research on Technology in Education, vol. 55, no. 1, pp. 94–110, 2023.
+[Online]. Available: https://doi.org/10.1080/15391523.2022.2123872
+[18] C. Piech, J. Bassen, J. Huang, S. Ganguli, M. Sahami, L. J. Guibas,
+and J. Sohl-Dickstein, ‘‘Deep knowledge tracing,’’ in Advances in
+Neural Information Processing Systems, C. Cortes, N. Lawrence, D. Lee,
+M. Sugiyama, and R. Garnett, Eds., vol. 28. Curran Associates,
+Inc., 2015. [Online]. Available: https://proceedings.neurips.cc/paper_
+files/paper/2015/file/bac9162b47c56fc8a4d2a519803d51b3-Paper.pdf
+[19] G. Abdelrahman, Q. Wang, and B. Nunes, ‘‘Knowledge tracing: A
+survey,’’ ACM Comput. Surv., vol. 55, no. 11, Feb. 2023. [Online].
+Available: https://doi.org/10.1145/3569576
+
+[20] A. Stojanova, N. Stojkovikj, M. Kocaleva, B. Zlatanovska, and
+C. Martinovska-Bande, ‘‘Application of vark learning model on “data
+structures and algorithms” course,’’ in 2017 IEEE Global Engineering
+Education Conference (EDUCON), 2017, pp. 613–620.
+[21] Supangat and M. Z. B. Saringat, ‘‘A systematic literature review enhanced
+felder silverman learning style models (fslsm),’’ in 2022 Seventh International Conference on Informatics and Computing (ICIC), 2022, pp. 1–7.
+[22] F. AlShaikh and N. Hewahi, ‘‘Ai and machine learning techniques in
+the development of intelligent tutoring system: A review,’’ in 2021 International Conference on Innovation and Intelligence for Informatics,
+Computing, and Technologies (3ICT), 2021, pp. 403–410.
+[23] H. Li, K-Nearest Neighbor. Singapore: Springer Nature Singapore,
+2024, pp. 55–66. [Online]. Available: https://doi.org/10.1007/
+978-981-99-3917-6_3
+[24] A. K. Shakya, G. Pillai, and S. Chakrabarty, ‘‘Reinforcement learning
+algorithms: A brief survey,’’ Expert Systems with Applications, vol. 231,
+p. 120495, 2023. [Online]. Available: https://www.sciencedirect.com/
+science/article/pii/S0957417423009971
+[25] A. Nuemaihom, A. Al Yakin, P. M. I. Seraj, M. M. Asad, A. A. Elngar
+et al., ‘‘In-depth analysis of artificial intelligence practices: Robot tutors
+and federated learning approach in english education,’’ in Artificial Intelligence Using Federated Learning. CRC Press, 2025, pp. 16–36.
+[26] K. K. Ruiz Mendoza and L. H. Pedroza Zúñiga, ‘‘Logistic regression
+and learning personalization in higher education,’’ Ibero-American
+Journal of Education & Society Research, vol. 5, no. 1, p. e25004,
+jun. 2025. [Online]. Available: https://edsociety.iberojournals.com/index.
+php/IBEROEDS/article/view/708
+[27] S. C. Hoi, D. Sahoo, J. Lu, and P. Zhao, ‘‘Online learning: A
+comprehensive survey,’’ Neurocomputing, vol. 459, pp. 249–289, 2021.
+[Online]. Available: https://www.sciencedirect.com/science/article/pii/
+S0925231221006706
+[28] X. Wang, Y. Zhao, and F. Pourpanah, ‘‘Recent advances in deep
+learning,’’ International Journal of Machine Learning and Cybernetics,
+vol. 11, no. 4, pp. 747–750, Apr 2020. [Online]. Available: https:
+//doi.org/10.1007/s13042-020-01096-5
+[29] A. Khalid and A. Kumar, ‘‘Convolutional neural networks for students
+academic performance analaysis and alerting system,’’ in 2023 2nd International Conference for Innovation in Technology (INOCON), 2023, pp.
+1–7.
+[30] D. Miljković, ‘‘Brief review of self-organizing maps,’’ in 2017 40th International Convention on Information and Communication Technology,
+Electronics and Microelectronics (MIPRO), 2017, pp. 1061–1066.
+[31] H. Aly, A. K. Al-Ali, and P. N. Suganthan, ‘‘Boosted multilayer
+feedforward neural network with multiple output layers,’’ Pattern
+Recognition, vol. 156, p. 110740, 2024. [Online]. Available: https:
+//www.sciencedirect.com/science/article/pii/S0031320324004916
+[32] Z. Zheng, Y. Wang, Y. Huang, S. Song, M. Yang, B. Tang, F. Xiong,
+and Z. Li, ‘‘Attention heads of large language models: A survey,’’ 2024.
+[Online]. Available: https://arxiv.org/abs/2409.03752
+[33] J. K. Jain, N. Tiwari, and M. Ramaiya, ‘‘A survey: On association rule
+mining,’’ International Journal of Engineering Research and Applications, vol. 3, no. 1, pp. 2065–2069, 2013.
+[34] M. Shawkat, M. Badawi, S. El-ghamrawy, R. Arnous, and A. El-desoky,
+‘‘An optimized fp-growth algorithm for discovery of association rules,’’
+The Journal of Supercomputing, vol. 78, no. 4, pp. 5479–5506, Mar
+2022. [Online]. Available: https://doi.org/10.1007/s11227-021-04066-y
+[35] C. Grosan and A. Abraham, Rule-Based Expert Systems. Berlin,
+Heidelberg: Springer Berlin Heidelberg, 2011, pp. 149–185. [Online].
+Available: https://doi.org/10.1007/978-3-642-21004-4_7
+[36] M. W. Waterman, D. C. Frezzo, and M. X. Wang, ‘‘Adaptive learning
+using finite state machine logic,’’ in Proceedings of the Seventh ACM
+Conference on Learning @ Scale, ser. L@S ’20. New York, NY, USA:
+Association for Computing Machinery, 2020, p. 237–240. [Online].
+Available: https://doi.org/10.1145/3386527.3406720
+[37] B. de Ville, ‘‘Decision trees,’’ WIREs Computational Statistics, vol. 5,
+no. 6, pp. 448–455, 2013. [Online]. Available: https://wires.onlinelibrary.
+wiley.com/doi/abs/10.1002/wics.1278
+[38] M. M. Richter and R. O. Weber, Case-based reasoning. Springer, 2016.
+[39] M. Masood and N. A. M. Mokmin, ‘‘Case-based reasoning intelligent
+tutoring system: An application of big data and iot,’’ in Proceedings of
+the 1st International Conference on Big Data Research, ser. ICBDR ’17.
+New York, NY, USA: Association for Computing Machinery, 2017, p.
+28–32. [Online]. Available: https://doi.org/10.1145/3152723.3152735
+
+18
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+[40] R. Zakaria, B. Hadhoum, E. Mourad, and M. Mustapha, ‘‘Dynamic adaptation in an intelligent multi-tutoring system: A multi-agent approach,’’
+IEEE Access, vol. 13, pp. 124 587–124 601, 2025.
+[41] N. Silva, H. Werneck, T. Silva, A. C. Pereira, and L. Rocha, ‘‘Multi-armed
+bandits in recommendation systems: A survey of the state-of-the-art
+and future directions,’’ Expert Systems with Applications, vol. 197,
+p. 116669, 2022. [Online]. Available: https://www.sciencedirect.com/
+science/article/pii/S0957417422001543
+[42] J. H. Yousif et al., ‘‘Artificial intelligence revolution for enhancing modern education using zone of proximal development approach,’’ Applied
+Computing Journal, pp. 386–398, 2025.
+[43] A. Damasceno, A. Martins, M. Chagas, E. Barros, P. Maia, and F. Oliveira,
+‘‘STUART: An intelligent tutoring system for increasing scalability of
+distance education courses,’’ in IHC - Proc. Braz. Symp. Hum. Factors
+Comput. Sys, Kemczinski A., Santos C.Q., Trevisan D.G., Gasparini I.,
+Zaina L., Pereira M., Mota M., Villela M.L.B., Falcao T.P., Conte T.U.,
+and Darin T.G.R., Eds. Association for Computing Machinery, Inc,
+2020. [Online]. Available: https://doi.org/10.1145/3424953.3426640
+[44] J. Zajda, Constructivist Learning Theory and Creating Effective Learning
+Environments. Cham: Springer International Publishing, 2021, pp. 35–
+50. [Online]. Available: https://doi.org/10.1007/978-3-030-71575-5_3
+[45] E. Mousavinasab, N. Zarifsanaiey, S. R. N. Kalhori, M. Rakhshan,
+L. Keikha, and M. G. Saeedi, ‘‘Intelligent tutoring systems: a systematic
+review of characteristics, applications, and evaluation methods,’’
+Interactive Learning Environments, vol. 29, no. 1, pp. 142–163, 2021.
+[Online]. Available: https://doi.org/10.1080/10494820.2018.1558257
+[46] W. Wang, ‘‘Real-time feedback and tutoring of college english using
+artificial intelligence algorithms and iot sensors,’’ International Journal
+of High Speed Electronics and Systems, vol. 0, no. 0, p. 2540669, 0.
+[Online]. Available: https://doi.org/10.1142/S0129156425406692
+[47] P. A. Jaques, H. Seffrin, G. Rubi, F. de Morais, C. Ghilardi, I. I.
+Bittencourt, and S. Isotani, ‘‘Rule-based expert systems to support
+step-by-step guidance in algebraic problem solving: The case of the
+tutor pat2math,’’ Expert Systems with Applications, vol. 40, no. 14, pp.
+5456–5465, 2013. [Online]. Available: https://www.sciencedirect.com/
+science/article/pii/S0957417413002418
+[48] V. Aleven, I. Roll, B. M. McLaren, and K. R. Koedinger, ‘‘Help
+helps, but only so much: Research on help seeking with intelligent
+tutoring systems,’’ International Journal of Artificial Intelligence in
+Education, vol. 26, no. 1, pp. 205–223, Mar 2016. [Online]. Available:
+https://doi.org/10.1007/s40593-015-0089-1
+[49] D. Dhungana and S. Paudel, ‘‘Personalized learning paths: Automated
+guidance and monitoring for individual learning experiences,’’ in IEEE
+EUROCON 2025 - 21st International Conference on Smart Technologies,
+2025, pp. 1–6.
+[50] P. Phobun and J. Vicheanpanya, ‘‘Adaptive intelligent tutoring systems
+for e-learning systems,’’ Procedia - Social and Behavioral Sciences,
+vol. 2, no. 2, pp. 4064–4069, 2010, innovation and Creativity in
+Education. [Online]. Available: https://www.sciencedirect.com/science/
+article/pii/S1877042810006816
+[51] J. A. Kulik and J. D. Fletcher, ‘‘Effectiveness of intelligent tutoring
+systems: A meta-analytic review,’’ Review of Educational Research,
+vol. 86, no. 1, pp. 42–78, 2016. [Online]. Available: https://doi.org/10.
+3102/0034654315581420
+[52] K. Williamson and R. Kizilcec, ‘‘A review of learning analytics dashboard
+research in higher education: Implications for justice, equity, diversity,
+and inclusion,’’ in LAK22: 12th International Learning Analytics and
+Knowledge Conference, ser. LAK22. New York, NY, USA: Association
+for Computing Machinery, 2022, p. 260–270. [Online]. Available:
+https://doi.org/10.1145/3506860.3506900
+[53] T. T. Le, S. T. Luu, H. D. Nguyen, and N. V. Do, ‘‘Knowledge representation for designing an intelligent tutoring system in learning of
+courses about algorithms,’’ in 2019 25th Asia-Pacific Conference on
+Communications (APCC), 2019, pp. 310–315.
+[54] Z. Jeremić, J. Jovanović, and D. Gašević, ‘‘Student modeling and
+assessment in intelligent tutoring of software patterns,’’ Expert Systems
+with Applications, vol. 39, no. 1, pp. 210–222, 2012. [Online]. Available:
+https://www.sciencedirect.com/science/article/pii/S0957417411009729
+[55] V. Kurt, ‘‘Intelligent tutoring systems for continuous, embedded assessment,’’ in The Future of Assessment. Routledge, 2017, pp. 113–138.
+[56] G. Jun, G. Y. Ting, and Z. Y. Song, ‘‘A question-and-answer system
+based on artificial intelligence,’’ in Proceedings of the 2024 the 12th
+International Conference on Information Technology (ICIT), ser. ICIT
+’24. New York, NY, USA: Association for Computing Machinery,
+
+2025, p. 299–305. [Online]. Available: https://doi.org/10.1145/3718391.
+3727884
+[57] L. Anoir, M. Khaldi, and M. Erradi, ‘‘Intelligent tutor systems and the
+personalization of pedagogical objects in adaptive e-learning,’’ in Interactive Media with Next-Gen Technologies and Their Usability Evaluation.
+Chapman and Hall/CRC, 2024, pp. 185–196.
+[58] D. Hamam, Y. Ouda, A. Hysaj, M. Ezzat, and S. A. Khan, ‘‘Perspectives of faculty on the easiness and usefulness of ai tutoring systems in
+higher education,’’ in Social Computing and Social Media, A. Coman and
+S. Vasilache, Eds. Cham: Springer Nature Switzerland, 2025, pp. 172–
+179.
+[59] P. Pavlik, K. Brawner, A. Olney, and A. Mitrovic, ‘‘A review of student
+models used in intelligent tutoring systems,’’ Design recommendations
+for intelligent tutoring systems, vol. 1, pp. 39–68, 2013.
+[60] R. Chughtai, S. Zhang, and S. D. Craig, ‘‘Usability evaluation
+of intelligent tutoring system: Its from a usability perspective,’’
+Proceedings of the Human Factors and Ergonomics Society Annual
+Meeting, vol. 59, no. 1, pp. 367–371, 2015. [Online]. Available:
+https://doi.org/10.1177/1541931215591076
+[61] T. Daradoumis, R. Bassi, F. Xhafa, and S. Caballé, ‘‘A Review on
+Massive E-Learning (MOOC) Design, Delivery and Assessment,’’ in
+2013 Eighth International Conference on P2P, Parallel, Grid, Cloud
+and Internet Computing, Oct. 2013, pp. 208–213. [Online]. Available:
+https://ieeexplore.ieee.org/document/6681230/
+[62] B. Nye, ‘‘Intelligent tutoring systems by and for the developing world:
+A review of trends and approaches for educational technology in a
+global context,’’ Int. J. Artif. Intell. Educ., vol. 25, no. 2, pp. 177–203,
+2015. [Online]. Available: https://www.scopus.com/inward/record.
+uri?eid=2-s2.0-84928314446\&doi=10.1007\%2fs40593-014-0028-6\
+&partnerID=40\&md5=584977b3364e76ef2e006a3cf9553f35
+[63] L. E. Vahos Hernández, C. G. Serrano, and J. A. Jiménez Builes,
+‘‘Artificial intelligence techniques in an e-learning environment for
+IT engineering projects,’’ in 2016 Technologies Applied to Electronics
+Teaching (TAEE), Jun. 2016, pp. 1–6. [Online]. Available: https:
+//ieeexplore.ieee.org/document/7528382/
+[64] A. Bimba, N. Idris, A. Al-Hunaiyyan, R. Mahmud, and N. Shuib,
+‘‘Adaptive feedback in computer-based learning environments: a
+review,’’ Adapt. Behav., vol. 25, no. 5, pp. 217–234, 2017. [Online].
+Available:
+https://www.scopus.com/inward/record.uri?eid=2-s2.
+0-85029635453\&doi=10.1177\%2f1059712317727590\&partnerID=
+40\&md5=a32f3b8cc75973b496e8c90797edeb09
+[65] R. N. Aljabali and N. Ahmad, ‘‘A Review on Adopting Personalized
+Gamified Experience in the Learning Context,’’ in 2018 IEEE Conference
+on e-Learning, e-Management and e-Services (IC3e), Nov. 2018, pp. 61–
+66. [Online]. Available: https://ieeexplore.ieee.org/document/8632635/
+[66] H. A. Abu-Alsaad, ‘‘Agent Applications In E-Learning Systems
+And Current Development And Challenges Of Adaptive E-Learning
+Systems,’’ in 2019 11th International Conference on Electronics,
+Computers and Artificial Intelligence (ECAI), Jun. 2019, pp. 1–6.
+[Online]. Available: https://ieeexplore.ieee.org/document/9042015/
+[67] K. Huang, ‘‘The Literature Review of Evolution Progress and Hot Spots
+of Educational Artificial Intelligence,’’ in 2019 IEEE 3rd Advanced
+Information Management, Communicates, Electronic and Automation
+Control Conference (IMCEC), Oct. 2019, pp. 1232–1237. [Online].
+Available: https://ieeexplore.ieee.org/document/8984086/
+[68] R. Taufik and D. Nurjanah, ‘‘An Intelligent Tutoring System
+with Adaptive Exercises Based on a Student’s Knowledge and
+Misconception,’’ in 2019 IEEE International Conference on Engineering,
+Technology and Education (TALE), Dec. 2019, pp. 1–5. [Online].
+Available: https://ieeexplore.ieee.org/document/9226001/
+[69] A. A. Soofi and M. U. Ahmed, ‘‘A systematic review of domains,
+techniques, delivery modes and validation methods for intelligent
+tutoring systems,’’ International Journal of Advanced Computer Science
+and Applications, vol. 10, no. 3, 2019. [Online]. Available: http:
+//dx.doi.org/10.14569/IJACSA.2019.0100312
+[70] L. Alfaro, C. Rivera, E. Castãneda, J. Zũniga-Cueva, M. Rivera-Chavez,
+and F. Fialho, ‘‘A review of intelligent tutorial systems in computer
+and web based education,’’ Intl. J. Adv. Comput. Sci. Appl., no. 2, pp.
+755–763, 2020. [Online]. Available: https://www.scopus.com/inward/
+record.uri?eid=2-s2.0-85081274134\&doi=10.14569\%2fijacsa.2020.
+0110295\&partnerID=40\&md5=a303dad67d0ed2d95737c42fb7b28962
+[71] K. L. Yeung, S. K. Carpenter, and D. Corral, ‘‘A Comprehensive
+Review of Educational Technology on Objective Learning Outcomes
+in Academic Contexts,’’ Educ Psychol Rev, vol. 33, no. 4, pp. 1583–
+19
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+1630, Dec. 2021. [Online]. Available: https://link.springer.com/10.1007/
+s10648-020-09592-4
+[72] T. I. Ivanova, ‘‘Intelligent Technologies in E-learning and Intelligent
+Tutoring Systems,’’ in 2021 International Conference on Information
+Technologies (InfoTech), Sep. 2021, pp. 1–4. [Online]. Available:
+https://ieeexplore.ieee.org/document/9548438/
+[73] S. Feng, A. J. Magana, and D. Kao, ‘‘A Systematic Review of Literature
+on the Effectiveness of Intelligent Tutoring Systems in STEM,’’ in 2021
+IEEE Frontiers in Education Conference (FIE), Oct. 2021, pp. 1–9.
+[Online]. Available: https://ieeexplore.ieee.org/document/9637240/
+[74] S. Feng and N. Law, ‘‘Mapping Artificial Intelligence in Education
+Research: a Network-based Keyword Analysis,’’ Int. J. Artif. Intell.
+Educ., vol. 31, no. 2, pp. 277–303, 2021. [Online]. Available:
+https://www.scopus.com/inward/record.uri?eid=2-s2.0-85102823740\
+&doi=10.1007\%2fs40593-021-00244-4\&partnerID=40\&md5=
+d87701123ed020cf0fe8950ae02bc588
+[75] V. Mikić, M. Ilić, L. Kopanja, and B. Vesin, ‘‘Personalisation methods in
+e-learning-A literature review,’’ Comput Appl Eng Educ, vol. 30, no. 6,
+pp. 1931–1958, 2022. [Online]. Available: https://www.scopus.com/
+inward/record.uri?eid=2-s2.0-85138315210\&doi=10.1002\%2fcae.
+22566\&partnerID=40\&md5=a126b8156ee1f3d6ff9d054170d09e3e
+[76] N. H. Mthombeni, R. Maladzhi, K. Moloi, T. Mashifana, M. Tsoeu,
+and F. Nemavhola, ‘‘AI ChatBots as Inherent Tools for Comprehensive
+Learning of Engineering Design: A Systematic review,’’ in 2023
+World Engineering Education Forum - Global Engineering Deans
+Council (WEEF-GEDC), Oct. 2023, pp. 1–6. [Online]. Available:
+https://ieeexplore.ieee.org/document/10343866/
+[77] R. W. Maladzhi, M. Tsoeu, N. Mthombeni, K. Moloi, T. Mashifana,
+and F. Nemavhola, ‘‘How important are Chatbots within Engineering
+Education? A literature-based review from 2011 to 2023,’’ in 2023
+World Engineering Education Forum - Global Engineering Deans
+Council (WEEF-GEDC), Oct. 2023, pp. 1–5. [Online]. Available:
+https://ieeexplore.ieee.org/document/10344203/
+[78] K. Moloi, R. W. Maladzhi, F. J. Nemavhola, N. H. Mthombeni, M. S.
+Tsoeu, and T. Mashifana, ‘‘The Risks Associated with AI Chatbots
+in Teaching Future Engineering Graduates: A Systematic Review,’’
+in 2023 World Engineering Education Forum - Global Engineering
+Deans Council (WEEF-GEDC), Oct. 2023, pp. 1–6. [Online]. Available:
+https://ieeexplore.ieee.org/document/10343639/
+[79] Z. Bahroun, C. Anane, V. Ahmed, and A. Zacca, ‘‘Transforming
+Education: A Comprehensive Review of Generative Artificial
+Intelligence in Educational Settings through Bibliometric and
+Content Analysis,’’ Sustainability, vol. 15, no. 17, 2023. [Online].
+Available:
+https://www.scopus.com/inward/record.uri?eid=2-s2.
+0-85170353980\&doi=10.3390\%2fsu151712983\&partnerID=40\
+&md5=e9b63fc872dce5d9eb3e61209ab8856f
+[80] K. EL Azhari, I. Hilal, N. Daoudi, and R. Ajhoun, ‘‘SMART
+Chatbots in the E-learning Domain: A Systematic Literature
+Review,’’ Int. J. Interact. Mob. Technol., vol. 17, no. 15, pp. 4–37,
+2023. [Online]. Available: https://www.scopus.com/inward/record.
+uri?eid=2-s2.0-85170270548\&doi=10.3991\%2fijim.v17i15.40315\
+&partnerID=40\&md5=070ccd269c3ff18746487d4672f522d8
+[81] K. Djunaidi, P. C. Siswipraptini, and H. Sikumbang, ‘‘Characteristics
+and Application of Intelligent Tutoring Systems: A Review,’’ in 2023
+10th International Conference on ICT for Smart Society (ICISS), Sep.
+2023, pp. 1–7. [Online]. Available: https://ieeexplore.ieee.org/document/
+10291895/
+[82] R. Qureshi, S. Hajare, and P. Verma, ‘‘A Review on the Role of Artificial
+Intelligence in Personalized Learning,’’ in 2024 Asia Pacific Conference
+on Innovation in Technology (APCIT), Jul. 2024, pp. 1–5. [Online].
+Available: https://ieeexplore.ieee.org/document/10673706
+[83] N.-T. Vinh, T.-N. Phung, and D.-D. Cuong, ‘‘A Bibliometric and
+Thematic Analysis of Systematic Reviews of Artificial Intelligence
+in Education,’’ in Lect. Notes Networks Syst., Nghia P.T., Thai
+V.D., Thuy N.T., Son L.H., and Huynh V.-N., Eds., vol. 848.
+Springer Science and Business Media Deutschland GmbH, 2024, pp.
+337–351. [Online]. Available: https://www.scopus.com/inward/record.
+uri?eid=2-s2.0-85181982166\&doi=10.1007\%2f978-3-031-50818-9\
+_37\&partnerID=40\&md5=51b2b7045074a062b77f88af6ec2d5f9
+[84] G. D. Furman, ‘‘Enhancing Engineering Education: The Role of
+Artificial Intelligence in Personalizing Learning and Outcomes,’’ in
+2024 4th International Conference on Big Data Engineering and
+Education (BDEE), Aug. 2024, pp. 61–65. [Online]. Available: https:
+//ieeexplore.ieee.org/document/10723424/
+
+[85] A. El Hadbi, E. Hachem, H. Bourray, M. Rziki, and H. Oubalahcen,
+‘‘Review Study on the Adaptive and Personalized Intelligent Tutoring
+Systems in E-learning,’’ in Lect. Notes Networks Syst., Ezziyyani
+M., Kacprzyk J., Balas V.E., and Balas V.E., Eds., vol. 931 LNNS.
+Springer Science and Business Media Deutschland GmbH, 2024, pp.
+45–68. [Online]. Available: https://www.scopus.com/inward/record.uri?
+eid=2-s2.0-85187685879\&doi=10.1007\%2f978-3-031-54288-6\_5\
+&partnerID=40\&md5=e5210405c0c3e6adda913f1dda41c336
+[86] D. Al Husaeni, N. Haristiani, W. Wahyudin, and R. Rasim, ‘‘Chatbot
+Artificial Intelligence as Educational Tools in Science and Engineering
+Education: A Literature Review and Bibliometric Mapping Analysis with
+Its Advantages and Disadvantages,’’ ASEAN. J. Sci. Eng., vol. 4, no. 1,
+pp. 93–118, 2024. [Online]. Available: https://www.scopus.com/inward/
+record.uri?eid=2-s2.0-85193712355\&doi=10.17509\%2fajse.v4i1.
+67429\&partnerID=40\&md5=787b0d93799a713718fe5384575d5ad2
+[87] K. Ahmad, W. Iqbal, A. El-Hassan, J. Qadir, D. Benhaddou, M. Ayyash,
+and A. Al-Fuqaha, ‘‘Data-Driven Artificial Intelligence in Education: A
+Comprehensive Review,’’ IEEE Transactions on Learning Technologies,
+vol. 17, pp. 12–31, 2024. [Online]. Available: https://ieeexplore.ieee.org/
+document/10247566/
+[88] C. McGrath, A. Farazouli, and T. Cerratto-Pargman, ‘‘Generative AI
+chatbots in higher education: a review of an emerging research area,’’
+High Educ, Aug. 2024. [Online]. Available: https://link.springer.com/10.
+1007/s10734-024-01288-w
+[89] J. Puckett, Zotero: A guide for librarians, researchers, and educators.
+Assoc of Cllge & Rsrch Libr, 2011.
+[90] W.-C. Hsu and C.-H. Li, ‘‘A competency-based guided-learning
+algorithm applied on adaptively guiding e-learning,’’ Interactive Learning
+Environments, vol. 23, no. 1, pp. 106–125, 2015. [Online]. Available:
+https://doi.org/10.1080/10494820.2012.745432
+[91] K-Hetmańska A. and N. Nguyen, ‘‘A method for learning scenario
+determination and modification in intelligent tutoring systems,’’ Int. J.
+Appl. Math. Comput. Sci., vol. 21, no. 1, pp. 69–82, 2011. [Online].
+Available: https://doi.org/10.2478/v10006-011-0005-2
+[92] N. Singh, V. K. Gunjan, and M. M. Nasralla, ‘‘A Parametrized
+Comparative Analysis of Performance Between Proposed Adaptive
+and Personalized Tutoring System “Seis Tutor” With Existing Online
+Tutoring System,’’ IEEE Access, vol. 10, pp. 39 376–39 386, 2022,
+conference Name: IEEE Access. [Online]. Available: https://ieeexplore.
+ieee.org/document/9755124/
+[93] N. Green, O. AlZoubi, M. Alizadeh, B. Di Eugenio, D. Fossati, and
+R. Harsley, ‘‘A scalable intelligent tutoring system framework for
+computer science education,’’ in CSEDU - Int. Conf. Comput. Support.
+Educ., Proc., Uhomoibhi J., Helfert M., Restivo M.T., and Zvacek S.,
+Eds., vol. 1. SciTePress, 2015, pp. 372–379, journal Abbreviation:
+CSEDU - Int. Conf. Comput. Support. Educ., Proc. [Online]. Available:
+https://www.scopus.com/inward/record.uri?eid=2-s2.0-84943411355\
+&partnerID=40\&md5=20aa0ab83ec03d11424ff18341e25bba
+[94] C. Tccson and M. Rodrigo, ‘‘A Self-paced Tutoring System, ILSA:
+Which System Utilization aligned with Learners’ Goal Orientations?’’
+in Int. Conf. Inf. Educ. Technol., ICIET. Institute of Electrical and
+Electronics Engineers Inc., 2021, pp. 14–20, journal Abbreviation:
+Int. Conf. Inf. Educ. Technol., ICIET. [Online]. Available: https:
+//doi.org/10.1109/ICIET51873.2021.9419633
+[95] N. Fang and Y. Guo, ‘‘A web-based interactive intelligent tutoring system
+for undergraduate engineering dynamics,’’ in 2013 IEEE Frontiers
+in Education Conference (FIE), Oct. 2013, pp. 159–160. [Online].
+Available: https://ieeexplore.ieee.org/document/6684806/
+[96] M. Awad, J. Salah, N. Hamdi, and S. Abdennadher, ‘‘A-Learning:
+A Computerized Adaptive Learning Expert System,’’ in International
+Conference on Computer Supported Education, CSEDU - Proceedings,
+Cukurova M., Rummel N., Gillet D., McLaren B., and Uhomoibhi J.,
+Eds., vol. 1. Science and Technology Publications, Lda, 2022, pp. 189–
+198. [Online]. Available: https://doi.org/10.5220/0010996300003182
+[97] F. S. Díaz, T. P. Rubilar, C. C. Figueroa, and R. M. Silva, ‘‘An
+Adaptive E-Learning Platform with VARK Learning Styles to Support
+the Learning of Object Orientation,’’ in 2018 IEEE World Engineering
+Education Conference (EDUNINE), Mar. 2018, pp. 1–6. [Online].
+Available: https://ieeexplore.ieee.org/document/8450990/
+[98] R. Cabada, M. Estrada, F. Hernandez, and R. Bustillos, ‘‘An affective
+learning environment for Java,’’ in Proc. - IEEE Int. Conf. Adv.
+Learn. Technol.: Adv. Technol. Support. Open Access Formal Informal
+Learn., ICALT, Chen N.-S., Liu T.-C., Kinshuk null, Huang R., Hwang
+G.-J., Sampson D.G., and Tsai C.-C., Eds. Institute of Electrical and
+
+20
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+Electronics Engineers Inc., 2015, pp. 350–354. [Online]. Available:
+https://doi.org/10.1109/ICALT.2015.53
+[99] Y. Li and S. Zhao, ‘‘An association rule mining approach for intelligent
+tutoring system,’’ in 2010 2nd International Conference on Computer
+Engineering and Technology, vol. 6, Apr. 2010, pp. V6–460–V6–464.
+[Online]. Available: https://ieeexplore.ieee.org/document/5486131/
+[100] J. Castro-Schez, C. Glez-Morcillo, J. Albusac, and D. Vallejo, ‘‘An
+intelligent tutoring system for supporting active learning: A case study
+on predictive parsing learning,’’ Inf Sci, vol. 544, pp. 446–468, 2021.
+[Online]. Available: https://doi.org/10.1016/j.ins.2020.08.079
+[101] S. Panagiotis, P. Ioannis, G. Christos, and K. Achilles, ‘‘APLe:
+Agents for personalized learning in distance learning,’’ in Commun.
+Comput. Info. Sci., Uhomoibhi J., Restivo M.T., Zvacek S., and
+Helfert M., Eds., vol. 583. Springer Verlag, 2016, pp. 37–56,
+journal Abbreviation: Commun. Comput. Info. Sci. [Online]. Available:
+https://doi.org/10.1007/978-3-319-29585-5\_3
+[102] H. Considine, Z. Nedic, and A. Nafalski, ‘‘Assisting students in online
+experimentation,’’ in 2017 4th Experiment@International Conference
+(exp.at’17), Jun. 2017, pp. 47–51. [Online]. Available: https://ieeexplore.
+ieee.org/document/7984371/
+[103] E. Prihar, A. Haim, A. Sales, and N. Heffernan, ‘‘Automatic Interpretable
+Personalized Learning,’’ in LS - Proc. ACM Conf. Learn. Scale.
+Association for Computing Machinery, Inc, 2022, pp. 1–11. [Online].
+Available: https://doi.org/10.1145/3491140.3528267
+[104] A. Deveci Topal, C. Dilek Eren, and A. Kolburan Geçer, ‘‘Chatbot
+application in a 5th grade science course,’’ Educ Inf Technol, vol. 26,
+no. 5, pp. 6241–6265, Sep. 2021. [Online]. Available: https://link.
+springer.com/10.1007/s10639-021-10627-8
+[105] N. Luburić, D. Vidaković, J. Slivka, S. Prokić, K.-G. Grujić,
+A. Kovačević, and G. Sladić, ‘‘Clean Code Tutoring: Makings of
+a Foundation,’’ in International Conference on Computer Supported
+Education, CSEDU - Proceedings, Cukurova M., Rummel N., Gillet
+D., McLaren B., and Uhomoibhi J., Eds., vol. 1. Science and
+Technology Publications, Lda, 2022, pp. 137–148. [Online]. Available:
+https://doi.org/10.5220/0010800900003182
+[106] V. Bradáč, P. Smolka, M. Kotyrba, and T. Průdek, ‘‘Design of an
+Intelligent Tutoring System to Create a Personalized Study Plan Using
+Expert Systems,’’ Appl. Sci., vol. 12, no. 12, 2022. [Online]. Available:
+https://doi.org/10.3390/app12126236
+[107] J.-J. Lo, Y.-C. Chan, and S.-W. Yeh, ‘‘Designing an adaptive web-based
+learning system based on students’ cognitive styles identified online,’’
+Comput Educ, vol. 58, no. 1, pp. 209–222, 2012. [Online]. Available:
+https://doi.org/10.1016/j.compedu.2011.08.018
+[108] P. Sharma and M. Harkishan, ‘‘Designing an intelligent tutoring
+system for computer programing in the Pacific,’’ Educ. Inf. Technol.,
+vol. 27, no. 5, pp. 6197–6209, 2022. [Online]. Available: https:
+//doi.org/10.1007/s10639-021-10882-9
+[109] C. Zhang, G. Li, H. Hashimoto, and Z. Zhang, ‘‘Digital Transformation
+(DX) for Skill Learners: The Design Methodology and Implementation
+of Educational Chatbot using Knowledge Connection and Emotional
+Expression,’’ in 2022 IEEE Global Engineering Education Conference
+(EDUCON), Mar. 2022, pp. 998–1003. [Online]. Available: https:
+//ieeexplore.ieee.org/document/9766384/
+[110] B. Morgan, A. Hampton, Z. Cai, A. Tackett, L. Wang, X. Hu, and
+A. Graesser, ‘‘Electronix Tutor integrates multiple learning resources to
+teach electronics on the web,’’ in Proc. Annu. ACM Conf. Learn. Scale,
+L at S. Association for Computing Machinery, Inc, 2018. [Online].
+Available: https://doi.org/10.1145/3231644.3231691
+[111] A. Šarčević, I. Tomičić, A. Merlin, and M. Horvat, ‘‘Enhancing
+Programming Education with Open-Source Generative AI Chatbots,’’
+in ICT Electron. Conv., MIPRO - Proc., Babic S., Car Z., CicinSain M., Cisic D., Ergovic P., Grbac T.G., Gradisnik V., Gros S.,
+Jokic A., Jovic A., Jurekovic D., Katulic T., Koricic M., Mornar
+V., Petrovic J., Skala K., Skvorc D., Sruk V., Svaco M., Tijan
+E., Vrcek N., and Vrdoljak B., Eds. Institute of Electrical and
+Electronics Engineers Inc., 2024, pp. 2051–2056. [Online]. Available:
+https://doi.org/10.1109/MIPRO60963.2024.10569736
+[112] C. Tekin, J. Braun, and M. Van Der Schaar, ‘‘ETutor: Online learning
+for personalized education,’’ in ICASSP IEEE Int Conf Acoust Speech
+Signal Process Proc, vol. 2015-August. Institute of Electrical and
+Electronics Engineers Inc., 2015, pp. 5545–5549. [Online]. Available:
+https://doi.org/10.1109/ICASSP.2015.7179032
+[113] S. Nafiseh and M. Gholam Ali, ‘‘Evaluation based on personalization
+using optimized FIRT and MAS framework in engineering education in
+
+e-learning environment,’’ in 4th International Conference on e-Learning
+and e-Teaching (ICELET 2013), Feb. 2013, pp. 117–120. [Online].
+Available: https://ieeexplore.ieee.org/document/6681657/
+[114] Z. Alshaikh, L. Tamang, and V. Rus, ‘‘Experiments with Autogenerated Socratic Dialogue for Source Code Understanding,’’ in
+International Conference on Computer Supported Education, CSEDU Proceedings, Csapo B. and Uhomoibhi J., Eds., vol. 2. Science and
+Technology Publications, Lda, 2021, pp. 35–44. [Online]. Available:
+https://doi.org/10.5220/0010398100350044
+[115] A. Stathaki, H. Kondylakis, E. Marakakis, and M. Kalogerakis, ‘‘iProlog: A web-based intelligent tutoring system for learning prolog,’’
+in Lect. Notes Inst. Comput. Sci. Soc. Informatics Telecommun. Eng.,
+Brooks E., Brooks A.L., and Vidakis N., Eds., vol. 229. Springer
+Verlag, 2018, pp. 337–346. [Online]. Available: https://doi.org/10.1007/
+978-3-319-76908-0\_32
+[116] N. Marcus, D. Ben-Naim, and M. Bain, ‘‘Instructional Support for
+Teachers and Guided Feedback for Students in an Adaptive eLearning
+Environment,’’ in 2011 Eighth International Conference on Information
+Technology: New Generations, Apr. 2011, pp. 626–631. [Online].
+Available: https://ieeexplore.ieee.org/document/5945309/
+[117] Özcan Özyurt, H. Özyurt, A. Baki, and B. Güven, ‘‘Integration into
+mathematics classrooms of an adaptive and intelligent individualized
+e-learning environment: Implementation and evaluation of uzwebmat,’’
+Computers in Human Behavior, vol. 29, no. 3, pp. 726–738, 2013.
+[Online]. Available: https://www.sciencedirect.com/science/article/pii/
+S0747563212003184
+[118] E. Verdú, L. M. Regueras, E. Gal, J. P. De Castro, M. J. Verdú,
+and D. Kohen-Vacs, ‘‘Integration of an intelligent tutoring system
+in a course of computer network design,’’ Education Tech Research
+Dev, vol. 65, no. 3, pp. 653–677, Jun. 2017. [Online]. Available:
+http://link.springer.com/10.1007/s11423-016-9503-0
+[119] D. Roldán-Álvarez and F. J. Mesa, ‘‘Intelligent Deep-Learning
+Tutoring System to Assist Instructors in Programming Courses,’’
+IEEE Transactions on Education, vol. 67, no. 1, pp. 153–161, Feb. 2024.
+[Online]. Available: https://ieeexplore.ieee.org/document/10335741/
+[120] S. D. De Carvalho, F. R. De Melo, E. L. Flôres, S. R. Pires, and
+L. F. B. Loja, ‘‘Intelligent tutoring system using expert knowledge and
+Kohonen maps with automated training,’’ Neural Comput & Applic,
+vol. 32, no. 17, pp. 13 577–13 589, Sep. 2020. [Online]. Available:
+http://link.springer.com/10.1007/s00521-020-04767-0
+[121] J. Xiao and Q. Bai, ‘‘iTutor: Promoting AI Guided Knowledge
+Interaction in Online Learning,’’ in 2022 International Symposium
+on Educational Technology (ISET), Jul. 2022, pp. 253–257. [Online].
+Available: https://ieeexplore.ieee.org/document/9867072/
+[122] S. Eilermann, L. Wehmeier, O. Niggemann, and A. Deuter, ‘‘KIAAA:
+An AI Assistant for Teaching Programming in the Field of Automation,’’
+in 2023 IEEE 21st International Conference on Industrial Informatics
+(INDIN), Jul. 2023, pp. 1–7. [Online]. Available: https://ieeexplore.ieee.
+org/document/10218157/
+[123] E. Lavendelis and J. Grundspenkis, ‘‘MASITS Methodology Supported
+Development of Agent Based Intelligent Tutoring System MIPITS,’’
+in Commun. Comput. Info. Sci., Filipe J., S. INSTICC, Estefanilha,
+Fred A., L. IST Technical University of Lisbon, Sharp B., and
+S. Staffordshire University, Beaconside, Eds., vol. 129, 2011, pp. 119–
+132. [Online]. Available: https://doi.org/10.1007/978-3-642-19890-8\_9
+[124] S. Sakulwichitsintu, ‘‘ParichartBOT: a chatbot for automatic answering
+for postgraduate students of an open university,’’ Int. j. inf. tecnol.,
+vol. 15, no. 3, pp. 1387–1397, Mar. 2023. [Online]. Available:
+https://link.springer.com/10.1007/s41870-023-01176-z
+[125] C. Troussas, A. Krouska, P. Mylonas, and C. Sgouropoulou,
+‘‘Personalized Learner Assistance Through Dynamic Adaptation
+of Chatbot Using Fuzzy Logic Knowledge Modeling,’’ in Int.
+Workshop Semant. Soc. Media Adapt. Personal., SMAP. Institute
+of Electrical and Electronics Engineers Inc., 2023. [Online]. Available:
+https://doi.org/10.1109/SMAP59435.2023.10255169
+[126] Y. Wang, W. Cai, M. Chen, and J. Shen, ‘‘POEM: A Personalized
+Online Education Scheme Based on Reinforcement Learning,’’ in 2020
+IEEE International Conference on Teaching, Assessment, and Learning
+for Engineering (TALE), Dec. 2020, pp. 474–481. [Online]. Available:
+https://ieeexplore.ieee.org/document/9368369/
+[127] J. N. Liu, S. Shiu, Y. Wang, Z. Li, L. Jia, and Y. Rao, ‘‘Poly-X:
+An online intelligent tutoring system for e-learning,’’ in The 3rd
+International Conference on Data Mining and Intelligent Information
+21
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+This article has been accepted for publication in IEEE Access. This is the author's version which has not been fully edited and
+content may change prior to final publication. Citation information: DOI 10.1109/ACCESS.2025.3626473
+
+Rodrigues et al. : A SLR of AI-Driven ITS in Engineering Education
+
+Technology Applications, Oct. 2011, pp. 204–209. [Online]. Available:
+https://ieeexplore.ieee.org/document/6108429/
+[128] M. Kohlhase, M. Berges, J. Grubert, A. Henrich, D. Landes, J. Leidner,
+F. Mittag, D. Nicklas, U. Schmid, Y. Sedlmaier, A. Ulbrich-vom
+Ende, and D. Wolter, ‘‘Project VoLL-KI: Learning from Learners,’’
+KI - Kunstl. Intell., 2024. [Online]. Available: https://doi.org/10.1007/
+s13218-024-00846-9
+[129] O. Alasmari, J. Singer, and M. B. Ada, ‘‘Python OCTS: Design,
+Implementation, and Evaluation of an Online Coding Tutorial System
+Prototype,’’ in 2024 IEEE World Engineering Education Conference
+(EDUNINE), Mar. 2024, pp. 1–6. [Online]. Available: https://ieeexplore.
+ieee.org/document/10500548/
+[130] M. Allen, U. Naeem, and S. S. Gill, ‘‘Q-Module-Bot: A Generative
+AI-Based Question and Answer Bot for Module Teaching Support,’’
+IEEE Transactions on Education, vol. 67, no. 5, pp. 793–802, Oct. 2024.
+[Online]. Available: https://ieeexplore.ieee.org/document/10628100/
+[131] H. Binh, N. Trung, and B. Duy, ‘‘Responsive student model in an
+intelligent tutoring system and its evaluation,’’ Educ. Inf. Technol.,
+vol. 26, no. 4, pp. 4969–4991, 2021. [Online]. Available: https:
+//doi.org/10.1007/s10639-021-10485-4
+[132] A. Nabizadeh, A. Jorge, and J. Leal, ‘‘RUTICO: Recommending
+Successful Learning Paths under Time Constraints,’’ in UMAP Adjun. Publ. Conf. User Model., Adapt. Pers. Association for
+Computing Machinery, Inc, 2017, pp. 153–158. [Online]. Available:
+https://doi.org/10.1145/3099023.3099035
+
+GIL GONÇALVES (M’99-SM’21) is an Associate
+Professor with Habilitation at the Faculty of Engineering of the University of Porto (FEUP) in the
+Department of Informatics Engineering (DEI). Gil
+is the Coordinator of the thematic line SYSTECMANUFACTURING in the SYSTEC RD Unit
+and is responsible for the Digital and Intelligent
+Industry laboratory. With extensive experience in
+research and innovation, Gil has been involved in
+over 60 National and European RTD projects and
+studies, serving as Principal Investigator in many of them, to promote digital
+transformation in various sectors, including manufacturing, health, and agrifood. He (co-)authored over 150 publications in areas related to innovation,
+ICT, eHealth, eGovernment, entrepreneurship, industry 4.0, manufacturing,
+robotics, and control. Gil is currently the Chairman of the General Assembly
+of the National Portuguese ICT Cluster (TICE.PT).
+
+BÁRBARA RODRIGUES is a student of Informatics and Computing Engineering at the Faculty of
+Engineering of the University of Porto (FEUP),
+where she is currently completing her Master’s
+degree. She graduated in the same field from FEUP
+in 2023. Her dissertation, entitled “AI-Based Tutoring System for Engineering Students,” focuses
+on developing an intelligent tutoring system with
+a student dashboard accessible to teachers. Her
+main interests include programming, application
+and web development, and artificial intelligence, with a strong focus on
+creating practical tools that address people’s needs.
+
+RUI PINTO (S’20–M’22) received a Master’s degree in Electrical and Computer Engineering from
+the Faculty of Engineering, University of Porto
+(FEUP), and in 2022, a PhD in Computer Engineering from the same school. He is currently
+an Assistant Researcher at FEUP’s Department
+of Electrical and Computer Engineering and an
+Integrated Member of SYSTEC, more specifically
+at the Laboratory for Digitalization and Intelligent
+Industry (DIGI2), where he coordinates the NextGen Edge and IoT Exploration (NEX) team and has a strong participation
+in the Capacity Building for Intelligent Industry (CBI) domain. Moreover,
+he is an Invited Teaching Assistant at FEUP’s Department of Informatics
+Engineering. As a researcher, his main fields of interest are Industry 4.0
+and Industry 5.0, Smart Manufacturing, Cyber-Physical Systems, Artificial
+Immune Systems, and Education 4.0.
+
+22
+
+VOLUME 11, 2023
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+
+

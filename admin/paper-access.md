@@ -18,12 +18,11 @@ worked. **Eleven remain.** Of those, only these actually matter:
 
 | # | Paper | Why we want it |
 |---|---|---|
-| **1** | ⭐⭐ **Porto et al. (2025), PRISMA review of AI-driven ITS in engineering education**, *IEEE Access* — [document/11217866](https://ieeexplore.ieee.org/document/11217866), DOI `10.1109/access.2025.3626473` | **The highest-value missing item.** A systematic map of our exact field — the thing most likely to show what our search is still missing. Gold OA, but **ieeexplore is its only host** (DOAJ lists no mirror) and it returns 502/403 to scripts |
+| ~~1~~ | ✅ **Porto et al. (2025), PRISMA review** — **acquired 2026-09-03** (Lance, fourth attempt). Read in full; see [the field map](../knowledge/practice/its-engineering-education-map.md) | — |
 | **2** | **Pardos et al. (2023), "OATutor," CHI 2023** — [dl.acm.org](https://dl.acm.org/doi/10.1145/3544548.3581574) | **CC-BY gold open access** and ACM still 403s the PDF path. Our [OATutor node](../knowledge/systems/oatutor-berkeley.md) is `[skimmed]`; OATutor is the forkable open-source ITS |
 
-⚠ *A note on the first one: the paper that landed in `input/` on 2026-09-03 was a different PRISMA
-review — "…for Intelligent IS/IT Project Portfolio Dashboard." Easy mistake; the title above is the
-one we need.*
+*It took four attempts to obtain, three of which returned a different paper — twice a
+plausible-looking IEEE PDF. That is the origin of the "read the first page" rule in `CLAUDE.md`.*
 
 ### Needs PSU library (genuinely paywalled)
 

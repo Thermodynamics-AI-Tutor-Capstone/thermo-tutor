@@ -1361,8 +1361,15 @@ That is [Kestin's design](evidence/kestin-2025-rct.md), it is statistically effi
 and it is ethically cleaner than withholding access. **This is the clearest way for this project
 to contribute something the field does not already have.**
 
-**6. Build for two users, not one.** The Porto review names **dual-user support — learners *and*
-instructors** — as the standing gap in engineering ITS. [Stan's](systems/stan-udel.md) only real
+**6. Build for two users, not one — this is now confirmed, not inferred.**
+[The PRISMA review of 46 engineering-ITS studies](practice/its-engineering-education-map.md), read
+in full, finds instructor-facing features (**TASP, CPT, ASLL**) *"among the least implemented,
+appearing in **fewer than 10 studies each**"* — against adaptive content selection in 38 and
+real-time feedback in 34. Worse, the capabilities **actively fail to co-occur**: *"the heatmap
+reveals a **negative correlation** between [question-answering] and [progress overview] for both
+learners and educators… these capabilities are **rarely combined**."* **A chatbot and a progress
+view are, empirically, alternatives.** Exactly one of the 46 does both, and it is not built for
+engineering. [Stan's](systems/stan-udel.md) only real
 contribution is instructor-facing analytics; [PeteChat](systems/petechat-purdue.md) and
 [Ethel](systems/ethel-eth.md) both converged on instructor dashboards and self-serve content
 upload. **Three systems arrived there independently and a systematic review says it is
