@@ -6,7 +6,7 @@ produced it.
 | Study | Design | n | Result |
 |---|---|---|---|
 | [**LLM syntheses are shallower**](llm-synthesis-shallow-learning.md) `[read]` | 7 experiments | **10,462** | **Same facts, shallower knowledge — and adding source links did not fix it.** Provenance buys accuracy, not depth |
-| [**TUM dissociation**](tum-dissociation-2025.md) | **3-arm RCT**: scaffolded tutor vs ChatGPT vs none | **275** | ⚠ **Both AI arms raised scores, neither raised learning.** Germane load *fell*. Students preferred the tool that taught them less |
+| [**TUM dissociation**](tum-dissociation-2025.md) `[read]` | **3-arm RCT**: scaffolded tutor vs ChatGPT vs none | **275** *(of 452 — ⚠ 39% excluded)* | ⚠ **ChatGPT 71.8% / Iris 57.5% / control 29.9% on the exercise; knowledge gains 0.83 / 0.71 / 0.85.** The worst-performing arm learned the most. **Germane load fell monotonically** with how much the tool gave away. ⭐ **Data and code public on Zenodo** |
 | [**Student AI perceptions**](student-ai-perceptions-2025.md) `[read]` | Survey (UIC) + **pre/post (USAFA)** | 78 + a ME thermo cohort | **~90% already use AI but trust it 2.65–2.87/5.** ⚠ **Exposure *lowers* expectations in both** (73%→60%). **Penn State co-author** |
 | [Kestin et al. 2025](kestin-2025-rct.md) | RCT, within-subject alternating | 194 | **~2× learning gains** vs. active-learning classroom |
 | [Bastani et al. 2025](bastani-2025-harm.md) `[read]` | RCT, 3 arms | ~1,000 | Unguarded AI **−17%**; guardrailed **≈ 0** |

@@ -197,15 +197,35 @@ If you read nothing else:
    evaluation must lead with a distal, unassisted outcome, and we should budget for it being
    small. → [VanLehn 2011 and the meta-analyses](concepts/vanlehn-2011.md)
 
-   ⭐ **A sixth study names the mechanism.** A three-arm RCT at TUM (**N = 275**) compared a
-   **scaffolded, hint-withholding tutor**, **unrestricted ChatGPT**, and **no AI**. Both AI arms
-   scored substantially higher on the exercise; **neither produced greater pre–post knowledge
-   gains or code comprehension** — *the scaffolded one included*. Both AI groups showed **reduced
-   germane cognitive load**, which is the effortful schema-building that *constitutes* learning:
-   **the tool removed the work that produces understanding.** And **students rated ChatGPT easier
-   and more helpful** — the authors' *"comfort trap,"* where *"students' preferences misaligned
-   with pedagogical effectiveness."* **Never treat satisfaction as a proxy for tutor quality; it
-   selects for answer-giving.** → [TUM dissociation](evidence/tum-dissociation-2025.md)
+   ⭐ **A sixth study names the mechanism, and reading it in full made it sharper.** A three-arm
+   RCT at TUM (**N = 275** analysed) compared a **scaffolded, hint-withholding tutor (Iris)**,
+   **unrestricted ChatGPT**, and **no AI**, on a 90-minute concurrency exercise. Exercise scores:
+   **ChatGPT 71.8%, Iris 57.5%, control 29.9%** (d = 1.10 for ChatGPT vs. control), in **identical
+   time**. Knowledge gains on the same six-item test: **0.83, 0.71, and 0.85.**
+   ⭐ **The arm that scored 29.9% learned the most.** Group p = .311; time × group p = .773.
+
+   The mechanism is **germane cognitive load** — the effortful schema-building that *constitutes*
+   learning — and it falls **monotonically with how much the tool gives away**: control 4.28 →
+   Iris 3.83 → ChatGPT 3.56, while **intrinsic load (task difficulty) does not move at all.** The
+   task stayed equally hard; what changed is how much of the hard part the student did.
+   **The tool removed the work that produces understanding** — which is finding 3's completion
+   mechanism, measured on a validated scale.
+
+   ⚠ **The comfort trap is narrower than the abstract implies.** ChatGPT won every *instrumental*
+   rating — "helped resolve my issues" (d = 0.63), "improved my understanding" (0.49), "easy to
+   use" (0.45) — but **"overall AI experience" leaned to the scaffolded tutor (p = .059)**, and
+   only Iris raised intrinsic motivation (d = 0.55; ChatGPT p = .076). **Students judged the
+   answer-giver more useful in the moment while rating the scaffolded tool better overall.** So:
+   never treat *in-the-moment* satisfaction as a proxy for tutor quality — it selects for
+   answer-giving — but the pedagogy is not doomed on satisfaction grounds.
+
+   ⚠⚠ **Two limits the abstract hides. 452 students enrolled and 39.2% were excluded** (timing
+   inconsistencies, attention checks, missing chat logs — pre-specified and uniform across arms,
+   but the analysed sample is the protocol-compliant subset). **And the instruments are tiny:**
+   knowledge is **6 items**, code comprehension **3**, germane load **2**, frustration **1**. The
+   authors concede two-item subscales *"should be interpreted with caution."* **The dissociation
+   is robust; the null is dose- and instrument-limited.**
+   → [TUM dissociation](evidence/tum-dissociation-2025.md)
 
    ⚠⚠ **And the control group matters as much as the test.** Across six ITS studies whose controls
    read *content derived from the tutor itself* rather than sitting in a business-as-usual class,
@@ -869,6 +889,16 @@ alone hides.)*
    refusal. "Instruction building on student solutions" is the **#1 ranked** of seven fidelity
    criteria (g = 0.56 vs 0.20, p = .02). Reaching the bottom of the ladder *is* the
    instructional phase.
+
+   ⚠ **This is now contested, and we should argue it out rather than assume it.** TUM's Iris
+   runs a four-tier ladder — subtle hint, guiding question, conceptual feedback, generalized
+   example — that **deliberately never reveals the target solution**, and it produced **no
+   learning gain**. Two readings are open: either the missing bottom rung is *why* Iris did not
+   teach (our reading, and consistent with productive failure and with classical ITSs having a
+   bottom-out hint), or the ladder is irrelevant and 90 minutes with a six-item test could not
+   have detected anything. **The distinguishing experiment — a terminating ladder against a
+   non-terminating one — has not been run.**
+   → [TUM dissociation](evidence/tum-dissociation-2025.md)
 2. **Students will not invent the productive wrong answers on their own.** In the university
    replication, *"only **one** student"* in the unscaffolded condition generated one of the
    three target suboptimal representations — and unscaffolded PF was **worst on transfer**
