@@ -172,6 +172,12 @@ If you read nothing else:
    it to hint requests. **A pull-based tutor is designing for a behaviour nobody has ever
    observed.** Proactivity is not a feature; it is the precondition.
 
+   ⭐ **And it has now been tested once, rather than only inferred.** In a K-8 hybrid deployment,
+   assigning **tutors who interrupt unasked** to below-median students beat **on-demand-only**
+   support by **+0.75 relative MAP growth (p = .065)**; proactive students hit 2.18× expected
+   growth against 1.70× for reactive. ⚠ Quasi-experimental, no control group, marginal.
+   → [hybrid human-AI tutoring](systems/hybrid-human-ai-tutoring.md)
+
 8. ⭐ **The Socratic stance has a measured cost, and it lands on engagement.** In the largest
    expert evaluation in this literature — **186 pedagogy experts role-playing learners, 248 more
    rating, 2,360 conversations, 10,192 assessments** — LearnLM was preferred overall and ranked
@@ -248,6 +254,30 @@ If you read nothing else:
    strong result for an autonomous AI tutor** — which is worth knowing before we commit to
    building one. ⚠ *And do not carry that 0.1% error rate into thermodynamics: this is
    secondary-school maths, where property tables do not exist.*
+
+   ⭐⭐ **A third hybrid wires it the other way round, and it is the first study here to *test*
+   proactivity rather than lament its absence.** Koedinger, Aleven and Brunskill put **remote
+   human tutors behind a commercial adaptive tutor** and split 635 students at the within-grade
+   median of last year's state test: below it, **one tutor per four students who interrupts
+   unasked**; above it, **one tutor per ten, on demand only**. Against an AI-only baseline
+   semester: **+25% time on task, +36% skill proficiency, +61% relative growth on NWEA MAP** —
+   about **2× the national expected growth norm.** Proactive beat reactive by **+0.75 relative
+   growth, p = .065.**
+
+   ⚠⚠ **Read it with the caveats attached, because they are large. There is no control group** —
+   the comparison is these students' own fall term and NWEA's national norms, and the authors say
+   so. The **+61% is significant only in the 52% of students inside the analysis bandwidth**
+   (full sample +26%, **p = .086**). And the **gap-narrowing claim, which is the paper's whole
+   promise, rests on an interaction at p = .247** that the authors concede is not significant
+   before interpreting its magnitude anyway. **The same NWEA MAP instrument is where Tutor CoPilot
+   — a preregistered RCT with a real control group — found nothing.**
+
+   ⭐ **What survives the caveats is the design, not the effect size.** The allocation rule is a
+   **median split on data the school already has**: no student model, no knowledge tracing, no
+   LLM. **1:4 proactive and 1:10 reactive is the only tutor-to-student ratio attached to an
+   outcome anywhere in this survey**, and *"which student should be interrupted next"* is a
+   question our tutor could answer for a TA even if it never tutors anyone itself.
+   → [hybrid human-AI tutoring](systems/hybrid-human-ai-tutoring.md)
 
 11. ⭐ **The persona may be a liability.** Anderson and Koedinger's 1995 review of a decade of
     Cognitive Tutors reports that *"the tutors appear to work better if they present themselves to
@@ -729,6 +759,24 @@ guiding questions and gave away fewer answers.
 **The most interesting result in the paper for a resource-constrained team:** the highest
 measured return came from using AI to raise the floor on human instruction, not from
 replacing it. Open source, and embeddable in any tutoring platform.
+
+**[Hybrid human-AI tutoring](systems/hybrid-human-ai-tutoring.md)** (CMU + Stanford — Koedinger,
+Aleven, Brunskill; EDM 2026) runs the same premise with the plumbing reversed. **Students work in
+a commercial adaptive tutor; remote human tutors supervise several at once over Zoom.** 635
+students, grades 5–8. Its contribution is not the tutor but **the allocation rule**: split the
+cohort at the within-grade median of last year's state test, then staff **one tutor per four
+students proactively** below the line and **one per ten reactively** above it.
+
+Reported against an AI-only baseline semester: **+25% time on task, +36% skill proficiency, +61%
+relative MAP growth**, with proactive beating reactive by **+0.75 relative growth (p = .065)**.
+⚠⚠ **No control group** — the comparison is national growth norms and the same students' fall
+term — the headline holds only in the 52% subsample inside the analysis bandwidth, and the
+gap-narrowing claim rests on **p = .247**.
+
+⭐ **The transferable idea is the question, not the number.** Every other design in this survey
+asks *how good is the tutor*. This one asks *which student should be interrupted next, and by
+whom* — and answers it from data the institution already holds. **That question is answerable by
+software even when the tutoring is not.**
 
 ---
 

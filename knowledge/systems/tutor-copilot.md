@@ -120,8 +120,29 @@ alternative or as a second arm. See
 - [ ] What's the tutor-side UX? Latency requirements in a live session?
 - [ ] Would PSU thermo TAs accept real-time AI suggestions? (Ask them.)
 
+## ⭐ The mirror image: giving the human to the AI instead
+
+[Hybrid human-AI tutoring](hybrid-human-ai-tutoring.md) (Koedinger, Aleven & Brunskill, EDM 2026)
+runs the same premise with the plumbing reversed: **the student works in a commercial adaptive
+tutor and a remote human supervises several students at once.** Their headline is **+25% time on
+task, +36% skill proficiency, and +61% relative MAP growth** — ⚠ **on the same NWEA MAP instrument
+where Tutor CoPilot's effect was null.**
+
+⚠ **Do not read that as a contradiction resolved in their favour.** Tutor CoPilot is a
+preregistered RCT with a control group; **the EDM study has no control group at all** and compares
+against national growth norms and the same students' own fall term. The honest pairing is: *the
+better-identified study found nothing distal, and the study that found something distal was not
+identified.*
+
+⭐ **What their design adds that ours does not have is an allocation rule.** They split students at
+the within-grade median of last year's state test and staffed **1 tutor : 4 students proactively**
+for the lower half against **1 : 10 reactively** for the upper half. Tutor CoPilot's own biggest
+weakness — **only 29% of treatment sessions used the tool at all** — is an allocation problem, and
+this is the only paper in this base that treats allocation as the intervention.
+
 ## Connects to
 
+- [Hybrid human-AI tutoring](hybrid-human-ai-tutoring.md) — the same idea, inverted, with a staffing ratio
 - [engagement decay](../concepts/engagement-decay.md) — the problem this design avoids
 - [Socratic tutoring](../concepts/socratic-tutoring.md) — the problem a human solves better
 - [faculty adoption](../practice/faculty-adoption.md) — TA acceptance is the adoption path

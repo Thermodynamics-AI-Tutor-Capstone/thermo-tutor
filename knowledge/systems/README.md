@@ -17,6 +17,7 @@ One node per tutoring system. History, architecture, measured results, and what 
 | [LearnLM](learnlm.md) | Google DeepMind | Model | Pedagogy in the weights, not the prompt |
 | [Tutor CoPilot](tutor-copilot.md) `[read]` | Stanford | K-12 math | Coaches the *tutor*. RCT, 900 tutors. **$20/tutor/yr vs $3,300 for conventional PD** |
 | [CodeAid](codeaid-toronto.md) | U. Toronto | C / systems programming | **Pseudo-code instead of code** — a *structural* guardrail. 700 students, CHI 2024 |
+| [**Hybrid human-AI tutoring**](hybrid-human-ai-tutoring.md) `[read]` | CMU + Stanford (Koedinger, Aleven, Brunskill) | K-8 math (IXL) | ⭐ **The only study that *tests* proactivity, and the only tutor-to-student ratio attached to an outcome — 1:4 proactive for the bottom half, 1:10 reactive for the top.** +25% time on task, +36% proficiency, +61% MAP growth. ⚠⚠ **No control group** |
 
 ## The classical ITS era (1970s–2015)
 
@@ -43,6 +44,6 @@ One node per tutoring system. History, architecture, measured results, and what 
 3. [CS50 Duck](cs50-duck.md) — the only deployment with good engagement, and why
 4. [Khanmigo](khanmigo.md) — the engagement lesson
 5. [Andes](andes.md) — what "good" looked like before LLMs
-6. [Tutor CoPilot](tutor-copilot.md) — the alternative project shape
+6. [Tutor CoPilot](tutor-copilot.md) and [hybrid human-AI tutoring](hybrid-human-ai-tutoring.md) — the alternative project shape, wired both ways round
 
 ← back to [the paper](../PAPER.md) · [knowledge brain index](../README.md)
