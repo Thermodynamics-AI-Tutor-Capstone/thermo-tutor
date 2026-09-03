@@ -127,6 +127,72 @@ twin of [the arena result where ChatGPT-4o placed 2nd and GPT-4o 5th](../systems
 model, different wrapper, different outcome. **What we build around the model is not overhead; it
 is most of the system.**
 
+## ⭐ Tool-calling failures decompose, and the decomposition fits a tutor exactly
+
+*"Calibration is the Bottleneck: An Action-Class Diagnostic of Multi-Turn Tool-Calling"*
+(arXiv:2609.00949). Their complaint about aggregate metrics is the same one this repository makes
+about pass rates:
+
+> *"This metric **averages over many different multi-turn situations and obscures whether progress
+> is balanced across them**."*
+
+They decompose multi-turn failures into **two orthogonal modes** over a **four-class action
+space**:
+
+| Action class | Failure mode |
+|---|---|
+| **TOOL_CALL** / **ASK** / **REFUSE** / **CONFIRM** | **Action-class miscalibration** — picking the wrong *kind* of move |
+| | **Action-execution failure** — right kind of move, executed wrong |
+
+They separate the two with a self-revealing bound, **Acc ≤ GAR** (Gold Action Recall): a violation
+(Acc > GAR) exposes *"state-grader masking of miscalibration"*, while large slack (GAR ≫ Acc)
+localises execution failure inside TOOL_CALL.
+
+**Their headline finding is that the first mode is invisible to standard grading** — *"the
+diagnostic reveals action-class miscalibration as a substantial failure mode the state grader
+cannot see,"* and this *"**inflates standing for heavily tool-trained families**."*
+
+### ⭐⭐ That four-class space is a tutoring taxonomy
+
+The mapping is almost too neat:
+
+| Their class | Our tutor |
+|---|---|
+| **TOOL_CALL** | Look up a property, run the verifier on the student's step |
+| **ASK** | Put a Socratic question back to the student |
+| **REFUSE** | [Withhold the answer](../concepts/guardrails.md) |
+| **CONFIRM** | Check understanding before moving on |
+
+**"Action-class miscalibration" in a tutor is: answering when it should have asked, asking when it
+should have verified, or refusing when the student genuinely needed telling.** That is a precise,
+measurable frame for tutoring failure — and **nobody in the education literature has it.** Our
+[behavioural evaluation](../evaluation/behavioral-evaluation.md) measures whether the student acted
+on feedback; this would measure whether the tutor picked the right *kind* of move in the first
+place. **The two compose, and building this taxonomy for thermodynamics tutoring is a genuinely
+novel and cheap contribution.**
+
+### ⚠ And it complicates the harness finding above
+
+> *"Calibration is **reshapable through context-only perturbations**, but the reshape is
+> **heterogeneous**: a single perturbation moves accuracy in **opposite directions across
+> families (up to +11.5 vs −21.0 pp** on the same [perturbation])."*
+
+**The same context change helped one model family by 11.5 points and hurt another by 21.**
+
+Set that beside the harness paper's claim that *"without model-specific retuning, the same frozen
+treatment also raises both endpoints… for three additional models with different designs."* **Both
+are measured; they are not obviously compatible.** Different perturbations and different tasks
+could explain it, but the honest reading is:
+
+> **Harness engineering can be worth ~20 points in either direction, and whether a given change
+> transfers across model families is not settled.** Do not assume our harness improvements
+> generalise — measure them per model, and re-measure on every model change.
+
+That reinforces the regression-testing point in
+[observability](agent-observability.md), and it is a second reason —
+beyond [CS50's instruction dilution](../systems/cs50-duck.md) — that a model upgrade is a
+re-evaluation event, not a version bump.
+
 ## ⚠ Premature commitment — a failure mode a tutor would inherit
 
 *"When Agents Commit Too Soon"* (arXiv:2606.22936):
@@ -180,6 +246,8 @@ though note the monitor needs hidden states, which rules it out for API-only mod
 - [Guardrails](../concepts/guardrails.md)
 
 ## Sources
+
+- ["Calibration is the Bottleneck: An Action-Class Diagnostic of Multi-Turn Tool-Calling," arXiv:2609.00949](https://arxiv.org/pdf/2609.00949) `[read]` — the TOOL_CALL/ASK/REFUSE/CONFIRM decomposition and the heterogeneous-transfer warning
 
 All held in `course-materials/papers/`.
 
