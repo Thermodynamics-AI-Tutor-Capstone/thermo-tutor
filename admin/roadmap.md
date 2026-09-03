@@ -1,5 +1,8 @@
 # Roadmap
 
+> ⬆ **Blocked-item tracker:** [`admin/paper-access.md`](paper-access.md) lists every paper we
+> cannot reach, why, and exactly what unblocks each — plus the ME 300 materials we still need.
+
 A research-first plan. Deliberately no build phase scheduled — we'll add one when the
 research says what to build, and that decision gets written down as an ADR first.
 
