@@ -774,6 +774,22 @@ In Google's learning arena, **ChatGPT-4o ranked 2nd on pedagogical quality and G
 5th — the same model**, separated only by OpenAI's product wrapper
 ([arena](systems/learnlm.md)). A prompt layer moved one model from last to second.
 
+⭐ **And there is now a published architecture that does hold the floor.** A deployed tutoring
+system ([arXiv:2608.12292](concepts/guardrails.md)) enforces answer-withholding as a **per-turn,
+machine-checkable contract** rather than a disposition: a **non-LLM policy core** reading *"only
+trusted learner state"* sets a **ceiling on an eight-rung help ladder**, a **deterministic
+detector** strips solution code, and a **separate LLM judge** checks risky replies against the
+contract. **The decision about how much help is allowed is taken away from the thing a frustrated
+student can argue with.** Their tuning loop *"uses no human subjects"* — scripted student personas
+driven through the live pipeline and re-scored by a stronger model — which means **we can build and
+tune this layer before IRB approval exists.**
+
+⚠ **Assume it will still fail sometimes.** The best published mitigation for *scaffolding
+collapse* — *"under sustained student pressure, a tutor gradually abandons guided inquiry and
+reveals solutions directly"* — reaches a **32% collapse rate** and *delays* onset beyond nine
+turns rather than preventing it. **And our students are the red team**:
+[22% of PeteChat's homework messages were boundary probes](systems/petechat-purdue.md).
+
 So the honest formulation is: **a system prompt reliably shifts the average and cannot hold the
 floor.** CS50's 22% leakage is a floor failure; the arena's ranking jump is an average shift.
 Tutoring is a worst-case discipline — one answer handed over is one assignment compromised — so
