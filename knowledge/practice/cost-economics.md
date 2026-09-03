@@ -182,4 +182,4 @@ and person-weeks are what a capstone team is short of.
 - [Kweon et al., KAIST VTA deployment, arXiv:2506.17363](https://arxiv.org/abs/2506.17363) `[read]` — **the $180 / 477 students figure. Use this one.**
 - [ibl.ai, "What AI Tutoring Actually Costs in 2026"](https://ibl.ai/blog/what-ai-tutoring-actually-costs-2026) `[skimmed]` — the modelled per-student figures. Vendor blog; runs ~10× above measured reality.
 - [Elhaimeur & Chrisochoides, "Latency and Cost of Multi-Agent Intelligent Tutoring at Scale," arXiv:2604.24110](https://arxiv.org/pdf/2604.24110) `[read — full text, 11 pp., 2026-08-31]` — Old Dominion University; 3,000+ requests from a live graduate STEM deployment
-- [FairTutor: Equity-Aware Pedagogical LLM Routing for Budget-Constrained AI Tutoring, arXiv:2606.20713](https://arxiv.org/pdf/2606.20713) `[found]`
+- [Xu, Q., "FairTutor: Equity-Aware Pedagogical LLM Routing for Budget-Constrained AI Tutoring," arXiv:2606.20713](https://arxiv.org/pdf/2606.20713) `[read — full text, 15 pp., 2026-09-01]` — read in full and written up in [equity](equity.md); this node's tag was stale
