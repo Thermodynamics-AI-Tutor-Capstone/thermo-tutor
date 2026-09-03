@@ -1021,8 +1021,11 @@ capture.
   Publisher platforms do adaptive recall. LLM tutors do conversation. Nearly nobody does
   both.
 - **A proactive tutor.** Almost every system waits to be asked — which is exactly how you
-  get 17% session usage. The one hint in the literature that proactive tutoring narrows
-  the gap between low- and high-performers is the most under-explored lead we found.
+  get 17% session usage. ⭐ **It has now been tested once**: assigning tutors who interrupt
+  unasked to below-median students beat on-demand-only support by **+0.75 relative MAP growth
+  (p = .065)** in a K-8 hybrid deployment — quasi-experimental, no control group, marginal, and
+  the humans did the interrupting.
+  → [hybrid human-AI tutoring](systems/hybrid-human-ai-tutoring.md)
 - **Learning-by-teaching in an LLM tutor.** [Betty's Brain](systems/bettys-brain.md)
   proved the mechanism twenty years ago. The LLM era has largely ignored it.
 
@@ -1372,9 +1375,22 @@ view are, empirically, alternatives.** Exactly one of the 46 does both, and it i
 engineering. [Stan's](systems/stan-udel.md) only real
 contribution is instructor-facing analytics; [PeteChat](systems/petechat-purdue.md) and
 [Ethel](systems/ethel-eth.md) both converged on instructor dashboards and self-serve content
-upload. **Three systems arrived there independently and a systematic review says it is
-under-explored.** An instructor-facing view of what the cohort is getting wrong is cheap to build,
-needs no student-facing risk, and may be the most publishable thing we make.
+upload; [aiPlato](systems/aiplato-uta.md) reports assignment- and problem-level analytics; and
+[bioTutor](systems/biotutor-eth.md) ships AI-generated weekly summaries, a most-asked-questions
+list and a question-type classifier. **Five systems arrived there independently and a systematic
+review says it is under-explored.** An instructor-facing view of what the cohort is getting wrong
+is cheap to build, needs no student-facing risk, and may be the most publishable thing we make.
+
+⭐⭐ **And reading bioTutor in full sharpens that from "cheap to build" into a specific opening:
+not one of the five has been evaluated.** Its authors say the dashboard *"should be understood as
+a prototype for aggregated instructional insight rather than as a fully validated learning
+analytics tool,"* that the summaries' *"accuracy, usefulness, and pedagogical reliability were not
+systematically evaluated,"* and that whether lecturers acted on them *"remains to be
+investigated."* ⚠ **These are LLM-generated summaries of student conversations — exactly the task
+[our own evidence says models are unreliable at](evaluation/llm-as-judge.md).** So the
+student-risk-free contribution is not building a sixth dashboard; **it is being the first to check
+whether one works** — expert ratings against human-coded conversations, and whether an instructor
+changed anything because of it. The authors name that method themselves.
 
 ### What the evidence says our project should actually be
 
