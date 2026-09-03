@@ -7,6 +7,7 @@ How to measure a tutor, and how to measure a student.
 | [TutorGym](tutorgym.md) `[read]` | The **tutor**, inside real ITSs | **No LLM beats chance at spotting an incorrect student step.** 223 domains |
 | [MathTutorBench and pedagogy benchmarks](mathtutorbench.md) | The **tutor** | Subject expertise and teaching ability **trade off**. No thermo equivalent exists — **our opening** |
 | [Concept inventories](concept-inventories.md) | The **student** | TCI was developed at Penn State. Access is slow — request in Phase 0 |
+| [**Simulated learners**](simulated-learners.md) `[read]` | **A tutor, without students** | **Scripted personas and KT-grounded simulated learners let us tune before IRB. Scale alone gives 0% scaffolding and 96.7% leakage** |
 | [**LLM-as-judge**](llm-as-judge.md) `[read]` | **Whether models can score tutoring** | ⚠ **Four studies say no: rubric grading κ = 0.128, pedagogy accuracy <0.7. But behavioural uptake κ = 0.80–1.00** |
 | [**Behavioral evaluation**](behavioral-evaluation.md) `[read]` | **What the student *did next*** | **Diff consecutive attempts and attribute the edit. Predicts perceived helpfulness better than pedagogical quality — but rewards revealing the answer (79.4% vs 53.0%)** |
 
