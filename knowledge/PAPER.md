@@ -60,7 +60,52 @@ If you read nothing else:
    your final answer. Hold onto 0.76 vs 0.79 — **1990s software came within a rounding error of a
    human tutor.**)*
 
-3. **The single best result for LLM tutoring is real, well-run, and explicitly does not
+   ⚠ **Read in full (2026-09-03), the review is more fragile than its citation count implies, and
+   we should say so before anyone else does.** VanLehn writes in his own methods section that
+   *"this review does not meet current standards for meta-analyses"* — non-replicable search,
+   truncated formal search, a single coder who is also an author of several included studies —
+   and that where a study had several outcome measures, *"this review reports the assessment with
+   the largest effect size."* **0.76 and 0.79 are upper bounds selected max-over-outcomes.**
+   The 0.31 for answer-based tutoring is not his analysis at all; it is imported from a 1991 CAI
+   review. And the **direct** step-vs-answer manipulation is **two experiments with one
+   database-design tutor, one of them null.** → [VanLehn 2011](concepts/vanlehn-2011.md)
+
+3. ⭐⭐⭐ **And the same paper says *why*, in a paragraph almost nobody quotes. It is the most
+   useful sentence in this survey.** VanLehn's explanation for the 0.76/0.79 plateau is not
+   feedback quality, not the student model, and not hint design. It is **completion with
+   self-generated reasoning**:
+
+   > **"When students self-generate a correct solution, they generalize, strengthen, construct,
+   > and debug all the knowledge components required by the solution… Unfortunately, when they
+   > quit early, they miss hundreds of opportunities to learn."**
+
+   Four verbs, all performed *by the student*. Answer-based systems lose not because their
+   feedback is worse but because **"students are usually allowed to give up after several failed
+   attempts,"** while human tutors "almost always get students to finish a problem correctly" and
+   some ITS **"require students to correctly solve the current problem before moving on."**
+   Anderson, Corbett & Koedinger proposed this in 1995 and tested it by varying immediate vs.
+   delayed feedback: learning gains were unchanged, **only efficiency moved.**
+   **Pedagogical cleverness buys speed. Completion buys learning.**
+
+   ⭐ **This is one mechanism wearing five costumes, and it unifies findings 9, 12 and 15 below
+   with the productive-failure material in §V:** TUM's falling *germane cognitive load* is the
+   student no longer doing the reasoning; [Bastani's](evidence/bastani-2025-harm.md) +48%
+   assisted / −17% unassisted is a solution that was never self-generated; the
+   [LLM-synthesis result](evidence/llm-synthesis-shallow-learning.md) — shallower knowledge
+   *"even when the results were augmented by real-time web links"* — is being told rather than
+   constructing; [productive failure](concepts/productive-failure.md) is construction forced
+   before the answer exists; and [aiPlato's](systems/aiplato-uta.md) 61-out-of-61 students hammering
+   "Evaluate My Work" are students insisting on finishing it themselves.
+
+   > **Our tutor's job is to get the student to a correct solution they generated, and to make
+   > quitting hard. Not to explain well.** An excellent explanation that lets the student stop is
+   > a worse intervention than a clumsy prompt that gets them to the end.
+
+   ⚠ **Which sets up the central design problem of this project, and nothing in the 2011
+   literature addresses it: VanLehn says require completion; Bastani says a student holding an
+   LLM will complete by copying.** → [VanLehn 2011](concepts/vanlehn-2011.md)
+
+4. **The single best result for LLM tutoring is real, well-run, and explicitly does not
    claim our case.** A Harvard crossover RCT (n = 194) found **0.73–1.3 SD** greater learning
    than an excellent active-learning classroom, in **less time** (median 49 min vs. 60), with
    higher engagement ([Kestin et al. 2025](evidence/kestin-2025-rct.md)). Its
@@ -84,7 +129,7 @@ If you read nothing else:
    concepts and higher-order critical thinking."* **Engineering thermodynamics is that
    excluded category.** Expect less than 2×.
 
-4. **The single most important negative result is also real, and larger.** In a
+5. **The single most important negative result is also real, and larger.** In a
    ~1,000-student RCT, students given an unguarded GPT-4 interface did **48% better
    during practice and 17% worse on the unassisted exam** than controls. Students given a
    **guardrailed** tutor version *(guardrails = enforced limits stopping it handing over
@@ -96,12 +141,12 @@ If you read nothing else:
    problems (42% logical errors, 8% arithmetic). And **students did not perceive any
    reduction in their own learning** — self-report is worthless as an outcome here.
 
-5. **The honest state of the art is "no proven harm," not "proven benefit."** Outside a
+6. **The honest state of the art is "no proven harm," not "proven benefit."** Outside a
    handful of expertly hand-built single-course deployments, nobody has demonstrated a
    robust positive learning effect from a chatbot tutor at scale. Guardrails are
    currently doing damage control, not producing gains.
 
-6. **The field's real failure mode is engagement, not quality — and the spread is enormous.**
+7. **The field's real failure mode is engagement, not quality — and the spread is enormous.**
    Khanmigo (two-year **cluster** RCT — *randomized by whole school or classroom rather than by
    student, since you can't give half a class a different teacher*; 18 schools): the median
    student engaged it in **17% of
@@ -127,7 +172,7 @@ If you read nothing else:
    it to hint requests. **A pull-based tutor is designing for a behaviour nobody has ever
    observed.** Proactivity is not a feature; it is the precondition.
 
-7. ⭐ **The Socratic stance has a measured cost, and it lands on engagement.** In the largest
+8. ⭐ **The Socratic stance has a measured cost, and it lands on engagement.** In the largest
    expert evaluation in this literature — **186 pedagogy experts role-playing learners, 248 more
    rating, 2,360 conversations, 10,192 assessments** — LearnLM was preferred overall and ranked
    first in every rubric category. But among the reasons experts gave for preferring a
@@ -138,7 +183,7 @@ If you read nothing else:
    concision are in measured tension with the pedagogy, not decorations to add afterwards.
    → [LearnLM](systems/learnlm.md)
 
-8. ⭐⭐ **Whatever you measure close to the tutor will look good — expect roughly a fifth of it
+9. ⭐⭐ **Whatever you measure close to the tutor will look good — expect roughly a fifth of it
    on a real outcome.** Five independent studies now show the same collapse between the measure
    the researchers built and an external one: **Kulik & Fletcher's** famous ITS meta-analysis
    reports a **median 0.66** on its own measures and **0.13 on standardized tests**;
@@ -160,7 +205,7 @@ If you read nothing else:
    with pedagogical effectiveness."* **Never treat satisfaction as a proxy for tutor quality; it
    selects for answer-giving.** → [TUM dissociation](evidence/tum-dissociation-2025.md)
 
-9. ⭐⭐ **The two strongest positive results in this literature are both *hybrid*, and neither is
+10. ⭐⭐ **The two strongest positive results in this literature are both *hybrid*, and neither is
    an AI tutoring a student alone.** [Tutor CoPilot](systems/tutor-copilot.md) coaches the human
    tutor: **+4 p.p.**, and **+9 p.p.** for the weakest tutors. The [LearnLM UK
    RCT](systems/learnlm.md) reports **+5.5 p.p.** (66.2% vs 60.7%) — but **17 expert tutors
@@ -174,7 +219,7 @@ If you read nothing else:
    building one. ⚠ *And do not carry that 0.1% error rate into thermodynamics: this is
    secondary-school maths, where property tables do not exist.*
 
-10. ⭐ **The persona may be a liability.** Anderson and Koedinger's 1995 review of a decade of
+11. ⭐ **The persona may be a liability.** Anderson and Koedinger's 1995 review of a decade of
     Cognitive Tutors reports that *"the tutors appear to work better if they present themselves to
     students as **non human tools to assist learning rather than as emulations of human
     tutors**,"* and that the best interaction style was *"immediate feedback, consisting of
@@ -185,7 +230,7 @@ If you read nothing else:
     win it is assumed to be.** Worth testing rather than inheriting.
     → [Cognitive Tutor](systems/cognitive-tutor.md)
 
-11. ⭐⭐ **Students don't want hints and don't want to chat — they want their own work checked.**
+12. ⭐⭐ **Students don't want hints and don't want to chat — they want their own work checked.**
     This resolves an apparent contradiction in the evidence. On one problem in
     [aiPlato](systems/aiplato-uta.md), a physics homework platform at UT Arlington, **all 61
     students used "Evaluate My Work" (152 uses — multiple revision rounds each)**, while the
@@ -206,12 +251,12 @@ If you read nothing else:
     — and it is exactly what [the sub-question verifier loop](concepts/grounding-and-verification.md)
     produces.
 
-12. **Students route around Socratic design.** In 2,874 coded student turns with a
+13. **Students route around Socratic design.** In 2,874 coded student turns with a
    Socratic AI physics tutor, "what do I do next" was the **second-most-common move**
    (4.4% of all turns), and the top 20 discourse categories contained essentially no
    conceptual reasoning ([Socratic subversion](concepts/socratic-tutoring.md)).
 
-13. **Every serious system independently converged on the same architecture:** a
+14. **Every serious system independently converged on the same architecture:** a
    constrained, retrieval-grounded, externally-verified LLM wrapped in deterministic
    policy — with the pedagogy in code, not in the prompt. §V lays out the seven layers.
 
@@ -221,7 +266,7 @@ If you read nothing else:
    GPT-4o pushed conversation-level leakage from 44% to **56%**. A system prompt is not a
    guardrail, and guardrail behaviour is not stable across model versions.
 
-14. ⚠ **Provenance buys accuracy, not depth — and we had been conflating them.** Across **seven
+15. ⚠ **Provenance buys accuracy, not depth — and we had been conflating them.** Across **seven
     experiments with 10,462 participants**, people who learned a topic from an LLM synthesis
     developed **shallower knowledge** than people given the same facts as web links, felt less
     invested, and produced downstream advice that was sparser, less original and **less likely to
@@ -235,7 +280,7 @@ If you read nothing else:
     mechanism [TUM measured as falling germane cognitive load](evidence/tum-dissociation-2025.md),
     from an unrelated literature. → [shallow learning](evidence/llm-synthesis-shallow-learning.md)
 
-15. **Grounding + verification is what separates working systems from demos.**
+16. **Grounding + verification is what separates working systems from demos.**
    [Jill Watson](systems/jill-watson.md), restricting outputs to validated course
    material and verifying each response by **textual entailment** *(an automatic check that the
    answer really is supported by the source text, not merely plausible)*, passes **76.7%** of
@@ -243,17 +288,17 @@ If you read nothing else:
    **31.3%** correct, **16.5%** harmful. Same model underneath — the difference is entirely
    grounding and verification.
 
-16. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
+17. **Cost is not the constraint.** KAIST ran a 14-week tutor for **477 students on $180
     total** — **$0.38 per student** ([cost](practice/cost-economics.md)). The constraints are
     pedagogy, engagement, compliance, and faculty trust.
 
-17. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
+18. **No LLM can reliably tell a wrong step from a right one.** Across 223 tutoring domains,
     **no model exceeded chance at labeling incorrect student actions**, and models best at
     confirming correct work were worst at catching errors ([TutorGym](evaluation/tutorgym.md)).
     Diagnosis is the atomic act of tutoring, and it is the thing that must be handled outside
     the model.
 
-18. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
+19. **The thermodynamics diagram gap is large but model-specific.** Mean accuracy on
     diagram items is **32%** against **67%** text-only — but the range across 19 models runs
     from **6%** (gpt-4.1, *below* the 25% chance baseline) to **76%** (gpt-o3)
     ([diagram reading](domain/diagram-reading.md)).
@@ -262,13 +307,13 @@ If you read nothing else:
     models substantially clear it, and o3 handled a real exam's diagrams. Model choice is
     load-bearing here in a way it is nowhere else in the architecture.*
 
-19. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
+20. **The benchmark we were going to build already exists.** [ThermoQA](domain/thermoqa.md)
     (293 open-ended problems, three tiers, **CoolProp** ground truth *(the open-source property
     library — the software steam table)*, six frontier models) and
     [UTQA](domain/utqa.md) (50 items, 19 models, **dataset public on HuggingFace**) both
     landed before us. This changes our contribution story — see §VIII.
 
-20. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
+21. ⚠ **Stan is not the competitor we thought.** Read in full, the Delaware thermodynamics
     assistant targets **Levels 1–2 of its own six-level scale** — "resource pointer" and
     "content summarizer." Tutoring, guided problem solving, and Socratic dialogue are
     explicitly *out of scope*, it has **no property tools, no student model, no LMS
@@ -282,7 +327,7 @@ If you read nothing else:
     splits into an **outer loop**, which picks the next problem, and an **inner loop**, which
     reacts within a problem, step by step — the inner loop is where the learning gains live.)*
 
-21. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
+22. ⚠ **The obvious success metric will train the tutor to cheat.** Across 10,235 submissions,
     feedback that **revealed the answer** — which the pedagogical rubric marks undesired —
     produced *higher* immediate success than feedback that withheld it (**79.4% vs 53.0%**),
     because students copy. [Bastani](evidence/bastani-2025-harm.md) found the same reversal at
@@ -301,7 +346,7 @@ If you read nothing else:
     *behavioural uptake* reliably at **κ = 0.80–1.00**. **Automate the uptake question; put humans
     on a sample for the quality question.** → [LLM-as-judge](evaluation/llm-as-judge.md)
 
-22. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
+23. ⭐ **Our exact experiment was run in 2006, and the missing piece is the piece we have.**
     [CyclePad](systems/cyclepad-cycletalk.md) — an articulate thermodynamic-cycle simulator that
     explains every derived value from its assumption chain — has been in the **US Naval Academy
     curriculum since 1996**. CMU bolted **tutorial dialogue** onto it and measured a **0.25 SD**
@@ -342,17 +387,46 @@ It does not replicate. Kurt VanLehn's 2011 review of experiments from 1975–201
 That correction matters for us in a specific way: **the ceiling we're aiming at is lower
 than the marketing suggests, and it was nearly reached by 1990s software.**
 
+⭐ **And we now know what actually produced Bloom's 2.0, because VanLehn went back to the
+dissertations.** Only one of Bloom's six studies was one-to-one at all; the rest were one tutor
+to three students. The tutors were **"undergraduate education majors"** trained for a week. There
+was a **third arm — mastery learning in an ordinary classroom — that scored ~1.0 SD over the
+control with no tutor.** And the tutoring arm's **mastery threshold was 90% where the classroom
+mastery arm's was 80%**, with the plain control having none at all.
+
+> **"So the Bloom (1984) article is, as Bloom intended it to be, a demonstration of the power of
+> mastery learning rather than a demonstration of the effectiveness of human tutoring."**
+
+Only two studies in the entire review reached 2 sigma (both 1.95), and the second is a
+small-sample artefact — its N = 9 control had a mean gain of 0.33 where a replication's N = 28
+control gained 1.54. **The next highest human-tutoring effect size is 0.82.**
+
+**The salvage is worth more than the debunking: a mastery threshold produced ~1.0 SD in a
+classroom, with no tutor and no technology.** It is a policy, it is nearly free to implement in
+software, and **nothing in this survey's LLM-era literature uses one.**
+
 ### The step-based finding
 
 VanLehn's more useful contribution was a taxonomy by *interaction granularity*:
 
-| Granularity | What the student enters | Effect size vs. no tutoring |
-|---|---|---|
-| Answer-based | Final answer only | ~0.3 |
-| **Step-based** | **Each step of a derivation** | **d = 0.76** |
-| Substep-based | Sub-steps within each step | d = 0.40 |
+| Granularity | What the student enters | vs. no tutoring | (comparisons) |
+|---|---|---:|---:|
+| Answer-based | Final answer only | 0.31 † | 165 |
+| **Step-based** | **Each step of a derivation** | **0.76** | 28 |
+| Substep-based | Sub-steps within each step | 0.40 | 26 |
+| Human | unconstrained | 0.79 | 10 |
 
-Human tutoring beat step-based tutoring by only **d = 0.21**.
+† Imported from C. Kulik & Kulik (1991), not re-analysed by VanLehn.
+
+Human tutoring beat step-based tutoring by only **d = 0.21**, and **lost to substep-based
+tutoring by d = −0.12.**
+
+⚠ *Correction: this paper previously implied substep-based tutoring underperforms step-based.
+It does not. Those are separate comparisons against different baselines; VanLehn's **direct**
+substep-vs-step contrast is **d = 0.16 across 11 comparisons, none reliable.** His finding is an
+**interaction plateau** — `human = substep = step > answer-based` — with the increase happening
+once, between answer and step, and "further decreases in granularity yield negligible increases
+in effect size."*
 
 Two implications, both uncomfortable for a chatbot:
 
@@ -363,6 +437,49 @@ Two implications, both uncomfortable for a chatbot:
   stuck on 4b" and reads a paragraph is doing answer-based tutoring with extra words. The
   interface design question is a learning question. See
   [knowledge components](concepts/knowledge-components.md).
+
+⚠ **The evidence for the second row of that table is thinner than the citation count suggests.**
+The only **direct** step-vs-answer manipulation VanLehn found was **Suraweera & Mitrovic (2002),
+two experiments with one database-design tutor — d = 0.17 (null) and d = 0.63.** Everything else
+is a cross-study comparison against different baselines twenty years apart. The design
+recommendation survives, but it should now rest on the completion mechanism in finding 3, which
+is theoretically motivated, rather than on a granularity contrast with k = 2.
+
+### ⭐⭐ Six of the eight explanations for human tutoring are dead — including the two we'd be tempted to build
+
+Before the meta-analysis, VanLehn works through the standing hypotheses for *why* expert human
+tutors should beat software. This section is barely cited and it is the strongest "what not to
+build" argument in the literature.
+
+| Hypothesis | Verdict |
+|---|---|
+| **Detailed diagnostic assessment** — the tutor models your misconceptions | **Dead.** Tutors "rarely know about their tutees' misconceptions, false beliefs, and buggy skills," rarely ask questions that would diagnose them, and **do not get better when handed the diagnosis** |
+| **Individualized task selection** | **Dead, and backwards.** Human tutors follow a fixed "curriculum script"; computer tutors already individualize better |
+| **Sophisticated tutorial strategies** (Socratic irony, inquiry, reciprocal teaching) | **Dead.** Across 18 studies of tutors at every expertise level, "such sophisticated strategies are **rarely used**" |
+| **Learner control of dialogue** | **Dead.** 146 student initiatives in **28 hours** of tutoring, 37% of them just "…right?" — one non-trivial student question every 18 minutes |
+| **Broader domain knowledge** | **Dead.** Suppressing tutors' deeper explanations **did not affect learning gains** |
+| **Motivation** | Unclear. Praise sometimes *reduces* gains; text-mediated tutoring learns as well as face-to-face |
+| ⭐ **Feedback** | **Survives** |
+| ⭐ **Scaffolding** | **Survives** |
+
+**The two dead hypotheses at the top are the two things an LLM tutor is most tempted to build.**
+That is the same result as [Andes deleting its Bayesian network](systems/andes.md) before its
+published gains were produced, and the same result as
+[TutorGym finding no model beats chance at labelling an incorrect student step](evaluation/tutorgym.md).
+We had those filed as three separate findings. They are one, and VanLehn stated it in 2011.
+
+⭐ **Related, and rarely said out loud: expert human tutors are not measurably better than
+novices.** Of seven expert-vs-novice comparisons, **only two showed a reliable difference**, and
+Cohen et al.'s meta-analysis "found no relationship between tutor's experience and their
+effectiveness." What differs is behaviour, not outcome — *"novice tutors tended to lecture more,
+and expert tutors tended to be much more interactive."* One footnote is worth the whole table:
+**"The novice tutors, by the way, were no more effective than several Step-based Tutors."**
+
+⚠ **And every number above is a *homework-replacement* effect size.** *"None of the field studies
+in this review completely replaced all classroom instruction with tutoring. Instead, they
+replaced or partially replaced just one activity (usually homework)."* VanLehn's own
+recommendation is a description of this project: step-based tutors "should be used (typically for
+homework) in **frequently offered or large enrollment STEM courses.**"
 
 ### The systems that got there first
 
@@ -1043,7 +1160,7 @@ not median, because a multi-agent pipeline waits for its slowest branch.
 **4. ⚠ Our outcome measure has to be distal, and we should expect roughly a fifth of the in-app
 number.** This is the newest and most consequential change. Five independent studies now show the
 same collapse between a measure built next to the tutor and an external one — Kulik & Fletcher's
-**0.66 → 0.13**, Tutor CoPilot's exit tickets → null, CycleTalk, Andes, Bastani (finding 8 above).
+**0.66 → 0.13**, Tutor CoPilot's exit tickets → null, CycleTalk, Andes, Bastani (finding 9 above).
 Three consequences we should write into the study design *before* collecting anything:
 
 - **Never report a homework-based outcome as evidence the tutor worked.** Bastani's arm went

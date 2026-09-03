@@ -1,0 +1,946 @@
+2025 34th IEEE International Conference on Robot and Human Interactive Communication (RO-MAN) | 979-8-3315-8771-0/25/$31.00 ©2025 IEEE | DOI: 10.1109/RO-MAN63969.2025.11217866
+
+2025 34th IEEE International Conference on Robot and
+Human Interactive Communication (RO-MAN)
+August 25-29, 2025. Eindhoven, The Netherlands
+
+A Review of Personalisation in Human-Robot Collaboration and Future
+Perspectives Towards Industry 5.0
+James Fant-Male1 and Roel Pieters1
+while maintaining or improving productivity [6], [7]. Along
+with this, the development of HRC in factories presents a key
+opportunity to include a wider variety of people within the
+workplace [8], [9]. This includes the elderly, people with
+disabilities, and those who may not be disabled but have
+injury or impairments inhibiting work. Including a wider
+variety of people in the workforce has various benefits for
+individuals as well as businesses [10].
+This review surveys the current state of the art related
+to personalisation of HRC in manufacturing. Various key
+avenues of research have been pursued in isolation, however
+there lacks an overarching consensus and discussion around
+what personalised HRC in manufacturing should entail. It
+is hoped that this work will bring to light this key aspect
+of I5.0 and lead to greater discussion and consolidation of
+efforts to create a unified approach. Various recent surveys
+have investigated aspects of HRC, however none with the
+same focus on personalisation considering the I5.0 paradigm.
+Key related reviews are highlighted in Table I.
+The remainder of this review is structured as follows. Section II presents the search methodology and overall research
+trends. Section III gives an overview of human factors used
+for personalised HRC and Human Digital Twins (HDT).
+Section IV discusses the design of HRC user interfaces.
+Section V investigates user-robot dynamics in collaborative
+task completion. Section VI presents regulatory and ethical
+considerations. Section VII gives a discussion on future developments and Section VIII presents final conclusions.
+
+Abstract— The shift in research focus from Industry 4.0 (I4.0)
+to Industry 5.0 (I5.0) promises a human-centric workplace,
+with social and well-being values at the centre of technological
+implementation. Human-Robot Collaboration (HRC) is a core
+aspect of I5.0 development, with an increase in adaptive and
+personalised interactions and behaviours. This review investigates recent advancements towards personalised HRC, where
+user-centric adaptation is key. There is a growing trend for
+adaptable HRC research, however there lacks a consistent and
+unified approach. The review highlights key research trends on
+which personal factors are considered, the design of humanrobot interaction, and adaptive task completion. This raises
+various key considerations for future developments, particularly
+around the ethical and regulatory development of personalised
+systems, which are discussed in detail.
+
+I. I NTRODUCTION
+Significant research has been done into Human-Robot Collaboration (HRC) for manufacturing. This has been fuelled
+by the pursuit of Industry 4.0 (I4.0), incorporating advanced
+technologies such as robotics, cloud computing, and big
+data [1]. The proposal of Industry 5.0 (I5.0) by the European
+Commission in 2021 presents a future vision for industry in
+Europe [2]. The key shift is from a technology-driven to
+a value-driven focus [1], with three core values of humancentricity, sustainability and resilience [1], [2].
+The I5.0 paradigm focuses on how technology can be
+developed and implemented in a way that promotes social
+values, well-being and human-centricity [1], [3]. It is therefore important to review current advances in HRC through
+the lens of the human-centred I5.0 paradigm. Given the key
+focus of human-centricity for I5.0, there has been a lack of
+broad discussion around the personalisation and adaptation
+of HRC to create user-centric interactions. This is key given
+human-centred research has been identified as essential to
+the continued sustainability of HRC [4].
+Various research investigates human-centric HRC, where
+the design and implementation of HRC focuses on the
+requirements of generic humans. However, there is a greater
+need to focus on user-centered HRC, where interactions are
+adjusted to specific users, not generic people. The difference between human-aware and user-aware systems, and its
+importance given the highly variable nature of the human
+workforce has been discussed previously [5], and is highly
+linked to the “one-of-a-kind operator” concept [2].
+Increasing consideration for human factors in HRC can
+improve the physical and mental well-being of workers,
+
+II. M ETHODOLOGY AND OVERALL T RENDS
+The review is conducted following a search of key literature databases, namely Web of Science, Scopus and IEEE
+eXplore. The search term is designed to encompass relevant
+works on HRC in industry with a personalised or adaptive
+nature. Only peer-reviewed conference and journal papers are
+considered, which must be available in English and published
+TABLE I
+R ELATED REVIEW PAPERS ON HRC.
+
+1 Cognitive Robotics group, Unit of Automation Technology and Mechanical Engineering, Tampere University, 33720, Tampere, Finland;
+
+firstname.surname@tuni.fi
+979-8-3315-8771-0/25/$31.00 ©2025 IEEE
+
+Ref.
+
+Year
+
+Review Focus
+
+[3]
+[4]
+[7]
+[10]
+[11]
+[12]
+[13]
+[14]
+[15]
+
+2025
+2022
+2023
+2024
+2024
+2025
+2023
+2025
+2024
+
+HRC in I5.0 and future prospects.
+Review of HRC workspace design.
+Trends of human factors and cobots in manufacturing.
+Disabled worker assistive technology lack of validation.
+Human factor analysis across HRC.
+Trustworthy AI for human-centric smart manufacturing.
+Personalisation factors for HRI review.
+Human Digital Twins in I5.0.
+Collaborative intelligence for safety in industry.
+
+223
+
+Authorized licensed use limited to: Penn State University. Downloaded on September 03,2026 at 15:25:41 UTC from IEEE Xplore. Restrictions apply.
+
+Fig. 2.
+
+Analysis of publication count by year.
+
+TABLE II
+P UBLICATION COUNT BY COUNTRY.
+
+Fig. 1.
+
+PRISMA Flow Diagram of Review Process.
+
+since 2018. The search is performed on 17th January 2025
+across titles, abstracts and keywords using the search term:
+(human-robot collaboration OR HRC) AND (manufacturing OR industry OR workplace) AND (personal* OR custom*
+OR adapt* OR user-centric OR human-centric)
+The PRISMA analysis framework is followed using Covidence software, illustrated in Fig. 1. The initial search yielded
+1508 results, with an additional 78 included through snowballing and additional searching. 544 duplicates are removed,
+4 merged as the same study and 828 removed as irrelevant
+during title and abstract screening. 200 are accessible and
+go through full-text review of which 120 are excluded. The
+primary reasons for exclusion are: not having a personalised
+focus/adapting to generic humans; review papers; purely
+theoretical focus. As this review is interested in high-level
+behaviour adaptation, works focussing on low-level control
+aspects such as adaptive compliance control, adaptive ergonomic handover positioning or collision avoidance are
+excluded. After all exclusions 80 works1 are considered in
+the subsequent analysis.
+Analysis of the research output by year is shown in Fig. 2.
+The increase year-on-year is evident, with a particular jump
+since 2021. This may be attributed to the EU’s shift in focus
+towards user-centric workplaces in line with the 2021 I5.0
+proposals [2], and verifies the need for a review of this growing research area. The locations of contributing institutions
+illustrated in Table II highlights significant research outputs
+in Europe, particularly Italy, the UK and Germany.
+Articles are categorised according to manually identified
+focus areas on how HRC is personalised. Representative
+works from each category are highlighted in Table III. Subsequent grouping identified four overarching themes, shown in
+Fig. 3. These themes have been used to structure this review,
+with Adaptive Interaction and Task Completion discussed in
+Sections IV and V respectively. Studies in the remaining
+themes are best compared in relation to the range of human
+factors used for personalisation, discussed in Section III.
+
+Country
+
+Count
+
+Country
+
+Count
+
+Country
+
+Count
+
+Italy
+Germany
+UK
+US
+China
+Denmark
+Netherlands
+Greece
+New Zealand
+
+27
+16
+13
+12
+5
+4
+4
+3
+3
+
+India
+Spain
+Sweden
+Portugal
+Finland
+France
+Slovenia
+South Africa
+Austria
+
+2
+2
+2
+2
+2
+2
+2
+2
+1
+
+South Korea
+Belgium
+Columbia
+Mexico
+Switzerland
+Cyprus
+Israel
+Luxembourg
+Singapore
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+
+III. VARIABILITY IN H UMAN FACTORS OF W ORKERS
+The awareness of a diverse workforce is at the core of
+reframing “human-centric” design as “user-centric” design.
+Different users must interact with robotic systems and will
+have different physical and mental attributes. The desire to
+create work environments sympathetic to user variability and
+inclusion is well documented within the I5.0 paradigm [1],
+[2]. Understanding the different human factors that influence
+interactions between the user and the robot is necessary to
+properly implement personalised HRC experiences.
+Literature analysis of the different personal factors used
+to customise HRC is shown in Fig. 4. A large proportion of
+works focus on adaptation based on a user’s performance,
+such as their speed/experience, or their fatigue level. This
+coincides with the large proportion of works investigating
+task allocation and coordination, where the performance of
+a worker is used to inform how to optimise resources. User
+preference is a further key area of research, often aligned
+with task order preference, interface design or communication modality selection.
+Human factor variation can occur between users (interuser variation) and over time for a specific user (intra-user
+variation). Although the distinction between the two is not
+always clear, it presents a useful framework under which to
+
+Fig. 3. Article research focus areas (Articles may fit in multiple categories).
+
+1 Available at: https://doi.org/10.5281/zenodo.14930099
+
+224
+Authorized licensed use limited to: Penn State University. Downloaded on September 03,2026 at 15:25:41 UTC from IEEE Xplore. Restrictions apply.
+
+TABLE III
+R EPRESENTATIVE PAPERS OF THE RESEARCH FOCUS AREAS IDENTIFIED .
+Ref.
+
+Focus Area
+
+Summary
+
+[16]
+[17]
+[18]
+[19]
+[20]
+[21]
+[22]
+[23]
+[6]
+
+Interviews/analysis of needs
+Recognition/monitoring only
+Workplace design
+User Interface design/method
+Robot motion adaptation
+Task order learning
+Task timing/coordination
+Task allocation - online
+Task allocation - offline
+
+Mixed-methods analysis of requirements for adaptive automation assembly.
+Method for online monitoring of cognitive load under different robot collaboration scenarios.
+Method for selection of HRC interface technology based on needs of physically challenged user.
+User profile enables custom information display and features on tablet, AR and watch interfaces.
+Adjust velocity, separation distance and proximity to user based on user’s preference to promote trust.
+Robot dynamically learns human preference for task order and adapts action order accordingly.
+Adapt robot task timing based on user proficiency to help balance assembly line.
+Dynamic task allocation between user and robot considering energy expenditure of user and makespan.
+Task allocation with optimisation for makespan, operator’s energy expenditure and average mental workload.
+
+Fig. 4.
+
+groups [13]. There is therefore a need to investigate this
+further in industrial HRC settings.
+Differences in perceptions of the benefits of HRC assistance by gender were investigated for a collaborative
+polishing task where high and low automation options were
+available. Males did not perceive high automation to provide
+a benefit while females did perceive a performance benefit [28]. The gender of workers has also been considered
+for assembly line balancing, considering an individual’s
+comfortable working time [29] and ergonomics [30].
+2) Physical Factors: Physical factors include a wide
+range of considerations. For example, height and weight,
+sensory dis/abilities such as hearing, sight, touch, and motor
+dis/abilities such as dexterity and mobility considerations. In
+I5.0, there is the potential to revolutionise the accessibility
+of jobs for those with physical impairment by integrating
+advanced interfaces such as generative AI chat tools and
+extended reality (XR) interfaces with robot manipulators.
+Supplementing a person’s physical limitations while making
+full use of their cognitive ability allows for a more inclusive
+workforce [10]. Some key works looking at HRC for physically disabled persons include mapping physical limitations
+to appropriate robot technology [18], and adapting interface
+modality for visually impaired users [8]. Key advantages of
+multimodal and adaptive communication methods are improving user experience through personalised choice, greater
+reliability through redundancy and increased accessibility. By
+developing multimodal communications as standard, persons
+with sensor impairments, e.g. deaf, blind, or those with
+communication limitations e.g. mute, limited dexterity, can
+still interact with a collaborative workcell. Adaptation to
+physical factors is primarily through workcell and interface
+design, discussed further in Section IV.
+3) Mental Factors: Mental variation examples include
+learning speed, comprehension ability, concentration span or
+traits associated with neurodivergence e.g. dyslexia, ADHD
+and Autism Spectrum Disorder (ASD). A discussion on
+technology enabling the inclusion of disabled workers is
+presented in [10], with some key highlights presented here.
+Kildal et al. reduce the cognitive load of interpreting
+complex assembly instructions for workers unable to perform
+this step of the task. A robot gives specific instructions for
+where to connect wires to, allowing the user to perform dexterous tasks under the guidance of the robotic assistant [31].
+This is further developed with increased personalisation so
+workers with different abilities can choose the amount of as-
+
+Analysis of key human factors HRC is adapted to.
+
+discuss the various factors to which a robot may adapt. In the
+following subsections, key aspects of inter- and intra- user
+variation are highlighted, with examples of adaptive HRC.
+A. Inter-User Variation
+Inter-user variation encompasses differences between users
+that are predominantly static for a single user. Variation can
+take various forms and may be related to identity, physical or
+mental factors. Some key works researching HRC adaptation
+based on inter-personal variation are discussed below.
+1) Identity Factors: Identity factors include a user’s cultural background, language, sex, age, etc. The increasing
+complexity of communication between robot and human
+in manufacturing, and the growing ability for speech/text
+recognition and comprehension with the use of Large Language Models (LLMs), is giving rise to language-based
+interfaces [3], [24]. However, in a varied workforce consideration must be given to whether users can speak and
+interpret such commands sufficiently well, and whether other
+factors such as a user’s accent or dialect may prevent them
+from having their speech recognised. One of the few outputs
+acknowledging the different language needs of users is [25].
+Non-verbal communication is an important method of
+communication but is not necessarily consistent across cultures. Facial expression recognition for use in HRC tasks
+has been investigated [26], however there is a lack of
+acknowledgement for how results may change with cultural
+background which is known to have an impact [27]. User
+preference for interaction modality, implicit or explicit communication, and proximity to humans has been investigated
+with social robots, identifying key differences between cultures as well as significant variation within demographic
+225
+
+Authorized licensed use limited to: Penn State University. Downloaded on September 03,2026 at 15:25:41 UTC from IEEE Xplore. Restrictions apply.
+
+sistance required from the robot counterpart on demand [32].
+Adaptation of collaborative assembly instructions for users
+with visual and/or cognitive impairment has been shown
+through adaptable displays, multimodal (touch, speech, audio) interfaces and the ability for users to switch mid-task
+promoting varied work tasks [8]. Analysis of differences in
+the behavioural patterns of neurotypical vs ASD operators
+during a HRC manufacturing task provided insights on
+factors such as task prioritisation, gaze, facial expressions,
+ability to adapt and performance, highlighting the need for
+adaptable interfaces for diverse users [33].
+Mandischer et al. present a method for mapping various personal factors, such as ergonomics, motor function,
+cognition and body motion, along with how their abilities
+change over time (e.g. due to fatigue). The system can then
+allocate appropriate tasks to the user or robot for optimal
+completion. A key advantage is the applicability to people
+with disabilities, as well as able-bodied, elderly and injured
+people to adapt to the person’s current working ability [9].
+
+optimise behaviour based on multiple, potentially conflicting
+parameters, and the varying level of user preference as to
+how much control they have over a robot’s behaviour.
+3) Fatigue: Fatigue is a key consideration investigated
+in different works given its influence on productivity and
+user experience. Experiments with high and low levels of
+automation assistance in a collaborative polishing task found
+the high level of assistance helped enable fatigue recovery,
+however this reduces operator situational awareness [28]. Future advanced HRC workcells may help increase situational
+awareness through sensing and intelligence [39].
+4) Emotion: The recognition of a wide range of emotions
+for use in human state monitoring has been discussed in
+relation to smart manufacturing [40] and the development
+of human digital twins [41]. Emotion recognition methods
+include facial expression [26] and physiological data [42],
+[43]. Emotion recognition can be used to adapt a robot’s
+behaviour, such as speed, location and delay, based on a
+user’s current emotional state [42], [43].
+A holistic review of the HRC experience highlights emotional intelligence as a key requirement, along with conversational skills, embodied intelligence, and the need to balance
+human autonomy with control [39]. Limited discussion has
+been had on which emotions should be recognised and for
+what purpose in the context of HRC. Recognition of sensitive
+personal information by an employer has significant privacy,
+legal and ethical concerns, discussed further in Section VI.
+5) Cognitive Load Monitoring: Various works have investigated monitoring cognitive load during HRC. The NASATLX questionnaire is a common method for assessing workload and has been used in HRC tasks to assess user workload
+under different robot conditions [28], [44]. For online workload monitoring, heart rate variability (HRV) has been used
+to increase robot assistance during high-stress conditions [45]
+and adjust the robot control parameters [46]. A study looking
+at online and offline metrics found observability and transparency of robot actions impact user cognitive load, and
+validated that the proposed novel online metrics correlate
+well with standard offline metrics [17].
+
+B. Intra-User Variation
+Intra-user variation concerns the changing state of an
+individual user over time. These factors include the user’s
+emotional state, stress, fatigue, experience level and task
+competence. Adaptive user-centred HRC requires real-time
+reaction to the user’s current physical and cognitive state.
+1) Stress: For many users, working with cobots may be a
+new experience. This, combined with the dynamic nature of
+the technology, can lead to stress while working alongside
+cobots. Investigations have found users experience higher
+stress when approaching and programming a robot for the
+first time, although this reduces with time [17], [34].
+Focussing on measuring stress objectively using electrocardiogram (ECG), the speed of a robot was adjusted
+to match that of a user in a collaborative assembly task.
+By correctly matching their speed, the method maintained
+high production levels while reducing the user’s stress. A
+key point raised is that the user’s experience of stress is
+subjective, therefore the objective measures used do not
+necessarily capture the full picture [35]. A similar work
+demonstrated the benefits of adjusting robot speed based
+on user stress and pace to maintain good productivity with
+reduced stress compared to no adjustment in robot speed or
+only adjusting based on the user’s speed [36].
+2) Trust: Trust is key for effective HRC, with a critical
+need for user trust in a system to be correctly calibrated to
+its ability. Otherwise, the system risks being used inappropriately due to over trust or unused due to lack of trust [37].
+Investigating a user’s trust in a robot during tasks that were
+either high or low proximity, and high or low risk, showed
+the user had greater trust in low risk, low proximity situations [38]. Further developments investigated adjusting the
+robot’s velocity, separation and proximity to the user’s head
+based on user trust. Users with HRC experience were happy
+to manually tune parameters while novice users preferred the
+system to automatically choose optimal parameters [20]. This
+work highlights key points around the need to balance and
+
+C. Human Digital Twin
+Modelling a user’s various physical, mental and emotional
+traits, preferences and abilities leads to the concept of a
+Human Digital Twin (HDT) [40], [41]. The use of the
+term HDT is not necessarily consistent across the literature,
+hence a cross-domain analysis was conducted and provides
+useful insights and definitions on what constitutes a HDT,
+human digital model and human digital shadow [14]. In their
+definition, a HDT must provide a digital representation of a
+specific individual, with automatic data transfer from human
+to twin and twin to human.
+The concept of digital twins for I5.0 in relation to extended
+reality (XR) technologies is discussed in detail by Kiourtis et
+al. The current status of “onesize-fits-all” XR solutions disregards the unique requirements and preferences of workers
+which should be considered for effective use in I5.0 [41]. The
+user model presented as part of the SHAREWORK project
+226
+
+Authorized licensed use limited to: Penn State University. Downloaded on September 03,2026 at 15:25:41 UTC from IEEE Xplore. Restrictions apply.
+
+illustrates the use of a diverse model in a complete manufacturing task setup. A user’s physical, health, cognitive,
+expertise and performance states are used to inform HRC [5].
+While some human factors can be monitored or modelled
+reliably with current technology, others present a significant
+challenge. Modelling cognitive state is an ambition presented
+in [14], though simpler HDTs can still provide benefits to
+HRC in many practical applications.
+The overarching concept of HDT requires monitoring and
+storing of user characteristics over time, enabling predictions
+and insights to be gained. This raises significant ethical and
+regulatory questions that are frequently not considered in the
+research and will be discussed further in Section VI.
+
+V. C OLLABORATIVE TASK C OMPLETION
+A further area for personal differences in HRC manufacturing is how a task progresses to be completed. For a given
+task with multiple subtasks, there is significant scope for
+variation in which agent performs which actions, in what
+order the actions are performed, and how long a specific
+agent may take to do a task.
+A. Task Allocation
+Various works have investigated the assignment of actions
+to a robot or human during the planning of a task based on
+their respective capabilities. These methods do not necessarily account for the individual characteristics and abilities
+of unique workers, hence the subsequent examples focus on
+investigations that consider solutions tailored to individuals.
+The need for task allocation to take into account multiple factors including “productivity, flexibility, and human
+factors” is investigated in [6], where a multiobjective action
+allocation optimisation method considers makespan, human
+energy expenditure and mental workload. Subsequent developments include a real-time dynamic system [23] and
+individualisation to workers, with personalised rest allocation
+based on age, bodyweight and gender used to help balance
+the assembly line [49].
+Task scheduling optimisation in a multi-user, HRC task
+using personalised fatigue models was investigated to jointly
+optimise for cycle time while minimising team fatigue or an
+individual’s fatigue [50]. A motivating factor for the work
+is promoting fairness of job allocation between workers,
+however this raises the need for consideration as to what
+constitutes fair job allocation. A genetic algorithm method
+balanced worker energy expenditure and noise exposure for
+a task rotation plan, with individual characteristics (age,
+weight, height, gender, skill level and cost) considered in
+the plan, creating a more ergonomic work environment [30].
+A key work using dynamic fatigue assessment and task
+allocation is [51], however the work requires further development to optimise for multiple factors. The benefits
+of adaptive task allocation in HRC to maintain well-being
+and motivation with reduced monotony are discussed in
+detail [39], though few works have investigated adaptive
+planning with this as the focus.
+
+IV. HRC I NTERACTION D ESIGN
+The new paradigm of humans and robots working together
+has necessitated developing spaces for effective HRC. Much
+of the research in this area takes a human-centric and taskefficiency approach. In this study however, we focus on
+works with a user-centric view, where aspects of the workcell
+and interaction are adjustable to individual users.
+Fletcher et al. highlight the support from industry workers
+for “the development of adaptive, flexible and self-optimising
+assembly systems of the future to meet both production
+and operator changes and differences, and the use of novel
+technologies”. The work goes on to caveat this with the
+limited demographic of users surveyed, highlighting the need
+for broader studies investigating cultural differences across
+a range of demographics [16]. Also highlighted is the desire
+for Augmented Reality (AR) and Virtual Reality (VR) as
+methods of delivering information, instructions and training.
+Various studies have developed systems with personalisable
+communication modalities and interface design. The multimodal, customisable nature of interfaces, including AR, a
+tablet and a smartwatch, were found to be key benefits in
+HRC manufacturing [19].
+The level of instruction provided to a user should be
+adaptable based on their expertise and experience. This is
+demonstrated through the gradual removal of information
+from novices to experienced users in AR [5]. In a similar
+work, the rate of information decay during training using AR
+was adapted to the user [47]. This highlighted the importance
+of giving personalised information to the user for efficient
+learning and the complexity of doing this in practice, with a
+need for further investigations on broader populations.
+Personalised gesture meaning for robot communication
+has been shown to reduce physical and mental workload [48].
+The work also highlights the need for workers to move
+between workstations, hence having adaptable interfaces
+reduces the need for users to learn different systems. The
+growing prevalence of generative AI language tools presents
+a key shift in possibility for human-robot communication [3].
+The GPT based dialogue tool ToD4IR is significant given
+its ability for practical task-oriented discussion and natural, small talk style language [24]. Being able to converse
+naturally with a robot may help unskilled users interact
+confidently, a task which may otherwise be stressful [34].
+
+B. Task Timing
+Users perform actions at different speeds, and that speed
+will vary over time based on factors such as experience
+and fatigue. For optimal synchronisation with a user, it is
+beneficial to model prior expectations of how long they will
+take on a task (e.g. based on previous experience), and also
+adapt based on real-time monitoring of task progression.
+Adaptive action timing prediction has been investigated
+based on current action recognition and adjustment based
+on previous experience from the user [52], enabling synchronisation of collaborative actions. A further example of
+time planning uses Bayesian Reinforcement Learning (RL)
+to adjust the speed of a robot feeding an assembly line. The
+227
+
+Authorized licensed use limited to: Penn State University. Downloaded on September 03,2026 at 15:25:41 UTC from IEEE Xplore. Restrictions apply.
+
+method adjusts the robot speed to match the speed of different workers on different tasks, balancing the assembly line
+and helping prevent workers from feeling overloaded [22].
+Action timeline planning while accounting for duration uncertainty is investigated with the ROXANNE planner, where
+integrating a personalised duration expectation and expected
+variance in duration based on worker experience level helps
+create an adaptive task planner for collaborative tasks [5].
+
+stress” highlights the use of machines which allow variable
+user pose, avoid imposed rates of work and use self-evolving
+behaviour for different communication modalities, including
+transparency of actions [58]. The EU AI Act presents guidance on a range of relevant points. Given the unreliability and
+intrusiveness of recognising emotion from biometric data,
+restriction is given to prohibit the recognition of emotion
+in workplace settings. This includes “happiness, sadness,
+anger, [etc.]” but does not include physical states such
+as pain and fatigue. Included under the high-risk category
+is the use of AI “to allocate tasks based on individual
+behaviour or personal traits or characteristics or to monitor
+and evaluate the performance and behaviour of persons in
+such relationships” [59]. Various challenges related to AI
+implementation in manufacturing still exist, such as security, feedback integration, explainability, accountability, and
+uncertainty awareness [12].
+GDPR provides various regulations on the use of personal
+data in the workplace, particularly around profiling employees with respect to sensitive information [57]. While the
+storing and use of personal data are protected, an employee
+may feel pressured by an employer to consent to the use
+of their data in a personalised HRC setting where greater
+efficiencies can be achieved. The significant ethical and security considerations for storing personal data in the context
+of HDTs is an area needing further research [14]. Particularly
+for task allocation and scheduling, various research outputs
+are increasingly using highly personal characteristics. For
+example, using age, gender and BMI to design work schedules based on predicted comfortable working duration, with
+explicit prioritisation of older workers [29], or rest allocation
+based on age, weight and gender [49]. Although well intentioned, these methods present significant opportunities for
+profiling workers based on protected characteristics which
+should be carefully considered in future developments.
+The development over recent years of regulations that
+consider the use of AI, personal data and intelligent machines
+has helped provide guidance on how such technologies may
+be used, particularly relevant in the case of personalised
+HRC in industry. As technologies are developed and brought
+to market, further discussion and updates to regulation will
+be required. Particularly in the EU, the desire for a usercentric I5.0 [2] may align in vision with the protections and
+guidelines of other regulations [57], [58], [59], but in practice
+there may be tensions in deploying new technologies.
+
+C. User Preference
+Users may exhibit preference as to how a task should
+progress towards completion. For example, what order actions occur in [21], or on which tasks they would like
+assistance. Investigations found workers have a preference
+for having input on task allocation decisions, rather than
+relying on a foreman or automated system to decide for
+them [53]. Similar findings were reported in [54], which
+also found workers tend to prefer allocating physical tasks
+to robots while keeping cognitive tasks for themselves.
+The real-time adaptation of robot behaviour using a partially observable Markov model allows for dynamic replanning, error recovery and adaptation to user preference. The
+method allows a robot to decide when to retrieve parts/tools,
+clear the workspace or assist the user by holding a part, while
+implicitly learning the user’s preference on-the-fly [55].
+VI. E THICAL AND S AFETY C ONSIDERATIONS
+The benefits of personalised HRC are numerous and include improved well-being, efficiency, safety and inclusivity
+of a varied workforce. However, personalised HRC also
+raises various ethical and safety considerations which are not
+discussed substantially in the research [56]. While a review
+of safety in collaborative intelligence is available [15], this
+section highlights and builds on particularly salient points
+for personalised HRC in manufacturing.
+Control strategies that adapt to different users present the
+opportunity for improved user perception and greater safety
+through real-time collision avoidance. However, adaptive and
+unpredictable movements may lead to reduced trust and
+decreased safety if errors occur. The variability of workers,
+uncertainty in human behaviour and probabilistic AI methods
+present challenges when ensuring safe and consistent performance [15]. Novel risk assessment methods are required in
+light of adaptable and dynamic robotic systems [5].
+Discussing the data privacy of workers considering highly
+personalised systems is crucial. Insights from surveys of
+manufacturing workers highlight the desire for personnel to
+have access to their personal data and the need for strict
+data security and protection [16]. In this emerging field,
+various regulations need to be considered and reviewed as
+technologies develop. In Europe, relevant regulations include
+the General Data Protection Regulation (GDPR) [57], the EU
+Machinery Regulation [58] , and the EU AI Act [59].
+The Machinery Regulation (EU) 2023/1230 now includes
+reference to machines with self-evolving behaviour in relation to control and ergonomics. Guidance on reducing
+operator “discomfort, fatigue and physical and psychological
+
+VII. D ISCUSSION ON F UTURE R ESEARCH D IRECTIONS
+One of the clearest needs for future developments is
+improved experimentation through a broad range of representative participants with rigorous methods and analysis. The
+validity of increasingly personalised interactions can only be
+shown through testing on a range of participants, an area
+in which many research outputs lack rigour. This requires
+greater cross-disciplinary integration, where experiments are
+conducted in collaboration with experts in biomechanics,
+psychology, human factors, etc. This is linked to the lack of
+research focussing on consistency previously identified [7].
+228
+
+Authorized licensed use limited to: Penn State University. Downloaded on September 03,2026 at 15:25:41 UTC from IEEE Xplore. Restrictions apply.
+
+Research on increased accessibility of HRC for users with
+disabilities has started, though there is significant room for
+further development [10], [56]. Instead of specialising HRC
+platforms for specific disabilities, a broader focus on highly
+adaptive, multimodal interfaces allowing accessibility to a
+broad range of users may be more impactful. This promotes
+the inclusion of a wide spectrum of users, including those
+with and without disabilities, and encourages the expectation
+of user-adaptable systems, as highlighted in [9].
+Various works have been shown to help reduce the negative physical and mental impacts of collaborative manufacturing tasks through adaptive behaviour. Further developments
+may take a proactive role in promoting user well-being,
+for example through prompting regular (active) breaks and
+engaging a user’s mental capacities by providing levels of
+autonomy [39] and stimulation throughout a task.
+Monitoring of various physical and mental parameters,
+such as ergonomics, emotion, working speed, and preferences, have been discussed in the literature for adaptable
+robot control. However, there lacks a rigorous and consistent methodology for modelling a HDT [14]. Developing a
+unified approach would enable greater collaborative research
+and present a grounded framework from which ethical and
+regulatory questions can be discussed. The parameters modelled should have clear reasons for being monitored, and
+such a system must ensure high levels of inbuilt security to
+protect workers’ privacy.
+Surprisingly, it is foreseeable that some of the technologies
+discussed could lead to a reduced user-centric focus. While
+the technologies are developed to increase well-being and
+promote customised interactions based on individual needs,
+the opposite effect could be realised. From a business perspective, by transferring the burden of considering individual
+needs from managers to technology, employees may lose
+their individuality. This is seen in the development of methods to adapt task scheduling according to individual ability
+and personal characteristics [29], [30], [49]. In such scenarios, employees have limited opportunity to work according
+to their subjective experience as the system has dictated their
+ability, and it is assumed this gives a fair assessment of their
+current capacity. Such arguments may be speculative, but
+consideration should be given to ensure human needs beyond
+the scope of technological developments are accounted for.
+Unification of metrics for assessing the suitability of
+personalised HRC technologies are required for reliable and
+comparative results. A range of methods are currently used in
+research, primarily falling into the categories of business (e.g.
+cycle rates, completion times, cost effectiveness, etc.), human
+factors (e.g. user acceptance, stress, fatigue, ergonomics, etc.)
+and technological (e.g. accuracy, error rate, latency, etc.).
+Evaluating relevant factors across the three categories should
+be normalised, with an emphasis on increasing the analysis of
+user perspectives towards new technological developments.
+The need for increased analysis of individual experiences
+in HRC is also highlighted in [11], where a conceptual
+framework for examining human factors is presented.
+Future developments will lead to an increased variety of
+
+robot behaviours which can be comprehensively adapted.
+Personalisation for user experience, proactivity, multi-user
+engagement and generalisation across diverse and new tasks
+may be included. These developments will coincide with a
+greater focus on diverse robot platforms, such as mobile
+bases, humanoids and quadrupeds, giving added personalisation opportunities not possible with table-mounted cobot
+arms used in the majority of current research.
+VIII. C ONCLUSION
+There has been a growing trend of personalised HRC in
+manufacturing over recent years, in part due to the ambitions
+of Industry 5.0. This review has shed light on key aspects of
+personalised HRC, including which personal factors are used,
+how robot interfaces and experiences are customised and how
+collaborative task completion can be adapted to individuals.
+There has been a further discussion on ethical and regulatory
+considerations, which are often not fully discussed in the
+literature. Further more, key avenues of future research and
+associated guidance are presented in what promises to be a
+growing field of research.
+ACKNOWLEDGEMENTS
+This project has received funding from the European
+Union’s Horizon Europe research and innovation programme
+under Grant Agreement no. 101059903 and 101135708.
+R EFERENCES
+[1] X. Xu, Y. Lu, B. Vogel-Heuser, and L. Wang, “Industry 4.0 and
+Industry 5.0—Inception, conception and perception,” J. Manuf. Syst.,
+vol. 61, pp. 530–535, 2021.
+[2] Directorate-General for Research and Innovation (European
+Commission), M. Breque, L. De Nul, and A. Petridis, Industry
+5.0: towards a sustainable, human centric and resilient European
+industry. Publications Office of the European Union, 2021. [Online].
+Available: https://data.europa.eu/doi/10.2777/308407
+[3] M. Dhanda, B. A. Rogers, S. Hall, E. Dekoninck, and V. Dhokia,
+“Reviewing human-robot collaboration in manufacturing: Opportunities and challenges in the context of industry 5.0,” Robot. Comput.
+Integr. Manuf., vol. 93, p. 102937, 2025.
+[4] A. Simões, A. Pinto, J. Santos, S. Pinheiro and D. Romero, “Designing
+human-robot collaboration (HRC) workspaces in industrial settings: A
+systematic literature review,” J. Manuf. Syst., vol. 62, pp. 28–43, 2022.
+[5] A. Umbrico et al., “Design of advanced human–robot collaborative
+cells for personalized human–robot collaborations,” Appl. Sci., vol. 12,
+no. 14, 2022.
+[6] M. Calzavara, M. Faccio, and I. Granata, “Multi-objective task allocation for collaborative robot systems with an Industry 5.0 human-centered
+perspective,” Int. J. Adv. Manuf. Technol., vol. 128, pp. 297–314, 2023.
+[7] M. Faccio et al., “Human factors in cobot era: a review of modern production systems features,” J. Intell. Manuf., vol. 34, pp. 85–106, 2023.
+[8] M. Stöhr, M. Schneider, and C. Henkel, “Adaptive work instructions
+for people with disabilities in the context of human robot collaboration,” in IEEE 16th Int. Conf. Ind. Inform. (INDIN), 2018, pp. 301–308.
+[9] N. Mandischer et al., “Toward adaptive human–robot collaboration
+for the inclusion of people with disabilities in manual labor tasks,”
+Electronics, vol. 12, no. 5, 2023.
+[10] M. Rojas et al., “Lack of verified inclusive technology for workers
+with disabilities in industry 4.0: a systematic review,” Int. J. Sustain.
+Eng., vol. 17, no. 1, pp. 190–210, 2024.
+[11] J. Vermeulen, G. Caldwell, M. Teixeira, A. Burden, and M. Guertler,
+“To safety and beyond! A scoping review of human factors enriching
+the design of human-robot collaboration,” Interact. Des. and Archit.,
+no. 61, pp. 42–65, 2024.
+[12] D. Li et al., “Trustworthy AI for human-centric smart manufacturing:
+A survey,” J. Manuf. Syst., vol. 78, pp. 308–327, 2025.
+
+229
+Authorized licensed use limited to: Penn State University. Downloaded on September 03,2026 at 15:25:41 UTC from IEEE Xplore. Restrictions apply.
+
+[36] C. Messeri, G. Masotti, A. Zanchettin, and P. Rocco, “Human-robot
+collaboration: Optimizing stress and productivity based on game
+theory,” IEEE Robot. Automat. Lett., vol. 6, no. 4, pp. 8061–8068,
+2021.
+[37] B. Gebru et al., “A review on human–machine trust evaluation:
+Human-centric and machine-centric perspectives,” IEEE Trans. on
+Human-Machine Syst., vol. 52, no. 5, pp. 952–962, 2022.
+[38] G. Campagna and M. Rehm, “Analysis of proximity and risk for
+trust evaluation in human-robot collaboration,” 32nd IEEE Conf. Robot
+Human Interactive Commun. (RO-MAN), pp. 2191–2196, 2023.
+[39] N. Berx, W. Decré, J. De Schutter, and L. Pintelon, “A harmonious synergy between robotic performance and well-being in human-robot collaboration: A vision and key recommendations,” Annu. Rev. Control,
+vol. 59, 2025.
+[40] B. Wang, P. Zheng, Y. Yin, A. Shih, and L. Wang, “Toward humancentric smart manufacturing: A human-cyber-physical systems (HCPS)
+perspective,” J. Manuf. Syst., vol. 63, pp. 471–490, 2022.
+[41] A. Kiourtis et al., “Xr5.0: Human-centric AI-enabled extended reality
+applications for industry 5.0,” in 36th IEEE Conf. Open Innov. Assoc.
+(FRUCT), 2024, pp. 314–323.
+[42] A. Eyam, W. Mohammed, and J. Martinez Lastra, “Emotion-driven
+analysis and control of human-robot interactions in collaborative
+applications,” Sensors, vol. 21, no. 14, 2021.
+[43] R. Gervasi, K. Aliev, L. Mastrogiacomo, and F. Franceschini, “User
+experience and physiological response in human-robot collaboration:
+A preliminary investigation,” J. Intell. and Robot. Syst.: Theory and
+Appl., vol. 106, no. 2, 2022.
+[44] A. Javernik, B. Buchmeister, and R. Ojstersek, “The NASA-TLX approach to understand workers workload in human-robot collaboration,”
+Int. J. Simul. Model., vol. 22, no. 4, pp. 574–585, 2023.
+[45] C. Landi, V. Villani, F. Ferraguti, L. Sabattini, C. Secchi, and C. Fantuzzi, “Relieving operators’ workload: Towards affective robotics in
+industrial scenarios,” MECHATRONICS, vol. 54, pp. 144–154, 2018.
+[46] M. Lagomarsino, M. Lorenzini, E. De Momi, and A. Ajoudani, “Robot
+trajectory adaptation to optimise the trade-off between human cognitive ergonomics and workplace productivity in collaborative tasks,” in
+IEEE/RSJ Int. Conf. Intell. Robots Syst. (IROS), 2022, pp. 663–669.
+[47] J. Li et al., “Adaptive information decay: A potentially effective
+approach to enhancing the impact of augmented reality on training
+for manual assembly tasks,” Int. J. Human–Comput. Interact., pp. 1–
+24, 2024.
+[48] S. Rautiainen et al., “Multimodal interface for human–robot collaboration,” Machines, vol. 10, no. 10, 2022.
+[49] A. Keshvarparast, N. Katiraee, S. Finco, and M. Calzavara, “Integrating collaboration scenarios and workforce individualization in collaborative assembly line balancing,” Int. J. Prod. Econ., p. 109450, 2024.
+[50] S. Chand and Y. Lu, “Dual task scheduling strategy for personalized
+multi-objective optimization of cycle time and fatigue in human-robot
+collaboration,” Manuf. Lett., vol. 35, pp. 88–95, 2023.
+[51] Y. You, B. Cai, D. Pham, Y. Liu, and Z. Ji, “A human digital twin
+approach for fatigue-aware task planning in human-robot collaborative
+assembly,” Comput. and Ind. Eng., vol. 200, 2025.
+[52] J. Male and U. Martinez-Hernandez, “Deep learning based robot cognitive architecture for collaborative assembly tasks,” Robot. Comput.
+Integr. Manuf., vol. 83, 2023.
+[53] A. Tausch, C. Peifer, B. Kirchhoff, and A. Kluge, “Human-robot interaction: How worker influence in task allocation improves autonomy,”
+ERGONOMICS, vol. 65, no. 9, pp. 1230–1244, 2022.
+[54] C. Schmidbauer, S. Zafari, B. Hader, and S. Schlund, “An empirical
+study on workers’ preferences in human–robot task assignment in
+industrial assembly systems,” IEEE Trans. Human-Machine Syst.,
+vol. 53, no. 2, pp. 293–302, 2023.
+[55] O. Mangin, A. Roncone, and B. Scassellati, “How to be helpful? Supportive behaviors and personalization for human-robot collaboration,”
+Frontiers Robot. and AI, vol. 8, 2022.
+[56] B. Šumak, S. Brdnik, and M. Pušnik, “Sensors and artificial intelligence methods and algorithms for human–computer intelligent interaction: A systematic mapping study,” Sensors, vol. 22, p. 20, 2022.
+[57] European Parliament and Council of the European Union. Regulation
+(EU) 2016/679 of the European Parliament and of the Council.
+[Online]. Available: http://data.europa.eu/eli/reg/2016/679
+[58] ——. Regulation (EU) 2023/1230 of the European Parliament and of the
+Council. [Online]. Available: http://data.europa.eu/eli/reg/2023/1230
+[59] ——. Regulation (EU) 2024/1689 of the European Parliament and of the
+Council. [Online]. Available: http://data.europa.eu/eli/reg/2024/1689
+
+[13] N. Gasteiger, M. Hellou, and H. S. Ahn, “Factors for personalization
+and localization to optimize human–robot interaction: A literature
+review,” Int. J. Social Robot., vol. 15, no. 4, pp. 689–701, 2023.
+[14] B. Gaffinet, J. Al Haj Ali, Y. Naudet, and H. Panetto, “Human digital
+twins: A systematic literature review and concept disambiguation for
+industry 5.0,” Comput. in Industry, vol. 166, p. 104230, 2025.
+[15] I. F. Ramos, G. Gianini, M. C. Leva, and E. Damiani, “Collaborative
+intelligence for safety-critical industries: A literature review,” Information, vol. 15, no. 11, p. 728, 2024.
+[16] S. Fletcher et al., “Adaptive automation assembly: Identifying system
+requirements for technical efficiency and worker satisfaction,” Comput.
+and Ind. Eng., vol. 139, 2020.
+[17] M. Lagomarsino, M. Lorenzini, P. Balatti, E. Momi, and A. Ajoudani,
+“Pick the right co-worker: Online assessment of cognitive ergonomics
+in human-robot collaborative assembly,” IEEE Trans. on Cogn. and
+Develop. Syst., vol. 15, no. 4, pp. 1928–1937, 2023.
+[18] A. Lottermoser, G. Yucel, and J. Berger, “Method for the selection
+of an intuitive robotic assistant to support physically challenged
+employees,” in Procedia CIRP, vol. 126, 2024, pp. 218–223.
+[19] D. Andronas, G. Apostolopoulos, N. Fourtakas, and S. Makris,
+“Multi-modal interfaces for natural human-robot interaction,” Procedia
+Manuf., vol. 54, pp. 197–202, 2021.
+[20] G. Campagna et al., “Promoting trust in industrial human-robot
+collaboration through preference-based optimization,” IEEE Robot.
+and Automat. Lett., vol. 9, no. 11, pp. 9255–9262, 2024.
+[21] O. Obidat, J. Parron, R. Li, J. Rodano, and W. Wang, “Development
+of a teaching-learning-prediction-collaboration model for human-robot
+collaborative tasks,” in IEEE 13th Int. Conf. CYBER Technol. Automat., Control, and Intell. Syst. (CYBER), 2023, pp. 728–733.
+[22] H. Lee, S. Park, and J. Lee, “Bayesian reinforcement learning for adaptive balancing in an assembly line with human-robot collaboration,”
+IEEE ACCESS, vol. 12, pp. 172 256–172 265, 2024.
+[23] M. Calzavara, M. Faccio, I. Granata, and A. Trevisani, “Achieving
+productivity and operator well-being: a dynamic task allocation strategy for collaborative assembly systems in Industry 5.0,” Int. J. Adv.
+Manuf. Technol., vol. 134, no. 7-8, pp. 3201–3216, 2024.
+[24] C. Li, X. Zhang, D. Chrysostomou, and H. Yang, “ToD4IR: A
+humanised task-oriented dialogue system for industrial robots,” IEEE
+Access, vol. 10, pp. 91 631–91 649, 2022.
+[25] I. Freire, O. Guerrero-Rosado, A. Amil, and P. Verschure, “Socially
+adaptive cognitive architecture for human-robot collaboration in industrial settings,” Frontiers Robot. and AI, vol. 11, 2024.
+[26] A. Chiurco et al., “Real-time detection of worker’s emotions for
+advanced human-robot interaction during collaborative tasks in smart
+factories,” Procedia Comput. Sci., vol. 200, pp. 1875–1884, 2022.
+[27] R. E. Jack, O. G. B. Garrod, H. Yu, R. Caldara, and P. G. Schyns,
+“Facial expressions of emotion are not culturally universal,” Proc. Nat.
+Acad. Sci. USA, vol. 109, no. 19, pp. 7241–7244, 2012.
+[28] S. Hopko, R. Khurana, R. Mehta, and P. Pagilla, “Effect of cognitive fatigue, operator sex, and robot assistance on task performance metrics, workload, and situation awareness in human-robot collaboration,”
+IEEE Robot. Automat. Lett., vol. 6, no. 2, pp. 3049–3056, 2021.
+[29] V. Pabolu, D. Shrivastava, and M. Kulkarni, “Development of intelligent system to consider worker’s comfortable work duration in assembly line work scheduling,” J. Manuf. Syst., vol. 78, pp. 226–243, 2025.
+[30] M. D. Mura and G. Dini, “Improving ergonomics in mixed-model
+assembly lines balancing noise exposure and energy expenditure,”
+CIRP J. Manuf. Sci. and Technol., vol. 40, pp. 44–52, 2023.
+[31] J. Kildal, M. Martı́n, I. Ipiña, and I. Maurtua, “Empowering assembly
+workers with cognitive disabilities by working with collaborative robots:
+a study to capture design requirements,” Procedia CIRP, vol. 81, pp.
+797–802, 2019.
+[32] J. Kildal, I. Ipiña, M. Martı́n, and I. Maurtua, “Collaborative assembly
+of electrical cabinets through multimodal interaction between a robot
+and a human worker with cognitive disability,” Procedia CIRP, vol. 97,
+pp. 184–189, 2021.
+[33] M. Mondellini et al., “Behavioral patterns in robotic collaborative
+assembly: comparing neurotypical and Autism Spectrum Disorder
+participants,” Frontiers Psychol., vol. 14, 2023.
+[34] S. Borghi, A. Ruo, L. Sabattini, M. Peruzzini, and V. Villani, “Assessing operator stress in collaborative robotics: A multimodal approach,”
+Appl. Ergonom., vol. 123, p. 104418, 2025.
+[35] R. Ojsteršek, B. Buchmeister, and A. Javernik, “Personalizing humanrobot workplace parameters in human-centered manufacturing,” Machines, vol. 12, no. 8, 2024.
+
+230
+Authorized licensed use limited to: Penn State University. Downloaded on September 03,2026 at 15:25:41 UTC from IEEE Xplore. Restrictions apply.
+
+

@@ -83,6 +83,29 @@ Areas where we know we are thin. Do not treat the absence of notes here as absen
 
 ---
 
+## Every cited paper must be in the repo
+
+**If we cite it, we hold it.** A citation without the artefact is a claim we cannot re-check, and
+this project has already been burned twice by numbers that came from secondary summaries —
+[Jill Watson's pass rates](knowledge/systems/jill-watson.md) and
+[Kulik & Fletcher's 0.66](knowledge/concepts/vanlehn-2011.md).
+
+**The rule:**
+
+1. **Downloaded PDFs live in `course-materials/papers/`**, named
+   `firstauthor-year-short-slug.pdf` (e.g. `vanlehn-2011-relative-effectiveness.pdf`). Rename
+   publisher filenames — `1-s2.0-S2666920X25001778-main.pdf` tells a reader nothing.
+2. **Extract a `.txt` alongside each PDF** (`pdftotext file.pdf file.txt`) so the text is
+   greppable without re-parsing.
+3. **When adding a source to any node, acquire the PDF in the same pass.** If it cannot be
+   acquired, tag it `[inaccessible]` or `[abstract only]` and **record the specific blocker** —
+   bot check, paywall, dead link — in [`admin/paper-access.md`](admin/paper-access.md).
+4. **Never upgrade a tag to `[read]` without the artefact on disk.**
+
+**Acquisition recipes** live in [`knowledge/README.md`](knowledge/README.md) — OpenAlex OA lookup,
+the DSpace REST route, the `peer.asee.org/<id>.pdf` bypass, and the magic-byte check
+(`head -c 5 f.pdf | grep -q '%PDF'`) that stops login walls being mistaken for PDFs.
+
 ## Repository rules
 
 - **This repo is public.** No student data, no raw interview transcripts, no copyrighted course

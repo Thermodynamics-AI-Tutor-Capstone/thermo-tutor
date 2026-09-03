@@ -1,0 +1,2866 @@
+Calibration is the Bottleneck:
+An Action-Class Diagnostic of Multi-Turn Tool-Calling
+Kangjia Zhao1 , Jiajun Li2 , Haozhan Shen1 , Wei Chow3 , Linfeng Li3 , Hang Song4 ,
+Lingdong Kong3 , Chen Zhi1 , Tiancheng Zhao5,6 , Songhua Liu2 , Jianwei Yin1
+1
+Zhejiang University, 2 Shanghai Jiao Tong University, 3 National University of Singapore,
+4
+Xi’an Jiaotong University, 5 Om AI Research, 6 Binjiang Institute of Zhejiang University
+{konkaz,hz_shen,zjuzhichen}@zju.edu.cn, zjuyjw@cs.zju.edu.cn, {sjtu8328931,liusonghua}@sjtu.edu.cn,
+{weichow,lingdong.kong}@u.nus.edu, tianchez@zju-bj.com
+Correspondence: zjuyjw@cs.zju.edu.cn
+
+Abstract
+
+arXiv:2609.00949v1 [cs.CL] 1 Sep 2026
+
+Multi-turn tool calling is a core evaluation
+scenario for large language model (LLM)
+agents. On public tool-calling benchmarks,
+open-weight models now approach or even
+surpass closed-source frontier models in aggregate accuracy. However, this metric averages over many different multi-turn situations and obscures whether progress is balanced across them. We propose an actionclass-oriented diagnostic framework that decomposes multi-turn failures into two orthogonal modes: action-class miscalibration
+and action-execution failure. The framework operates over a four-class action space
+(TOOL _ CALL/ASK/REFUSE/CONFIRM) and introduces a self-revealing upper bound Acc ≤
+GAR (Gold Action Recall); the two modes
+show up as bound violation (Acc > GAR, exposing state-grader masking of miscalibration)
+and large bound slack (GAR ≫ Acc, localizing execution failure within TOOL _ CALL). We
+validate it on a panel of tool-calling models
+across multiple multi-turn benchmarks. Across
+our panel, the diagnostic reveals action-class
+miscalibration as a substantial failure mode the
+state grader cannot see. This gap inflates standing for heavily tool-trained families, which our
+diagnostic separates from families with contextappropriate action choice. Calibration is reshapable through context-only perturbations, but
+the reshape is heterogeneous: a single perturbation moves accuracy in opposite directions
+across families (up to +11.5 vs −21.0 pp on
+the same scenario), and its effect further depends on the perturbation mechanism. We
+argue that multi-turn tool-calling evaluations
+should supplement aggregate accuracy with
+action-class diagnostics that expose what the
+model actually does in each scenario.
+
+1
+
+Introduction
+
+Tool-use evaluation has moved from single-turn
+call syntax (Schick et al., 2023) to multi-turn agent
+behavior (Yao et al., 2023), and stateful suites now
+
+USER (start of trajectory)
+
+"What's the cost of a business class flight,
+CRH → RMS, on July 15?"
+two BFCL surgical edits
+
+miss_param
+
+miss_func
+
+edit: a required parameter is removed
+from a downstream user message
+
+edit: a required function is held out
+of the toolbox for one turn
+
+AGENT — ★ gold action = REFUSE
+
+AGENT
+
+get_flight_cost(...) → $560 ✓
+
+[get_flight_cost held out from toolbox this turn]
+EXPECTED (action_class = REFUSE)
+
+USER
+
+"Set my budget to 2000."
+[access_token omitted by BFCL]
+
+AGENT — ★ gold action = ASK
+EXPECTED (action_class = ASK)
+
+ASK("please provide access_token")
+ACTUAL (action_class = TOOL_CALL)
+
+set_budget_limit(
+access_token= 'my_token' ,
+budget_limit=2000)
+⚠ diagnostic FLAG: TOOL_CALL ≠ ASK
+↩ BFCL workaround — supplies missing param
+USER
+
+"my token is access_token_abc123"
+
+REFUSE("no pricing tool available")
+ACTUAL (action_class = TOOL_CALL)
+
+book_flight(
+access_token= '1234567890' ,
+card_id=
+'card123', ...)
+⚠ diagnostic FLAG: TOOL_CALL ≠ REFUSE
+↩ BFCL workaround — restores held-out function
+USER turn: (no message — benchmark mechanic)
+AGENT
+
+get_flight_cost(...) → $560 ✓
+USER
+
+"Set budget 2000, token: ...abc123."
+AGENT
+
+set_budget_limit(...) ✓
+
+AGENT
+
+set_budget_limit(real, ...) ✓
+
+USER (final turn of trajectory)
+
+"Please file a support ticket about the seating issue."
+AGENT (final turn of trajectory)
+
+contact_customer_support(...) ✓
+
+BFCL state grader: PASS ✓ (both branches)
+Action-class diagnostic: ⚠ 1 miss caught per branch
+
+Figure 1: The state grader hides action-class misses;
+the per-turn diagnostic exposes them. A single user
+query (top) is edited two ways by BFCL: miss_param
+removes a required parameter from a downstream user
+turn so the gold action class becomes ASK; miss_func
+holds out a required function for one turn so the gold
+action class becomes REFUSE. On both branches
+the agent instead emits TOOL _ CALL with fabricated
+placeholder argument values (’my_token’ on the left;
+’1234567890’, ’card123’ on the right). The benchmark then supplies the missing piece on the next
+turn and the trajectory recovers; the final system state
+matches the gold reference and the state grader returns
+PASS for both. Our per-turn action-class diagnostic
+(§3.1) compares each emission against its gold action
+class and flags one miss per branch, precisely where the
+state-graded score is blind.
+
+score whole trajectories (Patil et al., 2025; Yao
+et al., 2024; Barres et al., 2025). A model can still
+produce well-formed tool calls and fail the decision
+that matters: whether this turn calls for a tool, a
+clarification, a refusal, or a confirmation.
+The bottleneck is action-class miscalibration: the
+model emits the wrong action class for the scenario. Comparing each emission against the class
+the context requires exposes sharp cross-family divergence in which class a model emits in which scenario. xLAM (Prabhakar et al., 2025) has 71.8%
+aggregate accuracy but only 19.5% Gold Action
+Recall (GAR) on miss_param, a 64.5 pp gap below
+size-matched peers, while BFCL’s state grader still
+marks these cases as PASS (Tab 1). Figure 1 shows
+one such case.
+We formalize this gap as an action-class diagnostic with two orthogonal failure modes: actionclass miscalibration and action-execution failure
+(§3.2). We evaluate it on a BFCL v3 multi-turn
+panel of open-weight families and closed-source
+anchors, cross-check on τ 2 -bench retail/airline, and
+verify mechanisms via a 200-case audit (App. F).
+We test calibration plasticity with two symmetric
+inference-time probes: State-Reconciliation Intervention (SRI) for missed tool calls (the gold action
+is a tool call but the model emitted none) and CallReconciliation Intervention (CRI) for unwarranted
+tool calls (the model emitted a tool call where the
+gold action is non-call) (§3.3).
+Contributions. C1: Action-class diagnostic
+framework. We define a four-class action space
+and Gold Action Recall (GAR), then relate GAR
+to BFCL state-graded accuracy. The bound Acc ≤
+GAR is diagnostic: violation (Acc > GAR) exposes state-grader masking on missing-info categories (miss_func, miss_param), and large bound
+slack (GAR ≫ Acc) captures tool, argument, or
+state-progression failures after a tool call (§3.2).
+C2: Calibration is the bottleneck. A top-ranked
+family has substantially lower missing-info GAR
+than its size-matched peers, while BFCL’s state
+grader still passes many of these wrong-action trajectories. A 200-case audit (κ = 0.92) and crossbenchmark reproduction on τ 2 -bench retail and airline confirm the pattern (§4.1, §4.2). C3: Calibration is plastic but doubly heterogeneous. Contextonly perturbations can reshape the calibration profile, but the reshape is heterogeneous on two axes.
+On the direction axis, a single SRI perturbation
+moves Acc in opposite directions across families
+on the same scenario. On the mechanism axis, two
+
+CRI variants (retry vs. bypass) dissociate cleanly:
+retry shifts emission toward the gold action class
+but degrades trajectory accuracy on nearly all families, while bypass preserves or improves trajectory
+accuracy without touching emission (§4.4).
+Prescription. Multi-turn tool-calling benchmarks should report GAR alongside aggregate accuracy; it exposes what each model does in each
+scenario (§3.2).1
+
+2
+
+Related Work
+
+Prior work maps tool-use and broader agent failures and builds critics that catch them, at grains
+from whole trajectories down to single arguments (Hamad et al., 2025; Huang et al., 2025;
+Zhu et al., 2025a; Xiong et al., 2025). Lee (2026)
+attributes failures on solvable tasks to drift from
+a canonical path rather than missing capability,
+and Waqas et al. (2026) to agents deferring to
+false assertions from users or tools. Zhu et al.
+(2025b) document reward-design flaws that distort
+measured performance, including a grader counting empty responses as successes—the masking
+our bound exposes. We use calibration to mean
+context-conditional action-class alignment, distinct
+from probability calibration (Guo et al., 2017). The
+nearest precedents ask whether a tool is needed at
+all: MetaTool (Huang et al., 2024b) benchmarks
+tool awareness and selection; When2Call (Ross
+et al., 2025) scores when-to-call as a four-way
+choice—call, ask, decline, or answer—and finds
+the error pattern family-specific rather than uniform over-calling, leaving call correctness to BFCL.
+Our Acc ≤ GAR diagnostic instead operates on
+the generative grader, decomposing action-class
+miscalibration from action-execution failure across
+families. Adjacent lines regulate when to act—
+dynamic abstention (Davidov et al., 2026), costaware commit control (Ding et al., 2026), halt
+heuristics (Laaouach, 2025)—while we ask which
+action class the context makes correct.
+Inference-time interception can reduce hallucination (Gurram, 2026), though intrinsic selfcorrection can degrade performance (Huang et al.,
+2024a); our SRI/CRI probes are diagnostic perturbations rather than production fixes, and our 200case audit draws on process-supervision methodology (Wang et al., 2024; Luo et al., 2024). Concurrent diagnostic work targets multi-agent fail1
+
+Code and released artifacts: https://github.com/
+fbj2333/tool-calling-calibration
+
+ure modes, failure-step localization, and myopiccommitment amplification (Cemri et al., 2025;
+Barke et al., 2026; Wang et al., 2026). Trainingside work improves multi-turn tool use through
+supervised fine-tuning (Lin et al., 2025; Prabhakar
+et al., 2025; Liu et al., 2025; Chen et al., 2025b)
+or reinforcement learning (Zhong et al., 2026; Xue
+et al., 2026; Su et al., 2025; Zhang et al., 2026,
+2025; Chen et al., 2025a; Qian et al., 2025). We isolate and diagnose the calibration profile train-free,
+with cross-family ablation on BFCL v3 multi-turn.
+
+3
+
+Method
+
+3.1
+
+Decision setup and diagnostic action space
+
+We model a case as a state-action trajectory
+⟨(s1 , a1 ), . . . , (sK , aK )⟩: at turn k, the model
+emits an action ak from state sk (the conversation
+history and tool returns up to turn k), and the benchmark’s tool simulator transitions the state to sk+1 .
+The benchmark grader compares the model’s runtime state against a gold reference trajectory turn
+by turn, skipping turns whose gold reference is
+empty, and yields conversation accuracy (Acc).
+Our
+diagnostic
+adds
+a
+categorical
+layer over ak :
+we classify each emission into one of four action classes
+A = {TOOL _ CALL, ASK, REFUSE, CONFIRM},
+plus a residual class OTHER for emissions that signal no decision, which GAR ignores. TOOL _ CALL
+is decided from the emission’s syntax, the other
+three from textual cues appearing anywhere in
+it. Each emission receives one label, under the
+fixed priority TOOL _ CALL > REFUSE > ASK >
+CONFIRM > OTHER . The cue lists are released
+with the code. For each scenario category (denoted
+cat), the contextually appropriate gold action
+a⋆cat ∈ A is fixed by benchmark design. The
+framework asks whether the model chose a⋆cat in
+context, independent of state outcome.
+We operationalize on BFCL v3 multi-turn (Patil
+et al., 2025; Berkeley Function Calling Leaderboard Team, 2024). Here cat takes one of four values: base and long_context require TOOL _ CALL,
+miss_param withholds a required argument and
+calls for ASK, and miss_func requests an unavailable tool and calls for REFUSE.
+3.2
+
+Diagnostic metrics
+
+For a case, let E(case) ⊆ A be the set of action classes emitted at any turn (with a⋆cat as in
+§3.1). Throughout, calibration refers to context-
+
+conditional action-class alignment. Gold Action
+Recall (GAR) is
+GAR(F, cat) =
+
+Pr [a⋆cat ∈ E(case)] ,
+
+case∼cat
+
+(1)
+
+using case-level, any-turn aggregation. We pair
+GAR with the benchmark grader’s trajectory-level
+verdict, conversation accuracy (Acc): GAR captures whether the model attempted the gold action
+class, Acc captures whether the graded trajectory
+passed.
+The pair (GAR, Acc) is diagnostic. If a category’s state score required emitting the diagnostic gold action, then Acc(F, cat) ≤ GAR(F, cat):
+Acc is then a subset of cases that both attempted
+the gold action and passed the benchmark grader.
+Bound violation (Acc > GAR) flags state-grader
+masking of an action-class miss; we call this actionclass miscalibration. Large bound slack (GAR ≫
+Acc) flags failures downstream of the gold action
+class firing (wrong tool, arguments, or state tracking); we call this action-execution failure. The
+main reporting unit is therefore the per-category
+pair (GAR, Acc).
+3.3
+
+Intervention probes: SRI and CRI
+
+We test calibration plasticity with two symmetric inference-time probes: State-Reconciliation Intervention (SRI), targeting missed tool calls (the
+model halts when it should call) by reconciling the
+retry context with runtime-observed tool-execution
+state, and Call-Reconciliation Intervention (CRI),
+targeting unwarranted tool calls (the model calls
+when it should not) by reconciling a flagged suspect
+call with the gold non-call action. Fig. 2 illustrates
+both probes on representative recovered trajectories.
+SRI (halt boundary). A halt event at turn k is an
+emission with no parseable TOOL _ CALL; the Halt
+Detector (HD) flags this boundary and gates retry
+at turns whose gold action is TOOL _ CALL. SRI
+constructs a retry context c′k from ck in three steps:
+(1) remove the halt-triggering assistant message,
+(2) append runtime-observed tool-execution state,
+and (3) append a fixed retry rule.
+CRI (call boundary). CRI gates on a parseable
+tool-call emission at a turn whose gold action is
+non-call (ASK or REFUSE). The Call Detector
+flags a suspect call when it invokes a function
+absent from the in-context toolset or passes a parameter value the model has not been given. Two
+
+SRI — State-Reconciliation Intervention · repairs under-action (model halts when a tool call is required)
+USER
+
+"Buy 100 TSLA @ $700,
+then check order details."
+
+(no further tool_call;
+
+BASELINE
+
+AGENT
+
+model stays halted)
+
+place_order(TSLA, 700, 100)
+→ id=12446 ✓
+
+BFCL
+
+FAIL ✗
+
+AGENT — ★ gold action = TOOL_CALL
+
+NL summary: "order placed!"
+(no tool_call — agent halts)
+
+halt
+detected
++ SRI intervention · state injection
+injected into context:
+
+AGENT recovery
+
+"you placed order 12446;
+
+get_order_details →
+
+user's next ask was order details"
+
+cancel_order → ...
+
+[appended to chat history before retry]
+
+(4 tool_calls)
+
+BFCL
+
+PASS ✓
+
+CRI — Call-Reconciliation Intervention · repairs over-action (model emits a tool call where none is appropriate)
+USER
+
+"What's the cost of a first-class
+flight from Rivermist to JFK?"
+
+(fabricated calls accepted;
+
+BASELINE
+
+[get_flight_cost held out this turn]
+
+state corrupted from turn 0)
+
+BFCL
+
+FAIL ✗
+
+AGENT — ★ gold action = REFUSE
+CALL 1 (benign)
+get_nearest_airport_by_city("RMS")
+CALL 2 (over-action — 3 fabricated args)
+authenticate_travel(
+client_id='your_client_id',
+client_secret='your_client_secret')
+CALL 3 (over-action — task escalated)
+book_flight(
+access_token='251675',
+card_id='123456789', ...)
+
+over-action
+detected
+(calls 2, 3)
+
+[asked for cost, not booking]
+
++ CRI intervention · REFUSE injection
+replaces this turn's emission with:
+
+AGENT (next turn)
+
+"I cannot proceed —
+
+get_flight_cost(...)
+
+required tool not available this turn"
+[fabricated calls 2 & 3 never enter state]
+
+(tool restored;
+real call) ✓
+
+BFCL
+
+PASS ✓
+
+Figure 2: The two symmetric intervention probes. Top (SRI, halt seam): an agent halts when its gold action is
+TOOL _ CALL: instead of continuing with a required tool call it emits a natural-language summary (the “NL summary”
+
+label). SRI detects the halt and injects a state-recap into the retry context, which routes the model back into a
+tool-call chain that reaches the gold state. Bottom (CRI, call seam): an agent emits a TOOL _ CALL when its gold
+action is REFUSE: with a required function held out it fabricates an authentication call followed by an unrequested
+booking, polluting the state from turn 0. CRI flags the suspect calls and replaces this turn’s emission with a fixed
+abstention; the held-out function returns next turn and the recovery call proceeds against a clean state.
+
+variants handle the flagged call differently: CRIretry retracts the suspect call and re-queries the
+model with a prompt instructing it not to call a
+tool this turn; CRI-bypass retracts the suspect call
+and substitutes a fixed abstention response without
+re-querying. Comparing the two variants isolates
+whether improvement comes from the model producing a better response (retry) or from not executing the erroneous call (bypass).
+
+Full prompt templates and detector rules are in
+App. B and App. C.2.
+
+3.4
+
+Setup
+
+We evaluate on BFCL v3 multi-turn (Patil
+et al., 2025): the four diagnostic categories defined in §3.1, 200 conversations each. The
+panel (Tab. 1) covers 11 open-weight families (22 checkpoints; including Qwen3 (Yang
+et al., 2025), Llama-3.1 (Grattafiori et al.,
+2024), and gpt-oss-20b (OpenAI, 2025)) and 4
+closed-source API anchors (gpt-5-2025-08-07,
+gpt-5.4-2026-03-05, gemini-3-pro-preview,
+and Doubao-Seed-1.8). Model families were selected from the official BFCL leaderboard, keeping the most representative series of each vertical (Qwen3 for general-purpose, xLAM-2 for tool-
+
+call specialization) and adding size variants wherever released checkpoints allowed. All models
+run in native function-calling mode; open-weight
+checkpoints are served via vLLM (Kwon et al.,
+2023), with DeepSeek V4, GLM, and Kimi accessed through hosted endpoints. For each model–
+category cell we report GAR and conversation accuracy (Acc) as defined in §3.2. Every family emits
+each diagnostic action class on at least 10 cases
+(App. A), confirming that cross-family divergence
+reflects calibration rather than missing capability.
+
+4
+
+Experiments
+
+4.1
+
+Calibration profile
+
+Calibration is family-mediated, not sizemediated. Within a single pretraining family,
+scaling moves action-class calibration little. For
+Qwen3 at 4B and above, miss_param GAR varies
+by only 5.5 pp while same-category Acc gains
+14.5 pp (Tab. 1; Qwen3-4B at 26.5%, Qwen332B at 41.0%); Qwen3-1.7B at 57.0% sits below this band. xLAM-2 reproduces the decoupling on miss_func: every size records GAR below 20% while Acc more than doubles across
+the family (xLAM-2-1b at 35.0%, xLAM-2-70b
+at 76.5%). At fixed scale, cross-family variation is substantially larger: at 7–8B, Hammer2.1-7B records miss_param GAR of 0.5% where
+Qwen3-8B reaches 84.0% (an 83.5-pp gap), and
+on miss_func Hammer-2.1-7B’s 0% contrasts with
+Llama-3.1-8B’s 41.0%. Action-class behavior
+is shaped more by pretraining mixture and posttraining recipe than by parameter count.
+In general-purpose open-weight families, ∆
+direction splits asymmetrically across the two
+missing-info categories. On the two tool-call categories, all 26 rows record ∆ ≥ +17 pp, with
+GAR at or above 77% in every row while Acc
+trails by up to 87.0 pp (Tab. 1; Granite-3.2-8B on
+base). Emission of the gold TOOL _ CALL class
+is near-universal; the failure sits downstream in
+execution—wrong tool, wrong argument, or broken multi-turn state. Without the GAR column
+this is indistinguishable from never emitting the
+call, and the two failures call for different fixes.
+High emission on the tool-call categories does not
+prove context-sensitive recognition: a model that
+blindly calls tools scores the same. Recognition is
+demonstrated only when a family also suppresses
+calls on the missing-info categories. The two
+missing-info categories then diverge. miss_param
+
+∆ stays uniformly positive across general-purpose
+families (e.g., Qwen3-32B +43.0 pp, GLM 5.1
++23.0 pp): these models emit the gold ASK, but
+subsequent turns fail to reach the correct terminal state. miss_func ∆ is predominantly negative
+across general-purpose families (e.g., gpt-oss-20b
+−38.5 pp, GLM 5.1 −32.5 pp): explicit REFUSE is
+rarely emitted, yet the state grader passes many of
+these trajectories. The asymmetry tracks training
+pressure: REFUSE contradicts a function-calling
+recipe that optimizes for emitting a call, while ASK
+sits closer to natural dialogue. The two directions
+share a single grader property: Acc tracks state outcomes regardless of action-class emission, masking
+under-refusal on miss_func (∆ < 0) and surfacing
+post-ask execution failure on miss_param (∆ > 0).
+Whether masking matters depends on the deployment. A task-completion perspective accepts a
+trajectory that eventually recovers the correct end
+state, whereas a safety-critical perspective rejects
+one that gets there by calling a held-out function or
+writing without confirmation (§4.3).
+In tool-specialized open-weight families,
+∆ collapses on both missing-info categories.
+xLAM-2-70b sits at ∆ = −59.5/−66.0 pp on
+miss_func/miss_param while topping the openweight Acc panel at 77.5%; the same shape repeats across the cluster, with ToolACE-2-8B’s
+miss_param (Tab. 1; +8.5 pp) the only partial deviation. Doubao-Seed-1.8 shows the same pattern
+(∆ = −29.5/−14.5 pp on miss_func/miss_param).
+A 200-case audit with two independent raters
+(κ = 0.92) confirms the mechanism: 92.3% of
+the audited xLAM-2-8b miss_func misses invoke
+the held-out function (App. F). In contrast, gpt5.4 and Gemini 3 Pro maintain calibration on
+both missing-info categories (gpt-5.4: 65.5/44.0%;
+Gemini 3 Pro: 66.5/85.0%), showing the deficit is
+recipe-specific. A turn-level recount across seven
+families confirms these case-level patterns are not
+artifacts of the case/turn aggregation (App. E).
+4.2
+
+Cross-benchmark validation
+
+On BFCL, tool-specialized models combine high
+aggregate-metric scores with action-class deviation (§4.1). The closed rows serve as reference
+points, so a model is carried over from Tab. 1
+only when its own missing-info profile is calibrated. Doubao-Seed-1.8 is the highest-scoring
+closed model but its missing-info profile matches
+the tool-specialized cluster, so it appears here as a
+subject of the diagnostic, not a reference. We test
+
+Table 1: BFCL multi-turn calibration profile. Each category reports GAR, Acc, and ∆ = GAR − Acc (%); gold
+actions appear below category headers. ∆ is colored green (positive) or red (negative); gray shading marks execution
+failure (∆ ≥ 60 pp, base/long_context) and masking (∆ ≤ −15 pp, missing-info). Bold/↓ : column max/min.
+On tool-call categories, all families emit the gold action (GAR ≥ 77%) but large positive ∆ reveals a universal
+execution gap. On missing-info categories, general-purpose families show a refuse–ask asymmetry: miss_func ∆
+trends negative (models rarely refuse; accuracy is inflated by state-grader masking), while miss_param ∆ is large
+positive (models readily ask but fail to complete correctly). Tool-call-specialized families show negative ∆ on both
+missing-info categories, with masking accounting for up to 66 pp of apparent accuracy.
+
+Family
+
+Overall
+Acc
+
+base
+
+long_context
+
+miss_func
+
+miss_param
+
+gold: TOOL _ CALL
+
+gold: TOOL _ CALL
+
+gold: REFUSE
+
+gold: ASK
+
+GAR
+
+Acc
+
+∆
+
+GAR
+
+Acc
+
+∆
+
+GAR
+
+Acc
+
+∆
+
+GAR
+
+Acc
+
+∆
+
+General-purpose open-weight
+Qwen3-1.7B
+15.5
+98.5
+Qwen3-4B
+32.4
+99.0
+Qwen3-8B
+39.4
+99.5
+Qwen3-14B
+46.75
+99.5
+Qwen3-32B
+49.6
+100
+Llama-3.1-8B
+4.3↓
+77.5↓
+gpt-oss-20b
+46.3
+99.5
+gpt-oss-120b
+46.5
+99.5
+Granite-3.2-8B
+7.0
+96.0
+DeepSeek V4 Pro
+52.0
+100
+DeepSeek V4 Flash
+47.4
+100
+GLM 5.1
+69.4
+100
+Kimi K2.6
+63.1
+100
+
+18.0
+40.5
+48.5
+59.0
+61.0
+6.5↓
+56.0
+51.5
+9.0
+62.0
+61.0
+78.5
+71.0
+
+80.5 83.5
+58.5 87.0
+51.0 87.0
+40.5 86.5
+39.0 88.0
+71.0 77.0↓
+43.5 99.5
+48.0 99.5
+87.0 95.0
+38.0 99.5
+39.0 100
+21.5 100
+29.0 97.5
+
+12.5
+26.5
+32.0
+39.5
+44.5
+6.5↓
+44.5
+50.0
+8.5
+55.0
+54.5
+67.0
+63.0
+
+71.0
+60.5
+55.0
+47.0
+43.5
+70.5
+55.0
+49.5
+86.5
+44.5
+45.5
+33.0
+34.5
+
+41.0
+47.0
+40.0
+44.5
+36.5
+41.0
+3.5
+39.5
+22.0
+26.0
+22.5
+37.0
+49.5
+
+15.5
+36.0
+41.0
+49.5
+52.0
+1.5↓
+42.0
+38.5
+3.5
+45.5
+37.0
+69.5
+63.0
+
+25.5
+11.0
+−1.0
+−5.0
+−15.5
+39.5
+−38.5
+1.0
+18.5
+−19.5
+−14.5
+−32.5
+−13.5
+
+57.0
+78.5
+84.0
+79.0
+84.0
+53.0
+76.0
+78.0
+44.5
+91.0
+79.5
+85.5
+84.0
+
+16.0
+26.5
+36.0
+39.0
+41.0
+2.5↓
+42.5
+46.0
+7.0
+45.5
+37.0
+62.5
+55.5
+
+41.0
+52.0
+48.0
+40.0
+43.0
+50.5
+33.5
+32.0
+37.5
+45.5
+42.5
+23.0
+28.5
+
+Tool-call-specialized open-weight
+Hammer-2.1-1.5B
+15.75
+100
+Hammer-2.1-7B
+24.0
+97.5
+xLAM-2-1b
+35.9
+100
+xLAM-2-3b
+57.8
+99.5
+xLAM-2-8b
+71.8
+100
+xLAM-2-32b
+69.4
+100
+xLAM-2-70b
+77.5
+100
+ToolACE-2-8B
+39.25
+100
+Watt-Tool-8B
+41.0
+100
+
+20.5 79.5
+24.5 73.0
+45.5 54.5
+72.0 27.5
+79.0 21.0
+80.5 19.5
+82.5 17.5↓
+50.0 50.0
+48.0 52.0
+
+100
+97.0
+78.0
+78.5
+100
+78.5
+100
+100
+100
+
+18.0 82.0
+22.0 75.0
+25.5 52.5
+45.5 33.0
+69.0 31.0
+56.5 22.0↓
+76.5 23.5
+46.0 54.0
+44.0 56.0
+
+0.0↓
+0.0↓
+6.5
+12.0
+10.0
+13.0
+17.0
+12.5
+22.5
+
+15.0 −15.0
+27.5 −27.5
+35.0 −28.5
+57.0 −45.0
+73.5 −63.5↓
+72.5 −59.5
+76.5 −59.5
+30.5 −18.0
+42.5 −20.0
+
+0.0↓
+0.5
+21.5
+15.0
+19.5
+33.0
+8.5
+39.0
+7.0
+
+9.5
+−9.5
+22.0 −21.5
+37.5 −16.0
+56.5 −41.5
+65.5 −46.0
+68.0 −35.0
+74.5 −66.0↓
+30.5
+8.5
+29.5 −22.5
+
+Closed-source (API anchors)
+gpt-5.4
+51.6
+gpt-5
+47.0
+Gemini 3 Pro
+41.1
+Doubao-Seed-1.8
+55.9
+
+57.0
+53.0
+41.5
+71.0
+
+100
+99.5
+98.5
+99.5
+
+56.0
+47.0
+38.0
+62.5
+
+65.5
+40.0
+66.5
+22.0
+
+52.0
+47.0
+45.5
+51.5
+
+44.0
+97.5
+85.0
+24.0
+
+41.5
+41.0
+39.5
+38.5
+
+99.0
+100
+99.0
+100
+
+42.0
+47.0
+57.5
+29.0
+
+whether this pattern extends to τ 2 -bench (Barres
+et al., 2025), whose evaluator pairs a simulated user
+with database-state checks and (on retail) LLMjudged natural-language assertion checks. The
+benchmark’s gold action sequence (actions) anchors our TOOL _ CALL class: 155 of 164 tasks
+have non-empty actions (TOOL _ CALL-required),
+and the remaining 9 (7 airline, 2 retail) have
+empty actions (REFUSE-required, equivalent to
+BFCL miss_func). We additionally derive an ASKrequired label by keyword-scanning the user scenario for instructions to withhold information until
+asked, then verifying each candidate against its scenario; 36 of the 41 candidates survive (8 airline, 28
+
+44.0
+52.5
+60.5
+37.0
+
+13.5
+−7.0
+21.0
+−29.5
+
+2.5
+56.5
+45.5
+−14.5
+
+retail). The ASK label may apply jointly with either
+TOOL _ CALL or REFUSE.
+In the airline TOOL _ CALL subset, the Acc–GAR
+gap on tool-specialized families has a different
+mechanism than BFCL’s state-grader masking
+on miss_func/miss_param.
+xLAM-2-8b and
+Hammer-2.1-7B score GAR = 0% on airline
+TC-required tasks yet pass 37.2% (Tab. 2; 16/43);
+on retail, GAR = 0% with 4.5% pass (5/112).
+On BFCL the action class itself was wrong:
+the model called when it should have asked or
+refused, and the state grader missed it. On τ 2
+airline TC the action class is right; what fails
+is action-path matching against the reference.
+
+Table 2: τ 2 -bench per-class diagnostic (%; baseline). pass@1 is the τ 2 task-level reward. Per-class GAR, Acc, and
+∆ = GAR − Acc are computed on the action-class-required subset only (subset size n shown under each class
+header, formatted as airline/retail). TOOL _ CALL GAR uses the benchmark’s reference-path action_checks; ASK
+GAR uses text-emission detection; REFUSE GAR uses the τ 2 -native structural signal. Airline reward is judge-free;
+retail invokes an LLM NL-assertion judge on 112/114 tasks. All ASK metrics are reported over the verified set of
+36 tasks (8 airline, 28 retail).
+
+Family
+
+Domain
+
+TOOL _ CALL
+n = 43/112
+
+pass@1
+
+ASK
+
+REFUSE
+n = 7/2
+
+n = 8/28
+
+GAR
+
+Acc
+
+∆
+
+GAR
+
+Acc
+
+∆
+
+GAR
+
+Acc
+
+∆
+
+General-purpose open-weight
+airline
+Qwen3-14B
+retail
+airline
+Qwen3-8B
+retail
+airline
+gpt-oss-20b
+retail
+
+62.0
+56.1
+28.0
+44.7
+62.0
+47.4
+
+55.8
+42.0
+51.2
+38.4
+32.6
+35.7
+
+55.8
+55.4
+30.2
+44.6
+58.1
+46.4
+
++0.0
+−13.4
++20.9
+−6.2
+−25.6
+−10.7
+
+100
+100
+100
+100
+87.5
+100
+
+62.5
+46.4
+25.0
+32.1
+50.0
+46.4
+
++37.5
++53.6
++75.0
++67.9
++37.5
++53.6
+
+100
+100
+14.3
+50.0
+85.7
+100
+
+100
+100
+14.3
+50.0
+85.7
+100
+
++0.0
++0.0
++0.0
++0.0
++0.0
++0.0
+
+Tool-call-specialized open-weight
+airline
+xLAM-2-8b
+retail
+airline
+Hammer-2.1-7B
+retail
+airline
+ToolACE-2-8B
+retail
+
+46.0
+5.3
+46.0
+5.3
+26.0
+6.1
+
+0.0
+0.0
+0.0
+0.0
+18.6
+3.6
+
+37.2
+4.5
+37.2
+4.5
+25.6
+6.2
+
+−37.2
+−4.5
+−37.2
+−4.5
+−7.0
+−2.7
+
+100
+100
+12.5
+17.9
+100
+100
+
+25.0
+3.6
+25.0
+3.6
+12.5
+0.0
+
++75.0
++96.4
+−12.5
++14.3
++87.5
++100
+
+100
+100
+100
+100
+28.6
+50.0
+
+100
+50.0
+100
+50.0
+28.6
+0.0
+
++0.0
++50.0
++0.0
++50.0
++0.0
++50.0
+
+82.0
+86.8
+86.0
+77.2
+74.0
+83.3
+84.0
+81.6
+66.0
+70.2
+
+79.1
+68.8
+79.1
+63.4
+69.8
+60.7
+44.2
+67.9
+62.8
+54.5
+
+79.1
+86.6
+83.7
+76.8
+69.8
+83.0
+81.4
+81.2
+62.8
+69.6
+
++0.0
+−17.9
+−4.7
+−13.4
++0.0
+−22.3
+−37.2
+−13.4
++0.0
+−15.2
+
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+
+100
+85.7
+87.5
+82.1
+75.0
+85.7
+100
+82.1
+25.0
+71.4
+
++0.0
++14.3
++12.5
++17.9
++25.0
++14.3
++0.0
++17.9
++75.0
++28.6
+
+100
+100
+100
+100
+100
+100
+100
+100
+85.7
+100
+
+100
+100
+100
+100
+100
+100
+100
+100
+85.7
+100
+
++0.0
++0.0
++0.0
++0.0
++0.0
++0.0
++0.0
++0.0
++0.0
++0.0
+
+Closed-source
+gpt-5
+gpt-5.4
+gpt-5-mini
+Gemini 3 Pro
+Doubao-Seed-1.8
+
+airline
+retail
+airline
+retail
+airline
+retail
+airline
+retail
+airline
+retail
+
+All 16 such cases for each of xLAM-2-8b and
+Hammer-2.1-7B (and 6 of 6 for ToolACE-2-8B)
+have reference paths consisting only of read-only
+lookup actions (e.g.,
+get_user_details,
+get_reservation_details).
+Strict
+action_checks fire on count, argument, or
+order mismatches; the end-state reward sees no
+database change regardless of how the model
+orders its lookup queries. τ 2 splits “reference-path
+correctness” from “task success” into separate
+audit channels; BFCL has only the second. Closedsource anchors show the gap is family-specific:
+gpt-5 holds GAR = Acc = 79.1% on airline, and
+gpt-5.4 holds GAR 79.1% with Acc 83.7%. The ∆
+on tool-specialized families therefore comes from
+family-level divergence from the reference path
+that τ 2 ’s lenient reward channel does not penalize.
+Cao et al. (2026) independently report 27–78% of
+τ -bench PASS trajectories as procedure-corrupt
+under audit, consistent with this split.
+
+On the ASK-required subset (n = 8/28), xLAM2-8b and ToolACE-2-8B reproduce the BFCL
+miss_param execution-failure pattern: high GAR
+(Tab. 2; gold action emitted) with low Acc (state
+fails downstream). Both emit ASK at GAR ≈ 100%
+while Acc collapses (xLAM-2-8b retail Acc 3.6%,
+∆ = +96.4 pp; ToolACE-2-8B retail Acc 0%,
+∆ = +100 pp); the model asks, but the trajectory does not reach gold state. Hammer-2.1-7B
+shows a third pattern: it under-emits ASK (airline
+GAR 12.5%, retail 17.9%), matching its BFCL
+miss_param emission deficit (GAR 0.5%).
+4.3 Confirmation before consequential actions
+BFCL annotates no gold for CONFIRM, so the class
+carries no (GAR, Acc) pair there. τ 2 supplies one
+from its written policy: the policy requires explicit
+user consent before every database write, and the
+τ 2 reward never checks it. We judge every database
+write in our τ 2 trajectories against that requirement
+
+airline
+
+retail
+
+Model
+
+GAR
+
+Acc
+
+∆
+
+n
+
+GAR
+
+Acc
+
+∆
+
+n
+
+Qwen3-8B
+Qwen3-14B
+gpt-oss-20b
+xLAM-2-8b
+Hammer-2.1-7B
+ToolACE-2-8B
+gpt-5
+gpt-5.4
+gpt-5-mini
+Gemini 3 Pro
+Doubao-Seed-1.8
+
+24.2
+28.8
+92.0
+–
+–
+16.3
+98.1
+100.0
+89.2
+100.0
+100.0
+
+11.6
+36.4
+40.0
+–
+–
+4.7
+55.6
+65.1
+59.5
+62.3
+52.8
+
++12.6
+-7.6
++52.0
+–
+–
++11.6
++42.6
++34.9
++29.7
++37.7
++47.2
+
+95
+66
+25
+0
+0
+43
+54
+43
+37
+53
+36
+
+27.1
+34.2
+82.8
+–
+–
+34.1
+99.4
+100.0
+98.2
+97.4
+98.6
+
+38.7
+50.5
+50.0
+–
+–
+4.4
+92.7
+83.8
+87.1
+91.6
+81.5
+
+-11.6
+-16.3
++32.8
+–
+–
++29.7
++6.7
++16.2
++11.0
++5.8
++17.1
+
+225
+196
+134
+0
+0
+91
+164
+154
+163
+154
+146
+
+Table 3: Confirmation before database writes on τ 2 -bench. The gold action class comes from the benchmark’s
+written policy, which requires explicit user consent before every database write and is never checked by its reward.
+Gold points are identified at run time – each write the model makes – so n varies by model. GAR is the share of
+writes preceded by an explicit confirmation, Acc the share of writes sitting in a passing trajectory, over the same
+denominator; judgments are made by an LLM judge (gpt-5.4) over the dialogue window before each write. Negative
+∆ is the masking signature on this class: unconfirmed writes pass more often than writes obtain consent. Dashes
+mark models that never reach a write, whose non-zero pass@1 (Tab. 2) comes from tasks whose correct end state
+leaves the database unchanged. Per-event judgments are released with the code.
+
+(Tab. 3); the gold points are the writes themselves,
+identified at run time, so the unit is a write event
+rather than a task and n varies by model.
+Negative ∆, concentrated in Qwen3, is the masking signature on this class. Qwen3-14B obtains
+consent on 28.8% of its airline writes, but 36.4% of
+those writes sit in passing trajectories; on retail the
+gap is 16.3 pp. Unconfirmed writes therefore pass
+routinely. The closed anchors run the other way:
+they confirm 89.2–100% of their writes and their
+∆ is positive throughout, the ordinary executiongap direction. xLAM-2-8b and Hammer-2.1-7B
+never reach a write, and their non-zero pass@1
+comes from tasks whose correct end state leaves
+the database unchanged.
+4.4
+
+Calibration plasticity
+
+We probe whether calibration is plastic at inference time using SRI and CRI (§3.3; mechanism
+illustrated in Fig. 2) on a six-family panel: Qwen38B, xLAM-2-8b, Hammer-2.1-7B, ToolACE-28B, Watt-Tool-8B, and the gpt-5.4 closed anchor
+(Tab. 4). SRI reports both GAR and Acc from
+the same halt-seam run. CRI splits the two by
+mechanism: GAR comes from CRI-retry (a genuine model re-emission at the suspect turn); Acc
+comes from CRI-bypass (the grader-skipped turn
+isolates downstream state from the suspect emission). CRI-bypass GAR is not reported because the
+placeholder is system-written, not a model emission (App. C.2).
+
+Axis A: reshape direction is family-mediated.
+The clearest case is SRI on base: a single perturbation produces a +11.5 pp Acc gain on Qwen38B and a −21.0 pp Acc loss on ToolACE-28B. Hammer-2.1-7B and Watt-Tool-8B sit near
+zero on the same perturbation. The ToolACE2-8B collapse (Tab. 4; −21.0/−21.5 pp on
+base/long_context) is mechanistically informative.
+GAR is at 100% ceiling both before and after SRI,
+so the Acc shift is entirely trajectory-level: SRI’s
+re-decode produces a state-corrupting tool call that
+the original trajectory avoided. Qwen3-8B shows
+the opposite direction at near-ceiling baseline GAR,
+with Acc rising +11.5 pp from trajectory recovery
+on the re-decoded call (Fig. 2, SRI panel; crossbench replication on τ 2 -retail in App. D). xLAM2-8b matches this trajectory-recovery pattern at
+GAR ceiling, with Acc rising +3.0 and +5.0 pp
+from state-tracking alone. GAR-ceiling explains
+why these shifts are trajectory-level but not their
+direction or magnitude: Hammer-2.1-7B and WattTool-8B share the ceiling property yet stay near
+zero. The gpt-5.4 closed anchor has baseline GAR
+≥ 99.0% on both tool-call categories and shows
+near-zero SRI shifts (+0.5/ − 0.5 pp on base): it
+almost never halts, so SRI has no boundary to fire
+on.
+Axis B: effect depends on mechanism. CRIretry and CRI-bypass operate on the same suspectcall detection but yield opposite Acc shifts. CRIretry moves emission GAR toward the gold action
+
+Table 4: SRI and CRI intervention shifts on the six-family probe panel. Each cell reports the intervention value
+followed by ∆ vs. baseline (Tab. 1); positive ∆ = higher GAR (closer to gold) or higher Acc. SRI: both GAR and
+Acc from the same halt-seam run. CRI: GAR from CRI-retry (genuine model re-emission), Acc from CRI-bypass
+(grader-skipped turn; App. C.2). Bold = largest single-cell shift in each direction.
+SRI (halt seam)
+Family
+
+base
+GAR
+
+Qwen3-8B
+xLAM-2-8b
+Hammer-2.1-7B
+ToolACE-2-8B
+Watt-Tool-8B
+gpt-5.4
+
+Acc
+
+GAR
+
+miss_func
+
+Acc
+
+100.0(+0.5) 60.0(+11.5) 83.0(−4.0) 38.0(+6.0)
+100.0( 0.0) 82.0(+3.0) 100.0( 0.0) 74.0(+5.0)
+99.0(+1.5) 26.0(+1.5) 99.5(+2.5) 22.5(+0.5)
+100.0( 0.0) 29.0(−21.0) 100.0( 0.0) 24.5(−21.5)
+100.0( 0.0) 48.0( 0.0) 100.0( 0.0) 40.5(−3.5)
+99.5(+0.5) 56.5(−0.5) 99.5(−0.5) 50.0(−6.0)
+
+class on miss_func (peak +36.0 pp on ToolACE2-8B). The retry-injected abstention propagates
+downstream: Acc falls in 11 of 12 missing-info
+cells (Tab. 4; App. C.2). CRI-bypass injects a skip
+token instead: the model emits nothing at the fired
+turn, so emission policy is untouched. Acc is nonnegative in all 12 cells and rises in 11, peaking at
++13.0 pp. Retry shifts emission policy at the cost
+of trajectory completability; bypass preserves completability and leaves emission policy unchanged.
+Both probes move calibration without weight updates: calibration is plastic at inference time, but
+the plasticity depends jointly on the family and the
+intervention mechanism.
+Per-component SRI ablation, the full CRI-retry
+Acc panel, and CRI-bypass detector trigger rates
+by family are in App. C.
+4.5
+
+CRI (call seam)
+
+long_context
+
+Case Study
+
+We ground the failure modes profiled in Tab. 1 with
+audited cases (κ ≥ 0.89; App. F).
+Absent-tool emission.
+On a TradingBot
+miss_func scenario, place_order is held out from
+the toolset and the user requests a stock purchase. xLAM-2-8b emits get_account_info(),
+get_stock_info("TSLA"), then place_order(
+"Buy","TSLA",667.92,150)—calling the absent
+function with fully correct arguments. When
+BFCL restores the tool at the next turn, xLAM
+calls place_order again, creating a duplicate order that corrupts state. Among 78 audited xLAM
+miss_func GAR-miss cases, 92.3% exhibit this pattern (App. F; κ = 1.0): the prompt-level toolset
+constraint does not block emission of a held-out
+function.
+Refuse–ask asymmetry. Two VehicleControlAPI scenarios from Qwen3-8B illustrate the gap
+
+miss_param
+
+GARretry
+
+Accbypass
+
+GARretry
+
+Accbypass
+
+63.5(+23.5)
+18.0(+8.0)
+0.5(+0.5)
+48.5(+36.0)
+48.0(+25.5)
+89.0(+23.5)
+
+48.0(+7.0)
+82.0(+8.5)
+27.5( 0.0)
+36.5(+6.0)
+46.5(+4.0)
+56.5(+4.5)
+
+86.0(+2.0)
+19.0(−0.5)
+3.0(+2.5)
+45.5(+6.5)
+22.5(+15.5)
+42.0(−2.0)
+
+46.0(+10.0)
+72.0(+6.5)
+26.5(+4.5)
+43.5(+13.0)
+40.0(+10.5)
+52.0(+10.5)
+
+between the two missing-info action classes. On
+miss_param, the user says “fill up my car” without
+specifying the fuel amount; Qwen3-8B responds
+“Could you provide the desired amount in liters?”,
+a correct ASK. On miss_func in the same API
+domain, fillFuelTank is held out; the user requests fuel filling plus engine start, and Qwen3-8B
+silently skips the unavailable operation and proceeds to startEngine; it never refuses. Asking for
+a missing parameter aligns with general clarification behavior; refusing an absent function requires
+recognizing the toolset constraint and overriding
+the default to emit a call.
+
+5
+
+Conclusion
+
+We propose a diagnostic framework that decomposes multi-turn tool-calling failures into actionclass miscalibration and action-execution failure
+via the bound Acc ≤ GAR. Across the BFCL
+and τ 2 -bench panel, miscalibration is the bottleneck, shaped by family recipe and invisible to
+the state grader. Inference-time probes confirm
+calibration is reshapable, with the reshape varying across families and perturbation mechanisms.
+The framework diagnoses rather than corrects; its
+probes indicate what a correction would cost: retrystyle intervention moves emission at the expense of
+completion, while bypass-style guarding preserves
+completion without touching emission. Choosing
+between them from the diagnosis is future work.
+
+Limitations
+Diagnosis without training prescription. Our
+framework localizes action-class miscalibration to
+specific families and categories but does not identify which training-stage decision (pre-training mixture or post-training recipe) is responsible. The
+
+diagnosis tells practitioners where calibration fails;
+how to fix it requires controlled training ablations
+beyond this work.
+Benchmark coverage. The calibration signature
+holds across BFCL multi-turn and τ 2 -bench (§4.2).
+These are the two multi-turn tool-calling benchmarks we use; extending coverage to others is left
+to future work.
+
+References
+Shraddha Barke, Arnav Goyal, Alind Khare, Avaljot
+Singh, Suman Nath, and Chetan Bansal. 2026. Agentrx: Diagnosing ai agent failures from execution trajectories. arXiv preprint arXiv:2602.02475.
+Victor Barres, Honghua Dong, Soham Ray, Xujie Si,
+and Karthik Narasimhan. 2025. τ 2 -Bench: Evaluating conversational agents in a dual-control environment. Preprint, arXiv:2506.07982.
+
+Probe coverage and oracle gating. The plasticity results (Tab. 4) cover 6 of the 26 checkpoints
+in the main panel. Whether the reshape patterns
+generalize to all checkpoints is untested. SRI and
+CRI are diagnostic instruments, not runtime interventions: they need the category-level gold action
+class to choose which seam to monitor, which is
+unknown in deployment. GAR carries the same
+dependence: it scores against a gold action class
+the benchmark supplies. §4.3 takes that gold from
+a written policy rather than a per-task label, but a
+single instance does not establish that a judge can
+recover gold action classes in general.
+
+Berkeley Function Calling Leaderboard Team. 2024.
+BFCL v3: Multi-turn & multi-step function calling
+evaluation. Gorilla LLM blog post; release notes for
+BFCL v3 multi-turn split.
+
+Ethical Considerations
+
+Fu Chen, Peng Wang, Xiyin Li, Wen Li, Shichi Lei, and
+Dongdong Xiang. 2025a. ToolExpander: Extending
+the frontiers of tool-using reinforcement learning to
+weak LLMs. arXiv preprint arXiv:2510.07737.
+
+This work is a diagnostic study over public benchmarks (BFCL v3 multi-turn (Patil et al., 2025) and
+τ 2 -bench retail/airline (Barres et al., 2025)). The
+model panel comprises 11 open-weight families
+(full list in Tab. 1) and 4 closed-source API anchors:
+gpt-5, gpt-5.4, Gemini 3 Pro, and Doubao-Seed1.8. No human-subject data were collected and
+no model weights were retrained. All audit annotations were produced by two independent LLM
+raters (Claude Opus 4.7) following a frozen rubric
+(App. F); the rubric, per-rater labels, and adjudicated outcomes are released alongside the SRI/CRI
+probe protocols. The diagnostic reveals failure
+modes (e.g., over-calling tools when refusal is appropriate) that practitioners deploying these models
+in production should account for. Generative AI
+assistance (Claude) was used for prose editing; empirical claims are author-verified.
+
+Acknowledgments
+This work is partially supported by the Natural Science Foundation of Zhejiang Province under Grants No. LZ25F020002, the National Natural Science Foundation of China under Grants
+No. 62402433, and the “Open Competition”
+Project of Hangzhou High-tech Zone (Binjiang)
+under Grants No. 2025JBGS-PT003.
+
+Hongliu Cao, Ilias Driouich, and Eoin Thomas. 2026.
+Beyond task completion: Revealing corrupt success
+in llm agents through procedure-aware evaluation.
+arXiv preprint arXiv:2603.03116.
+Mert Cemri, Melissa Z. Pan, Shuyi Yang, Lakshya A.
+Agrawal, Bhavya Chopra, Rishabh Tiwari, Kurt
+Keutzer, Aditya Parameswaran, Dan Klein, Kannan
+Ramchandran, Matei Zaharia, Joseph E. Gonzalez,
+and Ion Stoica. 2025. Why do multi-agent LLM
+systems fail? In NeurIPS 2025 Datasets and Benchmarks Track.
+
+Mingyang Chen, Haoze Sun, Tianpeng Li, Fan Yang,
+Hao Liang, Keer Lu, Bin Cui, Wentao Zhang, Zenan
+Zhou, and Weipeng Chen. 2025b. Facilitating multiturn function calling for LLMs via compositional
+instruction tuning. In The Thirteenth International
+Conference on Learning Representations (ICLR).
+Hen Davidov, Nachshon Cohen, Oren Kalinsky, Yaron
+Fairstein, Guy Kushilevitz, Ram Yazdi, and Patrick
+Rebeschini. 2026. Knowing when to quit: A principled framework for dynamic abstention in llm reasoning. In Proceedings of the 43rd International
+Conference on Machine Learning (ICML).
+Wenxuan Ding, Nicholas Tomlin, and Greg Durrett.
+2026. Calibrate-then-act: Cost-aware exploration in
+llm agents. arXiv preprint arXiv:2602.16699.
+Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri,
+Abhinav Pandey, Abhishek Kadian, Ahmad AlDahle, Aiesha Letman, Akhil Mathur, Alan Schelten,
+Alex Vaughan, and 1 others. 2024. The Llama 3 herd
+of models. Preprint, arXiv:2407.21783.
+Chuan Guo, Geoff Pleiss, Yu Sun, and Kilian Q. Weinberger. 2017. On calibration of modern neural networks. In Proceedings of the 34th International Conference on Machine Learning (ICML).
+Bhaskar Gurram. 2026. Auditing automated evaluation,
+error propagation, and runtime mitigation in toolusing language agents. Preprint, arXiv:2604.16706.
+
+Hassan Hamad, Yingru Xu, Liang Zhao, Wenbo Yan,
+and Narendra Gyanchandani. 2025. ToolCritic: Detecting and correcting tool-use errors in dialogue systems. Preprint, arXiv:2510.17052.
+Jie Huang, Xinyun Chen, Swaroop Mishra,
+Huaixiu Steven Zheng, Adams Wei Yu, Xinying Song, and Denny Zhou. 2024a. Large language
+models cannot self-correct reasoning yet. In The
+Twelfth International Conference on Learning
+Representations (ICLR).
+Shiting Huang, Zhen Fang, Zehui Chen, Siyu Yuan, Junjie Ye, Yu Zeng, Lin Chen, Qi Mao, and Feng Zhao.
+2025. CRITICTOOL: Evaluating self-critique capabilities of large language models in tool-calling error
+scenarios. In Proceedings of the 2025 Conference on
+Empirical Methods in Natural Language Processing,
+pages 26672–26704, Suzhou, China. Association for
+Computational Linguistics.
+Yue Huang, Jiawen Shi, Yuan Li, Chenrui Fan, Siyuan
+Wu, Qihui Zhang, Yixin Liu, Pan Zhou, Yao Wan,
+Neil Zhenqiang Gong, and Lichao Sun. 2024b. MetaTool benchmark for large language models: Deciding
+whether to use tools and which to use. In The Twelfth
+International Conference on Learning Representations (ICLR).
+Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying
+Sheng, Lianmin Zheng, Cody Hao Yu, Joseph E. Gonzalez, Hao Zhang, and Ion Stoica. 2023. Efficient
+memory management for large language model serving with PagedAttention. In Proceedings of the 29th
+Symposium on Operating Systems Principles (SOSP).
+Yassir Laaouach. 2025. HALT-CoT: Model-agnostic
+early stopping for chain-of-thought reasoning via answer entropy. In 4th Muslims in ML Workshop colocated with ICML 2025.
+Wilson Y. Lee. 2026. Capable but unreliable: Canonical
+path deviation as a causal mechanism of agent failure
+in long-horizon tasks. Preprint, arXiv:2602.19008.
+Qiqiang Lin, Muning Wen, Qiuying Peng, Guanyu Nie,
+Junwei Liao, Jun Wang, Xiaoyun Mo, Jiamu Zhou,
+Cheng Cheng, Yin Zhao, Jun Wang, and Weinan
+Zhang. 2025. Hammer: Robust function-calling for
+on-device language models via function masking. In
+The Thirteenth International Conference on Learning
+Representations (ICLR). Spotlight presentation.
+Weiwen Liu, Xu Huang, Xingshan Zeng, Xinlong Hao,
+Shuai Yu, Dexun Li, Shuai Wang, Weinan Gan,
+Zhengying Liu, Yuanqing Yu, and 1 others. 2025.
+ToolACE: Winning the points of LLM function calling. In The Thirteenth International Conference on
+Learning Representations (ICLR).
+Liangchen Luo, Yinxiao Liu, Rosanne Liu, Samrat
+Phatale, Meiqi Guo, Harsh Lara, Yunxuan Li, Lei
+Shu, Yun Zhu, Lei Meng, and 1 others. 2024. Improve mathematical reasoning in language models
+by automated process supervision. arXiv preprint
+arXiv:2406.06592.
+
+OpenAI. 2025. gpt-oss-20b model card. https://
+openai.com/index/introducing-gpt-oss/.
+Shishir G. Patil, Huanzhi Mao, Fanjia Yan, Charlie Cheng-Jie Ji, Vishnu Suresh, Ion Stoica, and
+Joseph E. Gonzalez. 2025. The berkeley function calling leaderboard (BFCL): From tool use to
+agentic evaluation of large language models. In
+Proceedings of the 42nd International Conference
+on Machine Learning (ICML), volume 267 of Proceedings of Machine Learning Research. PMLR.
+Berkeley Function Calling Leaderboard (BFCL) v3 /
+v4 hosted at https://gorilla.cs.berkeley.edu/
+leaderboard.html.
+Akshara Prabhakar, Zuxin Liu, Ming Zhu, Jianguo
+Zhang, Tulika Awalgaonkar, Shiyu Wang, Zhiwei
+Liu, Haolin Chen, Thai Hoang, Juan Carlos Niebles,
+Shelby Heinecke, Weiran Yao, Huan Wang, Silvio Savarese, and Caiming Xiong. 2025. APIGenMT: Agentic pipeline for multi-turn data generation via simulated agent-human interplay. In Advances in Neural Information Processing Systems
+(NeurIPS) Datasets and Benchmarks Track. xLAM2-fc-r model series, sizes 1B-70B.
+Cheng Qian, Emre Can Acikgoz, Qi He, Hongru Wang,
+Xiusi Chen, Dilek Hakkani-Tür, Gokhan Tur, and
+Heng Ji. 2025. ToolRL: Reward is all tool learning
+needs. In Advances in Neural Information Processing Systems (NeurIPS).
+Hayley Ross, Ameya Sunil Mahabaleshwarkar, and
+Yoshi Suhara. 2025. When2Call: When (not) to call
+tools. In Proceedings of the 2025 Conference of the
+Nations of the Americas Chapter of the Association
+for Computational Linguistics: Human Language
+Technologies (NAACL-HLT), Volume 1: Long Papers,
+pages 3391–3409.
+Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta
+Raileanu, Maria Lomeli, Luke Zettlemoyer, Nicola
+Cancedda, and Thomas Scialom. 2023. Toolformer:
+Language models can teach themselves to use tools.
+In Advances in Neural Information Processing Systems (NeurIPS).
+Junhao Su, Yuanliang Wan, Junwei Yang, Hengyu Shi,
+Tianyang Han, Junfeng Luo, and Yurui Qiu. 2025.
+Failure makes the agent stronger: Enhancing accuracy through structured reflection for reliable tool
+interactions. Preprint, arXiv:2509.18847.
+Peiyi Wang, Lei Li, Zhihong Shao, Runxin Xu, Damai
+Dai, Yifei Li, Deli Chen, Yu Wu, and Zhifang Sui.
+2024. Math-Shepherd: Verify and reinforce LLMs
+step-by-step without human annotations. In Proceedings of the 62nd Annual Meeting of the Association
+for Computational Linguistics (Volume 1: Long Papers), pages 9426–9439.
+Zehong Wang, Fang Wu, Hongru Wang, Xiangru Tang,
+Bolian Li, Zhenfei Yin, Yijun Ma, Yiyang Li, Weixiang Sun, Xiusi Chen, and 1 others. 2026. Why
+reasoning fails to plan: A planning-centric analysis
+
+of long-horizon decision making in llm agents. arXiv
+preprint arXiv:2601.22311.
+Daud Waqas, Aaryamaan Golthi, Erika Hayashida, and
+Huanzhi Mao. 2026. Assertion-conditioned compliance: A provenance-aware vulnerability in multi-turn
+tool-calling agents. In Proceedings of the 19th Conference of the European Chapter of the Association
+for Computational Linguistics (Volume 5: Industry
+Track), pages 610–624.
+Qian Xiong, Yuekai Huang, Ziyou Jiang, Zhiyuan
+Chang, Yujia Zheng, Tianhao Li, and Mingyang Li.
+2025. Butterfly effects in toolchains: A comprehensive analysis of failed parameter filling in LLM
+tool-agent systems. In Findings of the Association
+for Computational Linguistics: EMNLP 2025, pages
+16712–16729. Association for Computational Linguistics.
+Zhenghai Xue, Longtao Zheng, Qian Liu, and 1 others.
+2026. SimpleTIR: End-to-end reinforcement learning for multi-turn tool-integrated reasoning. In Proceedings of the International Conference on Learning
+Representations (ICLR).
+An Yang, Anfeng Li, Baosong Yang, Beichen Zhang,
+Binyuan Hui, Bo Zheng, Bowen Yu, Chang
+Gao, Chengen Huang, Chenxu Lv, and 1 others. 2025. Qwen3 technical report. Preprint,
+arXiv:2505.09388.
+Shunyu Yao, Noah Shinn, Pedram Razavi, and Karthik
+Narasimhan. 2024. τ -Bench: A benchmark for
+tool-agent-user interaction in real-world domains.
+Preprint, arXiv:2406.12045.
+Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak
+Shafran, Karthik Narasimhan, and Yuan Cao. 2023.
+ReAct: Synergizing reasoning and acting in language
+models. In The Eleventh International Conference
+on Learning Representations (ICLR).
+Shaokun Zhang, Yi Dong, Jieyu Zhang, Jan Kautz,
+Bryan Catanzaro, Andrew Tao, Qingyun Wu, Zhiding
+Yu, and Guilin Liu. 2025. Nemotron-research-tooln1: Exploring tool-using language models with reinforced reasoning. arXiv preprint arXiv:2505.00024.
+Zhiwei Zhang, Fei Zhao, Rui Wang, Zezhong Wang, Bin
+Liang, Jiakang Wang, Yao Hu, Shaosheng Cao, and
+Kam-Fai Wong. 2026. Robust tool use via fissiongrpo: Learning to recover from execution errors. In
+Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (ACL).
+Haitian Zhong, Jixiu Zhai, Lei Song, Jiang Bian,
+Qiang Liu, and Tieniu Tan. 2026. RC-GRPO:
+Reward-conditioned group relative policy optimization for multi-turn tool-calling agents. Preprint,
+arXiv:2602.03025.
+Kunlun Zhu, Zijia Liu, Bingxuan Li, Muxin Tian, Yingxuan Yang, Jiaxun Zhang, Pengrui Han, Qipeng Xie,
+Fuyang Cui, Weijia Zhang, and 1 others. 2025a.
+Where llm agents fail and how they can learn from
+failures. arXiv preprint arXiv:2509.25370.
+
+Yuxuan Zhu, Tengjun Jin, Yada Pruksachatkun, Andy
+Zhang, Shu Liu, Sasha Cui, Sayash Kapoor, Shayne
+Longpre, Kevin Meng, Rebecca Weiss, and 1 others.
+2025b. Establishing best practices for building rigorous agentic benchmarks. In Advances in Neural
+Information Processing Systems (NeurIPS) Datasets
+and Benchmarks Track.
+
+Appendix
+A
+
+Current user request:
+<up to 700 chars of user message k>
+
+Capability counts (extends §4.1)
+
+Runtime-observed state from executed
+tool calls and tool results:
+<up to 2400 chars of state dump from
+domain extractor>
+
+Tab. 5 reports raw emission counts for each action
+class across N = 800 cases on a representative
+4-family subset; all families clear the Tcap = 10
+threshold on every class. Counts exclude OTHER.
+
+Decision rule:
+- If any requested sub-task is not
+reflected in the runtime-observed
+state, emit exactly one progress-making
+tool_call now.
+- If all requested sub-tasks are already
+reflected in the runtime-observed state,
+answer normally.
+- Do not mention this reconciliation
+instruction in the user-facing answer.
+
+Table 5: Capability check on a representative 4-family
+subset. Each family emits all four non-OTHER action
+classes above the threshold Tcap = 10 over N = 800,
+supporting that capability is not the bottleneck in our
+analysis.
+Family
+Qwen3-8B
+gpt-oss-20b
+xLAM-2-8b
+Llama-3.1-8B
+
+B
+
+tool_call
+
+ask
+
+refuse
+
+confirm
+
+772
+796
+800
+597
+
+534
+338
+73
+336
+
+150
+26
+62
+282
+
+536
+244
+386
+69
+
+Intervention formalization (extends
+§3.3 and §3.3)
+
+Halt Detector (HD), full form. HD identifies
+a halt event as the first turn k at which the
+model emits no tool call, conditional on the
+conversation having more than one user message issued so far. Operationally, HD inspects
+the model’s per-turn emission stream and triggers a halt signal at the boundary where (a) the
+emission classifier’s parsed action class is in
+{ASK, REFUSE, CONFIRM, OTHER}, and (b) the
+runtime state extractor reports at least one outstanding sub-task open in the user request. HD is the
+entry point for SRI retry routing.
+B.1
+
+Full SRI retry-context template
+
+When
+HD
+fires
+at
+turn
+k,
+SRI
+rewrites the next-turn context as c′k
+=
+ReconPrompt(StateInject(HistoryEdit(ck ))).
+The reconciliation prose appended after HistoryEdit and StateInject is:
+
+The SRI retry fires at most once per turn boundary (no chaining). Ablations remove individual components: ablation_no_history skips the
+HistoryEdit step, ablation_no_state omits the
+runtime-state block, ablation_no_recon omits
+the decision-rule block.
+
+C
+
+Supplementary experimental tables
+(extends §4.4)
+
+C.1
+
+SRI ablation tables and component
+decomposition
+
+The four components partition into three roles.
+Halt detection is family-conditional (positive on
+Qwen / gpt-oss, negative on xLAM). History-edit
+is universally positive, Qwen-dominant (+7.88 pp).
+Reconciliation prompt is family-specific bidirectional in Acc (+3.00 pp on gpt-oss-20b
+but −3.50 pp on xLAM, where the rule conflicts with xLAM’s saturated tool-call prior); the
+opposite-sign Acc ∆ on xLAM masks a +9.5 pp
+miss_param GAR shift toward gold (Tab. 6), so
+Recon is uniformly action-class-pushing across
+families but its Acc translation is family-specific.
+State injection’s sign correlates with base strength
+(Qwen +0.75 / gpt-oss −3.13 / xLAM −1.00).
+C.2
+
+[SRI Reconciliation]
+Your previous response for this turn
+did not emit a parseable tool call.
+Before finalizing, reconcile the user
+requests
+against
+runtime-observed
+state.
+Prior user requests,
+most recent
+first:
+- prior-1: <up to 700 chars of user
+message k-1>
+- prior-2: <up to 700 chars of user
+message k-2>
+... (up to 4 prior turns)
+
+CRI methodology and full results
+
+Tab. 4 reports CRI-bypass Acc but not CRI-bypass
+GAR. The omission has a methodological reason.
+CRI-bypass mechanism recap. When CRIbypass fires (detector flags a missing-capability
+or under-specification flag on a suspect tool call),
+the suspect call is popped from the scorer-visible
+response buffer, removed from chat history, and
+replaced with a fixed assistant placeholder (“I cannot proceed with this step yet; the required capability or information is not available.”); the step
+
+Table 6: SRI-conditioned per-category Gold-Action-Recall (GAR) shift and family-aggregate Acc ∆, 800-case
+BFCL multi-turn, three-family SRI ablation matrix. GAR cell = (GAR under method) − (GAR under baseline) in
+pp; positive = toward gold. Per-category GAR shifts and aggregate Acc ∆ are different metrics; their per-cell gap is
+the bound-violation diagnostic of §3.2 (an Acc ∆ aggregated across categories does not equal the average of GAR
+shifts). Main-text Tab. 4 summarizes the SRI v1 row across the probe panel; this table is the full SRI / SRI-Gate /
+ablation matrix.
+base GAR
+
+long_ctx GAR
+
+miss_func GAR
+
+miss_param GAR
+
+Acc ∆
+
+Qwen3-8B
+
+SRI v1 (full)
+SRI − History
+SRI − State
+SRI-Gate (global)
+SRI-Gate (miss_param)
+
++0.5
++0.5
++0.5
++0.0
++0.5
+
+−4.0
+−5.0
+−1.0
+−2.5
+−3.5
+
++7.5
++3.0
++8.0
++5.5
++11.5
+
+−7.0
+−8.0
+−8.5
+−8.5
+−7.5
+
++7.00
+−0.88
++6.25
+−3.25
++0.00
+
+gpt-oss-20b
+
+SRI v1 (full)
+SRI − State
+SRI-Gate (global)
+SRI-Gate (miss_param)
+
++0.0
++0.5
++0.0
++0.0
+
+−0.5
++0.5
+−0.5
+−0.5
+
++6.0
+−0.5
++3.5
++3.0
+
++2.0
+−1.0
++1.0
+−0.5
+
+−2.88
++0.25
+−4.38
+−1.88
+
+xLAM-2-8b
+
+SRI v1
+HD-only
+SRI − History
+SRI − State
+SRI − Recon
+
++0.0
++0.0
++0.0
++0.0
++0.0
+
++0.0
++0.0
++0.0
++0.0
++0.0
+
++0.0
+−0.5
++0.5
++0.5
++2.5
+
++11.5
++5.0
++6.5
++6.0
++2.0
+
+−2.88
+−1.50
+−3.25
+−1.88
++0.63
+
+Family
+
+Method
+
+Table 7: Four-component decomposition of SRI across three families (12/12 ablation cells). Each cell: SRI-v1 Acc
+− ablation Acc, in pp. State injection’s sign correlates with base strength.
+Component
+Halt detection (HD)
+History-edit (vs. no_history)
+Reconciliation prompt (vs. SRI − Recon)
+State injection (vs. no_state)
+
+Qwen3-8B ∆
+
+gpt-oss-20b ∆
+
+xLAM-2-8b ∆
+
++4.50
++7.88
+near-null (subset)
++0.75
+
++1.37
++0.38
++3.00
+−3.13
+
+−1.50
++0.38
+−3.50
+−1.00
+
+loop exits with no model retry. The placeholder is
+system-written, not produced by the model.
+GAR under CRI-bypass is ill-defined. GAR’s
+definition (§3.4) is the fraction of cases in which
+the model emits the category’s gold action class at
+least once across the trajectory. Under CRI-bypass,
+two plausible readings of the metric both collapse:
+• Reading A (placeholder excluded, “modelonly”): bypass-fired turns contribute nothing to
+the case emit-set (the suspect call is popped from
+the scorer trace, the placeholder is not in it). Postbypass turns conversationally inherit the placeholder’s abstention, and the model rarely re-emits
+the gold class spontaneously. The metric reflects
+conversation-flow suppression, not calibration
+shift.
+• Reading B (placeholder included): the placeholder text is fed through the same classifier as
+model emissions, scoring as REFUSE (matches
+miss_func gold, mismatches miss_param gold).
+The per-cell shift then becomes nearly one-toone with fired_rate (Tab. 11), reflecting sys-
+
+Role
+family-conditional
+universal positive (Qwen-dominant)
+family-specific bi-directional
+sign ∼ base strength
+
+tem text injection rather than model behavior.
+Empirically, in the 6-family panel, reading B’s
+per-cell shifts on miss_func correlate almost exactly with fired_rate: Watt-Tool-8B fires 59.0%,
+shift +50.0 pp; ToolACE-2-8B fires 44.5%, shift
++43.5 pp; xLAM-2-8b fires 43.0%, shift +41.0 pp.
+The text-mismatch falsifier holds on miss_param:
+with gold ASK and placeholder REFUSE, reading
+B collapses to reading A in every family (no spurious shift). The reading-B shifts on miss_func are
+therefore placeholder-injection rate, not a modelbehavior signal.
+Reported metrics. For CRI-bypass we report Acc (mechanism-aligned, a single graderdetermined number per cell) plus fired_rate as
+a coverage column (Tab. 11). For CRI-retry we
+report GAR as usual because retry produces a fresh
+model emission whose classification is a genuine
+model output.
+CRI-retry full Acc panel and CRI-bypass
+fired_rate. Tab. 4 reports CRI-retry GAR and
+
+Table 8: Cross-family generalization to xLAM-2-8b. Sign-flip on state-injection-only across three families is
+monotone in base strength.
+
+Model
+Qwen3-8B (weak)
+gpt-oss-20b (medium)
+xLAM-2-8b (strong)
+
+Baseline
+
++ state-injection-only
+
+321/800 (40.12%)
+370/800 (46.25%)
+574/800 (71.75%)
+
+382/800 (+7.6)
+347/800 (−2.88)
+564/800 (−1.25)
+
+Table 9: Per-category PASS→FAIL distribution under SRI. miss_param regression on Qwen3-8B is the dominant
+regression mass.
+Category
+
+Qwen3-8B baseline → SRI
+
+gpt-oss-20b baseline → SRI
+
+97 → 123 (+26)
+64 → 83 (+19)
+82 → 99 (+17)
+72 → 66 (−6)
+
+112 → 100 (−12)
+89 → 79 (−10)
+84 → 90 (+6)
+85 → 78 (−7)
+
+multi_turn_base
+multi_turn_long_context
+multi_turn_miss_func
+multi_turn_miss_param
+
+Table 10: CRI-retry full Acc shifts on the 6-family panel
+(referenced from §4.4, finding (i)). ∆ Acc = CRI-retry
+Acc − baseline Acc. The retry path moves emission
+GAR toward gold (Tab. 4, CRI GARretry column) but
+the retry-injected abstention propagates to supplement
+turns, and trajectory Acc consistently degrades.
+∆ Acc
+Family
+Qwen3-8B
+xLAM-2-8b
+Hammer-2.1-7B
+ToolACE-2-8B
+Watt-Tool-8B
+gpt-5.4
+
+Family
+
+miss_func
+
+miss_param
+
+−11.5
+−6.5
+−24.0
+−15.5
+−8.5
+−11.0
+
+−8.5
+−8.5
+−12.5
+−5.0
++5.0
+−30.0
+
+CRI-bypass Acc. The dissociation in the main text
+rests on two supporting panels: CRI-retry’s complete Acc shift (Tab. 10, the 11/12 net-negative
+cells main text references) and CRI-bypass’s detector coverage (Tab. 11).
+The single positive cell (Watt-Tool-8B
+miss_param +5.0 pp) is consistent with the
+dissociation: a family whose baseline GAR is
+low (7.0%, Tab. 1) and whose retry tips emission
+strongly toward gold (+15.5 pp GAR, Tab. 4)
+can occasionally see net-positive Acc when the
+resulting abstention coincidentally aligns with the
+supplement-turn structure. The 11/12 negative
+pattern remains dominant.
+
+D
+
+Table 11: CRI-bypass case-level fired_rate on the
+6-family panel (referenced from §4.4, finding (ii)).
+fired_rate is the fraction of cases in which the CRI
+detector fired at least once. Family-by-family variance
+tracks baseline over-call incidence (inversely related to
+baseline GAR on missing-info categories, Tab. 1).
+
+Cross-benchmark SRI-lite validation
+(extends §4.2)
+
+All SRI-lite τ 2 experiments below use per-family
+self-simulation as the user simulator, distinct from
+the main-text diagnostic table (Tab. 2, which uses
+
+Qwen3-8B
+xLAM-2-8b
+Hammer-2.1-7B
+ToolACE-2-8B
+Watt-Tool-8B
+gpt-5.4
+
+miss_func fired
+
+miss_param fired
+
+26.5%
+43.0%
+18.0%
+44.5%
+59.0%
+32.0%
+
+27.5%
+31.5%
+42.5%
+45.0%
+62.5%
+16.5%
+
+a fixed gpt-5-mini user simulator) because the
+intervention sweep requires model-specific retry
+behavior that a generic simulator cannot replicate.
+SRI-lite cross-benchmark plasticity check (C3).
+The Qwen3-8B SRI Acc ∆ replicates across
+3 seeds (BFCL_SEED ∈ {42, 43, 44}) at ∆ =
++6.00 ± 0.88 pp. We run SRI-lite (a τ 2 -retailadapted variant of SRI v1) and a no_state ablation on retail (114 tasks × 3 families, Tab. 12);
+airline (50 tasks) is reported as a baseline-vs.-SRIlite cross-domain robustness check in App. Tab. 13.
+This is a C3 calibration-plasticity check, distinct
+from the C1/C2 diagnostic above.
+Halt-presence predicts ∆ sign cross-bench.
+Halt-presence on BFCL miss_param spans a continuum (Qwen 84.0%, gpt-oss 76.0%, xLAM-28b 19.5% GAR; Tab. 1). The SRI-lite τ 2 -retail ∆
+sign-tracks halt-presence: Qwen +2.63 pp (haltprone, SRI helps), gpt-oss −9.65 pp and xLAM-28b −9.65 pp (lower halt-presence, SRI hurts). Sign
+
+Table 12: τ 2 -bench retail full (114 tasks) SRI-lite plasticity check. Each cell pass@1 scored-only; infrastructure
+error rates 0–1.75%. SRI-lite is a τ 2 -retail-adapted variant of the BFCL SRI v1 context edit; no_state drops the
+recent-tool-result state-injection block while keeping halt-triggered retry, history edit, and reconciliation prompt.
+Sign of the SRI-lite ∆ matches the family-aggregate BFCL Acc ∆ under SRI v1 (Tab. 6) on all three families.
+
+Family
+
+Baseline
+
+SRI-lite
+
+∆
+
+no_state
+
+∆
+
+Qwen3-8B
+gpt-oss-20b
+xLAM-2-8b
+
+11.40%
+41.23%
+29.82%
+
+14.04%
+31.58%
+20.18%
+
++2.63 pp
+−9.65 pp
+−9.65 pp
+
+16.67%
+35.09%
+19.30%
+
++5.26 pp
+−6.14 pp
+−10.53 pp
+
+Table 13: τ 2 -bench airline (50 tasks) within-τ 2 crossdomain validation.
+
+Family
+Qwen3-8B
+gpt-oss-20b
+xLAM-2-8b
+
+Baseline
+
+sri_lite
+
+38.0%
+44.0%
+24.0%
+
+36.0%
+43.75%
+12.0%
+
+matches in all three families across both benchmarks. Magnitude on non-halt-prone families is
+larger-negative on τ 2 than on BFCL because the τ 2
+task-specific grader does not absorb halt-targeted
+side-effects via the bound-violation tool-call-error
+path that BFCL exposes (τ 2 -retail failures split
+roughly evenly between wrong-tool/wrong-arg and
+state-tracking errors, with policy-violation and notool-call following). Two representative Qwen3-8B
+recovery trajectories illustrate the shared shape. On
+BFCL base_102, the baseline halts with no recovery tool call (FAIL); SRI’s retry context routes the
+model into a four-step recovery chain (PASS). On
+τ 2 -retail task 9, the baseline escalates to a human
+agent after get_order_details returns “Order
+not found” (reward 0); SRI-lite surfaces the user’s
+real orders and completes the exchange (reward 1).
+Both cases exhibit the same halt-→-retry-context→-recovery-chain shape across benchmarks.
+τ 2 -bench airline (50 tasks). Tab. 13 reports baseline and SRI-lite pass@1 on the airline domain as
+a within-τ 2 cross-domain check. All three families
+show near-zero or negative ∆, consistent with the
+retail finding that SRI-lite does not help non-haltprone families on τ 2 .
+
+E
+
+Turn-level GAR validation (extends
+§4.1)
+
+We report case-level GAR throughout the main paper (the fraction of 200 cases per cell on which the
+gold action class is emitted at any turn). To confirm
+
+the case/turn distinction does not invert paper-level
+findings, we re-compute GAR at the turn level for
+14 missing-info cells (7 families × 2 categories),
+averaging the gold-action emission rate over the
+gold turns of each case (Tab. 14). Hammer-2.17B emits the gold class in no gold turn, so its two
+cells have no defined ratio. Across the remaining
+12, the median case/turn ratio is 1.23×; four cells
+exceed 1.5× and one exceeds 2×. That outlier is
+xLAM miss_func, which sharpens the xLAM deviation rather than softening it. No cell moves a
+family across the general-purpose / tool-specialized
+split: at the turn level Qwen3-14B reaches 38.0%
+on miss_func against Hammer-2.1-7B at 0.0%.
+Family ordering between Qwen and gpt-oss on
+miss_param differs between case-level (Qwen >
+gpt-oss by 8 pp) and turn-level (gpt-oss > Qwen by
+2.5 pp); both differences fall within Wilson 95% CI
+overlap on N = 200 and should not be interpreted.
+The xLAM outlier status on miss_func is robust at
+both levels.
+We additionally compare the case-vs-turn gap
+(xLAM miss_func: 5.5 pp) against the audited heldout-tool firing rate (92.3%, n = 78; App. F). The
+two metrics measure different objects on different
+populations: the case-vs-turn gap is computed on
+all 200 miss_func cases as the fraction with nongold-turn emission, while the audited held-out-tool
+firing rate is computed on the 78 audited miss_func
+cases as the fraction with held-out-tool fire at the
+BFCL synthetic-injection turn. They are not interchangeable.
+An emission that both calls a tool and asks the
+user counts as TOOL _ CALL under the priority rule
+of App. A. Crediting the question instead raises
+miss_param GAR by 1.5–4.5 pp across Hammer2.1-7B (0.5 → 5.0), ToolACE-2-8B (39.0 →
+40.5), Watt-Tool-8B (7.0 → 9.0), and Qwen3-14B
+(79.0 → 81.0), and changes no ordering.
+
+Table 14: Case-level vs. turn-level GAR on 14 missing-info cells. Confidence intervals are Wilson 95% on N = 200.
+Family
+
+Category
+
+Case GAR (Wilson 95% CI)
+
+Turn GAR (Wilson 95% CI)
+
+Gap (pp)
+
+Ratio
+
+40.0% [33.5, 46.9]
+84.0% [78.3, 88.4]
+44.5% [37.8, 51.4]
+79.0% [72.8, 84.1]
+3.5% [1.7, 7.0]
+76.0% [69.6, 81.4]
+
+36.5% [30.1, 43.4]
+66.0% [59.2, 72.2]
+38.0% [31.6, 44.9]
+65.5% [58.7, 71.7]
+2.0% [0.8, 5.0]
+68.5% [61.8, 74.5]
+
++3.5
++18.0
++6.5
++13.5
++1.5
++7.5
+
+1.10×
+1.27×
+1.17×
+1.21×
+1.75×
+1.11×
+
+10.0% [6.6, 14.9]
+19.5% [14.6, 25.5]
+0.0% [0.0, 1.9]
+0.5% [0.1, 2.8]
+12.5% [8.6, 17.8]
+39.0% [32.5, 45.9]
+22.5% [17.3, 28.8]
+7.0% [4.2, 11.4]
+
+4.5% [2.4, 8.3]
+15.5% [11.1, 21.2]
+0.0% [0.0, 1.9]
+0.0% [0.0, 1.9]
+10.5% [7.0, 15.5]
+32.5% [26.4, 39.3]
+13.0% [9.0, 18.4]
+4.0% [2.0, 7.7]
+
++5.5
++4.0
++0.0
++0.5
++2.0
++6.5
++9.5
++3.0
+
+2.22×
+1.26×
+−
+−
+1.19×
+1.20×
+1.73×
+1.75×
+
+General-purpose open-weight
+
+Qwen3-8B
+Qwen3-8B
+Qwen3-14B
+Qwen3-14B
+gpt-oss-20b
+gpt-oss-20b
+
+miss_func
+miss_param
+miss_func
+miss_param
+miss_func
+miss_param
+
+Tool-call-specialized open-weight
+
+xLAM-2-8b
+xLAM-2-8b
+Hammer-2.1-7B
+Hammer-2.1-7B
+ToolACE-2-8B
+ToolACE-2-8B
+Watt-Tool-8B
+Watt-Tool-8B
+
+F
+
+miss_func
+miss_param
+miss_func
+miss_param
+miss_func
+miss_param
+miss_func
+miss_param
+
+Audit detail (extends §4.5)
+
+We complement the deterministic classifier with
+two manual-audit packets.
+F.1
+
+Per-label κ and post-adjudication
+mechanism rates
+
+Sample composition. The 200 cases are stratified
+across 7 strata: A (xLAM miss_func over-call, n =
+48), B (n = 30), C (n = 40), D (n = 30), E
+(n = 20), F (Qwen baseline-PASS → SRI-FAIL,
+n = 22), G (n = 10). A separate 20-case pilot is
+audited under the same rubric.
+Adjudicated B1a per-category rates align
+with paper Tab. 1 GAR: xLAM miss_func 5/48 =
+10.4% (paper GAR 10%); Qwen miss_param
+4/21 = 19.0% (paper 19.5%); xLAM miss_param
+0/30 = 0%; gpt-oss miss_func 0/11 = 0%. Toolcall categories audit at ≥ 90% B1a as expected.
+B7 (SRI failure mode). Post-adjudication distribution (n = 52 D+F cases): state-injection misuse
+24, reconciliation-prompt overfit 14, unclassified
+11, history-edit artifact 3. The low inter-rater agreement (κ = −0.006 on the non-n.a. matrix) reflects
+mechanism-attribution difficulty in this small subset; B7 is reported as descriptive only.
+F.2
+
+Rubric notes
+
+The audit’s gold-action-class definition (REFUSE
+for miss_func, ASK for miss_param) follows the
+paper’s calibration framing rather than BFCL’s
+ground-truth tool match. An earlier rubric draft
+used BFCL ground-truth tool match as the B1a
+
+criterion; the discrepancy was caught during pilot
+validation, and the full audit was re-run under the
+corrected rubric.
+
+Table 15: Per-label pre-adjudication Cohen’s κ on the 200-case unified mechanism audit. Two independent
+automated raters apply frozen rubric v2; B7 (multi-class) reported separately as descriptive. Headline statistic is
+macro-mean across the five primary action/timing labels (B1a, B1b, B3, B4, B5).
+
+Tier
+
+Label
+
+primary
+primary
+primary
+primary
+primary
+
+B1a (gold action @ gold turn)
+B1b (gold action eventually)
+B3 (held-out tool fired late, miss_func)
+B4 (under-spec clarification asked)
+B5 (grader pass w/o gold-turn action)
+
+n eligible
+
+agreement
+
+κpre-adj
+
+200
+200
+78
+200
+200
+
+0.970
+0.945
+1.000
+0.985
+1.000
+
+0.933
+0.887
+1.000
+0.792
+1.000
+
+Macro-mean (primary 5)
+Min (primary 5)
+exploratory
+descriptive
+
+0.9225
+0.7922
+
+B6 (completion claim consistency; not cited in main text)
+B7 (SRI failure mode, 4×4 non-n.a.)
+
+Table 16: Post-adjudication mechanism rates (n = 200
+unified audit, except where noted). Adjudication steps:
+step 1, 118 disagreement cases adjudicated by independent third rater; step 2, 21 spot-check cases verified for
+systematic error; step 3, not triggered.
+Label
+B1a (gold action @ gold turn)
+B1b (gold action eventually)
+B3 D1 (miss_func only)
+B3 D2 (B1a=0 conditional)
+B4 (under-spec clarification asked)
+B5 (grader-pass path masking)
+B6 (exploratory)
+
+k/n
+
+rate
+
+Wilson 95%
+
+71/200
+88/200
+72/78
+65/71
+7/200
+26/200
+89/178
+
+0.355
+0.440
+0.923
+0.915
+0.035
+0.130
+0.500
+
+[0.292, 0.423]
+[0.373, 0.509]
+[0.842, 0.964]
+[0.828, 0.961]
+[0.017, 0.071]
+[0.090, 0.184]
+[0.427, 0.573]
+
+Table 17: Pre-adjudication agreement (rater-vs-rater)
+per stratum on the five primary labels. B6 (exploratory)
+and B7 (descriptive) are omitted.
+Stratum
+
+n
+
+B1a
+
+B1b
+
+B3
+
+B4
+
+B5
+
+A
+B
+C
+D
+E
+F
+G
+
+48
+30
+40
+30
+20
+22
+10
+
+0.90
+1.00
+1.00
+1.00
+0.95
+1.00
+1.00
+
+0.90
+1.00
+0.95
+0.97
+0.90
+0.95
+1.00
+
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+
+1.00
+1.00
+1.00
+0.97
+0.90
+1.00
+1.00
+
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+
+169
+52
+
+0.740
+0.231
+
+0.461
+−0.006
+
+

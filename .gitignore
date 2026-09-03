@@ -14,7 +14,7 @@ research/student-interviews/transcripts/
 *consent*signed*
 
 # Copyrighted course materials — cite, don't commit
-course-materials/
+# course-materials/ — now tracked; see admin/paper-access.md
 *.pdf
 !docs/**/*.pdf
 

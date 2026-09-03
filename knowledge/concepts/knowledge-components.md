@@ -31,10 +31,18 @@ Too fine — `interpolating between two rows of Table A-6` — and you need thou
 components, authoring becomes impossible, and no component ever accumulates enough
 observations to estimate.
 
-There's a genuine optimum, and it's empirical. Notably,
-[VanLehn found substep-based tutoring *worse* than step-based](vanlehn-2011.md) (d = 0.40 vs
-0.76) — decomposing too finely apparently removes the productive difficulty that makes a
-step worth taking. Finer is not safer.
+There's a genuine optimum, and it's empirical.
+
+⚠ **Correction (2026-09-03, from reading VanLehn in full).** This node previously said VanLehn
+found substep-based tutoring *worse* than step-based, at d = 0.40 vs 0.76. **He did not.** Those
+are two separate comparisons against different sets of no-tutoring studies. His **direct**
+substep-vs-step contrast is **d = 0.16 across 11 comparisons, none of them reliable** — an
+equivalence, not a penalty. → [VanLehn 2011](vanlehn-2011.md)
+
+**The real reason not to decompose too finely is the statistical budget below, not a measured
+learning penalty.** VanLehn's own conclusion is a plateau: finer than step buys nothing
+measurable, but it does not cost anything either. What *does* cost is authoring effort and
+observations per component.
 
 ## The constraint people forget: observations per KC
 
@@ -84,7 +92,7 @@ real and defensible contribution.
 ## Connects to
 
 - [knowledge tracing](knowledge-tracing.md) — what gets estimated per KC
-- [VanLehn 2011](vanlehn-2011.md) — granularity as the key variable
+- [VanLehn 2011](vanlehn-2011.md) — granularity as the key variable, and the mechanism: a correct self-generated solution generalizes, strengthens, constructs and debugs every KC it touches
 - [ALEKS](../systems/aleks.md) — knowledge states as an alternative decomposition
 - [our skill graph draft](../../research/domain/skill-graph-draft.md) — the working model
 - [AutoTutor](../systems/autotutor.md) — attaching misconceptions to components
@@ -93,4 +101,4 @@ real and defensible contribution.
 
 - [Koedinger, Corbett & Perfetti — the KLI framework](https://learnlab.org/index.php/background-readings) `[found]`
 - [Kenneth Koedinger — Wikipedia](https://en.wikipedia.org/wiki/Kenneth_Koedinger) `[skimmed]`
-- [VanLehn 2011](vanlehn-2011.md) `[skimmed]` — the granularity evidence
+- [VanLehn (2011), *Educational Psychologist* 46(4)](https://doi.org/10.1080/00461520.2011.611369) `[read — full text, 25 pp., 2026-09-03]` — the granularity evidence, and the completion mechanism that says *what* a knowledge component is for: "when students self-generate a correct solution, they generalize, strengthen, construct, and debug all the knowledge components required by the solution"

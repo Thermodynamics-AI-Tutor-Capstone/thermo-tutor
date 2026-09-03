@@ -1,0 +1,1654 @@
+The Horizon Gap: Planning, Memory, Execution, Training, and
+Evaluation for Long-Horizon LLM Agents
+Mingguang Chen1,∗
+1
+∗
+
+Licheng Wang2
+
+DeepGrounding
+
+2
+
+Bo Qu1
+
+AlphaAvatar
+
+Corresponding author. Email: deepgroundingai@gmail.com
+
+July 2026
+
+arXiv:2608.06663v1 [cs.CL] 7 Aug 2026
+
+Abstract
+Frontier language models solve, in a single forward pass, reasoning problems that would
+have been research contributions a few years ago — yet the same models, embedded in an
+agent loop and asked to complete a task spanning hours rather than seconds, fail in ways no
+single-step benchmark reveals: losing track of an earlier decision, declaring a half-finished job
+done, or quietly drifting from the goal they were given. We call the distance between singlestep capability and reliable long-task completion the horizon gap, and survey 1,547 arXiv
+papers (2024-2026) — collected via a systematic eight-thread seed harvest with a disclosed,
+quantified two-stage bleed filter (26.8% of raw hits excluded as off-topic), extended by a targeted
+supplement into a badly under-covered theory/safety category — that map the field’s response
+to it. We first disambiguate three properties the literature routinely conflates: long-horizon
+(a property of the task, its required number of steps), long-context (a property of the model,
+how many tokens it can attend to at once), and long-term memory (a property of the system,
+whether information persists across steps or sessions) — logically independent axes that a single
+“long-horizon” label obscures. We then organize the corpus into six categories that track a
+long-horizon task’s lifecycle: planning and decomposition, memory and context management,
+execution control and recovery, training for long horizons, evaluation and measurement, and the
+foundations, limits, and safety of running agents unattended for extended periods — crossed
+with a second axis, where the horizon is carried (within one context, within one task via a harness
+that exceeds the context window, or persistently across tasks and sessions), that organizes every
+technical section. Across all six, we find the same structural pattern: outcome-only signals — a
+single reward, a single pass/fail check — grow uninformative as horizon grows, and the field’s
+response, whether in training (process reward models and credit assignment) or evaluation
+(trajectory-level diagnostics that supersede pass/fail benchmarks), is to manufacture denser,
+step-level signal in its place. We treat the critical and diagnostic literature — demonstrations
+that self-correction, benchmark scores, or training signals do not mean what they are assumed
+to mean — as a first-class thread throughout rather than a separate critique chapter, since a
+survey that segregated critique from method in this field would routinely split single papers
+across two chapters. We close by naming what we take to be the field’s most consequential
+open measurement problems: how much long-horizon capability lives in the underlying model
+versus the harness wrapped around it, the risk of correlated measurement bias where the processlevel signals used to train long-horizon agents and those used to evaluate them rest on shared
+assumptions about what counts as progress, and whether long-horizon reliability admits any
+general predictive theory at all.
+
+1
+
+1. Introduction
+A frontier language model can now solve, in a single forward pass, reasoning problems that would
+have been research contributions a few years ago. The same model, dropped into an agent loop and
+asked to keep a multi-hour software-engineering task on track, still fails in ways a junior engineer
+would not — losing track of an earlier decision, declaring victory on a half-finished patch, or quietly
+drifting from the goal it was given. Measurement work tracking the length of task (in human-timeto-complete) that frontier models can complete at a fixed reliability threshold reports this length
+growing at a measured, roughly exponential rate across recent model generations [1] — a striking
+trend we treat, per this survey’s own language calibration (§2.2), as measured and reported, not as
+a settled law, since what counts as “the same” task across model eras and whether human-timeto-complete on a benchmark generalizes to messier real deployments are both contested. But even
+taking the trend at face value, it describes model capability outpacing something else: the reliable
+completion of long tasks in deployment, where harness failures, evaluation gaps, and accumulating
+error still bite in ways single-step benchmarks never see. We call this the horizon gap — the
+distance between what a model can do in one step and what a system built around it can reliably
+finish over many — and argue it is the primary bottleneck standing between current agent capability
+and durable real-world deployment.
+This survey maps the research literature responding to that gap. We assembled a corpus of 1,547
+arXiv papers (2024-2026) — a systematic seed harvest across eight threads of the long-horizonagent literature (1,419 papers, after a two-stage bleed filter removed 26.8% of raw hits judged
+off-topic, primarily classical multi-agent-RL, robotic manipulation, and time-series-forecasting work
+this survey explicitly scopes out), extended by a targeted supplemental harvest of 128 papers aimed
+at directions the reclassification exposed as under-covered, chiefly the theory and safety literature
+of §8 — and classified all of them into six technical categories (Table 1, Figure 1). Three
+observations motivate the paper’s structure.
+First, the field’s vocabulary conflates three logically independent properties. “Longhorizon,” “long-context,” and “long-term memory” are used almost interchangeably in casual discussion, but a task’s horizon (how many steps it requires), a model’s context length (how many
+tokens it can attend to at once), and a system’s memory (whether information persists across steps
+or sessions) can vary independently — a harness can carry a long-horizon task through a short
+context via aggressive summarization, and a system can have a huge context window and no persistent memory at all. §2 fixes this and several other overloaded terms (agent vs. harness, episode
+vs. session, coherence, autonomy time) before using them, because imprecision here is not merely
+stylistic: it is the reason a “memory” paper and a “long-context” paper are so often cited as if they
+addressed the same problem when they do not.
+Second, no single component is where long-horizon tasks succeed or fail — the whole
+pipeline is. We organize the survey around six categories that track a task’s lifecycle: planning
+decides what to do (§3); memory decides what information that decision draws on (§4); execution
+control decides how the resulting actions are run and recovered from when they fail (§5); training
+decides how the underlying policy learns to act well over many steps (§6); evaluation decides whether
+any of this actually works (§7); and foundations covers the theory of why long horizons degrade
+performance at all, and the oversight problem of running an agent for a long time without a human
+watching every step (§8). Existing surveys cover individual pieces of this pipeline — planning
+strategies, memory mechanisms, GUI-agent methods, agentic reinforcement learning — in isolation
+(§2.4); this survey’s contribution is to organize the full pipeline around one cross-cutting question
+
+2
+
+asked of every stage: what breaks first as the required horizon grows, and what compensates?
+Third, the critical and diagnostic literature is not a footnote — it is often the most
+important literature in each category. A recurring pattern across §§3-8 is that the most consequential recent papers are not new methods but rigorous demonstrations that an earlier method,
+benchmark, or metric does not do what it claims: intrinsic self-correction does not reliably improve
+reasoning without external grounding [2]; a substantial share of reported SWE-bench solves reflect
+test-suite weakness or training-data leakage rather than genuine issue resolution [3, 4]; and agentic
+benchmarks broadly have systematic construction problems that best practices are only now starting to name explicitly [5]. We treat this diagnostic thread as a first-class citizen throughout rather
+than segregating it into a single critique section, because in this literature the critique of a method
+and the state of the art in that method’s category are often the same papers.
+Contributions. (1) A disambiguation of long-horizon, long-context, and long-term memory, and a
+six-category taxonomy — planning, memory, execution, training, evaluation, foundations — crossed
+with a second axis (where the horizon is carried: within-context, within-task-beyond- context,
+or cross-task-persistent) that organizes every technical section (§2). (2) A systematic map of
+1,547 papers into that taxonomy, with a disclosed, quantified query-bleed rate and an explicit twostage construction (§2.2, Figure 2, Figure 6). (3) A synthesis identifying two specific unresolved
+measurement problems — how much of long-horizon capability lives in the model versus the harness
+(§5, §9), and the risk of correlated measurement bias between the process-level signals used to train
+long-horizon agents and those used to evaluate them (§6, §7, §9) — together with a cross-cutting
+observation that the execution trajectory, not the final outcome, is becoming the field’s shared unit
+of analysis (§9). (4) An explicit positioning of this survey against the recursive-self-improvement
+literature it borders but does not overlap with, self-cited and scoped in §2.4 and §6.
+
+2. Preliminaries
+2.1 Definitions
+The literature on long-horizon agents uses a small set of terms so loosely that surveys risk adding
+noise rather than removing it. We fix working definitions here and use them consistently for the
+rest of the paper.
+A task is a specification of a desired end state together with a checkable completion criterion —
+“resolve this GitHub issue,” “book an itinerary satisfying these constraints,” “reduce this eval’s error
+rate.” A task’s horizon is the number of sequential decisions, actions, or environment interactions
+required to go from the initial state to task completion; it is a property of the task (and the
+environment it is embedded in), not of any particular system attempting it. An episode is one
+complete attempt at a task, from a defined start state to a terminal state — success, failure, or
+time-out — the unit of account inherited from reinforcement learning. A session is a continuous
+interactive period between a user (or an orchestrating process) and an agent, bounded by the
+interface layer rather than by the task: a session may contain zero, one, or many episodes, and
+a single episode may span multiple sessions if the system’s state persists across the boundary.
+Conflating episode and session is a common source of confusion in the memory literature (§4),
+where “long-term” sometimes means “beyond this episode” and sometimes means “beyond this
+session.”
+We also distinguish an agent — the policy that decides which action to take next, i.e. the model
+together with whatever prompting/decoding strategy turns its outputs into actions — from its
+3
+
+harness (also called scaffold): the surrounding software that converts a single-forward-pass model
+into a system capable of taking many actions over time — the control loop, tool-execution sandbox, memory read/write layer, retry and recovery logic, and any sub-agent orchestration. This
+distinction matters because a recurring finding across §§3–5 is that harness engineering, not the
+underlying model, is often the binding constraint on how long a task an agent can complete — the
+same model dropped into a better harness completes measurably longer tasks.
+The paper’s central disambiguation is among three axes that the field’s vocabulary routinely conflates:
+• Long-context is a property of the model/serving stack: how many tokens a single forward
+pass can attend to.
+• Long-horizon is a property of the task: how many sequential decisions or actions it requires,
+independent of whether the resulting interaction trace fits inside one context window.
+• Long-term memory is a property of the system: whether information available at step or
+session 𝑡 remains available (in some form — verbatim in context, retrieved from an external
+store, or baked into weights) at step or session 𝑡 + 𝑘.
+These are logically independent. A task can be long-horizon but short-context, if a harness aggressively summarizes or discards intermediate state between steps (at some risk to correctness, §4). A
+system can have a very long context window and still have no long-term memory in any interesting
+sense, if every session starts from a blank slate. And a system can exhibit long-term memory without ever facing a long-horizon task, if it merely caches user preferences across otherwise-independent
+short interactions. Table 1 and Figure 1 organize the survey along a related but distinct axis —
+where the extra horizon is carried — which we introduce in §2.3.
+Two further terms recur across sections. Coherence denotes the property that an agent’s actions
+across steps remain consistent with a single evolving representation of the goal and the plan toward
+it, rather than silently drifting, forgetting earlier commitments, or contradicting itself; loss of
+coherence is the qualitative failure mode that long-horizon degradation curves are trying to measure
+quantitatively (§8). Autonomy time (or time horizon, in the sense popularized by measurement
+work discussed in §7 and §8) is an empirical capability metric: the length of task, measured in
+human-time-to-complete, that an agent can complete at a fixed reliability threshold (e.g., 50%) —
+a way of putting a number on “how long a horizon can this system actually carry,” as opposed to
+the task-side horizon defined above.
+
+2.2 Corpus construction
+The corpus was built in two stages: a systematic seed harvest, then a targeted supplemental harvest
+aimed at categories the first stage under-covered. Both stages, and the classification step between
+them, were carried out by a single annotator (the author); all classification rules are released as
+scripts alongside the corpus (§ Data Availability), and the noise this process introduces is quantified
+below rather than assumed away.
+Seed harvest. We queried the arXiv API across eight threads covering the literature’s recognized
+sub-directions — long-horizon tasks and agents; LLM agent planning and task decomposition; agent
+memory and context management; agentic reinforcement learning and credit assignment; agent
+benchmarks and evaluation; multi-agent orchestration and scaffolding; error accumulation and
+reliability; and self-correction and recovery — each restricted to cs.AI, cs.CL, cs.LG, cs.SE,
+cs.MA, cs.HC, stat.ML and a submission window of 2024-01 through 2026-07 (2023 foundational
+
+4
+
+work is handled separately as hand-verified anchors, §2.3, §5). Each thread was capped at 250
+results (a disclosed depth limit) and sorted by relevance. Across the eight threads this returned
+2,000 raw hits, 1,939 unique after cross-thread deduplication by arXiv ID — the low duplicate
+rate (61 hits) indicates the threads are reasonably distinct rather than redundant. A harvest-time
+relevance filter then required title+abstract to contain at least one topic-signal term (e.g. longhorizon, multi-step, episod-, trajector-, planning, memory, a named benchmark, credit assignment,
+reflection, replan-, orchestrat-, scaffold-) so that the single most overloaded word in this literature
+— “agent” — could not by itself admit a paper; this dropped 176 hits (9.1% of the unique pool),
+leaving 1,763 seed candidates.
+Query bleed and reclassification. Because “agent” and several of the thread queries (especially
+credit assignment and reinforcement learning for agents) also match a large classical literature —
+multi-agent reinforcement learning theory, robotic manipulation and motion planning, autoregressive time-series/PDE forecasting — that this survey explicitly scopes out (classical HRL, options,
+and robotic task-and-motion planning are treated as historical anchors only, not as corpus members,
+following the boundary set in §1), we ran an exploratory TF-IDF + truncated-SVD + 𝑘-means
+clustering (𝑘 = 18) over the seed pool purely as scaffolding for taxonomy design, then reclassified every paper with cluster-based category defaults, cross-cutting keyword rules, and an explicit
+LLM/agent-signal gate that catches classical-literature bleed that the harvest-time filter’s broader
+terms let through (clusters that were agent-systems-specific by construction — e.g. a GUI-agent
+cluster, an agent-memory-systems cluster — were exempted from this gate after we verified by inspection that gating them produced false exclusions). This second-stage filter excluded 344 further
+papers (19.5% of the 1,763 seed candidates); combined with the harvest-time filter, 520 of the 1,939
+raw unique hits (26.8%) were judged off-topic and dropped over the two stages — we report this as
+an absolute number, following the recommendation that corpora built around a term as overloaded
+as “agent” disclose bleed quantitatively rather than assert its absence. A random sample of 30
+kept papers and 55 excluded papers was manually re-checked against this criterion; the estimated
+residual misclassification rate after both filters is on the order of one in twenty, concentrated at the
+boundary between LLM-driven and classical robotic/multi-agent-RL systems, which is inherently
+fuzzy for a handful of transitional papers. This left 1,419 seed papers.
+Targeted supplement. Reclassification exposed one severe gap — foundations (failure-mode
+theory, reliability/scaling, oversight of long-running agents) held only 10 papers, well under the
+threshold at which we would have folded it back into prose-only treatment inside another section —
+and two thinner spots (cross-session memory persistence; credit-assignment theory). We ran 19 targeted arXiv queries against these directions (2024+, cs.*/stat.ML), yielding 321 raw candidates;
+a stricter secondary filter requiring both an explicit agent/agents token and a foundations-or-longhorizon signal term dropped 193 (60.1% — a markedly higher bleed rate than the seed harvest,
+consistent with these being broader, less-targeted query terms such as “reward hacking” or “scaling
+law” that catch unrelated work on quantization, pretraining, or physical-system forecasting), keeping 128 supplement papers, tagged source=supplement. The supplement is recency-biased by
+construction and is therefore excluded from the growth-timeline figure (Figure 6, §9), which uses
+seed-only counts.
+Final corpus and enrichment. The combined corpus is 1,547 papers (1,419 seed + 128
+supplement) — larger than our initial ~1,100–1,400 planning estimate; rather than force the corpus
+down to a pre-registered size, we kept the full bleed-filtered yield. Author and venue metadata were
+resolved via batched OpenAlex lookups (by the arXiv DOI form), with a mandatory arXiv-API
+fallback for the 180 rows (11.6%) OpenAlex had not yet indexed or indexed without authors; this
+5
+
+achieved 100% author coverage. Because the corpus is overwhelmingly recent (58–77% of most
+categories was posted in 2026 alone, Table 1), citation counts would be near zero for the majority
+of entries and are not a meaningful signal here; we do not report or use them, and caution against
+reading corpus composition as a proxy for impact anywhere in this paper.
+Single-label assignment is a simplification. Each paper carries exactly one category in the
+released corpus, but a large fraction of this literature is genuinely multi-topic: a memory-augmented
+agent evaluated on a new benchmark and trained with process rewards has a legitimate claim to
+three categories. Our labels record the primary contribution — the question the paper’s own
+abstract foregrounds — not an exclusive membership claim. As a lower-bound indicator of how
+often that primary-contribution call is a real judgment rather than an obvious single fit, we counted
+how many of the six categories’ topic-keyword signals each paper’s title alone triggers: 13.8% of the
+corpus (213 papers) trips two or more. We report this as a keyword co-occurrence statistic, not
+a semantic scope estimate — it is a lexical measurement, not a claim about what a domain expert
+would conclude, and it is itself an undercount in one direction (a title like “X: A Benchmark for Y”
+trips both evaluation and Y’s signal even when the paper’s unambiguous primary contribution is
+the benchmark) and an overcount in another (co-occurring keywords do not always mean co-equal
+contributions). We do not extend this count to title-plus-abstract, where generic phrases like “we
+evaluate” fire the evaluation signal in nearly every machine-learning abstract regardless of topic,
+making the resulting number uninformative rather than merely noisy. The most common title-level
+overlaps are memory+evaluation (29 papers, chiefly memory benchmarks), memory+execution (23),
+and training+execution (22), which is why §§4-7 cross-reference each other as often as they do.
+Readers should treat per-category counts as a map of where each paper’s center of mass sits, not
+as disjoint bins, and the release includes full abstracts so that any alternative labeling can be
+recomputed from the same corpus.
+Limitations. This is a single-annotator, largely rule-based corpus: classification followed cluster
+defaults, keyword rules, and an explicit per-paper override list (never hand-edits to the underlying
+data), all released as scripts. It under-represents unpublished industrial agent engineering that
+never reaches arXiv, non-English-language work, and any system described only in a blog post or
+technical report rather than a paper. Benchmark leaderboard positions move on a timescale of
+months; every specific benchmark number we cite is dated at first mention rather than presented
+as a current ranking.
+Language calibration. Throughout this paper we avoid unmeasured strong language — “proves,”
+“monotone,” “law,” “first” — in favor of “observed,” “measured and reported,” or “tracks,” reserving
+stronger language only for claims a cited paper’s own experiments establish directly. This applies
+with particular force to the METR time-horizon trend (§7, §9): we treat its reported growth rate
+as measured and reported, not as a settled law, because the metric’s cross-model-era comparability
+and its generalization beyond benchmark tasks are both contested rather than resolved.
+
+2.3 Taxonomy
+We organize the corpus along one primary axis realized as six categories, plus a second, prose-level
+axis that cuts across all six and is this paper’s main organizing device.
+Axis 1 — what the paper is about, the category column reported in Table 1: planning & decomposition (§3: how agents turn a task into a sequence of committable steps —
+decompose/search/worldmodel subcategories), memory & context management (§4: how information persists within and across a task — context/external subcategories, plus a weights tier
+6
+
+discussed qualitatively, not separately tagged), execution control & recovery (§5: the runtime
+loop that turns plans into actions and recovers from failures — loop/orchestration/recovery
+subcategories), training for long horizons (§6: how models are trained to act well over many steps
+— rl/supervision subcategories), evaluation & measurement (§7: how we know whether any of
+the above works — currently a single benchmark subcategory, since every classified paper in it
+is benchmark work, plus the critical literature that interrogates benchmarks throughout), and
+foundations, limits & safety (§8: theory of degradation and compounding error, and the oversight
+problem for agents that run for a long time unsupervised — not subdivided into subcategories).
+Table 1 reports per-category counts, the subcategory tags each category actually carries, and the
+fraction of each category posted in 2026 alone.
+Table 1. Corpus composition by category (1,547 papers total).
+
+Category
+
+Subcategory
+tags (n)
+
+Papers
+
+Of which
+supplement
+
+% posted 2026
+
+182
+
+0
+
+27%
+
+397
+
+21
+
+72%
+
+584
+
+0
+
+45%
+
+167
+
+14
+
+62%
+
+114
+
+0
+
+58%
+
+103
+
+93
+
+77%
+
+Planning &
+decomposition
+
+decompose
+(162) ·
+worldmodel
+(11) · search
+(9)
+external (294)
+Memory &
+· context
+context
+(103)
+management
+orchestration
+Execution
+(338) ·
+control &
+recovery (245)
+recovery
+· loop (1)
+Training for
+rl (130) ·
+long horizons
+supervision
+(37)
+Evaluation &
+benchmark
+measurement
+(114)
+Foundations,
+not
+limits & safety subdivided
+
+Subcategory tags are a corpus column for five of six categories; evaluation currently resolves to a
+single tag (benchmark) because every classified paper in it is benchmark work, and foundations
+was not given a subcategory split (§8’s internal organization — compounding error, goal
+drift/misalignment, oversight — is a prose-level grouping, not a tagged column, matching how
+Axis 2 below is handled).
+Figure 1 renders Axis 1 crossed with Axis 2 as a grid, with representative systems per cell drawn
+from the corpus and each discussed in the corresponding section below. Seventeen of the eighteen
+cells are populated: only the foundations/within-context cell is empty, because degradation and
+oversight problems are, definitionally, phenomena of tasks that already exceed a single forward pass.
+The cross-task-persistent column is the sparsest in the literature but is populated in every other row,
+which is worth noting explicitly — the impulse to let capability accumulate across episodes is not
+confined to the memory literature where it is most visible, but appears as a distinct minority thread
+7
+
+Figure 1: Taxonomy grid – six categories (rows) crossed with the horizon-bearing-locus axis
+(columns). Each cell names representative systems drawn from the corpus and discussed in the
+corresponding section. The foundations/within-context cell is empty by construction: degradation
+and oversight phenomena presuppose a task that already exceeds one forward pass.
+
+8
+
+inside planning (§3), execution (§5), training (§6), evaluation (§7), and the self-evolution work
+discussed in §8. Figure 2 shows the same six categories as a semantic map (TF-IDF projection with
+per-category density contours), which makes visible that execution and planning interpenetrate
+heavily — consistent with the two sharing much of their harness-engineering literature — while
+training forms the most topically separated cluster.
+
+Figure 2: Semantic map of the corpus (TF-IDF + SVD + t-SNE projection, axes are arbitrary
+embedding dimensions) with per-category density contours and direct labels. n=1,547.
+Axis 2 — where the horizon is carried, a prose-level distinction we apply within every technical section rather than as a corpus column: within-context (the task’s full history fits in one
+forward pass — “long-horizon” here means many steps, not literally beyond-context), within-taskbeyond-context (the step count exceeds one context window, but a harness — external memory,
+summarization, sub-agent handoff — keeps the attempt inside one continuous episode), and crosstask-persistent (information or skill survives across distinct episodes or sessions — memory banks,
+fine-tuned weights, accumulated skill libraries — so horizon is extended by accumulation over time
+rather than within a single attempt). Every technical section below is, in part, organized by where
+along this axis its methods sit, because the engineering problem — and the failure modes — differ sharply across the three: within-context methods fail by attention/utilization degradation (§4,
+§8); within-task-beyond-context methods fail by information loss at the harness boundary; and
+cross-task-persistent methods fail by interference or staleness in what was retained.
+
+2.4 Positioning vs. existing surveys
+Several recent surveys cover pieces of this territory. Planning surveys such as [6] and [7] map the
+space of LLM planning strategies; memory surveys such as [8] and its 2026 update [9] chart agent
+9
+
+memory mechanisms in detail; GUI/web-agent surveys such as [10], [11], and [12] cover a single
+embodiment of the execution problem; and an agentic-reinforcement-learning survey [13] covers one
+training paradigm in §6’s territory. Each is organized around a single component of the pipeline.
+This survey’s delta is to organize instead around horizon as the cross-cutting axis: rather than
+asking “what memory mechanisms exist” or “what planning strategies exist” in isolation, we ask, for
+every stage of the pipeline, what breaks first as the required horizon grows, and what compensates —
+which is why planning, memory, execution, training, evaluation, and foundations are treated as one
+continuous argument (§§3–8) rather than as independent surveys stitched together, and why the
+critical/diagnostic literature (benchmark critiques, failure-mode analyses, self-correction skepticism
+such as [14]) is carried as a first-class thread through every section rather than segregated into its
+own critique chapter.
+This survey is also a deliberate companion to a prior survey of recursive self-improvement in AI
+[15], with which it shares harvest infrastructure and taxonomy methodology but not scope: that
+survey covers loops in which a system improves itself — its outputs, its training data, its evaluator,
+or the research process — as an end in itself; this survey covers training and engineering aimed
+specifically at extending how long a task a system can carry out, and treats self-improvement loops
+only where they are instrumental to that end (§6). Readers interested in why models are trained
+on their own generated data, rather than how far a single trained policy can be pushed on long
+tasks, should consult the companion survey; we flag the boundary again where it becomes concrete,
+in §6.
+
+3. Planning & Decomposition
+Planning is the first place a long-horizon task must be made tractable: before any action is taken,
+something has to turn “resolve this issue” or “book this itinerary” into a sequence of committable
+steps. The literature spans a spectrum from committing to a full plan before any execution, through
+interleaving one planning step with one execution step, to explicit search over multiple candidate
+continuations — and, as the corpus grew, it became clear that where a system sits on this spectrum
+tracks how uncertain its environment is, not how sophisticated its model is. Plan-first decomposition
+is data-eﬀicient and interpretable precisely when the environment is predictable enough that a plan
+made at 𝑡 = 0 still holds at 𝑡 = 𝑘; as uncertainty grows, that assumption breaks, and the field’s
+center of mass has moved toward interleaved and search-based alternatives (this section, decompose
+𝑛 = 162, search 𝑛 = 9, worldmodel 𝑛 = 11 of the taxonomy’s planning category).
+Plan-then-execute and its failure mode. The idea that a long task should be attacked by
+decomposing it into temporally extended sub-behaviors long predates language models: the options
+framework formalized temporal abstraction over sub-policies in reinforcement learning [16], and
+feudal reinforcement learning organized control into a manager hierarchy assigning sub-goals to
+workers [17] — the structural ancestor of the planner/executor splits that recur throughout this
+section. Two 2022-2023 systems carried the pattern into the LLM setting from opposite directions:
+LLM+P routes planning through a classical symbolic planner, using the language model to translate
+the problem into a formal specification rather than to plan directly [18], while SayCan grounds an
+LLM’s proposed steps in what a robot can actually execute by weighting them against learned
+affordances [19] — an early statement of this section’s recurring lesson that a plan is only as good
+as its feasibility check. The classical recipe — decompose the task into sub-goals, then execute
+each — remains the default in tool-use and code-generation settings where the action space is
+well-specified: PoTable applies staged plan-then-execute reasoning to table QA [20], and Tree-of-
+
+10
+
+Figure 3: The planning strategy spectrum – plan-then-execute, interleaved, search-based, and
+world-model-based lookahead approaches, positioned against increasing environment uncertainty
+and action-space size.
+Code consolidates an LLM agent’s actions into a unified code-based action space precisely to make
+each planned step verifiable before it executes [21]. But the recipe’s central risk is committing
+early to a plan the agent cannot actually carry out: Plan-and-Act starts from the observation
+that LLMs are not inherently trained to produce accurate plans, and trains a Planner separately
+from an Executor using synthetic data that annotates ground-truth trajectories with the feasible
+plans that would have produced them — teaching plan generation directly, rather than hoping
+a single model’s general capability transfers to it — which recovers much of the gap on longhorizon web-navigation tasks [22]. PIVOT goes further and treats the plan itself as an object
+to be refined against execution feedback rather than committed to once — plan, inspect, and
+evolve trajectories through repeated environment interaction — precisely because plans generated
+before any grounding routinely violate constraints or omit infeasible-action checks that only surface
+once execution starts [23]. The same lesson appears from the harness-design side: harnesses that
+decompose more aggressively are not uniformly better, because more elaborate decomposition can
+itself introduce misalignment between the guidance a step receives and what execution actually
+needs, so the right amount of decomposition is a property of the task’s uncertainty, not a free
+eﬀiciency gain [24].
+Interleaving planning with execution. The alternative — plan one step, observe, replan —
+trades a priori coherence for grounding. PROMST shows that multi-step tasks need feedback- and
+heuristic-informed prompt optimization that single-step prompt tuning does not require, precisely
+because the impact of an individual step is hard to evaluate in isolation from what happens next
+[25]; ReAgent makes the interleaving explicit and reversible, adding backtracking to multi-hop
+QA specifically because irreversible chain-of-thought accumulates errors across hops that only a
+revisable trajectory can undo [26]. A sharp empirical question is exactly how much interleaving
+is warranted: directly testing full-horizon planning (commit to a complete plan, then execute)
+against single-step-horizon planning (interleave every action with fresh reasoning) on data-centric
+tool-calling tasks, one study finds full-horizon planning with on-demand replanning matches stepby-step accuracy across the depths, breadths, and robustness levels tested — at 2-3x fewer tokens
+— indicating the interleaved default’s assumption that eager step-wise monitoring is necessary for
+adaptability does not hold for well-defined data-centric tasks, even though it is treated as the safe
+default [27]. This is a challenge to committing to interleaving by default, not a demonstration of
+11
+
+the predictability-conditioned split this section’s opening claims. A cleaner test of that specific
+split is still open. At the far end of this axis, when the action space itself becomes too large to plan
+over explicitly (open-ended real-world environments), one line of work argues the representation
+planning happens over must change — from planning with concrete actions to planning with higherlevel schemas that compress the combinatorially exploding action space back down to something a
+plan can range over [28].
+Search-based planning. A third family keeps multiple candidate continuations alive and searches
+among them rather than committing to one. The anchor for this family is Tree of Thoughts, which
+generalizes chain-of-thought from a single linear trace into a tree of partial solutions the model can
+evaluate and backtrack over [29]; the within-window variant remains the reference point against
+which later, tool- and environment-grounded search methods are described. In our 2024-2026 corpus
+this is the smallest slice (search, 𝑛 = 9) but a conceptually distinct one: CheMatAgent integrates
+tree-search over 137 external chemistry tools specifically because a single greedy tool-call sequence is
+unreliable when the right tool depends on intermediate results not known in advance [30], and SELT
+combines self-evaluation with tree search over decomposed sub-tasks so that the search process itself,
+not just the final answer, is guided by a learned value signal [31]. The progression is worth noting:
+Tree of Thoughts searches over reasoning states inside one context, while its successors search over
+action sequences whose outcomes only an environment can reveal — which moves the bottleneck
+from search strategy to the cost and fidelity of evaluating each branch. Search-based planning is
+the most compute-hungry point on the spectrum and the literature increasingly asks whether the
+compute is well spent — a question §7 returns to when discussing benchmark protocol validity.
+World models for lookahead. A fourth thread — closely related to search, since search needs
+something to search over — asks agents to maintain an explicit predictive model of the environment
+and plan by rolling it forward. WALL-E aligns a world model to real environment rules via rule
+learning specifically because an ungrounded world model’s predictions drift from what the environment actually does over a long rollout, and shows this alignment step recovers much of the value
+of model-based planning that an ungrounded model loses [32]. This drift is a recurring finding: a
+comparison of memory mechanisms in world models finds that the effective planning horizon of
+transformer-based world models is bounded by their effective memory span, and that perceptual
+drift compounding across a long imagined rollout breaks the loop-closure a plan depends on —
+connecting this thread directly to the memory literature of §4 and the compounding-error theory
+of §8 [33]. Applied work shows both the promise and the constraint: MobileDreamer builds a generative sketch world model specifically to let a mobile GUI agent forecast action outcomes before
+committing to them, addressing agents that are otherwise purely reactive to the current screen and
+therefore blind on long-horizon tasks [34], while ToolVerse scales agentic-RL environments precisely
+because agents that reason well in compact, well-defined scenarios do not automatically transfer
+that lookahead ability to large, diverse, dynamic ones [35].
+Planning that persists across tasks. All four families above operate within a single attempt.
+A smaller thread asks whether the planning capability itself can accumulate across episodes —
+the cross-task-persistent point on Axis 2 (§2.3) as it applies to planning rather than to memory.
+AgentEvolver treats the expensive parts of building an agent — constructing task datasets and
+exploring for useful trajectories — as things the system should bootstrap for itself rather than
+have hand-supplied per task, on the argument that manually constructed datasets and undirected
+RL exploration are what make agent development costly and sample-ineﬀicient in the first place
+[36]. SEAM takes a narrower and more architecturally explicit route: rather than retrieving past
+experience by similarity at inference time — which it argues introduces noise and latency — it
+12
+
+trains a small executor-specific adapter that generates a structured, instance-tailored experience
+entry in one forward pass for a frozen executor, storing the accumulated experience in the adapter’s
+parameters and improving it after deployment from logged successful trajectories [37]. The two
+mark the ends of a small design space — bootstrapping the whole training pipeline versus compiling
+reusable experience into a lightweight side module — and both make explicit an assumption the
+rest of this section leaves implicit: that a plan’s value can outlive the episode that produced it.
+Assessment. Across the four within-episode families, the same pattern recurs: methods that
+commit to a representation of the future early (a full plan, an unrolled world-model trajectory)
+buy coherence at the price of fragility to whatever the plan did not anticipate, while methods that
+defer commitment (interleaving, search) buy robustness at the price of compute and sometimes at
+the price of the very global coherence long-horizon tasks need. No single point on the spectrum
+dominates; which point is appropriate is closest to being a measurable property of the environment’s
+uncertainty and the action space’s size, not a fixed methodological preference — which is why the
+field’s center of mass has moved from plan-then-execute defaults toward interleaved and searchaugmented methods as it has moved from short, well-specified benchmarks toward open-ended,
+long-horizon ones (§7). The cross-task thread is the least developed of the five and the one where
+the boundary with §4 is thinnest: once planning experience is stored and reused, the engineering
+problem starts to look like a memory problem, which is one reason the two categories interpenetrate
+as heavily as Figure 2 shows. The plans this section describes are only as good as the information
+available when they are made and revised, which is the memory and context-management problem
+taken up next.
+
+4. Memory & Context Management
+If planning decides what to do next, memory decides what information that decision is made with
+— and this is where the long-horizon/long-context/long-term-memory distinction of §2.1 does the
+most work. We organize this section by where information is carried: in-context (part of the
+live prompt), an external store (retrieved on demand), or weights (compiled into the policy via
+training) — three points on a persistence-fidelity trade-off rather than three unrelated mechanisms
+(context 𝑛 = 103, external 𝑛 = 294 of the memory category; the size gap itself is a finding,
+discussed in the Assessment below — the weights tier is not separately tagged in the corpus,
+discussed qualitatively via the training category’s overlap with this section).
+In-context management. The simplest way to preserve information is to keep it in the prompt,
+but a long-horizon task eventually produces a trajectory longer than any context window, and even
+within budget, models do not use long contexts uniformly — information placed away from the ends
+of the context is used less reliably than information at the edges [38]. Agent-specific work treats
+this as an active management problem rather than a passive capacity limit: Cognitive Workspace
+frames context management as active memory management with a finite functional budget, directly
+analogous to human working memory constraints, rather than as a fixed-size buffer to be filled and
+discarded [39]; Git Context Controller manages an agent’s context the way a version control system
+manages a codebase — commits, branches, and merges of context state — because ad hoc truncation
+loses exactly the information a later step turns out to need [40]. Several 2026 systems attack
+the trajectory-length problem directly: Context-Folding scales a long-horizon agent by folding
+completed sub-trajectories out of the live context once they are resolved [41], and ACON optimizes
+context compression specifically for the long-horizon setting, showing that generic summarization
+compresses away details a later step needs, so the compression policy itself has to be aware of what
+
+13
+
+Figure 4: The memory persistence-fidelity trade-off across three tiers – context, external store, and
+weights – with representative systems and relative fidelity/persistence for each.
+downstream steps will require [42]. The failure mode this thread converges on has recently been
+given a name — “context rot,” diagnosed and partially mitigated in long-horizon search settings
+[43] — and a blunt summary: context management is load-bearing for whether an LLM agent’s
+plan survives contact with a long trajectory, not an implementation detail behind it [44].
+External memory. The alternative to carrying everything in-context is to write information to
+an external store and retrieve it when relevant. This is by far the largest subcategory in the corpus
+(external, 𝑛 = 294 vs. context’s 103), and the operating system metaphor that popularized the
+idea — MemGPT, treating an LLM’s limited context as working memory backed by a paged external
+store, the way an operating system backs limited RAM with disk [45] — still organizes how most of
+this literature frames the problem. A second anchor supplies the other half of the design vocabulary:
+Generative Agents paired a timestamped memory stream with a retrieval function scoring entries
+on recency, importance, and relevance, plus a reflection step that periodically synthesized higherlevel inferences from raw observations [46] — establishing that an external store needs a write
+and consolidation policy, not only a read path, a point the interference findings below return to.
+Recent systems differ mainly in what the external store looks like and how retrieval is scoped: AMEM structures agentic memory as a network of interlinked notes rather than a flat log, so that
+retrieval can follow associative links instead of similarity search alone [47]; graph-based memory
+architectures generalize this further, arguing a single flat vector store under-represents the relational
+structure a long-running agent accumulates [48]. Whether memory survives across sessions, not
+just within one long episode, is this subcategory’s clearest engineering marker of the cross-taskpersistent point on Axis 2 (§2.3): WebCoach gives web agents self-evolving guidance carried across
+sessions specifically because within-session learning is invisible to the next session’s fresh start [49],
+and a scale-conditioned evaluation protocol finds that fixed-snapshot accuracy hides a real failure
+mode: reliability degrades as merely irrelevant sessions accumulate around the actually-relevant
+evidence, well before the store approaches any hard capacity limit — the protocol reports the
+14
+
+specific accumulation scale at which reliability crosses below target as a distinct diagnostic in its
+own right [50]. A closely related but distinct problem is interference from evidence that is not
+irrelevant but outdated: a benchmark evaluating memory under multi-target interference in longhorizon agent systems finds consistently low accuracy across seven representative systems (vanilla
+long-context LLMs, RAG, and memory-augmented frameworks; average 27.9%), with questions that
+require aggregating multiple relevant facts singled out as especially hard even against that alreadylow baseline, and degradation compounding further as facts are revised or updated by later context
+— interference from change over time, not merely from how much is stored, is the bottleneck [51],
+and forgetting is correspondingly being explored as a first-class design target rather than a failure
+to prevent — biologically-inspired forgetting mechanisms compress or discard low-value memories
+specifically to keep a growing store’s retrieval useful [52].
+Compression and distillation into weights. The third tier folds information into the model
+itself rather than an external artifact — the most persistent but least flexible point on the trade-off,
+since updating it requires training rather than a write to a store. MemPO frames this as self-memory
+policy optimization for long-horizon agents, training the policy itself via reinforcement learning to
+autonomously decide what to retain or summarize based on downstream usefulness — the skill of
+curation becomes a trained capability baked into the weights, rather than an external module the
+policy merely calls [53]; co-evolving decision and skill-bank agents blend the tiers explicitly, pairing
+a fast-changing external skill bank with a more slowly updated decision policy so that frequently
+reused skills eventually migrate from retrieval into the policy itself [54]. This tier is the most
+durable against context-window limits by construction, and correspondingly the least auditable —
+a concern §8 returns to.
+A cross-cutting risk: memory as an attack surface. Because external and weight-level
+memory both persist information an attacker does not control at write time, several 2026 papers
+treat agent memory itself as a security boundary rather than only a capability: conversational
+interaction can plant a stealthy trojan directly into an agent’s stored memory [55], and a forensic
+trajectory signature for detecting memory-poisoning after the fact reaches high discrimination in
+a preregistered evaluation, but a follow-up finds the same signature also fires on benign memorygrounded behavior — a reminder that a detector’s headline accuracy and its practical false-positive
+rate under realistic use are separate questions this literature is only beginning to ask [56]. This
+connects the memory literature directly to the oversight problem of §8: a memory store is exactly
+the kind of persistent, agent-controlled state that is hard for a human overseer to audit continuously.
+Assessment. The external-to-context size ratio in the corpus (294 vs. 103) is itself informative:
+as of this writing, the field has moved decisively toward treating memory as a storage-and-retrieval
+engineering problem rather than a context-budgeting one, likely because external stores scale independently of a fixed context window while in-context management schemes are ultimately still
+bounded by it. But the persistence-fidelity trade-off runs through all three tiers regardless of implementation: context is faithful but bounded, external stores are unbounded but suffer retrieval and
+interference costs that grow with scale, and weights are durable but require training to update and
+are the hardest tier to audit or correct after the fact. None of the three eliminates the trade-off;
+they only choose where on it to sit. Whichever tier a system chooses, the resulting information still
+has to be acted on inside a runtime loop that can fail and needs to recover — the subject of §5.
+
+15
+
+5. Execution Control & Recovery
+Planning and memory supply what to do and what to do it with; execution control is the runtime
+loop that actually does it, and — the recurring claim of this section — how well a long task goes
+depends more on that loop’s ability to notice and recover from failure than on the per-step quality
+of the underlying model. This is the corpus’s largest category (execution, 𝑛 = 584), organized
+into three subcategories that sit at increasing scale: the single-agent act–observe loop that turns
+a model into an agent at all, orchestration across multiple agents or sub-agents (𝑛 = 338, the
+dominant mode by volume), and recovery via self-correction and replanning when the loop’s
+output is wrong (𝑛 = 245).
+The loop itself. The interleaved reason-act-observe cycle — think, take an action, read back the
+environment’s response, repeat — is now so assumed a substrate for LLM agents that the corpus
+contains almost no papers that treat the loop itself as a subject rather than infrastructure (loop,
+𝑛 = 1); the pattern’s near-total absorption into “how agents just work” is itself informative about
+how settled this layer has become since ReAct first proposed it as an explicit alternative to acting
+without intermediate reasoning traces [57]. What the corpus does discuss is how to make the loop
+safe to run for a long time unsupervised: a practitioner-facing guide to architecting resilient planthen-execute agents treats the loop’s exception paths — what happens when a tool call fails, times
+out, or returns something the plan did not anticipate — as first-class design surface rather than an
+afterthought bolted onto a working happy path [58].
+Orchestration across agents. The dominant way the field has scaled beyond a single loop is
+horizontally: split a task across multiple agents or sub-agents rather than deepen one agent’s own
+loop. Two anchors bracket what “delegation” came to mean: Toolformer had a model learn, in
+a self-supervised way, when to call an external API mid-generation — delegation to a tool [59] —
+while HuggingGPT used a language model as a controller that plans a task and dispatches subtasks
+to other specialist models, delegation to a model [60]. Present-day orchestration generalizes the
+latter: the delegate is another agent with its own loop. This ranges from domain-specialized
+multi-agent frameworks — for requirements engineering [61], sentiment analysis [62], penetration
+testing [63, 64], optical-network operations [65], and incident response with an explicit deterministicdecision-support goal [66] — to general-purpose compositional frameworks for a single embodiment,
+such as Agent S2’s generalist-specialist split for computer-use agents [67] and OmegaUse’s generalpurpose GUI agent [68]. A second thread treats orchestration itself, not any one domain, as the
+object of study: the first large-scale empirical study of testing practices across 39 open-source
+agent frameworks and 439 agentic applications finds testing effort concentrated almost entirely on
+the deterministic scaffolding around a model — tools and workflows absorb over 70% of testing
+effort — while the model-driven planning component itself receives under 5% and prompts under
+1%, an inversion that leaves exactly the least deterministic, most agentic part of the system least
+tested [69]; a two-dimensional framework separates an agent’s cognitive function from its execution
+topology specifically because neither axis alone disambiguates architecturally distinct systems —
+the same orchestration topology can implement patterns with very different failure modes [70]. The
+governance literature has started treating agentic deployment as a policy object in its own right,
+from two different angles: “Governing AI Agents” applies the economic theory of principal-agent
+problems to argue that conventional governance tools — monitoring, incentive design, enforcement
+— may not transfer to AI agents that act at a speed and opacity ordinary agency relationships
+did not anticipate [71], while the AI Agent Index, a public database of deployed agentic systems,
+finds developers document capabilities and applications far more thoroughly than they document
+safety and risk-management practices [72] — a disclosure gap this section shares with the oversight
+16
+
+discussion in §8.
+Recovery: self-correction and replanning. The third subcategory is the loop’s error-handling
+layer — noticing that an action or a reasoning step was wrong and repairing it before it compounds. The pattern’s anchor is Reflexion, which converts a failed attempt into natural-language
+self-feedback stored in an episodic buffer and conditions the next attempt on it — verbal reinforcement in place of a gradient update [73]. Early optimism that models could reliably self-correct
+their own reasoning without external feedback was tempered by a widely cited finding that intrinsic self-correction — correction using only the model’s own signal, with no external verifier or
+ground truth — does not reliably improve reasoning accuracy and can degrade it [2]; the corpus’s
+own trajectory traces this tension rather than resolving it. Several 2024-2025 papers argue for a
+more qualified intrinsic capability under narrower conditions — self-correction of single-utterance
+perturbed reasoning [74], correction with explicit key-condition verification [75] — while a 2025 decomposition of self-correction into detection, localization, and correction sub-capabilities surfaces
+a genuinely counter-intuitive finding it calls the “accuracy-correction paradox”: the weaker model
+in a three-model comparison (GPT-3.5, 66% base accuracy) corrects its own errors intrinsically at
+a higher rate (26.8%) than the strongest model (94% base accuracy, 16.7%), and error-detection
+rate does not predict correction success either. The proposed explanation — an “Error Depth
+Hypothesis” — is that stronger models make fewer but structurally deeper errors that intrinsic
+self-correction is specifically bad at reaching, which would mean the anchor finding above is not
+a capability gap current models simply haven’t crossed yet, but a pattern that could get worse,
+not better, as models improve [76]. Where self-correction is externally grounded, the picture is
+more positive: CSC-SQL uses corrective self-consistency, checking multiple candidates against each
+other rather than relying on one model’s unaided judgment, to improve text-to-SQL reliability [77],
+and SHIELDA gives agentic workflows structured exception handling analogous to a programming
+language’s exception model, so that failures are caught and routed rather than silently propagated
+[78]. At the level of a full trajectory rather than a single step, task-decoupled planning replaces
+one monolithic reasoning history spanning every sub-task with a directed acyclic graph of scoped
+sub-goals, each with its own confined context, precisely because a shared history lets an error made
+on one sub-task propagate into otherwise-unrelated decisions and makes recovery correspondingly
+expensive to localize [79].
+Recovery that accumulates. A distinct move within the recovery literature is to treat each
+failure-and-repair episode as a durable asset rather than a one-off correction — the cross-taskpersistent locus (§2.3) applied to execution. The anchor here is Voyager, which accumulated a
+library of executable skills in an open-ended Minecraft setting so that capabilities acquired solving
+one task became available for the next [80]. ViReSkill pairs vision-grounded replanning with a
+skill memory: when execution fails, the replanner generates a new action sequence conditioned
+on the current scene, and when it succeeds, the resulting plan is retained for reuse — so the
+system’s competence on a task family grows with the number of failures it has worked through
+[81]. SEAgent makes the same bet on a larger scale for computer-use agents, letting an agent
+autonomously master unfamiliar software through iterative trial-and-error on auto-generated tasks,
+precisely because human-labeled demonstrations do not exist for novel or specialized applications
+[82]. Both depend on something §5’s within-episode recovery methods do not need: a reliable
+judgment about which past attempts were actually successes, since a skill memory that accumulates
+plausible-looking failures degrades rather than improves — which routes the problem back to the
+evaluation question of §7.
+Assessment. The subcategory sizes are themselves a claim: orchestration outnumbers recovery
+17
+
+roughly 1.4 to 1, and both dwarf the single-loop subcategory, suggesting the field has invested far
+more engineering effort in scaling out (more agents, more structure around them) than in hardening
+any one agent’s own error-correction — even though the self-correction evidence above suggests
+hardening is where the harder unsolved problem sits. This is consistent with this section’s opening
+claim: what separates a system that completes a long task from one that does not is decreasingly
+a property of the underlying model and increasingly a property of the harness wrapped around
+it — how failures are caught, how many agents share the load, and how aggressively the system
+attempts to fix its own mistakes before they compound. The cross-task-persistent accumulation
+thread above sharpens this same attribution problem rather than sidestepping it: a skill memory
+only compounds capability if the system’s judgment about which past attempts succeeded is itself
+trustworthy, which routes straight back to the evaluation question of §7 and means accumulation
+is not a way around the harness-versus-model question so much as a second place it resurfaces.
+Whether the harness handling all of this was itself trained to handle long horizons, or is purely
+inference-time scaffolding bolted onto a model trained for something else, is the question §6 takes
+up.
+
+6. Training for Long Horizons
+The previous two sections describe scaffolding wrapped around a trained model. This section
+asks what happens when the model itself is trained with long horizons in mind, and its organizing
+observation is simple: as horizon grows, outcome-only supervision — one reward at the very end of a
+long trajectory — grows sparser and noisier per step, which is exactly why process-level supervision
+and credit assignment have become the field’s central technical problem rather than a footnote to
+reinforcement learning as usual (rl 𝑛 = 130, supervision 𝑛 = 37 of the training category).
+Credit assignment under sparse, delayed reward. When a single trajectory reward must be
+distributed back across dozens of intermediate actions, naive uniform credit assignment systematically mis-attributes success and failure to steps that did not cause them. Segment Policy Optimization addresses this directly by assigning credit at the level of trajectory segments rather than whole
+trajectories or individual tokens, on the premise that neither granularity extreme matches where
+causal responsibility actually lives [83]; a graph-based approach goes further, arguing that attribution restricted to a single trajectory’s own linear order — even at segment granularity — misses
+credit relationships that only appear across a graph of related trajectories [84]. Selective eligibility
+traces revisit a much older RL idea specifically to avoid the opposite failure of uniform credit assignment: spreading credit equally over every step of a long trajectory dilutes the signal precisely
+where it is most informative [85]. Some of this thread ports credit-assignment machinery into domains distant from its origin — multi-granularity intertemporal credit assignment for long-horizon
+emotional-support dialogue, combining immediate and delayed credit from a shared potential function over dialogue state [86], fair credit assignment for memory-augmented agents where the credit
+a memory-write step deserves is entangled with whichever later step actually uses that memory [87]
+— evidence that credit assignment has become a general-purpose long-horizon primitive rather than
+a technique specific to any one task family. A comprehensive empirical recipe for reinforcement
+learning on long-horizon tool-using agents decomposes the agentic-RL design space along five axes
+— reward shaping, model scale, data composition, algorithm choice, and environmental stability
+— and is explicit that which choice is best is itself scale-dependent (smaller models benefit from
+staged rewards and extra exploration; larger models converge faster with simpler dense rewards),
+meaning there is no single best recipe outcome-only RL alone would reveal [88].
+
+18
+
+Process reward models and generative supervision. Where credit assignment asks how
+to attribute a sparse outcome signal, process reward models ask whether a denser signal can be
+trained directly from step-level supervision instead of derived post hoc. The reference result for this
+direction is Lightman et al.’s comparison of process- against outcome-supervised reward models on
+the MATH dataset, which reported that supervising each reasoning step significantly outperformed
+supervising only the final answer — but required 800,000 step-level human feedback labels (released
+as PRM800K) to train the better reward model [89]. That pairing is the inheritance this subsection
+works against: dense supervision demonstrably helps, at an annotation cost no agentic setting can
+pay per task. Nearly everything below is an attempt to obtain step-level density without steplevel human labels. Entropy-regularized process reward modeling directly targets a distinct failure
+mode of naively trained PRMs — overconfident, poorly calibrated step scores — by regularizing
+against it during training [90], and GroundedPRM grounds step-level rewards in explicit treeguided search plus a fidelity check, precisely because ungrounded PRM training tends to reward
+plausible-looking steps rather than steps that are actually correct [91]. One striking observation
+ties this subsection back to §6’s opening claim about outcome supervision: GRPO — an algorithm
+introduced and typically described purely in outcome-reward terms — is shown to implicitly perform
+process-reward-like credit attribution as a side effect of its group-relative normalization, suggesting
+the boundary between “outcome” and “process” supervision is less an architectural choice than a
+question of where in a training pipeline step-level credit ends up being computed [92]. Reward
+density is also being pushed toward the long-horizon, agent-specific setting rather than borrowed
+unmodified from short-horizon math/code reasoning: Think-RM extends long-horizon reasoning
+into the generative-reward-model itself, so that the judge doing the rewarding is trained with
+the same long-horizon considerations as the policy it supervises [93], AgentPRM builds step-wise
+promise-and-progress signals specific to agent trajectories rather than reasoning chains [94], and
+SWE-TRACE combines rubric-based process rewards with heuristics specifically to make longhorizon software-engineering-agent training tractable [95]. A separate cautionary finding shows
+implicit process signal is not always benign even when it exists: one paper documents agentic RL
+for search actively misaligning a model’s instruction-following behavior as an unintended side effect
+of the reward it optimizes [96] — a different mechanism from GRPO’s implicit-PRM structure
+above, but a reminder that reward shaping in agentic RL has effects beyond the task metric it
+targets, a finding this section flags rather than resolves, since it depends heavily on the specific
+reward and environment involved.
+Boundary with the self-improvement literature. Much of the machinery in this section
+— reward models, RL fine-tuning on model-generated trajectories, iterative policy improvement
+— overlaps mechanically with the recursive-self-improvement literature surveyed in a companion
+paper [15]. The line we draw is one of purpose, not mechanism: that survey treats these loops
+as an end in themselves — a system that trains on its own outputs, evaluates its own quality
+signal, or improves its own research process, with the interesting question being whether the loop
+closes. Here, the same techniques are training a policy to act well over more steps, with a fixed
+external task-completion criterion the training never gets to redefine — the interesting question is
+how far one trained policy can be pushed on longer tasks, not whether the training loop itself is
+self-referential. A single-agent RL run that uses self-generated rollouts to train a longer-horizon toolusing policy sits, by this criterion, inside this section; a system that additionally modifies its own
+reward model, training procedure, or harness as part of the same loop crosses into the companion
+survey’s territory. Papers that live on this boundary — e.g., Q-Evolve, which unifies automatic
+process-reward labeling with policy learning in a self-evolving, in-distribution RL loop [97] — are
+treated here strictly as instances of longer-horizon policy training, leaving the self-referential-loop
+19
+
+question to the companion paper.
+Assessment. The rl-to-supervision ratio (130 to 37) suggests the field has invested more effort
+in assigning credit within a fixed reward signal than in redesigning the reward signal’s granularity
+outright — the cheaper intervention, and consistent with credit assignment’s portability across
+the very different domains cited above. But the GRPO finding above complicates a clean read
+of that ratio: if outcome-level algorithms are already doing implicit process-level work, the two
+subcategories are less separate research programs than two vantage points on the same underlying
+problem — training a policy that gets useful signal from every step of a long trajectory, not only
+its end. Whether that training actually produces agents that are more reliable over long horizons,
+and how we would know, is the measurement problem taken up next.
+
+7. Evaluation & Measurement
+Every claim in §§3–6 is only as credible as the benchmark it was measured against, and this
+section’s organizing observation is that agentic benchmarks have moved from single-step QA toward
+hours-long, real-environment tasks faster than the methodology for validating them has matured
+— so that a large and increasingly self-aware slice of this literature is now about whether the
+benchmarks measure what they claim to (evaluation, entirely tagged benchmark in our taxonomy,
+𝑛 = 114, plus the SWE-bench/GUI benchmark ecosystem that recurs throughout execution). All
+benchmark numbers below are dated at first mention, since public leaderboards shift on a timescale
+of months.
+A case study in benchmark evolution: SWE-bench. SWE-bench [98] — resolve real GitHub
+issues given the full repository as context — has become the closest thing long-horizon agent evaluation has to a common currency, and its evolution is a microcosm of this section’s argument.
+The original benchmark and its immediate successors extended coverage: SWE-bench-java [99]
+and Multi-SWE-bench [100] add languages beyond Python, SWE-bench Multimodal asks whether
+solutions generalize to visual software domains the text-only original cannot capture [101], and
+SWE-Bench Pro raises the diﬀiculty to enterprise-scale, long-horizon problems explicitly because
+the original’s scope undersells the length of task real software engineering requires [102]. A second,
+larger wave interrogates validity rather than coverage. SWE-bench+ manually inspects successful
+patches and finds 32.67% involve solution leakage (the fix was already present in the issue report
+or comments) and a further 31.08% pass only because the test suite is too weak to verify correctness — filtering both out drops one leaderboard-topping system’s resolution rate from 12.47% to
+3.97% [103]; “Are ‘Solved Issues’ in SWE-bench Really Solved Correctly?” corroborates the second
+half of that finding independently, showing passing patches diverge behaviorally from the humanwritten ground truth in nearly 30% of cases even when tests pass [3]; SWE-MERA responds by
+building a dynamic, continuously-updated benchmark instead of a frozen one, arguing that the contamination and weak-test problems SWE-bench+ documents are inherent to any benchmark that
+stops collecting new issues after release [104]; and “The SWE-Bench Illusion” shows state-of-the-art
+LLMs sometimes succeed by recalling memorized repository content rather than reasoning about
+the issue in front of them [4] — a concern sharpened further by a study asking directly whether
+SWE-Bench Verified tests agent ability or model memory, and finding evidence for the latter in
+frequently-benchmarked models [105]. A third strand asks whether the leaderboards built on top
+of the benchmark are themselves trustworthy: dissecting SWE-Bench’s public leaderboards finds
+systematic differences in how submitters profile and report results that complicate cross-system
+comparison [106], corroborated by a follow-up comprehensive study of the same two leaderboards
+
+20
+
+[107]. Most recently, a trajectory-level diagnostic (TRAJEVAL) shows that even where capable
+models localize the right code, they still fail after reaching it — “coherence collapse” — meaning Pass@1 alone actively misdiagnoses why the remaining 30–35% of issues go unsolved [108].
+Best-practice guidance distilled from across this benchmark family generalizes the lesson beyond
+SWE-bench: across a wider set of agentic benchmarks, task-setup and reward-design flaws (SWEbench Verified’s insuﬀicient test cases are exhibit one; a separate example finds 𝜏 -bench [109] —
+a benchmark for tool-agent-user interaction under domain policies, notable for scoring reliability
+across repeated trials of the same task rather than single-shot success — counts empty responses as
+successes) can over- or under-estimate reported performance by up to 100% in relative terms, and
+a resulting checklist reduced measured overestimation on one complex benchmark by 33% when
+applied [5].
+GUI and computer-use benchmarks. A parallel ecosystem evaluates agents that operate
+graphical interfaces rather than repositories. WebArena [110] and OSWorld [111] established the
+realistic-environment paradigm for web and full-desktop tasks respectively; AgentBench [112] and
+GAIA [113] cover a wider span of agentic environments and general-assistant tasks. The corpus’s
+own supplement here is dense with reliability findings that echo the SWE-bench pattern in a
+different embodiment: OS-Harm evaluates the safety, not just the task success, of computer-use
+agents specifically because prior work “largely overlooked” harm potential while chasing capability
+[114]; AndroidControl-Curated finds that even top-scoring GUI agents plateau around 60% on
+AndroidControl not because the task is unsolvable but because benchmark noise — ambiguities
+and factual errors in the benchmark itself — caps the achievable score below what the underlying
+capability would otherwise allow [115]; and a direct study “On the Reliability of Computer Use
+Agents” asks the sharpest version of this question: if an agent succeeds at a task once, what
+stops it from succeeding again on an unchanged retry, and attributes the answer to three factors:
+stochasticity during execution, ambiguity in how the task itself is specified (room for divergentbut-valid interpretations), and run-to-run variability in the agent’s own behavior — reliability,
+in other words, is not purely a property of the model, but of execution, task specification, and
+agent behavior jointly [116]. Bilingual and cross-platform coverage is a growing concern rather
+than an afterthought: macOSWorld extends the realistic-environment paradigm to a major OS the
+original benchmarks omit [117], and WindowsWorld argues that single-application benchmarks like
+OSWorld understate the diﬀiculty of realistic, cross-application professional workflows [118].
+Measuring horizon directly: time-horizon metrics. Rather than asking whether an agent
+solves a fixed task, a distinct line of work asks how long a task an agent can complete at a given
+reliability level, measured in human-time-to-complete — an attempt to put a single number on the
+“how long a horizon can this system carry” question this whole survey is organized around. The
+most visible instance of this measurement approach reports that the task length frontier models
+can complete at a fixed success rate has grown at a measured, roughly exponential rate over recent
+model generations [1]. We flag this explicitly as measured and reported, not as a law: doubling-type
+extrapolations of this kind are exactly the sort of overclaim this survey’s language calibration (§2.2)
+commits to avoiding, and the metric’s own assumptions — what counts as “the same” task across
+models of different eras, and whether human-time-to-complete on a benchmark task translates to
+human-time-to-complete on the messier tasks §1 opens with — are contested rather than settled. We
+treat this metric, and the critical literature interrogating agentic-benchmark protocol validity more
+broadly [5], as a first-class thread rather than a premise: a benchmark from the SWE-bench and GUI
+ecosystems above showing a capability plateau is only informative to the extent the benchmark’s
+own construction is trustworthy, which is precisely what §7’s second and third paragraphs show
+cannot be assumed by default.
+21
+
+Figure 5: Human time-to-complete one task instance across the small set of benchmarks that report
+it directly, log scale. Dots are point estimates; bars are reported or illustrative ranges (see caption
+sources). Sourced entirely from primary papers – artifacts/benchmark_durations.csv.
+Figure 5 makes a point about the field’s measurement maturity by its own sparseness: of the roughly
+fifteen well-known agentic benchmarks we checked against their own papers, only GAIA reports
+a clean, level-by-level human-time-to-complete statistic; METR’s own composite task suite states
+the band over which model success degrades rather than the suite’s literal range; and SWE-Bench
+Pro states only a qualitative “hours to days.” SWE-bench itself, WebArena, and OSWorld — three
+of the most widely used agentic benchmarks in this literature — report no human-time baseline at
+all in their own papers. A field that wants METR-style time-horizon measurement to generalize
+across benchmarks needs more benchmarks to report the human-time statistic that measurement
+depends on, not just more benchmarks.
+Evaluating what persists across tasks. Every benchmark discussed so far scores an agent
+on independent task instances, which by construction cannot see whether an agent got better at
+the next task for having done the previous one. A small but distinct thread builds benchmarks
+for exactly that. SWE-Bench-CL reorganizes SWE-bench Verified’s issues into chronologically
+ordered per-repository sequences, so that experience accumulation, knowledge transfer across tasks,
+and resistance to catastrophic forgetting become directly measurable rather than incidental [119].
+The ELL framework pairs a lifelong-learning agent architecture with a benchmark built on the
+same premise — that the interesting question for open-ended agents is continuous growth through
+interaction, not performance on a static task set [120]. EvoAgentBench sharpens the target further,
+arguing that what should transfer is procedural — reusable searching, debugging, and verification
+routines extracted from execution traces — and that neither single-episode agent benchmarks nor
+information-retention memory benchmarks isolate it [121]. This thread is small (fewer than a dozen
+papers in our corpus), which is itself notable: the systems literature of §§3-5 is full of agents that
+claim to improve across sessions, but the evaluation literature has only recently begun building
+instruments that could confirm or refute those claims independently.
+Assessment. The evaluation literature’s shape mirrors the training literature’s from §6: just as
+outcome-only reward grows uninformative as horizon grows, outcome-only benchmark scores (did
+the patch pass the tests? did the agent reach the goal screen?) grow less informative as the
+tasks being measured get longer and the ways to superficially satisfy a check without solving the
+
+22
+
+underlying problem multiply. The field’s response — data purification, leakage audits, trajectorylevel diagnostics, reliability-under-retry studies, direct human-time-based horizon measurement —
+is evaluation’s version of the move from outcome to process supervision in §6, and the two are
+mutually entangled in a way this section can describe but not resolve: better benchmarks are
+needed to tell whether long-horizon training methods work, and long-horizon training methods
+are increasingly what benchmark designers use to probe where a benchmark’s own construction
+breaks. Whether that entanglement (§9 examines what it does and does not license concluding),
+and the degradation patterns both this section and §6 keep surfacing, admit any general theory is
+the question §8 takes up.
+
+8. Foundations, Limits & Safety
+The preceding sections describe engineering responses to a common pressure: as horizon grows,
+small per-step error rates compound, and unattended systems accumulate risk that no single step
+reveals. This section asks how far the field has gotten toward a general account of that compounding,
+and toward the oversight problem it creates for agents that run for a long time with no human
+watching every step. It is this survey’s smallest technical category by design (𝑛 = 103, after a
+targeted supplement specifically because the seed harvest badly under-covered it, §2.2), and its
+content is disclosed as more theoretical, diagnostic, and safety-oriented than empirically settled.
+A simple model of compounding error, and where it breaks. The textbook picture of longhorizon degradation is straightforward: if per-step error is 𝜖 and errors compound independently,
+success probability falls off exponentially in the number of steps — a model implicit in the “why
+should a 100-step task be so much harder than a 10-step task” intuition motivating this whole
+survey. What the corpus’s diagnostic literature shows repeatedly is that real degradation curves
+deviate from this simple picture in informative ways, on both sides. Some deviations are worse
+than independent compounding predicts: “Strained Coherence” identifies a measurable pre-failure
+signal in coding-agent execution trajectories — trajectories that are about to fail show detectable
+strain before the failure itself manifests, meaning the error process is not memoryless the way the
+simple model assumes [122], and “Coherence Collapse” (§7) shows failures cluster at a specific stage
+of a trajectory rather than distributing uniformly across steps [108]. Other deviations complicate
+the picture differently: Vending-Bench evaluates long-term coherence directly (can an autonomous
+agent run a simulated vending-machine business over an extended horizon — runs exceeding 20M
+tokens — without losing track of its own state) and finds high variance rather than smooth decay:
+capable models turn a profit in most runs, but every model has some runs that derail into a
+“meltdown” loop from which they rarely recover; notably, derailment shows no clear correlation
+with the context window filling up, suggesting these breakdowns are not simply a memory-capacity
+story [123]. Together these findings support a modest but real conclusion: independent per-step
+error compounding is a useful null model, not an empirically confirmed law, but the alternative
+it points toward is not gentler degradation — it is bimodal outcomes (fine, or catastrophically
+derailed) whose trigger the field cannot yet reliably predict.
+Goal drift and misalignment over long horizons. A related but distinct failure mode is not
+that an agent’s actions become less correct, but that its objective silently shifts. A technical report
+evaluating goal drift in language model agents documents this directly as a distinct phenomenon
+from accuracy decay [124], and “Governance Decay” shows a specific, insidious mechanism for it:
+context compaction — the same compression §4 already treats as an unresolved persistence-fidelity
+trade-off, not a solved one, even before its safety implications are considered — can silently erase
+
+23
+
+the safety constraints an agent was given at the start of a long trajectory, precisely because a
+compression policy optimized for task-relevant information has no reason to preserve constraints
+that never come up again until they are violated [125]. Multi-agent settings compound this further:
+“The Coming Crisis of Multi-Agent Misalignment” argues that AI alignment work has not kept
+pace with the dynamic, social nature of misalignment that emerges specifically from interaction
+between agents rather than from any single agent’s own objective [126]. A formal treatment gives
+that interaction-driven concern a specific mechanism: under a Bayesian model of automated multiagent workflows with weak per-workflow evidence, each agent’s generic pretraining prior over its
+own behavior dominates the comparatively weak task-specific signal in its workflow prompt — a
+failure the paper names “posterior collapse” by analogy to the same term in variational inference
+— with the practical consequence that distinct agents assigned distinct roles converge on nearly
+identical actions, disregarding the role distinctions the workflow was designed around; the paper
+argues this can be corrected only by injecting context-specific evidence back into each agent’s belief
+update, not by better utility design alone [127]. Deception is a further specific concern this literature
+has started to measure directly rather than only theorize about: “Cheap Talk, Empty Promise”
+documents frontier LLMs breaking public commitments for self-interest in controlled settings [128],
+and a werewolf-game study operationalizes deception and falsehood detection in a controlled multiagent environment specifically because naturalistic settings make ground truth about an agent’s
+beliefs hard to establish [129].
+Oversight for long-running, unattended agents. If an agent runs unattended for a long
+horizon, the standard human-in-the-loop safety pattern — review every action before it executes
+— is exactly what “long-running” and “unattended” preclude, which is why this sub-thread treats
+oversight design as a first-order engineering problem rather than a policy afterthought. Tiered
+Agentic Oversight proposes a hierarchical multi-agent oversight structure modeled on clinical hierarchy (nurse, physician, specialist) for safety-critical healthcare settings, routing tasks to a tier by
+complexity; the lower tiers turn out to be indispensable rather than redundant, absorbing up to 24%
+of individual agent errors before they can compound into a patient-facing mistake, and removing
+them causes the largest safety degradation of any ablation tested [130]. Ensemble Monitoring for
+AI Control finds that diversity among monitors, not the number of monitors or the compute spent
+on them, drives detection gains — a diverse three-monitor ensemble beats a homogeneous one built
+from three copies of the same monitor by 2.4x, even at equal compute — an oversight-specific echo
+of the credit-assignment lesson from §6 that how a signal is structured matters as much as how
+much of it there is [131]. “Managed Autonomy at Runtime” proposes a gear-based framework that
+adjusts an agent’s operating autonomy level dynamically rather than fixing it in advance, explicitly
+for single- and multi-agent cyber-operations settings where the appropriate oversight level is itself
+a function of context that changes during a long-running task [132]. And a cautionary finding
+on the limits of any single mitigation, this time upstream at the training-data layer rather than
+at runtime: fine-tuning a model on synthetic agentic trajectories that include adversarial actions
+measurably increases misaligned behavior, and — the “phantom transfer” finding — this increase
+survives removing every adversarial action from the training trajectories before fine-tuning, meaning
+the disposition toward misalignment was encoded diffusely across the whole trajectory rather than
+localized to the harmful steps a filter could catch [133] — direct evidence that safety interventions
+aimed only at filtering visible harmful actions, whether at training time or at runtime, are an incomplete solution to a problem that originates upstream, in what the generating process teaches a
+model about its own disposition.
+Everything above is single-episode diagnosis: a run derails, a constraint erodes, an oversight mechanism catches or misses one failure. A separate and much smaller question is whether the capability
+24
+
+to avoid these failures can itself accumulate across episodes, the way §3, §5, §6, and §7 each found
+a minority thread doing for their own topic. EvoAgentBench takes this on directly for foundational
+measurement: it argues that what should transfer across a self-evolving agent’s episodes is not
+information but procedure — reusable searching, debugging, and verification routines extracted
+from execution traces — and that this specific form of transfer is invisible to both single-episode
+agent benchmarks and retention-focused memory benchmarks, which is exactly why a dedicated
+instrument was needed [121]. This is the one point in this section where the cross-task-persistent
+locus of Axis 2 (§2.3) is addressed directly rather than left for §9 to note as an absence; the fact
+that it took a benchmark paper to raise it, rather than a theoretical account, is itself consistent
+with this section’s Assessment.
+Assessment. No general, empirically validated theory of long-horizon degradation currently unifies
+this section’s findings; what exists is a set of well-documented, partially contradictory phenomena
+(bursty pre-failure signals, bimodal rather than smooth coherence loss, drifting goals survivable by
+no single existing oversight mechanism) that a future theory would need to explain simultaneously.
+This is this survey’s most explicit limitation, not a hedge: the category’s small size relative to the
+corpus, even after a targeted supplement, is itself evidence that measurement and mitigation are
+ahead of theory here, and the field’s most useful near-term contribution may be sharper diagnostics
+(§7’s benchmarks, this section’s pre-failure signals, EvoAgentBench’s procedural-transfer measurement) rather than a unifying account of why long horizons are hard. We return to this gap, and
+to what the corpus’s own shape says about the field’s priorities, in the Discussion.
+
+9. Discussion
+The body sections each ended with an Assessment specific to their own literature. Four threads
+recur across multiple sections and are worth naming explicitly, followed by an interpretive look at
+what the corpus’s own shape suggests about where the field is actually spending its effort — with
+the sampling caveats of §2.2 stated again first, since every observation below is a hypothesis about
+the literature’s composition, not a finding about the underlying research problem’s diﬀiculty.
+Shared evaluator assumptions across training and evaluation. §6 and §7 converge on the
+same structural problem from opposite ends. Training methods for long horizons need a reliable
+way to tell whether a trajectory is going well, and increasingly manufacture that signal via process
+reward models and credit-assignment schemes that operate on intermediate steps rather than final
+outcomes. Evaluation methods for long horizons need exactly the same thing — a reliable way to
+tell whether a trajectory is going well, independent of whether it was produced by a training method
+or an inference-time harness — and increasingly manufacture it via trajectory-level diagnostics and
+process-aware benchmarks rather than terminal task success. The implication worth flagging is that
+the tools used to validate whether long-horizon training works (§7’s process-aware benchmarks) and
+the tools used to build long-horizon training in the first place (§6’s process reward models) rest on
+overlapping assumptions about what counts as progress on a partial trajectory. We deliberately
+do not call this circularity: nothing we observed shows a specific benchmark inheriting a specific
+training signal, and independently constructed process signals can and do cross-validate each other.
+The narrower and better-supported concern is correlated measurement bias — if the field’s
+shared intuitions about what “good intermediate progress” looks like are systematically off in some
+respect, that error would be partly invisible to a check that compares training methods against
+benchmarks resting on the same intuitions. Establishing whether such a correlation exists, and how
+strong it is, would require deliberately constructing process signals from disjoint assumptions and
+
+25
+
+comparing them — an experiment the corpus does not currently contain. We flag this as a structuralanalogy hypothesis rather than a finding, and it is worth being explicit that it carries less evidentiary
+weight than the harness-versus-model question below: nothing in the corpus demonstrates this bias
+in a specific benchmark-training pair, whereas the harness-versus-model question is backed by
+a concrete pattern in the corpus itself (§5’s orchestration-to-recovery ratio, §3’s decompositioncomplexity finding). We keep both in this Discussion because a structural risk worth naming does
+not have to be already measured to be worth naming — but the two should not be read as equally
+supported.
+Harness vs. model: where does long-horizon capability actually live? §3 and §5 both
+surface the same open attribution question from different angles: how much of what makes a
+system complete a longer task is the underlying model’s capability, and how much is the harness
+wrapped around it — better context management, better orchestration, better recovery logic —
+with a fixed model underneath? §5’s finding that orchestration and recovery engineering vastly
+outnumber loop-level model-capability papers in raw volume is suggestive but not dispositive; it
+could mean the harness genuinely carries most of the load, or simply that harness engineering is
+cheaper to iterate on than retraining a model, so the corpus reflects research cost structure rather
+than where capability actually lives. §3’s finding that harnesses with more elaborate decomposition
+are not uniformly better complicates the “just build a better harness” reading further: past some
+point, additional scaffolding measurably hurts rather than helps, meaning harness quality itself
+has a capability ceiling that a fixed model cannot be scaffolded past. Disentangling these two
+contributions — the model’s own long-horizon competence versus the harness’s compensation for
+its absence — is, in our reading, the single most consequential open measurement problem this
+survey surfaces, because it bears directly on whether long-horizon capability should be pursued
+by training better models or building better harnesses, and the corpus does not yet contain the
+controlled comparison that would answer it.
+Does long-horizon reliability scale? §8 documents diagnostic evidence on both sides of whether
+degradation over long horizons follows any general, predictable curve — bursty pre-failure signals
+and drifting goals suggesting correlated, worse-than-independent error on one side, high-variance
+bimodal outcomes that resist a single smooth decay curve on the other — without resolving to
+either. §7’s measured, reported (not proven) time-horizon growth trend [1] is the closest thing the
+field has to an aggregate answer, and it is explicitly a capability trend across model generations, not
+a reliability-scaling law within a fixed model or harness. Whether the field will find a predictive
+theory here, or whether “it depends on the failure mode” is the durable answer, remains open;
+we treat this as the survey’s most important flagged uncertainty rather than resolve it in either
+direction.
+The trajectory is becoming the unit of analysis. A fourth pattern is visible only when the
+six sections are read together: across every category, the object being stored, scored, attributed
+over, audited, and debugged is shifting from the outcome to the execution trace. In training, credit
+assignment operates over trajectory segments and trajectory graphs rather than final rewards (§6) —
+SALT assigns step-level advantage by building a graph over the trajectory itself [134]. In evaluation,
+Pass@1 is being displaced by trajectory-level diagnosis, and the coherence-collapse finding was only
+visible because the diagnostic decomposed 16,758 stored trajectories into aligned stages (§7) [108].
+In memory, the question has moved from what to store to what a stored trace can later be held
+accountable for: MemWeaver builds a memory framework explicitly for “traceable” long-horizon
+reasoning with evidence-grounded reuse [135], and Slipstream validates context compaction against
+the trajectory it compacts, treating the compactor’s unawareness of what will later be needed as
+26
+
+a structural validation gap [136]. In safety, forensic trajectory signatures make memory poisoning
+detectable after the fact (§8) [56]. And in the self-evolution literature that cuts across §§6-8,
+EvoAgentBench argues the transferable unit is procedural — reusable search, debug, and verification
+procedures extracted from execution traces — which existing single-episode agent benchmarks and
+information-retention memory benchmarks both fail to isolate [121]. This convergence is worth
+naming because it has a practical consequence the individual sections do not state: trajectory
+retention is quietly becoming a precondition for progress on the other three threads above. The
+harness-versus-model attribution question (thread two) is not answerable from outcome scores alone,
+and the correlated-measurement-bias concern (thread one) can only be tested by comparing process
+signals against each other at the step level. The reliability-scaling question (thread three) depends
+on it too, and in the most direct way of the three: §8’s own evidence that degradation is bursty and
+bimodal rather than smooth — the pre-failure signal in Strained Coherence, the meltdown-or-profit
+split in Vending-Bench — is itself trajectory-level diagnosis, not an outcome statistic; a field that
+only logged pass/fail per episode would not have been able to observe either finding. A field that
+discards its execution traces cannot run any of these three experiments — which makes trajectory
+logging, and the storage and privacy questions that come with it (§4, §8), infrastructure rather
+than an implementation detail.
+
+Figure 6: Growth timeline, seed corpus only (n=1,419). Top: quarterly paper counts per category,
+log scale. Bottom: category share of quarterly output. The partial final quarter (2026Q3, 76
+papers) is omitted from the trend and annotated separately.
+What the corpus’s shape suggests (hypotheses, not findings). Figure 6’s two panels show
+execution as the largest category by share throughout 2024-2025 — consistently the plurality
+27
+
+leader, fluctuating roughly 41-54% quarter to quarter rather than holding a flat majority — and
+memory’s share rising to match or slightly exceed it from 2026 Q1 onward, while planning’s share
+has drifted downward over the same period. One explanation consistent with this pattern: the field
+solved a version of “make an agent take more than one action” (execution/orchestration) early and
+cheaply, and only once agents were routinely attempting genuinely long trajectories did the specific
+failure mode of losing track of earlier information (memory) become salient enough to attract
+comparable research volume — a herd-dynamics-style account in which research attention follows
+visible failure, not a claim that memory is intrinsically harder than execution. Table 1’s 2026share column offers a second, complementary hypothesis: foundations (77% posted in 2026) and
+memory (72%) skew far more recent than planning (27%), consistent with a verifiability-gradient
+explanation — decomposition strategies are comparatively easy to demonstrate and publish quickly,
+while diagnosing why a system fails over a long horizon, or building memory architectures robust to
+interference at scale, requires the kind of large-scale deployment experience that has only become
+available recently. Both explanations are offered as testable hypotheses, in the sense that they
+predict specific further patterns (e.g., a verifiability-gradient account predicts foundations papers
+should lag their own triggering capability demonstrations by a roughly consistent delay), not as
+conclusions this corpus alone can establish.
+
+10. Conclusion
+This survey organized 1,547 arXiv papers (2024-2026) around a single question: as a task’s horizon grows past what one context window or one uninterrupted attempt can hold, what breaks
+first, and what compensates? Planning trades early commitment for robustness as environments
+grow less predictable (§3); memory trades fidelity for persistence across a three-tier hierarchy of
+context, external storage, and weights, with no tier escaping that trade-off (§4); execution control
+increasingly relies on the surrounding harness — orchestration and recovery — more than on the
+underlying model’s own reliability, though the two remain hard to disentangle (§5); training is
+moving from sparse outcome signals toward denser, step-level credit as horizons lengthen, blurring
+the line between “outcome” and “process” supervision (§6); evaluation is undergoing the same shift,
+with a substantial and growing share of the literature devoted to showing that existing benchmarks
+do not measure what they claim to (§7); and the theory needed to unify these observations into a
+predictive account of long-horizon degradation does not yet exist, though the diagnostic and safety
+literature building toward it is real and growing (§8). None of these six threads is complete on
+its own, and the Discussion’s cross-cutting observations — the risk of correlated measurement bias
+between training and evaluation signals, the harness-versus-model attribution problem, whether
+long-horizon reliability scales at all, and the field’s convergence on the execution trajectory as its
+shared unit of analysis — are, in our assessment, where the field’s next real progress has to be
+made. We hope the taxonomy and the corpus behind it (§ Data Availability) make that progress
+easier to track.
+
+Data Availability
+The corpus (corpus_v2.csv, 1,547 papers with taxonomy labels), the classification and figuregeneration scripts, and the full bibliography (references.bib, auto-generated; anchors.bib, handcurated) will be made available at a public repository accompanying this paper, to be linked in
+the camera-ready/published version. Classification rules, the harvest query threads, and the bleedquantification procedure described in §2.2 are released as executable scripts rather than described
+28
+
+only in prose, so that the corpus can be regenerated, audited, or extended.
+
+References
+References
+[1] Thomas Kwa, Ben West, Joel Becker, Amy Deng, Katharyn Garcia, Max Hasin, Sami Jawhar,
+Megan Kinniment, Nate Rush, Sydney Von Arx, Ryan Bloom, Thomas Broadley, Haoxing
+Du, Brian Goodrich, Nikola Jurkovic, Luke Harold Miles, Seraphina Nix, Tao Lin, Chris
+Painter, Neev Parikh, David Rein, Lucas Jun Koba Sato, Hjalmar Wijk, Daniel M. Ziegler,
+Elizabeth Barnes, and Lawrence Chan. Measuring AI ability to complete long software
+tasks. In Advances in Neural Information Processing Systems (NeurIPS), 2025. URL https:
+//arxiv.org/abs/2503.14499. METR. Originally titled ”Measuring AI Ability to Complete
+Long Tasks” (arXiv v1–v2, Mar 2025); retitled to add ”Software” from v3 onward. NeurIPS
+2025 main track camera-ready author list omits Chris Painter, present on arXiv; author list
+here follows the arXiv version.
+[2] Jie Huang, Xinyun Chen, Swaroop Mishra, Huaixiu Steven Zheng, Adams Wei Yu, Xinying
+Song, and Denny Zhou. Large language models cannot self-correct reasoning yet, 2024. URL
+https://arxiv.org/abs/2310.01798. ICLR 2024.
+[3] You Wang, Michael Pradel, and Zhongxin Liu. Are ”solved issues” in SWE-bench really
+solved correctly? an empirical study, 2025. URL https://arxiv.org/abs/2503.15223.
+[4] Shanchao Liang, Spandan Garg, and Roshanak Zilouchian Moghaddam. The SWE-bench
+illusion: When state-of-the-art LLMs remember instead of reason, 2025. URL https://arxiv.
+org/abs/2506.12286.
+[5] Yuxuan Zhu, Tengjun Jin, Yada Pruksachatkun, Andy Zhang, Shu Liu, Sasha Cui, Sayash
+Kapoor, Shayne Longpre, Kevin Meng, Rebecca Weiss, Fazl Barez, Rahul Gupta, Jwala
+Dhamala, Jacob Merizian, Mario Giulianelli, Harry Coppock, Cozmin Ududec, Jasjeet
+Sekhon, Jacob Steinhardt, Antony Kellermann, Sarah Schwettmann, Matei Zaharia, Ion Stoica, Percy Liang, and Daniel Kang. Establishing best practices for building rigorous agentic
+benchmarks, 2025. URL https://arxiv.org/abs/2507.02825.
+[6] Xu Huang, Weiwen Liu, Xiaolong Chen, Xingmei Wang, Hao Wang, Defu Lian, Yasheng
+Wang, Ruiming Tang, and Enhong Chen. Understanding the planning of LLM agents: A
+survey, 2024. URL https://arxiv.org/abs/2402.02716.
+[7] Marcus Tantakoun, Xiaodan Zhu, and Christian Muise. LLMs as planning formalizers: A
+survey for leveraging large language models to construct automated planning models, 2025.
+URL https://arxiv.org/abs/2503.18971.
+[8] Zeyu Zhang, Xiaohe Bo, Chen Ma, Rui Li, Xu Chen, Quanyu Dai, Jieming Zhu, Zhenhua
+Dong, and Ji-Rong Wen. A survey on the memory mechanism of large language model based
+agents, 2024. URL https://arxiv.org/abs/2404.13501.
+[9] Wei-Chieh Huang, Weizhi Zhang, Yueqing Liang, Yuanchen Bei, Yankai Chen, Tao Feng,
+Xinyu Pan, Zhen Tan, Yu Wang, Tianxin Wei, Shanglin Wu, Ruiyao Xu, Liangwei Yang,
+Rui Yang, Wooseong Yang, Chin-Yuan Yeh, Hanrong Zhang, Haozhen Zhang, Siqi Zhu,
+Henry Peng Zou, Wanjia Zhao, Song Wang, Wujiang Xu, Zixuan Ke, Zheng Hui, Dawei Li,
+
+29
+
+Yaozu Wu, Langzhou He, Chen Wang, Xiongxiao Xu, Baixiang Huang, Juntao Tan, Shelby
+Heinecke, Huan Wang, Caiming Xiong, Ahmed A. Metwally, Jun Yan, Chen-Yu Lee, Hanqing
+Zeng, Yinglong Xia, Xiaokai Wei, Ali Payani, Yu Wang, Haitong Ma, Wenya Wang, Chenguang Wang, Yu Zhang, Xin Wang, Yongfeng Zhang, Jiaxuan You, Hanghang Tong, Xiao
+Luo, Xue Liu, Yizhou Sun, Wei Wang, Julian McAuley, James Zou, Jiawei Han, Philip S.
+Yu, and Kai Shu. Rethinking memory mechanisms of foundation agents in the second half:
+A survey, 2026. URL https://arxiv.org/abs/2602.06052.
+[10] Chaoyun Zhang, Shilin He, Jiaxu Qian, Bowen Li, Liqun Li, Si Qin, Kang Yu, Minghua Ma,
+G. M. Liu, Qingwei Lin, Saravan Rajmohan, Dongmei Zhang, and Qi Zhang. Large language
+model-brained GUI agents: A survey, 2024. URL https://arxiv.org/abs/2411.18279.
+[11] Deanna D. Nguyen, Jian Chen, Yu Wang, Gang Wu, Namyong Park, Zhengmian Hu, Hanjia
+Lyu, Junda Wu, Ryan Aponte, Yu Xia, Xintong Li, Jing Shi, Hongjie Chen, Viet Dac Lai,
+Zhouhang Xie, Sungchul Kim, Ruiyi Zhang, Yu Tong, Mehrab Tanjim, Nesreen K. Ahmed,
+Puneet Mathur, Seunghyun Yoon, Lina Yao, Branislav Kveton, Jihyung Kil, Thien Huu
+Nguyen, Trung Bui, Tianyi Zhou, Ryan A. Rossi, and Franck Dernoncourt. GUI agents: A
+survey, 2024. URL https://arxiv.org/abs/2412.13501.
+[12] Fei Tang, Haolei Xu, Hang Zhang, Siqi Chen, Xingyu Wu, Yongliang Shen, Wenqi Zhang,
+Guiyang Hou, Zeqi Tan, Yuchen Yan, Kaitao Song, Jian Shao, Weiming Lü, Jun Xiao, and
+Yueting Zhuang. A survey on (m)LLM-based GUI agents, 2025. URL https://arxiv.org/ab
+s/2504.13865.
+[13] Guibin Zhang, Hejia Geng, Xiaohang Yu, Zhenfei Yin, Zaibin Zhang, Zelin Tan, Heng Zhou,
+Zhongzhi Li, Xiangyuan Xue, Yijiang Li, Yifan Zhou, Yang Chen, Chen Zhang, Yutao Fan,
+Zihu Wang, Songtao Huang, Francisco Piedrahita-Velez, Yue Liao, Hongru Wang, Mengyue
+Yang, Hong Ji, Jun Wang, Shuicheng Yan, Philip H. S. Torr, and Lei Bai. The landscape of
+agentic reinforcement learning for LLMs: A survey, 2025. URL https://arxiv.org/abs/2509
+.02547.
+[14] Ryo Kamoi, Yusen Zhang, Nan Zhang, Jiawei Han, and Rui Zhang. When can LLMs actually
+correct their own mistakes? a critical survey of self-correction of LLMs, 2024. URL https:
+//arxiv.org/abs/2406.01297.
+[15] Mingguang Chen, Licheng Wang, and Bo Qu. Recursive self-improvement in ai: From
+bounded self-refinement to autonomous research loops, 2026. URL https://arxiv.org/ab
+s/2607.07663. Companion survey; DeepGrounding.
+[16] Richard S. Sutton, Doina Precup, and Satinder Singh. Between MDPs and semi-MDPs: A
+framework for temporal abstraction in reinforcement learning. Artificial Intelligence, 112
+(1–2):181–211, 1999. doi: 10.1016/S0004-3702(99)00052-1. The Options Framework.
+[17] Peter Dayan and Geoffrey E. Hinton. Feudal reinforcement learning. In Advances in Neural
+Information Processing Systems 5 (NIPS 1992), 1992. URL https://proceedings.neurips.cc
+/paper/1992/hash/d14220ee66aeec73c49038385428ec4c-Abstract.html.
+[18] Bo Liu, Yuqian Jiang, Xiaohan Zhang, Qiang Liu, Shiqi Zhang, Joydeep Biswas, and Peter
+Stone. LLM+P: Empowering large language models with optimal planning proficiency, 2023.
+URL https://arxiv.org/abs/2304.11477. arXiv preprint only.
+[19] Michael Ahn, Anthony Brohan, Noah Brown, Yevgen Chebotar, Omar Cortes, Byron David,
+Chelsea Finn, Chuyuan Fu, Keerthana Gopalakrishnan, Karol Hausman, Alex Herzog, Daniel
+30
+
+Ho, Jasmine Hsu, Julian Ibarz, Brian Ichter, Alex Irpan, Eric Jang, Rosario Jauregui Ruano,
+Kyle Jeffrey, Sally Jesmonth, Nikhil J. Joshi, Ryan Julian, Dmitry Kalashnikov, Yuheng
+Kuang, Kuang-Huei Lee, Sergey Levine, Yao Lu, Linda Luu, Carolina Parada, Peter Pastor,
+Jornell Quiambao, Kanishka Rao, Jarek Rettinghouse, Diego Reyes, Pierre Sermanet, Nicolas
+Sievers, Clayton Tan, Alexander Toshev, Vincent Vanhoucke, Fei Xia, Ted Xiao, Peng Xu,
+Sichun Xu, Mengyuan Yan, and Andy Zeng. Do as i can, not as i say: Grounding language
+in robotic affordances. In Conference on Robot Learning (CoRL), volume 205 of Proceedings
+of Machine Learning Research, pages 287–318, 2022. URL https://arxiv.org/abs/2204.01691.
+SayCan.
+[20] Qingyang Mao, Qi Liu, Zhi Li, Mingyue Cheng, Zheng Zhang, and Rui Li. PoTable: Towards
+systematic thinking via plan-then-execute stage reasoning on tables, 2024. URL https://arxi
+v.org/abs/2412.04272.
+[21] Ziyi Ni, Yixuan Li, and Daxiang Dong. Tree-of-code: A hybrid approach for robust complex
+task planning and execution, 2024. URL https://arxiv.org/abs/2412.14212.
+[22] Lutfi Eren Erdogan, Nicholas Lee, Se Hoon Kim, Suhong Moon, H. Furuta, Gopala K. Anumanchipalli, Kurt Keutzer, and Amir Gholami. Plan-and-act: Improving planning of agents
+for long-horizon tasks, 2025. URL https://arxiv.org/abs/2503.09572.
+[23] Tuo Zhang, Alin-Ionut Popa, Yan Xu, Rui Song, and Dimitrios Dimitriadis. PIVOT: Bridging
+planning and execution in LLM agents via trajectory refinement, 2026. URL https://arxiv.
+org/abs/2605.11225.
+[24] Boyuan Wang, Bochao Li, Minghan Wang, Yuxin Tao, and Fang Kong. Harnesses for
+inference-time alignment over execution trajectories, 2026. URL https://arxiv.org/abs/
+2605.21516.
+[25] Yongchao Chen, Jacob Arkin, Yilun Hao, Yang Zhang, Nicholas Roy, and Chuchu Fan.
+PRompt optimization in multi-step tasks (PROMST): Integrating human feedback and
+heuristic-based sampling, 2024. URL https://arxiv.org/abs/2402.08702.
+[26] Xinjie Zhao, Fan Gao, Xingyu Song, Yingjian Chen, Rui Yang, Yanran Fu, Yuyang Wang,
+Yusuke Iwasawa, Yutaka Matsuo, and Irene Li. ReAgent: Reversible multi-agent reasoning
+for knowledge-enhanced multi-hop QA, 2025. URL https://arxiv.org/abs/2503.06951.
+[27] Naoki Otani, Nikita Bhutani, Hannah Kim, Dan Zhang, and Estevam Hruschka. Do agents
+need to plan step-by-step? rethinking planning horizon in data-centric tool calling, 2026.
+URL https://arxiv.org/abs/2605.08477.
+[28] Bo Xu, Tianshi Zheng, Zhaowei Wang, Hong Ting Tsang, Weiqi Wang, Tianqing Fang, and
+Yangqiu Song. The cognitive bandwidth bottleneck: Shifting long-horizon agent from planning with actions to planning with schemas, 2025. URL https://arxiv.org/abs/2510.07091.
+[29] Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Thomas L. Griﬀiths, Yuan Cao, and
+Karthik Narasimhan. Tree of thoughts: Deliberate problem solving with large language
+models. In Advances in Neural Information Processing Systems (NeurIPS), 2023. URL
+https://arxiv.org/abs/2305.10601.
+[30] Mengsong Wu, Yafei Wang, Yidong Ming, Y. An, Yuwei Wan, Wenliang Chen, Binbin Lin,
+Yuqiang Li, Tong Xie, and Dongzhan Zhou. CheMatAgent: Enhancing LLMs for chemistry
+
+31
+
+and materials science through tree-search based tool learning, 2025. URL https://arxiv.org/
+abs/2506.07551.
+[31] Mengsong Wu, Di Zhang, Yuqiang Li, Dongzhan Zhou, and Wenliang Chen. SELT: Selfevaluation tree search for LLMs with task decomposition, 2025. URL https://arxiv.org/abs/
+2506.07557.
+[32] Siyu Zhou, Tianyi Zhou, Yijun Yang, Guodong Long, Deheng Ye, Jing Jiang, and Chengqi
+Zhang. WALL-e: World alignment by rule learning improves world model-based LLM agents,
+2024. URL https://arxiv.org/abs/2410.07484.
+[33] Eli J. Laird and Corey Clark. On memory: A comparison of memory mechanisms in world
+models, 2025. URL https://arxiv.org/abs/2512.06983.
+[34] Yilin Cao, Yufeng Zhong, Zhixiong Zeng, Liming Zheng, Jing Huang, Haibo Qiu, Peng Shi,
+Wenji Mao, and Wan Guanglu. MobileDreamer: Generative sketch world model for GUI
+agent, 2026. URL https://arxiv.org/abs/2601.04035.
+[35] Shuaiyu Zhou, Fengpeng Yue, Zengjie Hu, Yuanzhe Shen, Chenyang Zhang, feng hong, Cao
+Liu, and Ke Zeng. ToolVerse: Unlocking massive environments and long-horizon tasks for
+agentic reinforcement learning, 2026. URL https://arxiv.org/abs/2607.15660.
+[36] Yunpeng Zhai, Shuchang Tao, Cheng Chen, Anni Zou, Ziqian Chen, Qingxu Fu, Shinji Mai,
+Li Yu, Jiaji Deng, Zouying Cao, Zhaoyang Liu, Bolin Ding, and Jingren Zhou. AgentEvolver:
+Towards eﬀicient self-evolving agent system, 2025. URL https://arxiv.org/abs/2511.10395.
+[37] Xuancheng Li, Haitao Li, Yujia Zhou, Yiqun Liu, and Qingyao Ai. Beyond experience retrieval: Learning to generate utility-optimized structured experience for frozen LLMs. Open
+MIND, 2026. doi: 10.48550/arxiv.2602.02556. URL https://arxiv.org/abs/2602.02556.
+[38] Nelson F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua, Fabio Petroni,
+and Percy Liang. Lost in the middle: How language models use long contexts. Transactions
+of the Association for Computational Linguistics, 12:157–173, 2024. doi: 10.1162/tacl\_a\
+_00638. arXiv:2307.03172, posted 2023.
+[39] Tao An. Cognitive workspace: Active memory management for LLMs – an empirical study
+of functional infinite context, 2025. URL https://arxiv.org/abs/2508.13171.
+[40] Junde Wu, Minhao Hu, Jiayuan Zhu, Jiazhen Pan, Yuyuan Liu, Min Xu, and Yueming
+Jin. Git context controller: Manage the context of LLM-based agents like git, 2025. URL
+https://arxiv.org/abs/2508.00031.
+[41] Weiwei Sun, Miao Lu, Zhan Ling, Kang Liu, Xuesong Yao, Yiming Yang, and Jiecao Chen.
+Scaling long-horizon LLM agent via context-folding, 2025. URL https://arxiv.org/abs/2510
+.11967.
+[42] Minki Kang, Weining Chen, Dongge Han, Huseyin A. Inan, Lukas Wutschitz, Yanzhi Chen,
+Robert B. Sim, and Saravan Rajmohan. ACON: Optimizing context compression for longhorizon LLM agents, 2025. URL https://arxiv.org/abs/2510.00615.
+[43] Shijie Xia, Yikun Wang, Z Zhangqin Huang, and Pengfei Liu. Diagnosing and mitigating
+context rot in long-horizon search, 2026. URL https://arxiv.org/abs/2606.29718.
+[44] Aman Mehta and Anupam Datta. Plans don’t persist: Why context management is load
+bearing for LLM agents, 2026. URL https://arxiv.org/abs/2606.22953.
+32
+
+[45] Charles Packer, Sarah Wooders, Kevin Lin, Vivian Fang, Shishir G. Patil, Ion Stoica, and
+Joseph E. Gonzalez. MemGPT: Towards LLMs as operating systems, 2023. URL https:
+//arxiv.org/abs/2310.08560. arXiv preprint; not a peer-reviewed venue (despite being widely
+but incorrectly cited around the web as COLM 2024).
+[46] Joon Sung Park, Joseph C. O’Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang,
+and Michael S. Bernstein. Generative agents: Interactive simulacra of human behavior. In
+Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology
+(UIST), 2023. doi: 10.1145/3586183.3606763. URL https://arxiv.org/abs/2304.03442.
+[47] Wujiang Xu, Zujie Liang, Kai Mei, Hang Gao, Juntao Tan, and Yongfeng Zhang. A-MEM:
+Agentic memory for LLM agents, 2025. URL https://arxiv.org/abs/2502.12110.
+[48] Chang Yang, Chuang Zhou, Yilin Xiao, Su Dong, Luyao Zhuang, Yujing Zhang, Zhu Wang,
+Zijin Hong, Zheng Yuan, Zhiyi Xiang, Shengyuan Chen, Huachi Zhou, Qinggang Zhang,
+Ninghao Liu, Jinsong Su, Bo An, Yi Chang, and Xiao Huang. Graph-based agent memory:
+Taxonomy, techniques, and applications. Open MIND, 2026. doi: 10.48550/arxiv.2602.05665.
+URL https://arxiv.org/abs/2602.05665.
+[49] Genglin Liu, Shijie Geng, Sha Li, Hejie Cui, Sarah Zhang, Xin Liu, and Tianyi Liu. WebCoach:
+Self-evolving web agents with cross-session memory guidance, 2025. URL https://arxiv.org/
+abs/2511.12997.
+[50] Jiaqi Shao, Yiyi Lu, Yunzhen Zhang, and Bing Luo. When stored evidence stops being usable:
+Scale-conditioned evaluation of agent memory, 2026. URL https://arxiv.org/abs/2605.07313.
+[51] Hyunji Lee, Justin Chih-Yao Chen, Joykirat Singh, Zaid Khan, Elias Stengel-Eskin, and
+Mohit Bansal. MINTEval: Evaluating memory under multi-target interference in long-horizon
+agent systems, 2026. URL https://arxiv.org/abs/2605.18565.
+[52] Lei Wei, Xiao Peng, Xu Dong, Niantao Xie, and Bin Wang. FadeMem: Biologically-inspired
+forgetting for eﬀicient agent memory. Open MIND, 2026. doi: 10.48550/arxiv.2601.18642.
+URL https://arxiv.org/abs/2601.18642.
+[53] Ruoran Li, Xinghua Zhang, Haiyang Yu, Shitong Duan, Xiang Li, Wenxin Xiang, Chonghua
+Liao, Xudong Guo, Yongbin Li, and Jinli Suo. MemPO: Self-memory policy optimization for
+long-horizon agents, 2026. URL https://arxiv.org/abs/2603.00680.
+[54] Xiyang Wu, Zongxia Li, Guangyao Shi, Alexander Duffy, Tyler Marques, Matthew Olson,
+Tianyi Zhou, and Dinesh Manocha. Co-evolving LLM decision and skill bank agents for
+long-horizon tasks, 2026. URL https://arxiv.org/abs/2604.20987.
+[55] Hongtao Wang, Se Yang, Yu Chen, and Puzhuo Liu. Hijacking agent memory: Stealthy trojan
+attacks through conversational interaction, 2026. URL https://arxiv.org/abs/2605.29960.
+[56] Jun Wen Leong. Forensic trajectory signatures for agent memory poisoning detection, 2026.
+URL https://arxiv.org/abs/2606.30566.
+[57] Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and
+Yuan Cao. ReAct: Synergizing reasoning and acting in language models, 2022. URL https:
+//arxiv.org/abs/2210.03629. ICLR 2023.
+[58] Ron F. Del Rosario, Klaudia Krawiecka, and Christian Schroeder de Witt. Architecting
+
+33
+
+resilient LLM agents: A guide to secure plan-then-execute implementations, 2025. URL
+https://arxiv.org/abs/2509.08646.
+[59] Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli, Eric Hambro,
+Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom. Toolformer: Language models
+can teach themselves to use tools. In Advances in Neural Information Processing Systems
+(NeurIPS), 2023. URL https://arxiv.org/abs/2302.04761. Oral. Author list follows the
+NeurIPS camera-ready, which adds Eric Hambro relative to the single-version arXiv preprint
+(8 authors, no Hambro).
+[60] Yongliang Shen, Kaitao Song, Xu Tan, Dongsheng Li, Weiming Lu, and Yueting Zhuang.
+HuggingGPT: Solving AI tasks with ChatGPT and its friends in hugging face. In Advances
+in Neural Information Processing Systems (NeurIPS), 2023. URL https://arxiv.org/abs/23
+03.17580.
+[61] Dongming Jin, Weisong Sun, Jiangping Huang, Peng Liang, Jifeng Xuan, Yang Liu, and
+Zhi Jin. iReDev: A knowledge-driven multi-agent framework for intelligent requirements
+development, 2025. URL https://arxiv.org/abs/2507.13081.
+[62] Xilai Xu, Zilin Zhao, Chengye Song, Zining Wang, Jinhe Qiang, Jiongrui Yan, and Yuhuai
+Lin. SentiMM: A multimodal multi-agent framework for sentiment analysis in social media,
+2025. URL https://arxiv.org/abs/2508.18108.
+[63] Phung Duc Luong, Le Ngoc Bao, Nguyen Vu Khai Tam, Dong Huu Nguyen Khoa,
+Nguyen Huu Quyen, Van-Hau Pham, and Phan The Duy. xoffense: An autonomous multiagent framework for penetration testing with domain-adapted large language models, 2025.
+URL https://arxiv.org/abs/2509.13021.
+[64] Justin W. Lin, Eliot Krzysztof Jones, Donovan Julian Jasper, Ethan Ho, Anna H. Wu,
+Arnold Tianyi Yang, Neil Perry, Andy Zou, Matt Fredrikson, J. Zico Kolter, Percy Liang, Dan
+Boneh, and Daniel E. Ho. Comparing AI agents to cybersecurity professionals in real-world
+penetration testing, 2025. URL https://arxiv.org/abs/2512.09882.
+[65] Yao Zhang, Yuchen Song, Shengnan Li, Yan Shi, Shikui Shen, Xiongyan Tang, Min Zhang,
+and Danshi Wang. Generative AI-driven hierarchical multi-agent framework for zero-touch
+optical networks, 2025. URL https://arxiv.org/abs/2510.05625.
+[66] Philip Drammeh. Multi-agent LLM orchestration achieves deterministic, high-quality decision
+support for incident response, 2025. URL https://arxiv.org/abs/2511.15755.
+[67] Saaket Agashe, Kyle Wong, Vincent Tu, Jiachen Yang, An-Ping Li, and Xin Eric Wang.
+Agent s2: A compositional generalist-specialist framework for computer use agents, 2025.
+URL https://arxiv.org/abs/2504.00906.
+[68] Le Zhang, Yixiong Xiao, Xinjiang Lu, Jingjia Cao, Yusai Zhao, Jingbo Zhou, Lang An, Zikan
+Feng, Wanxiang Sha, Yu Shi, Congxi Xiao, Jian Xiong, Yankai Zhang, Hua Wu, and Haifeng
+Wang. OmegaUse: Building a general-purpose GUI agent for autonomous task execution.
+Open MIND, 2026. doi: 10.48550/arxiv.2601.20380. URL https://arxiv.org/abs/2601.20380.
+[69] Mohammed Mehedi Hasan, Hao Li, Emad Fallahzadeh, Gopi Krishnan Rajbahadur, Bram
+Adams, and Ahmed E. Hassan. An empirical study of testing practices in open source AI
+agent frameworks and agentic applications, 2025. URL https://arxiv.org/abs/2509.19185.
+
+34
+
+[70] Jia Huang and Joey Tianyi Zhou. A two-dimensional framework for AI agent design patterns:
+Cognitive function and execution topology, 2026. URL https://arxiv.org/abs/2605.13850.
+[71] Noam Kolt. Governing AI agents, 2025. URL https://arxiv.org/abs/2501.07913.
+[72] Stephen Casper, Luke Bailey, Robert C. Hunter, Carson Ezell, Emma Cabalé, Michael
+Gerovitch, Stewart Slocum, Kevin Wei, Nikola Jurkovic, Ariba Khan, Phillip J. K. Christoffersen, A. Pinar Ozisik, Rakshit Trivedi, Dylan Hadfield-Menell, and Noam Kolt. The AI
+agent index, 2025. URL https://arxiv.org/abs/2502.01635.
+[73] Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik Narasimhan, and
+Shunyu Yao. Reflexion: Language agents with verbal reinforcement learning. In Advances in
+Neural Information Processing Systems (NeurIPS), 2023. URL https://arxiv.org/abs/2303.1
+1366.
+[74] Sam Silver, Jimin Sun, Ivan Zhang, Sara Hooker, and Eddie Kim. Language models can
+perform single-utterance self-correction of perturbed reasoning, 2025. URL https://arxiv.or
+g/abs/2506.15894.
+[75] Zhenyu Wu, Qingkai Zeng, Zhihan Zhang, Zhaoxuan Tan, Chao Shen, and Meng Jiang.
+Large language models can self-correct with key condition verification, 2024. URL https:
+//arxiv.org/abs/2405.14092.
+[76] Yin Li. Decomposing LLM self-correction: The accuracy-correction paradox and error depth
+hypothesis, 2025. URL https://arxiv.org/abs/2601.00828.
+[77] Lei Sheng and Shuaishuai Xu. CSC-SQL: Corrective self-consistency in text-to-SQL via
+reinforcement learning, 2025. URL https://arxiv.org/abs/2505.13271.
+[78] Jingwen Zhou, Jieshan Chen, Qinghua Lu, Dehai Zhao, and Liming Zhu. SHIELDA:
+Structured handling of exceptions in LLM-driven agentic workflows, 2025. URL https:
+//arxiv.org/abs/2508.07935.
+[79] Yunfan Li, Bingbing Xu, Xueyun Tian, Xiucheng Xu, and Huawei Shen. Beyond entangled
+planning: Task-decoupled planning for long-horizon agents, 2026. URL https://arxiv.org/ab
+s/2601.07577.
+[80] Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi
+Fan, and Anima Anandkumar. Voyager: An open-ended embodied agent with large language
+models, 2023. URL https://arxiv.org/abs/2305.16291. TMLR 2024.
+[81] Tomoyuki Kagaya, Subramanian Lakshmi, Anbang Ye, Thong Jing Yuan, Jayashree Karlekar,
+Sugiri Pranata, Natsuki Murakami, Akira Kinose, and Yang You. ViReSkill: Vision-grounded
+replanning with skill memory for LLM-based planning in lifelong robot learning, 2025. URL
+https://arxiv.org/abs/2509.24219.
+[82] Zeyi Sun, Ziyu Liu, Yuhang Zang, Yuhang Cao, Xiaoyi Dong, Tong Wu, Dahua Lin, and
+Jiaqi Wang. SEAgent: Self-evolving computer use agent with autonomous learning from
+experience, 2025. URL https://arxiv.org/abs/2508.04700.
+[83] Yiran Guo, Lijie Xu, Jie Liu, Dan Ye, and Shuang Qiu. Segment policy optimization: Effective
+segment-level credit assignment in RL for large language models, 2025. URL https://arxiv.
+org/abs/2505.23564.
+
+35
+
+[84] Xin Cheng, Shuo He, Lang Feng, HaiYang Xu, Ming Yan, Lei Feng, and Bo An. Beyond
+trajectory-level attribution: Graph-based credit assignment for agentic reinforcement learning, 2026. URL https://arxiv.org/abs/2605.26684.
+[85] Chaoli Mou, Zhan Zhuang, Xinning Chen, and Yu Zhang. Beyond uniform credit assignment:
+Selective eligibility traces for RLVR, 2026. URL https://arxiv.org/abs/2605.05965.
+[86] Naifan Zhang, Ruihan Sun, Jinwei Su, Hengjie Yang, Zhengyuan Pan, Zhaohan Chen, and
+Xiaofan Zhang. MICA: Multi-granularity intertemporal credit assignment for long-horizon
+emotional support dialogue. Open MIND, 2026. doi: 10.48550/arxiv.2603.06194. URL
+https://arxiv.org/abs/2603.06194.
+[87] Sikuan Yan, Ahmed Bahloul, Ercong Nie, Susanna Schwarzmann, Riccardo Trivisonno,
+Volker Tresp, and Yunpu Ma. Memory-r2: Fair credit assignment for long-horizon memoryaugmented LLM agents, 2026. URL https://arxiv.org/abs/2605.21768.
+[88] Xixi Wu, Qianguo Sun, Ruiyang Zhang, Chao Song, Junlong Wu, Yiyan Qi, and Hong Cheng.
+Demystifying reinforcement learning for long-horizon tool-using agents: A comprehensive
+recipe, 2026. URL https://arxiv.org/abs/2603.21972.
+[89] Hunter Lightman, Vineet Kosaraju, Yura Burda, Harri Edwards, Bowen Baker, Teddy Lee,
+Jan Leike, John Schulman, Ilya Sutskever, and Karl Cobbe. Let’s verify step by step, 2023.
+URL https://arxiv.org/abs/2305.20050. ICLR 2024.
+[90] Hanning Zhang, Pengcheng Wang, Shizhe Diao, Yong Lin, Rui Pan, Hanze Dong, Dylan
+Zhang, Pavlo Molchanov, and Tong Zhang. Entropy-regularized process reward model, 2024.
+URL https://arxiv.org/abs/2412.11006.
+[91] Yao Zhang, Yu Wu, Haowei Zhang, Weiguo Li, Haokun Chen, Jingpei Wu, Guohao Li, Zhen
+Han, and Volker Tresp. GroundedPRM: Tree-guided and fidelity-aware process reward modeling for step-level reasoning, 2025. URL https://arxiv.org/abs/2510.14942.
+[92] Michael Sullivan and Alexander Koller. GRPO is secretly a process reward model, 2025. URL
+https://arxiv.org/abs/2509.21154.
+[93] Ilgee Hong, Changlong Yu, Liang Qiu, Weixiang Yan, Zhenghao Xu, Haoming Jiang, Qingru
+Zhang, Qin Lu, Xin Liu, Chao Zhang, and Tuo Zhao. Think-RM: Enabling long-horizon
+reasoning in generative reward models, 2025. URL https://arxiv.org/abs/2505.16265.
+[94] Zhiheng Xi, Chenyang Liao, Guanyu Li, Yajie Yang, Wenxiang Chen, Zhihao Zhang, Binghai
+Wang, Senjie Jin, Yuhao Zhou, Jian Guan, Wei Wu, Tao Ji, Tao Gui, Qi Zhang, and Xuanjing Huang. AgentPRM: Process reward models for LLM agents via step-wise promise and
+progress, 2025. URL https://arxiv.org/abs/2511.08325.
+[95] Hao Han, Jin Xie, Xuehao Ma, Weiquan Zhu, Ziyao Zhang, Zhiliang Long, Hongkai Chen,
+and Qingwen Ye. SWE-TRACE: Optimizing long-horizon SWE agents through rubric process
+reward models and heuristic test-time scaling, 2026. URL https://arxiv.org/abs/2604.14820.
+[96] Yushi Yang, Shreyansh Padarha, Sarah Ball, Andrew Lee, and Adam Mahdi. Agentic reinforcement learning for search misaligns instruction-tuning, 2025. URL https://arxiv.org/ab
+s/2510.17431.
+[97] Yudi Zhang, Meng Fang, Zhenfang Chen, and Mykola Pechenizkiy. Self-evolving LLM agents
+with in-distribution optimization, 2026. URL https://arxiv.org/abs/2606.07367.
+36
+
+[98] Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and
+Karthik Narasimhan. SWE-bench: Can language models resolve real-world GitHub issues?,
+2023. URL https://arxiv.org/abs/2310.06770. ICLR 2024.
+[99] Daoguang Zan, Zhirong Huang, Ailun Yu, Shaoxin Lin, Yifan Shi, Wei Liu, Dong Chen, Z. Qi,
+Hao Yu, Lei Yu, Dezhi Ran, Muhan Zeng, Bo Shen, Pan Bian, Guangtai Liang, Bei Guan,
+Pengjie Huang, Tao Xie, Yongji Wang, and Qianxiang Wang. SWE-bench-java: A GitHub
+issue resolving benchmark for java, 2024. URL https://arxiv.org/abs/2408.14354.
+[100] Daoguang Zan, Zhirong Huang, Wei Liu, Hanwu Chen, Linhao Zhang, Shulin Xin, Chen
+Lü, Qi Liu, Xiaojian Zhong, Aoyan Li, Siyao Liu, Yong-Sheng Xiao, Liangqiang Chen, Yuyu
+Zhang, Jing Su, Tianyu Liu, Rui Long, Kai Shen, and Xiang Liang. Multi-SWE-bench: A
+multilingual benchmark for issue resolving, 2025. URL https://arxiv.org/abs/2504.02605.
+[101] John Yang, Carlos Jimenez-Gomez, Alex Zhang, K. Lieret, Joyce Yang, Xindi Wu, Ori Press,
+Niklas Muennighoff, Gabriel Synnaeve, Karthik Narasimhan, Diyi Yang, Sida I. Wang, and
+Ofir Press. SWE-bench multimodal: Do AI systems generalize to visual software domains?,
+2024. URL https://arxiv.org/abs/2410.03859.
+[102] Xiang Deng, Jeff Da, Edwin Pan, Yun He, Charles Ide, K. Garg, Niklas Lauffer, Andrew
+Park, Nitin Pasari, Chetan Rane, K Sampath, Maya Krishnan, Srivatsa Kundurthy, Sean M.
+Hendryx, Zifan Wang, Vijay Bharadwaj, Jeff Holm, Raja Aluri, Chen Bo Calvin Zhang, Noah
+Jacobson, Bing Liu, and Brad Kenstler. SWE-bench pro: Can AI agents solve long-horizon
+software engineering tasks?, 2025. URL https://arxiv.org/abs/2509.16941.
+[103] Reem Aleithan, Huayuan Xue, Mohammad Mahdi Mohajer, Elijah Nnorom, Gias Uddin,
+and Song Wang. SWE-bench+: Enhanced coding benchmark for LLMs, 2024. URL https:
+//arxiv.org/abs/2410.06992.
+[104] Pavel Adamenko, Mikhail Ivanov, Aidar Valeev, Rodion Levichev, P. Zadorozhny, Ivan
+Lopatin, Dmitry Babayev, Alena Fenogenova, and Valentin Malykh. SWE-MERA: A dynamic benchmark for agenticly evaluating large language models on software engineering
+tasks, 2025. URL https://arxiv.org/abs/2507.11059.
+[105] Thanosan Prathifkumar, Noble Saji Mathews, and Meiyappan Nagappan. Does SWE-benchverified test agent ability or model memory?, 2025. URL https://arxiv.org/abs/2512.10218.
+[106] Matías Martínez and Xavier Franch. Dissecting the SWE-bench leaderboards: Profiling
+submitters and architectures of LLM- and agent-based repair systems, 2025. URL https:
+//arxiv.org/abs/2506.17208.
+[107] Matías Martínez and Xavier Franch. What’s in a benchmark? the case of SWE-bench in
+automated program repair. Open MIND, 2026. doi: 10.48550/arxiv.2602.04449. URL
+https://arxiv.org/abs/2602.04449.
+[108] Myeongsoo Kim, Dingmin Wang, Siwei Cui, Farima Farmahinifarahani, Terry Yue Zhuo,
+Shweta Garg, Baishakhi Ray, Rajdeep Mukherjee, and Varun Kumar. Coherence collapse:
+Diagnosing why code agents fail after reaching the right code, 2026. URL https://arxiv.org/
+abs/2603.24631.
+[109] Shunyu Yao, Noah Shinn, Pedram Razavi, and Karthik Narasimhan. 𝜏 -bench: A benchmark
+for tool-agent-user interaction in real-world domains, 2024. URL https://arxiv.org/abs/2406
+.12045. ICLR 2025.
+37
+
+[110] Shuyan Zhou, Frank F. Xu, Hao Zhu, Xuhui Zhou, Robert Lo, Abishek Sridhar, Xianyi
+Cheng, Tianyue Ou, Yonatan Bisk, Daniel Fried, Uri Alon, and Graham Neubig. WebArena:
+A realistic web environment for building autonomous agents, 2023. URL https://arxiv.org/
+abs/2307.13854. ICLR 2024.
+[111] Tianbao Xie, Danyang Zhang, Jixuan Chen, Xiaochuan Li, Siheng Zhao, Ruisheng Cao,
+Toh Jing Hua, Zhoujun Cheng, Dongchan Shin, Fangyu Lei, Yitao Liu, Yiheng Xu, Shuyan
+Zhou, Silvio Savarese, Caiming Xiong, Victor Zhong, and Tao Yu. OSWorld: Benchmarking
+multimodal agents for open-ended tasks in real computer environments. In Advances in Neural
+Information Processing Systems (NeurIPS), 2024. URL https://arxiv.org/abs/2404.07972.
+[112] Xiao Liu, Hao Yu, Hanchen Zhang, Yifan Xu, Xuanyu Lei, Hanyu Lai, Yu Gu, Hangliang
+Ding, Kaiwen Men, Kejuan Yang, Shudan Zhang, Xiang Deng, Aohan Zeng, Zhengxiao Du,
+Chenhui Zhang, Sheng Shen, Tianjun Zhang, Yu Su, Huan Sun, Minlie Huang, Yuxiao Dong,
+and Jie Tang. AgentBench: Evaluating LLMs as agents, 2023. URL https://arxiv.org/abs/
+2308.03688. ICLR 2024.
+[113] Grégoire Mialon, Clémentine Fourrier, Craig Swift, Thomas Wolf, Yann LeCun, and Thomas
+Scialom. GAIA: a benchmark for general AI assistants, 2023. URL https://arxiv.org/abs/23
+11.12983. ICLR 2024.
+[114] Thomas Kuntz, Agatha Duzan, Hao Zhao, Francesco Croce, J. Zico Kolter, Nicolas Flammarion, and Maksym Andriushchenko. OS-harm: A benchmark for measuring safety of computer
+use agents, 2025. URL https://arxiv.org/abs/2506.14866.
+[115] Ho Fai Leung, Xiaoyan Xi, and Fei Zuo. AndroidControl-curated: Revealing the true potential
+of GUI agents through benchmark purification, 2025. URL https://arxiv.org/abs/2510.18488.
+[116] Gonzalo Gonzalez-Pumariega, Saaket Agashe, Jiachen Yang, A. Li, and Xin Eric Wang. On
+the reliability of computer use agents, 2026. URL https://arxiv.org/abs/2604.17849.
+[117] Pei Yang, Hai Ci, and Mike Zheng Shou. macOSWorld: A multilingual interactive benchmark
+for GUI agents, 2025. URL https://arxiv.org/abs/2506.04135.
+[118] Jinchao Li, Yunxin Li, Chenrui Zhao, Zhenran Xu, Baotian Hu, and Min Zhang (111999).
+WindowsWorld: A process-centric benchmark of autonomous GUI agents in professional crossapplication environments, 2026. URL https://arxiv.org/abs/2604.27776.
+[119] Thomas Joshi, Shayan Chowdhury, and Fatih Uysal. SWE-bench-CL: Continual learning for
+coding agents, 2025. URL https://arxiv.org/abs/2507.00014.
+[120] Yuxuan Cai, Yipeng Hao, Jie Zhou, Hang Yan, Zhikai Lei, Rui Zhen, Zhenhua Han, Yutao
+Yang, Junsong Li, Qianjun Pan, Tianyu Huai, Qin Chen, Xin Li, Kai Chen, Bo Zhang, Xipeng
+Qiu, and Liang He. Building self-evolving agents via experience-driven lifelong learning: A
+framework and benchmark, 2025. URL https://arxiv.org/abs/2508.19005.
+[121] Xingze Gao, Chuanrui Hu, Hongda Chen, Pengfei Yao, Zhao Wang, Yi Bai, Z Z Wu, Yunyun
+Han, Xiaofeng Cong, Jie Gui, Yafeng Deng, and Teng Li. EvoAgentBench: Benchmarking
+agent self-evolution via ability transfer, 2026. URL https://arxiv.org/abs/2607.05202.
+[122] Marut Pandya, Kasey Zhang, and Baiqing Lyu. Strained coherence: A pre-failure signal in
+coding agent execution trajectories, 2026. URL https://arxiv.org/abs/2606.07889.
+
+38
+
+[123] Axel Backlund and Lukas Petersson. Vending-bench: A benchmark for long-term coherence
+of autonomous agents, 2025. URL https://arxiv.org/abs/2502.15840.
+[124] Rauno Arike, Elizabeth Donoway, Henning Bartsch, and Marius Hobbhahn. Technical report:
+Evaluating goal drift in language model agents, 2025. URL https://arxiv.org/abs/2505.02709.
+[125] Shiyang Chen. Governance decay: How context compaction silently erases safety constraints
+in long-horizon LLM agents, 2026. URL https://arxiv.org/abs/2606.22528.
+[126] Florian Carichon, Aditi Khandelwal, Marylou Fauchard, and Golnoosh Farnadi. The coming
+crisis of multi-agent misalignment: AI alignment must be a dynamic and social process, 2025.
+URL https://arxiv.org/abs/2506.01080.
+[127] Wenqian Ye, Bo Yuan, Zhichao Xu, Ye Tian, Yawei Wang, Henry Kautz, and Aidong Zhang.
+A sober look at agentic misalignment in automated workflows, 2026. URL https://arxiv.org/
+abs/2605.24197.
+[128] Jerick Shi, Terry Jingcheng Zhang, Zhijing Jin, and Vincent Conitzer. Cheap talk, empty
+promise: Frontier LLMs easily break public promises for self-interest, 2026. URL https:
+//arxiv.org/abs/2604.04782.
+[129] Mrinal Agarwal, Saad Rana, Theo Sundoro, Hermela Berhe, S. Kim, Vasu Sharma, Sean
+O’Brien, and Kevin Zhu. WOLF: Werewolf-based observations for LLM deception and falsehoods, 2025. URL https://arxiv.org/abs/2512.09187.
+[130] Yubin Kim, Hyewon Jeong, Chanwoo Park, Eugene Park, Haipeng Zhang, Xin Liu, Hyeonhoon Lee, Daniel McDuff, Marzyeh Ghassemi, Cynthia Breazeal, Samir Tulebaev, and
+Hae Won Park. Tiered agentic oversight: A hierarchical multi-agent system for healthcare
+safety, 2025. URL https://arxiv.org/abs/2506.12482.
+[131] Eugene Koran, Yejun Yun, Samantha Tetef, Benjamin Arnav, and Pablo Bernabeu-Pérez.
+Ensemble monitoring for AI control: Diverse signals outweigh more compute, 2026. URL
+https://arxiv.org/abs/2605.15377.
+[132] Srini Ramaswamy and Wang Miaosheng. Managed autonomy at runtime: Gear-based safety
+and governance for single- and multi-agent cyber-physical systems, 2026. URL https://arxi
+v.org/abs/2607.00334.
+[133] Chinmayi Dixit. Filtering harmful actions isn’t enough: Phantom transfer in agentic SDF,
+2026. URL https://arxiv.org/abs/2607.10750.
+[134] Jiazheng Li, Yawei Wang, David Yan, Yijun Tian, Zhichao Xu, Huan Song, Panpan Xu,
+and Lin Lee Cheong. SALT: Step-level advantage assignment for long-horizon agents via
+trajectory graph, 2025. URL https://arxiv.org/abs/2510.20022.
+[135] Juexiang Ye, Xue Li, Xinyu Yang, Chengkai Huang, Lanshun Nie, Lina Yao, and Dechen
+Zhan. MemWeaver: Weaving hybrid memories for traceable long-horizon agentic reasoning,
+2026. URL https://arxiv.org/abs/2601.18204.
+[136] Zhuofu Chen, Rui Pan, Yinwei Dai, and Ravi Netravali. Slipstream: Trajectory-grounded
+compaction validation for long-horizon agents, 2026. URL https://arxiv.org/abs/2605.08580.
+
+39
+
+

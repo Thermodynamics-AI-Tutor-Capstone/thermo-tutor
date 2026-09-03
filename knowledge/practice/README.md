@@ -12,6 +12,8 @@ Deployment reality — the constraints that decide whether any of this happens.
 | [Incumbent platforms](incumbent-platforms.md) | Mastering/Connect/WileyPLUS/EES — the real competition, unbenchmarked |
 | [Institutional landscape](institutional-landscape.md) | 74% of US institutions have production AI. Building a tutor isn't novel |
 | [Disclosure and ethics](disclosure-and-ethics.md) | Students need to know *where* the tutor is unreliable, not just that it's an AI |
+| [**Agent architecture**](agent-architecture.md) | **Reliability decays geometrically in step count — every model falls to near zero within 16 steps. The harness matters as much as the model** |
+| [**Agent observability**](agent-observability.md) | **A trace has two consumers: the human and the agent. Log an append-only ledger from day one — it is the one irreversible decision** |
 | [**Content generation**](content-generation.md) | **54% of AI-generated MCQs pass a basic quality bar, worst at high Bloom levels. Two refinement passes, small batches, raw transcripts** |
 | [**Assessment integrity**](assessment-integrity.md) | **Assisted work goes up, unassisted work goes down. A prompt is not a guardrail, and model upgrades silently weaken the ones you have** |
 

@@ -20,7 +20,7 @@ them in under a minute each. My scripted fetches get 403s because I'm not a brow
 | A3 | **bioTutor** (MDPI *Educ. Sci.*, gold OA) | Abstract only. Need the **link to its open-source repo** and what "didactically structured" means concretely | [mdpi.com/2227-7102/16/5/812](https://www.mdpi.com/2227-7102/16/5/812) |
 | A4 | **Improving Hybrid Human-AI Tutoring** (EDM 2026, Zenodo) | Human/AI role division — directly relevant, since the two best results in the field are hybrid | [zenodo.org/records/21039782](https://zenodo.org/records/21039782) |
 | A5 | **Rosé et al. 2005 — the NPSG human-tutor study** (CMU KiltHub) | The study CycleTalk was trying to replicate. We only have it secondhand | DOI `10.1184/r1/6469769` |
-| A6 | **Koedinger, Corbett & Perfetti — the KLI framework** (CMU KiltHub) | The standard framework for knowledge components; our skill graph should be built on it | [learnlab.org background readings](https://learnlab.org/index.php/background-readings) |
+| A6 | ✅ **Koedinger, Corbett & Perfetti — the KLI framework** | **Acquired 2026-09-03** (Lance). CMU KiltHub/figshare returns 403 to scripts. Held as `koedinger-2012-kli-framework.pdf` | — |
 
 ---
 
@@ -95,7 +95,18 @@ Update this table as things arrive.
 
 | Item | Status |
 |---|---|
-| A1–A6 | ⬜ blocked on browser or Browserbase credit |
-| B1–B9 | ⬜ blocked on PSU library |
+| A2, A3, A4, A5, A6 | ✅ **acquired 2026-09-03** — in `course-materials/papers/` |
+| **A1 — Porto PRISMA review** | ⬜ **still blocked.** IEEE Xplore returns 403 to scripts. The single highest-value outstanding item |
+| B1 VanLehn 2011, B2 Kulik & Fletcher | ✅ **acquired 2026-09-03** — the two we had been citing secondhand |
+| B3–B9 | ⬜ blocked on PSU library |
 | ME 300 materials | ⬜ blocked on Lance |
-| Agent design / observability sweep | ⬜ **not blocked — can start any time** |
+| Agent design / observability sweep | ✅ **done 2026-09-03** — [architecture](../knowledge/practice/agent-architecture.md) and [observability](../knowledge/practice/agent-observability.md) |
+
+## Still wanted, added 2026-09-03
+
+- **A1, the Porto review** — unchanged in importance. IEEE blocks scripted access.
+- ⭐ **Practitioner observability sources.** Both new agent nodes are built entirely on 2026
+  preprints. **OpenTelemetry's GenAI semantic conventions** and the established tracing/eval
+  products are not covered at all, and that is a real gap — papers are not where this practice
+  actually lives.
+- **bioTutor's source repository** — the paper says open-source but does not name the repo.

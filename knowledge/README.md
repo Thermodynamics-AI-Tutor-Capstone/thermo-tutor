@@ -120,6 +120,19 @@ ones that changed a design decision:
 | Jill Watson 2024 scores 78.7% vs OpenAI Assistant's 30.7% | **76.7% vs 31.3%** — the earlier figures came from a secondary summary; the primary is [arXiv:2405.11070](systems/jill-watson.md) |
 | The original 2016 Jill Watson was a success because students couldn't tell it from a human TA | **The legacy knowledge-based system passes 26.0% of course questions** — below an off-the-shelf OpenAI Assistant. Indistinguishable ≠ correct — [node](systems/jill-watson.md) |
 
+**Third correction pass, 3 Sep 2026 — the primaries behind our headline numbers.** Eight papers
+we had been citing secondhand or as `[abstract only]` were acquired and read in full.
+
+| What we had said | What the primary says |
+|---|---|
+| VanLehn: human tutoring beat substep-based by d = 0.12 | **Sign error. d = −0.12** — substep-based systems slightly *outperformed* human tutors — [node](concepts/vanlehn-2011.md) |
+| VanLehn rests on "10 comparisons drawn from 28 evaluation studies" | **A garble.** *Ten* is the number of pairwise comparison *types*; *28* is one row's count. The informal search "yielded 87 comparisons" — [node](concepts/vanlehn-2011.md) |
+| Step-based beats answer-based, d = 0.76 vs 0.31 | **Those are separate study sets against different baselines.** The only **direct** manipulation is **two experiments with one database-design tutor, one of them null** — [node](concepts/vanlehn-2011.md) |
+| VanLehn 2011 is a meta-analysis | **He says it isn't:** *"this review does not meet current standards for meta-analyses"* — non-replicable search, single coder, and **"reports the assessment with the largest effect size"** per study — [node](concepts/vanlehn-2011.md) |
+| The 0.31 for answer-based tutoring is VanLehn's finding | **Imported wholesale from C. Kulik & Kulik (1991)**; the "40% reliable" is his own admitted approximation — [node](concepts/vanlehn-2011.md) |
+| Bloom's 2 sigma failed for unclear reasons (small studies, weak controls) | **The tutoring arm's mastery threshold was 90% against the classroom arm's 80%.** *"This alone could account for the advantage"* — and classroom mastery learning alone scored ~1.0 SD — [node](concepts/blooms-two-sigma.md) |
+| Substep tutoring is worse than step (d = 0.40 vs 0.76) | Restated precisely: the **direct** contrast is **d = 0.16 over 11 comparisons, 0 reliable.** Equivalence, not penalty — [node](concepts/knowledge-components.md) |
+
 **The through-line:** nearly every correction made a claim *weaker and more specific*.
 Summaries — including good ones — round findings toward their headline, and secondary sources
 propagate misattributions. Two numbers we were citing turned out not to exist in their cited
