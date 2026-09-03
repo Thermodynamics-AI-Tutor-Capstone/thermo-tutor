@@ -106,6 +106,24 @@ this project has already been burned twice by numbers that came from secondary s
 the DSpace REST route, the `peer.asee.org/<id>.pdf` bypass, and the magic-byte check
 (`head -c 5 f.pdf | grep -q '%PDF'`) that stops login walls being mistaken for PDFs.
 
+## The input queue
+
+**`/Users/lancestreuber/Desktop/Capstone/input/` is a work queue, not an archive.** Lance drops
+papers and materials there for me to process.
+
+**The loop:** take one item → verify what it actually is (`pdftotext -f 1 -l 1 file.pdf -` and read
+the title) → copy into `course-materials/papers/` under a
+`firstauthor-year-slug.pdf` name → extract the `.txt` → ingest it into the knowledge base →
+**delete it from `input/`.**
+
+⚠ **Verify the copy exists and passes the magic-byte check before deleting the original.** Never
+remove an item that has not been successfully ingested.
+
+⚠ **Check what a file is before trusting its name.** On 2026-09-03, three separate attempts to
+supply one specific paper produced a different paper each time — two of them plausible-looking
+IEEE PDFs with the right general shape. Publisher filenames and download names are not evidence of
+content. **Read the first page.**
+
 ## Repository rules
 
 - **This repo is public.** No student data, no raw interview transcripts, no copyrighted course
