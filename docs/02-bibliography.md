@@ -246,6 +246,42 @@ Astronomy, arXiv:1605.02703.** [found] Comprehensive index of validated instrume
 
 ---
 
+## Assessed and set aside
+
+Sources we acquired, read, and decided **not** to build on. Recorded so nobody re-acquires them,
+and so the reason is inspectable.
+
+**Fant-Male, J. & Pieters, R. (2025). "A Review of Personalisation in Human-Robot Collaboration
+and Future Perspectives Towards Industry 5.0." *IEEE RO-MAN 2025*, pp. 223–230.** `[read — full
+text, 8 pp., 2026-09-03]` · https://doi.org/10.1109/RO-MAN63969.2025.11217866 ·
+`course-materials/papers/personalisation-human-robot-collab-review.pdf`
+
+⚠ **Out of scope, and it was never on our request list.** It surveys personalisation of
+human-robot collaboration on **factory floors** under the EU's Industry 5.0 programme —
+cobot speed adaptation to worker stress measured by ECG, ergonomic task allocation, Human Digital
+Twins, the EU Machinery Regulation. **A full-text search for `education`, `tutor`, `student`,
+`learning gain`, `pedagogy` and `classroom` returns zero hits.** Its "personalisation" is
+physical and ergonomic; ours is epistemic. The surface-level analogy — *adaptive systems modelling
+individual humans* — does not survive contact with the content.
+
+**Two things were worth carrying, and both are recorded in
+[`practice/disclosure-and-ethics.md`](../knowledge/practice/disclosure-and-ethics.md) rather than
+given a node of their own:**
+
+1. ⭐ **An argument that personalisation can erase the person** — *"employees have limited
+   opportunity to work according to their subjective experience as the system has dictated their
+   ability."* Swap employees for students and it is an objection to the student model that
+   nothing in our education sources makes. **The authors call it speculative themselves.**
+2. **Novices preferred the system to choose its parameters; experienced users wanted to tune them
+   manually.** The same split the
+   [proactive/reactive tutoring policy](../knowledge/systems/hybrid-human-ai-tutoring.md) staffs
+   for, arrived at independently in industrial robotics.
+
+**Nothing else transferred.** Trust calibration, metric fragmentation and GDPR/EU-AI-Act framing
+are all covered better by sources already in this bibliography.
+
+---
+
 ## To find
 
 Gaps in this bibliography someone should fill:

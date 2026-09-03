@@ -48,6 +48,42 @@ Beyond the [IRB requirements](../../admin/irb.md):
   information is not used to train the underlying models. If we build outside AI Studio, we
   owe students the equivalent statement — and it has to be true.
 
+## ⚠ The argument against personalisation itself, from an unrelated field
+
+*This one comes from outside education and is included because nothing inside education makes
+it. Treat it as a prompt for our own thinking, not as evidence.*
+
+A 2025 IEEE RO-MAN review of **personalisation in human-robot collaboration for manufacturing**
+raises an objection to adaptive systems that this knowledge base has no version of:
+
+> *"By transferring the burden of considering individual needs from managers to technology,
+> employees may lose their individuality… employees have limited opportunity to work according to
+> their subjective experience **as the system has dictated their ability**, and it is assumed this
+> gives a fair assessment of their current capacity."*
+
+**Swap "employees" for "students" and it is a direct objection to a
+[student model](../concepts/knowledge-tracing.md).** A tutor that estimates mastery per knowledge
+component and routes accordingly has *decided who the student is*, on evidence the student cannot
+see and did not consent to being read that way. The system's estimate becomes the student's
+allowed range.
+
+⚠ **The authors label their own argument speculative** — *"such arguments may be speculative"* —
+and it is untested in either field. But it sharpens two things we should decide before a pilot:
+
+- **Can a student see and contest their own model?** Our data-transparency list above says *what*
+  is logged; it does not say whether the student can read the *inference* drawn from it.
+- **Does the tutor ever tell a student what it thinks they cannot do?** [The proactive/reactive
+  allocation policy](../systems/hybrid-human-ai-tutoring.md) splits a cohort on a prior test
+  score. That is defensible as staffing and corrosive as a label, and the difference is entirely
+  in whether the student is told.
+
+⭐ *One small parallel worth noting from the same review, because it lands on the same question
+from the other side:* **users with prior experience wanted to tune the system's parameters
+themselves, while novices preferred the system to choose for them.** That is the same split the
+[proactive/reactive study](../systems/hybrid-human-ai-tutoring.md) staffed for, arrived at in
+industrial robotics. Two unrelated literatures, one shape: **novices want the system to decide;
+experienced users want the control.**
+
 ## The responsibility question
 
 When the tutor confidently teaches a student that an adiabatic process is isentropic, and the
@@ -103,3 +139,4 @@ drawn by design, not enforced by detection.**
 - [Inside Higher Ed, "AI Detectors Are Out, New Assessments Are In" (Aug 2026)](https://www.insidehighered.com/news/tech-innovation/artificial-intelligence/2026/08/05/ai-detectors-are-out-new-approaches-are) `[skimmed]` — detector accuracy figures
 - [PSU AI Studio privacy terms](psu-ai-landscape.md) `[read]`
 - [Georgia Tech Jill Watson coverage (2016)](https://news.gatech.edu/news/2016/05/09/artificial-intelligence-course-creates-ai-teaching-assistant) `[skimmed]`
+- [Fant-Male & Pieters (2025), "A Review of Personalisation in Human-Robot Collaboration and Future Perspectives Towards Industry 5.0," *IEEE RO-MAN 2025*, pp. 223–230](https://doi.org/10.1109/RO-MAN63969.2025.11217866) `[read — full text, 8 pp., 2026-09-03]` — ⚠ **out of domain: industrial manufacturing robotics, no education content whatsoever.** Assessed and set aside; the two paragraphs above are the only thing we took from it. Local: `course-materials/papers/personalisation-human-robot-collab-review.pdf`. See [the bibliography's "Assessed and set aside" section](../../docs/02-bibliography.md)
