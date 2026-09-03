@@ -414,6 +414,32 @@ If you read nothing else:
     established — the raw gains favour the control and the vaunted "negotiation dialogue" was
     never implemented. → [CyclePad / CycleTalk](systems/cyclepad-cycletalk.md)
 
+    ⭐⭐ **And the human-tutor study underneath it, now read in full, is the most sobering thing in
+    this survey for anyone selling "the tutoring effect" in thermodynamics.** Rosé et al. (AI-ED
+    2005) put CMU sophomores through an identical 3-hour Rankine-cycle lab with professor-written
+    materials held constant across every arm, varying only whether the student followed a written
+    **script**, used a **model-tracing-style pseudotutor**, or **negotiated their goals with a
+    human tutor**. On the applied design task, **human tutoring and the script tied exactly at
+    63% success** and the pseudotutor got 58%. On the conceptual test both scored **+3%**
+    residual. Human tutoring beat the script by **one to two points against SDs of nine to ten**
+    — p = .11. **The only reliable finding was that both beat the pseudotutor.**
+
+    ⚠⚠ **And one tutor of three carried it.** Free Exploration success: **Tutor 1 100%, Tutor 2
+    38%, Tutor 3 0%** (p < .005 between tutors) against 63% for students with no tutor at all.
+    Tutor 3's data was deleted — he *"rarely let students complete their work. Instead, he tended
+    to take over and do the lab for them."* **Conceptual residual −18%.** That is
+    [VanLehn's completion mechanism](concepts/vanlehn-2011.md) demonstrated by its violation, in
+    our own domain: a tutor who finishes the work for you produces the worst outcome in the
+    experiment. **Tutor variance was larger than the treatment effect — which means consistency
+    is itself a claim an AI tutor can make.**
+
+    ⭐ **One more null worth having.** The same study crossed goal *level* with goal
+    *orientation*, telling half the students *"your goal is to learn as much thermodynamics as
+    possible"* and half *"your goal is to achieve the greatest cycle efficiency."* The
+    manipulation check passed — students said different things — and **it moved no outcome at
+    all.** Motivational framing text is exactly what a system prompt or an onboarding screen
+    does, and it is the one thing here that was cleanly measured and cleanly null.
+
 ---
 
 ## I. Prehistory: what the field already proved (1970–2015)

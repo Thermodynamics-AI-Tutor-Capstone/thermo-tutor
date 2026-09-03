@@ -28,7 +28,7 @@ One node per tutoring system. History, architecture, measured results, and what 
 | [**GPThermo**](gpthermo-wpi.md) | Worcester Polytechnic | **THERMODYNAMICS** | **Multi-agent GPT-4o + property tools: 95% vs 15–25% for stock models. No tutoring, no students — the tool layer, validated. Undergraduate first author** |
 | [**bioTutor**](biotutor-eth.md) | ETH Zurich | Biology | **Open source. 407 students, 23 weeks, 10,000+ interactions — the longest deployment here. Instructor dashboard. ⚠ No learning outcome** |
 | [**Ethel**](ethel-eth.md) | ETH Zurich | Physics / **thermodynamics** | **University-built virtual TA. Publishes its cost ($7.50/student/semester) and its failures. Grading: high precision, ~50% recall** |
-| [**CyclePad / CycleTalk**](cyclepad-cycletalk.md) | Northwestern + USNA + CMU | **THERMODYNAMICS** | **Articulate thermo simulator, USNA curriculum since 1996. Dialogue layer added 2006: +0.25 SD over simulator alone, conceptual tests only. The precedent nobody cites** |
+| [**CyclePad / CycleTalk**](cyclepad-cycletalk.md) | Northwestern + USNA + CMU | **THERMODYNAMICS** | **Articulate thermo simulator, USNA curriculum since 1996. Dialogue layer added 2006: +0.25 SD over simulator alone, conceptual tests only.** ⚠ **And the 2005 human-tutor study underneath it tied a written script — with tutor-to-tutor variance (100% / 38% / 0%) far larger than the treatment effect.** The precedent nobody cites |
 | [AutoTutor](autotutor.md) | Memphis | Various | Expectation/misconception-tailored dialogue |
 | [Cognitive Tutor](cognitive-tutor.md) | CMU | Algebra | Source of knowledge tracing, KCs, the doer effect |
 | [ALEKS](aleks.md) | UC Irvine → McGraw Hill | Math, chem | Knowledge space theory; state in 20–25 questions |
