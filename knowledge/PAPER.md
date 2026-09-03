@@ -185,8 +185,10 @@ If you read nothing else:
 
 9. ⭐⭐ **Whatever you measure close to the tutor will look good — expect roughly a fifth of it
    on a real outcome.** Five independent studies now show the same collapse between the measure
-   the researchers built and an external one: **Kulik & Fletcher's** famous ITS meta-analysis
-   reports a **median 0.66** on its own measures and **0.13 on standardized tests**;
+   the researchers built and an external one: **Kulik & Fletcher's** ITS meta-analysis, now read
+   as a primary, reports **0.73 on locally developed tests and 0.13 on standardized ones** —
+   **the largest of its fifteen coded moderators (r = −.63), and when test type is held constant
+   every other moderator stops predicting anything at all**;
    [Tutor CoPilot](systems/tutor-copilot.md) got **+4 p.p.** on exit tickets and **null** on
    end-of-year scores; [CycleTalk](systems/cyclepad-cycletalk.md) **+0.35 SD** on the concept
    test and **null** on both design exercises; [Andes](systems/andes.md) **+1.21** on drawings
@@ -204,6 +206,14 @@ If you read nothing else:
    and more helpful** — the authors' *"comfort trap,"* where *"students' preferences misaligned
    with pedagogical effectiveness."* **Never treat satisfaction as a proxy for tutor quality; it
    selects for answer-giving.** → [TUM dissociation](evidence/tum-dissociation-2025.md)
+
+   ⚠⚠ **And the control group matters as much as the test.** Across six ITS studies whose controls
+   read *content derived from the tutor itself* rather than sitting in a business-as-usual class,
+   the median effect falls from **0.66 to 0.24** and the mean from 0.60 to **0.18**. Kulik &
+   Fletcher excluded those studies as unrepresentative — correct for the policy question,
+   **exactly backwards for ours. Our control group will be students holding ChatGPT and a
+   textbook, which is a content-matched control.** The row to budget against is 0.18–0.28, not
+   0.66. → [the meta-analyses](concepts/vanlehn-2011.md)
 
 10. ⭐⭐ **The two strongest positive results in this literature are both *hybrid*, and neither is
    an AI tutoring a student alone.** [Tutor CoPilot](systems/tutor-copilot.md) coaches the human
@@ -1160,7 +1170,9 @@ not median, because a multi-agent pipeline waits for its slowest branch.
 **4. ⚠ Our outcome measure has to be distal, and we should expect roughly a fifth of the in-app
 number.** This is the newest and most consequential change. Five independent studies now show the
 same collapse between a measure built next to the tutor and an external one — Kulik & Fletcher's
-**0.66 → 0.13**, Tutor CoPilot's exit tickets → null, CycleTalk, Andes, Bastani (finding 9 above).
+**0.73 → 0.13**, Tutor CoPilot's exit tickets → null, CycleTalk, Andes, Bastani (finding 9 above).
+**Add the control-group half of it: a content-matched control cuts the ITS literature's median
+effect from 0.66 to 0.24, and that is the control we will actually have.**
 Three consequences we should write into the study design *before* collecting anything:
 
 - **Never report a homework-based outcome as evidence the tutor worked.** Bastani's arm went
@@ -1307,8 +1319,9 @@ capstone with findings and one with a demo.
 
 | Source | Why it matters | Blocker |
 |---|---|---|
-| **VanLehn 2011**, *Educational Psychologist* | The field's most-cited effect sizes (human ≈ ITS) come from here and we have never read it | ⚠ Closed access; ASU now serves the author's own copies behind Cloudflare Access; **no Internet Archive snapshot. Needs PSU library.** |
-| **Kulik & Fletcher 2016**, *RER* | The other headline ITS meta-analysis (median 0.66 — **but 0.13 on standardized tests**) | Closed; DTIC report AD1030353 under maintenance throughout. ⚠ **Key figures now recovered secondhand** from [Alkhatlan & Kalita's survey](concepts/vanlehn-2011.md); still want the primary. |
+| ⭐ **Steenbergen-Hu & Cooper 2014**, *J. Educ. Psych.* 106(2) | **35 ITS evaluations in colleges** — the only meta-analysis at our education level. **+0.86** vs no instruction, **+0.37** vs conventional instruction, **−0.25** where the control got human tutoring | Not yet attempted. We had filed their **2013 K-12** paper and missed this one entirely. **Highest-value outstanding acquisition.** |
+| **Ma, Adesope, Nesbit & Liu 2014**, *J. Educ. Psych.* 106(4) | 107 effect sizes from 73 reports; the source of the **−0.11 against individualized human tutoring** we quote | Still secondhand via Alkhatlan & Kalita. |
+| **Suraweera & Mitrovic 2002** (KERMIT) | ⚠ **The only direct step-vs-answer-based manipulation in either meta-analysis** — two experiments, one of them null, and our whole granularity argument leans on it | Not yet attempted. |
 | **Rosé et al. 2006**, *IJAIED* 16(2) | Fullest account of CycleTalk — the closest precedent to this project | IOS Press blocks scripted access entirely. **PSU library.** |
 | ⭐ **Systematic review of AI-driven ITS in *engineering education*** (IEEE Access 2025, Porto) | **PRISMA review of 46 studies in exactly our space** — the map we never built. Names a gap in "dual-user support for both learners and instructors," which is where [Stan](systems/stan-udel.md) and [PeteChat](systems/petechat-purdue.md) both landed independently | **Gold OA but IEEE blocks scripted access.** Abstract read; full text needs a browser. [DOI 10.1109/access.2025.3626473](https://doi.org/10.1109/access.2025.3626473) |
 | ⭐ **[GPThermo](systems/gpthermo-wpi.md)** (WPI, ASEE 2025) | Another university's in-house thermodynamics tutor | Cloudflare challenge, not a paywall — **retrievable by hand** at [peer.asee.org/56669](https://peer.asee.org/56669) |

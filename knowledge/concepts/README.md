@@ -8,7 +8,7 @@ design choice is a design choice.
 | Node | The thing to know |
 |---|---|
 | [Bloom's 2 sigma](blooms-two-sigma.md) | The founding claim, and why it's overstated — **it was the 90% mastery threshold, not the tutor** |
-| [VanLehn 2011](vanlehn-2011.md) | Human d=0.79; step-based ITS d=0.76. **The mechanism is completion: students learn from solutions they finish themselves. Six of the eight explanations for human tutoring are dead** |
+| [The ITS meta-analyses](vanlehn-2011.md) | VanLehn: human d=0.79, step-based ITS d=0.76, and **the mechanism is completion — students learn from solutions they finish themselves.** Kulik & Fletcher: the famous 0.66 is an unweighted median, the **weighted estimate is g=0.50**, and **against a content-matched control it is 0.24** |
 
 ## Pedagogy
 

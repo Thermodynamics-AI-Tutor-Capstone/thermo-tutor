@@ -1,12 +1,18 @@
-# VanLehn 2011 — the effect sizes that anchor the field, and the mechanism underneath them
+# The ITS meta-analyses — VanLehn 2011 and Kulik & Fletcher 2016
 
-**Type:** concept / review
-**One line:** The review that dismantled Bloom's 2 sigma, showed step-based ITS within a
-rounding error of human tutors — and then explained *why*, in a paragraph almost nobody quotes.
-**Why we care:** It sets the bar our project has to clear; it names *interaction granularity*
-rather than feedback intelligence as the variable that predicts learning; and its causal
-explanation — **students only learn from solutions they finish themselves** — is the single most
-useful sentence in this knowledge base for deciding what our tutor is allowed to do.
+**Type:** concept / meta-analysis
+**One line:** The two reviews that set every effect size this field quotes — read as primaries,
+they are smaller, more caveated, and more useful than their headlines, and they disagree with
+each other in two places.
+**Why we care:** They set the bar our project has to clear; they name *interaction granularity*
+and *choice of outcome test* as the variables that predict measured learning; and VanLehn's
+causal explanation — **students only learn from solutions they finish themselves** — is the
+single most useful sentence in this knowledge base for deciding what our tutor is allowed to do.
+
+**The three numbers to leave with:** step-based ITS **d = 0.76** and human tutoring **d = 0.79**
+(VanLehn); the properly weighted ITS estimate **g = 0.50 [0.40, 0.59]** (Kulik & Fletcher, not
+their famous 0.66); and against a **content-matched** control rather than business-as-usual,
+**≈ 0.18–0.28** — which is the comparison our project actually faces.
 
 > **Verification: `[read — full text, 25 pp., 2026-09-03]`.** Local copy:
 > `course-materials/papers/vanlehn-2011-relative-effectiveness.pdf` (+ `.txt`). Obtained via
@@ -431,11 +437,282 @@ hoping to be on. → [Rosé et al. 2005](../systems/cyclepad-cycletalk.md)
 
 ## The proximal–distal collapse
 
-*(Kept from the previous version; the source for the Kulik & Fletcher, Ma and Steenbergen-Hu
-figures is **Alkhatlan & Kalita's 2018 survey**, read in full — ⚠ still secondhand for those
-three meta-analyses.)*
+**The strongest single statement of this in the literature is Kulik & Fletcher's, in the next section:
+test type is the largest moderator of ITS effect size (r = −.63), and *when you hold it
+constant, every other moderator stops predicting anything.*** Local tests 0.73, standardized
+tests 0.13.
 
-**Ma et al. 2014** — 107 effect sizes from 73 studies, the largest of the four:
+| Study | Proximal measure | Distal measure |
+|---|---|---|
+| **Kulik & Fletcher 2016** | **0.73** local tests | **0.13** standardized tests |
+| **Cognitive Tutor**, 15 studies | **0.86** median local | **0.16** median standardized |
+| [Tutor CoPilot](../systems/tutor-copilot.md) | **+4 p.p.** exit tickets | **null** end-of-year MAP |
+| [CycleTalk](../systems/cyclepad-cycletalk.md) | **+0.35 SD** concept test | **null** both design exercises |
+| [Andes](../systems/andes.md) | **+1.21** drawings, +0.69 variables | **−0.08** answers |
+| [Bastani](../evidence/bastani-2025-harm.md) | **+48%** while assisted | **−17%** unassisted exam |
+| [TUM](../evidence/tum-dissociation-2025.md) | higher exercise scores, both AI arms | **no** pre–post knowledge gain |
+
+⚠ **And VanLehn's own numbers belong in this frame.** "This review reports the assessment with
+the largest effect size" is a *proximal-selection rule applied to the whole literature*.
+
+**Whatever we measure close to the tutor will look good.** Our evaluation has to lead with a
+distal, unassisted, ideally externally-validated outcome, and we should expect it to be roughly
+a fifth of whatever the in-app numbers say.
+→ [concept inventories](../evaluation/concept-inventories.md),
+[behavioral evaluation](../evaluation/behavioral-evaluation.md)
+
+⚠ **The honest counter-argument, from Kulik & Fletcher, is that alignment is not cheating:** a
+standardized algebra test that emphasises recognition will not detect a gain in problem solving,
+and Koedinger's tutor improved local problem solving *"at no cost to"* standardized recognition.
+**Measure both. Pre-register the distal one as primary.**
+
+---
+
+## Kulik & Fletcher 2016 — the other headline meta-analysis, now a primary
+
+> **Verification: `[read — full text, 37 pp., 2026-09-03]`.** Local copy:
+> `course-materials/papers/kulik-fletcher-2016-its-effectiveness.pdf` (+ `.txt`). We previously
+> had these numbers only through [Alkhatlan & Kalita's 2018 survey](https://arxiv.org/pdf/1812.09628).
+
+James A. Kulik (Michigan) & J. D. Fletcher (Institute for Defense Analyses), *"Effectiveness of
+Intelligent Tutoring Systems: A Meta-Analytic Review,"* **Review of Educational Research 86(1),
+42–78, 2016.** [DOI 10.3102/0034654315581420](https://doi.org/10.3102/0034654315581420).
+50 controlled evaluations selected from ~550 candidate reports. ONR-funded, like VanLehn.
+
+**This is a real meta-analysis where VanLehn's is not** — replicable database searches (ERIC,
+NTIS, ProQuest, Google Scholar), stated inclusion rules, Winsorization, Glass's ES *and* Hedges's
+g, random-effects weighting, and 15 coded moderators. It is the better-built of the two, and it
+disagrees with VanLehn in two places.
+
+### ⚠⚠ The famous 0.66 is an unweighted median. The weighted estimate is 0.50.
+
+| Estimator | Value |
+|---|---|
+| **Median Glass's ES, 50 studies** | **0.66** ← the number everyone quotes |
+| Mean Glass's ES | 0.65 (SD 0.56) |
+| Winsorized mean | 0.61 (SD 0.38) |
+| Median Hedges's g | 0.64 |
+| ⭐ **Random-effects weighted g, by study** | **0.50, 95% CI [0.40, 0.59]** |
+| ⭐ **Random-effects weighted g, by finding** | **0.49, 95% CI [0.40, 0.58]** |
+
+**The properly weighted meta-analytic estimate of ITS effectiveness is g ≈ 0.50, and it is in the
+paper, and nobody cites it.** 0.66 is the median of unweighted Glass effect sizes. Both are in
+the same results section; only one made it into the abstract.
+
+**We should quote 0.50 [0.40, 0.59] as the headline and mention 0.66 as the unweighted median.**
+It is more defensible, and an advisor who checks will find we read past the abstract.
+
+Consistency is good otherwise: the ITS group beat control in **46 of 50 studies (92%)**, and by
+more than 0.25 SD in **39 of 50 (78%)**.
+
+### ⭐⭐ Test type is the strongest moderator in the paper, and it is not close
+
+> *"ESs are large in evaluations that used local tests as outcome measures (average ES = 0.73),
+> small in evaluations that used standardized tests (average ES = 0.13), and intermediate in
+> evaluations that used a combination of the two (average ES = 0.45)."*
+
+**r = −.63, p < .001** — the largest of 15 coded moderators. The Hedges's g homogeneity analysis
+reproduces it: **local 0.62, standardized 0.09, both 0.46.**
+
+⭐ **And when test type is held constant, every other moderator disappears:** *"We found that
+study features were not related to size of effect with test type held constant.* There were no
+significant relationships between study features and effect magnitude in the 38 evaluation
+reports that measured outcomes on local tests, nor were there any in the 9 evaluations that
+measured outcomes on standardized tests."
+
+**One variable explains the entire moderator structure of the ITS literature, and it is which
+test you chose.** That is a stronger statement of
+the proximal/distal law above than we had, and it comes with the
+mechanism: the other moderators are *confounded* with test type (r = .60 with sample size, .62
+with subject, −.59 with grade level) because standardized tests were used almost exclusively in
+large Cognitive Tutor algebra trials.
+
+**Cognitive Tutor alone, 15 studies, both test types measured:**
+
+| | Local tests | Standardized tests |
+|---|---|---|
+| Mean ES | **0.76** | **0.12** |
+| Median ES | **0.86** | **0.16** |
+
+Median across all its tests: **0.35**. ⭐ **This resolves a live contradiction in our own base**
+— early reviews called Cognitive Tutor a 1.0-SD success and What Works Clearinghouse called it
+null. **Neither was wrong. The early reviews used only local tests; the recent ones used only
+standardized tests.** → [Cognitive Tutor](../systems/cognitive-tutor.md)
+
+⚠ **Read the authors' defence, because it is the strongest argument against our own
+distal-outcome discipline and we should hold both.** They argue the local/standardized gap is not
+an inflation artefact but an *alignment* fact: Koedinger's tutor "improved the problem-solving
+skills it was designed to teach, and the improvement in problem solving came at no cost to the
+recognition skills emphasized on standardized tests." Their recommendation is **measure both**,
+not "trust the standardized one."
+
+**Our position should be: measure both, but pre-register the distal one as primary.** A tutor
+that moves only its own aligned test has not been shown to have taught anything transferable —
+and **seven studies in the table above show exactly that shape**.
+
+### ⚠⚠ ITS effects mostly vanish against an active, content-matched control
+
+This is the finding with the most direct bearing on how we design our experiment, and it is
+buried in a secondary table.
+
+Six reports (11 experiments) used **nonconventional controls** — students who read text derived
+from the tutor's own content (*"textbook-reduced"* / *"canned text"*), or who watched recordings
+of other students' tutoring sessions (*vicarious learning*, yoked to the ITS group's problems):
+
+| Control type | Median ES | Mean ES |
+|---|---|---|
+| Conventional (business-as-usual class) | **0.66** | 0.60 |
+| ⭐ **Content-matched / vicarious** | **0.24–0.28** | **0.18** |
+
+Range across the six: **−0.36 to +0.50**.
+
+**Give the control group the same content in a cheaper form and roughly two thirds of the ITS
+advantage disappears.** Kulik & Fletcher excluded these from their headline on the grounds that
+they *"do not give a useful answer to the question of overall ITS effectiveness"* — which is
+true for a policy question and **exactly backwards for ours.**
+
+⚠⚠ **Our control group will be students holding ChatGPT and a textbook. That is a
+content-matched control, not a conventional one.** The comparison our project actually faces is
+the 0.18–0.28 column, not the 0.66 one. **Anyone quoting 0.66 at us — or at a funder — is
+quoting the wrong row.**
+→ [behavioral evaluation](../evaluation/behavioral-evaluation.md),
+[our open questions](../../docs/03-open-questions.md)
+
+### ⭐⭐ The moderators that actually matter to us
+
+| Moderator | Categories | ES | r |
+|---|---|---:|---:|
+| **Test type** | Local / both / standardized | 0.73 / 0.45 / **0.13** | −.63*** |
+| **Sample size** | ≤80 / 81–250 / >250 | 0.78 / 0.53 / **0.30** | −.55*** |
+| ⭐ **Grade level** | Elementary + high school / **postsecondary** | 0.44 / **0.75** | .41** |
+| ⭐ **Subject** | **Mathematics** / other | **0.40** / 0.72 | .41** |
+| Cognitive Tutor study | No / yes | 0.68 / 0.45 | −.28* |
+| Country | United States / other | 0.56 / 0.79 | .26 |
+| Publication status | Published / unpublished | 0.67 / 0.46 | −.25 *(n.s.)* |
+| Publication year | ≤2000 / 2001–05 / after 2006 | 0.78 / 0.55 / 0.56 | −.21 |
+| **Tutoring granularity** | Step-based (41) / substep-based (9) | 0.60 / **0.63** | .02 *(n.s.)* |
+
+*(`*` p<.05, `**` p<.01, `***` p<.001.)*
+
+Three of these are load-bearing for us:
+
+1. ⭐ **Postsecondary beats K-12: 0.75 vs 0.44.** Almost every discouraging ITS result in the
+   public record — [Cognitive Tutor's WWC nulls](../systems/cognitive-tutor.md),
+   [Khanmigo](../systems/khanmigo.md), Slavin's 0.12 — is K-12. **We are in the half of the
+   literature where ITSs work better.** This is the single most encouraging number we have found
+   for the setting we are actually in.
+2. ⚠ **Effects shrink monotonically with sample size: 0.78 → 0.53 → 0.30.** Small studies
+   over-report, as always. **A pilot on 60 students should expect to overstate by roughly 2.5×
+   what a 250-student deployment will show.**
+3. ⚠ **Mathematics does worse than everything else: 0.40 vs 0.72.** Nobody in this paper explains
+   why, and it is partly confounded with test type and grade level. Engineering thermodynamics is
+   not mathematics, but it is closer to it than "other" is.
+
+⚠ Two more worth knowing and not over-reading: **published studies out-scored unpublished ones
+0.67 vs 0.46** (the classic publication-bias signature, though not statistically significant at
+n = 50), and **effects have declined over time**, 0.78 before 2000 against ~0.55 since.
+
+### ⭐ Implementation quality is an effect-size variable, and the numbers are brutal
+
+Four studies reported both a weak and a strong implementation of the same system.
+**Median ES: strong 0.44, weak −0.01.** The individual cases are more instructive than the median:
+
+| Study | Weak condition | Strong condition |
+|---|---|---|
+| **Koedinger & Anderson (1993)** | Teachers new to ITS: **−0.23** | Experienced teacher: **0.96** |
+| **Le et al. (2009)** | Day with ~1-minute response delays: **0.01** | Technical problems fixed: **0.31** |
+| **Pane et al. (2013)**, ~20,000 students | Teachers' first year: **−0.06** | Teachers' second year: **+0.20** |
+| **[Andes](../systems/andes.md)** (VanLehn et al. 2005) | Year 1, few problems, many bugs: **0.21** | Years 2–5: **0.57** |
+
+⭐⭐ **The Koedinger & Anderson mechanism is the most actionable sentence in the paper for
+faculty adoption:**
+
+> Teachers with limited experience *"treated the ITS as a **replacement** for the teacher, and
+> they graded papers and worked on similar tasks while the students were working on the
+> computer."* The experienced teacher *"thought that the ITS provided an **opportunity for him to
+> give more individualized help** to students… he circulated around the classroom giving extra
+> help."*
+
+**Same software, same content: −0.23 when it substitutes for the instructor, +0.96 when it frees
+the instructor to do more teaching.** That is a 1.2-SD swing driven entirely by how the
+instructor frames it, and it is a stronger argument for
+[the hybrid pattern](../systems/tutor-copilot.md) than anything in the LLM literature.
+→ [faculty adoption](../practice/faculty-adoption.md)
+
+⚠ **And the latency finding deserves to sit in our engineering requirements, not our pedagogy
+notes: one minute of lag took an ITS from d = 0.31 to d = 0.01.** Nothing else in this knowledge
+base puts a number on response time. → [cost economics](../practice/cost-economics.md)
+
+⚠ **Note both directions of the bias here.** Kulik & Fletcher use implementation adequacy to
+explain away null results — and they *excluded* four flawed implementations from the main
+analysis. That is defensible for "can an ITS work?" and it inflates the answer to "will an ITS
+work in an ordinary classroom?"
+
+### ⚠⚠ Where Kulik & Fletcher and VanLehn actually contradict each other
+
+Two disagreements, and we should not average them into mush.
+
+**1. Does substep-based tutoring underperform?**
+
+| Source | Step-based | Substep-based |
+|---|---|---|
+| VanLehn 2011, vs. no tutoring | 0.76 (28 comparisons) | **0.40** (26 comparisons) |
+| VanLehn 2011, **direct** contrast | — | **d = 0.16**, 0 of 11 reliable |
+| Kulik & Fletcher 2016, conventional controls | **0.60** (41 studies) | **0.63** (9 studies) |
+
+Kulik & Fletcher name the cause, and it is a good catch:
+
+> *"We found smaller effects in studies of substep-based tutoring with nonconventional control
+> groups. We excluded studies with nonconventional control groups from our meta-analysis, but
+> VanLehn included them in his analyses. **The low average size of effect that he reported for
+> substep-based tutoring thus seems to be due more to the type of control groups in VanLehn's
+> studies than to substep-based tutoring itself.**"*
+
+They are right, and the arithmetic supports them: **all six of the nonconventional-control
+studies evaluated substep-based tutoring and none evaluated step-based.** Substep systems are
+dialogue systems, dialogue systems get compared against their own canned text, and that is a
+much harder control.
+
+**Verdict: substep ≈ step. Three independent routes now agree** — VanLehn's own direct contrast
+(0.16, n.s.), Kulik & Fletcher's 0.60 vs 0.63, and the control-group explanation for why the
+0.40 looked low. **The apparent substep penalty was an artefact of what those systems were
+compared against.** ✅ This closes a question this node has carried since it was written.
+
+**2. Do ITSs beat human tutors?** ⚠ **Here Kulik & Fletcher are on much weaker ground, and we
+should not follow them.**
+
+> *"The ITS effect is also greater than typical effects from human tutoring… programs of human
+> tutoring typically raise student test scores about 0.4 standard deviations."*
+
+That 0.4 is the median of **five meta-analyses that are mostly peer and cross-age tutoring** —
+Hartley 0.60 (peer), Cohen et al. 0.40 (peer), Mathes & Fuchs 0.36 (peer, reading), Ritter et al.
+0.30 (adult volunteers in elementary schools), and VanLehn 0.79. **VanLehn explicitly excluded
+peer and cross-age tutoring** and restricted to adult subject-matter experts. Kulik & Fletcher
+then compare their ITS number against a pool VanLehn's definition rules out.
+
+Against the like-for-like comparisons, ITSs **tie** with human tutors and do not beat them:
+VanLehn's human-vs-step d = 0.21 favouring humans, Ma et al.'s **−0.11** against individualized
+human tutoring, and Steenbergen-Hu & Cooper's **−0.25** where the control group received human
+tutoring.
+
+**We believe VanLehn and Ma on this: ITS ≈ human tutor, and neither reaches 2 sigma.** Kulik &
+Fletcher's stronger claim rests on a definitional switch.
+
+⚠ **One small factual error in Kulik & Fletcher worth recording,** because it shows how the
+canonical numbers drift: they describe VanLehn's 0.79 as a **median**. VanLehn's Table A3 labels
+it a **mean**; the median of his ten human-tutoring effect sizes is **0.655**. They also report
+VanLehn's ITS evidence as *"54 comparisons… found in 28 separate evaluation studies"* — **which
+is where our own garbled "10 comparisons drawn from 28 evaluation studies" came from.** The 28
+is real and is Kulik & Fletcher's count of VanLehn's studies; the 10 is VanLehn's number of
+pairwise comparison *types*. Two correct numbers from two papers, fused into one wrong sentence
+by a chain of summaries.
+
+### The other two meta-analyses, still secondhand
+
+⚠ *Source for these is Alkhatlan & Kalita's survey plus Kulik & Fletcher's own literature
+review — we hold neither primary.*
+
+**Ma et al. 2014** — 107 effect sizes from 73 reports; overall **0.43**:
 
 | ITS compared against | d |
 |---|---|
@@ -445,32 +722,23 @@ three meta-analyses.)*
 | Small-group human instruction | **0.05** |
 | ⭐ **Individualized human tutoring** | **−0.11** |
 
-**ITSs beat every form of mass instruction and tie with a human tutor** — consistent with
-VanLehn's 0.76 vs. 0.79.
+**Steenbergen-Hu & Cooper 2013** (K-12 maths, 26 reports): overall **~0.05 — essentially null**,
+with effects negative in the two studies designed for low achievers. ⚠ Kulik & Fletcher reject
+this analysis on definitional grounds: it counted **iLearnMath, Larson Pre-Algebra, Plato Algebra**
+and similar as ITSs when *"these systems are answer-based CAI tutors"*, and it admitted studies
+with pretest gaps of 0.76–1.09 SD. **We should treat the K-12 null as contested, not settled.**
 
-**Kulik & Fletcher 2016** — 50 studies; 92% favoured the ITS; **median effect 0.66** across 39
-of them. ⚠ **But the effect on *standardized tests* was 0.13.** A fivefold collapse between the
-researchers' own measures and an external one.
+⭐ **Steenbergen-Hu & Cooper 2014** is the one we should have been citing all along, and it is
+**college-level, 35 evaluations**:
 
-| Study | Proximal measure | Distal measure |
-|---|---|---|
-| Kulik & Fletcher 2016 | **0.66** own measures | **0.13** standardized tests |
-| [Tutor CoPilot](../systems/tutor-copilot.md) | **+4 p.p.** exit tickets | **null** end-of-year MAP |
-| [CycleTalk](../systems/cyclepad-cycletalk.md) | **+0.35 SD** concept test | **null** both design exercises |
-| [Andes](../systems/andes.md) | **+1.21** drawings, +0.69 variables | **−0.08** answers |
-| [Bastani](../evidence/bastani-2025-harm.md) | **+48%** while assisted | **−17%** unassisted exam |
+| Control group | ITS effect |
+|---|---|
+| No instruction | **+0.86** |
+| Conventional instruction | **+0.37** |
+| ⭐ **Human tutoring** | **−0.25** |
 
-⚠ **And VanLehn's own numbers belong in this frame.** "This review reports the assessment with
-the largest effect size" is a *proximal-selection rule applied to the whole literature*.
-**Whatever we measure close to the tutor will look good.** Our evaluation has to lead with a
-distal, unassisted, ideally externally-validated outcome, and we should expect it to be roughly
-a fifth of whatever the in-app numbers say.
-→ [concept inventories](../evaluation/concept-inventories.md),
-[behavioral evaluation](../evaluation/behavioral-evaluation.md)
-
-**Steenbergen-Hu & Cooper 2013** (K-12 maths, 26 reports) adds two moderators: **no significant
-effect for short-duration use**, with effects appearing only at a **full school year or longer**
-— and effects **larger for general students than for low achievers.**
+Overall **~0.35**. ⚠ *We had the 2013 K-12 paper filed and not the 2014 postsecondary one.
+Neither is held as a primary; both should be acquired.*
 
 ---
 
@@ -516,9 +784,21 @@ component of the 2-sigma result that survived scrutiny.
       says require completion; [Bastani](../evidence/bastani-2025-harm.md) says a student with an
       LLM will complete by copying. **That tension is the central design problem of this project**
       and nothing in the 2011 literature addresses it.
-- [ ] Kulik & Fletcher 2016 and Ma et al. 2014 are still secondhand via Alkhatlan & Kalita.
-- [ ] Suraweera & Mitrovic (2002) — the only direct step-vs-answer manipulation in the review.
+- [x] ~~Kulik & Fletcher 2016 is secondhand via Alkhatlan & Kalita.~~ **Read as a primary
+      2026-09-03. The headline changed: the weighted estimate is g = 0.50, not 0.66.**
+- [x] ~~Why do substep systems underperform?~~ **They don't.** Three routes agree (VanLehn's
+      direct contrast d = 0.16 n.s.; Kulik & Fletcher's 0.60 vs 0.63; and the control-group
+      confound that explains VanLehn's 0.40).
+- [ ] **Ma et al. 2014 and both Steenbergen-Hu & Cooper papers are still secondhand.** The
+      **2014 postsecondary** one (35 college evaluations; −0.25 against a human-tutor control) is
+      the highest-value acquisition of the three and we do not currently hold it.
+- [ ] Suraweera & Mitrovic (2002) — the only direct step-vs-answer manipulation in either review.
       Worth acquiring given how much weight we put on that contrast.
+- [ ] ⭐ **Why is mathematics the worst subject for ITSs (0.40 vs 0.72)?** Kulik & Fletcher find
+      it and do not explain it. If it is a property of formal symbolic domains rather than of
+      K-12 algebra classrooms, it applies to us.
+- [ ] **What response latency does our tutor need?** Le et al. put a 1-minute delay at d = 0.01
+      versus 0.31 fixed. That is the only latency datum in this knowledge base and it is 2009.
 
 ## Connects to
 
@@ -532,11 +812,14 @@ component of the 2-sigma result that survived scrutiny.
 - [Socratic tutoring](socratic-tutoring.md) — hypothesis 3, which expert tutors do not use
 - [TutorGym](../evaluation/tutorgym.md) — hypothesis 1's modern restatement
 - [Kestin 2025](../evidence/kestin-2025-rct.md) — the modern result that has to be read against these baselines
+- [Faculty adoption](../practice/faculty-adoption.md) — the −0.23 / +0.96 teacher-framing swing
+- [Tutor CoPilot](../systems/tutor-copilot.md) — the hybrid pattern that Koedinger & Anderson's experienced teacher was already running by hand
 
 ## Sources
 
 - [VanLehn (2011), "The Relative Effectiveness of Human Tutoring, Intelligent Tutoring Systems, and Other Tutoring Systems," *Educational Psychologist* 46(4), 197–221](https://doi.org/10.1080/00461520.2011.611369) `[read — full text, 25 pp., 2026-09-03]` — **the primary.** Local: `course-materials/papers/vanlehn-2011-relative-effectiveness.pdf`
-- [Alkhatlan & Kalita (2018), "Intelligent Tutoring Systems: A Comprehensive Historical Survey with Recent Developments," arXiv:1812.09628](https://arxiv.org/pdf/1812.09628) `[read — full text, 31 pp., 2026-09-01]` — ⚠ now only the source for **Ma et al. 2014** and **Steenbergen-Hu & Cooper 2013**; VanLehn and Kulik & Fletcher are held as primaries
+- [Kulik & Fletcher (2016), "Effectiveness of Intelligent Tutoring Systems: A Meta-Analytic Review," *Review of Educational Research* 86(1), 42–78](https://doi.org/10.3102/0034654315581420) `[read — full text, 37 pp., 2026-09-03]` — **the primary.** Local: `course-materials/papers/kulik-fletcher-2016-its-effectiveness.pdf`
+- [Alkhatlan & Kalita (2018), "Intelligent Tutoring Systems: A Comprehensive Historical Survey with Recent Developments," arXiv:1812.09628](https://arxiv.org/pdf/1812.09628) `[read — full text, 31 pp., 2026-09-01]` — ⚠ now only the source for **Ma et al. 2014** and **Steenbergen-Hu & Cooper**; both headline meta-analyses are held as primaries
+- Ma, Adesope, Nesbit & Liu (2014), "Intelligent tutoring systems and learning outcomes: A meta-analysis," *Journal of Educational Psychology* 106(4), 901–918. `[found]` — 107 effect sizes, 73 reports
+- Steenbergen-Hu & Cooper (2014), "A meta-analysis of the effectiveness of intelligent tutoring systems on college students' academic learning," *Journal of Educational Psychology* 106(2), 331–347. `[found]` — ⭐ **35 postsecondary evaluations; the closest meta-analysis to our setting and we do not hold it**
 - [Bloom (1984), "The 2 Sigma Problem," *Educational Researcher* 13(6), 4–16](https://doi.org/10.3102/0013189X013006004) `[found]` — dissected here via Anania (1981) and Burke (1983)
-</content>
-</invoke>
