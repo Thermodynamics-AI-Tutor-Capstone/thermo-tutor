@@ -26,6 +26,40 @@ Working target: **~80–120 knowledge components**, each one something an instru
 recognize as a distinct thing a student can independently get or not get, and each one
 observable in at least a handful of problems per semester.
 
+## ⭐⭐ Next action on this file: tag every component on KLI's four axes
+
+**This draft currently has no theoretical grounding, and
+[the framework that should supply it](../../knowledge/concepts/kli-framework.md) is now read in
+full.** Koedinger, Corbett & Perfetti define a knowledge component as a `condition → response`
+pair and classify it on four axes. **Adding four columns to the lists below is an afternoon of
+work, needs no data, and converts this list into a decision table the tutor can act on:**
+
+| Column | Values | What it decides |
+|---|---|---|
+| `conditions` | constant / variable | variable conditions must be **induced**, and mis-induction *is* the misconception |
+| `response` | constant / variable | |
+| `verbal` | yes / no | ⚠ **doing and explaining are different components.** A student can find the right angle and not say why |
+| ⭐ `rationale` | **reason / convention** | **Socratic dialogue and self-explanation are only worth spending time on where there is a rationale.** `T_sat` at 2 MPa is a convention; the second law is not |
+
+**Then the tutor's policy reads off KLI's Table 4:**
+
+- **Constant-constant** (property-table lookups, unit conversions, definitions) → **spacing,
+  retrieval practice, timely feedback. No dialogue — there is nothing to explain.**
+- **Variable-condition rules** (`model-selection`, `assumption-identification`) → **feature
+  focusing and worked examples.** Explanation is *less* efficient here than induction.
+- **Principles with rationales** (the laws, and when they apply) → **self-explanation and
+  argumentation**, and prompt for the **justification** ("what principle licenses this step?")
+  rather than metacognitively.
+
+⭐ **Two empirical checks on the grain**, once there is any data:
+**word-count each component's `if…then…` description** (6–9 words ≈ fact, 10–12 ≈ rule, 12–21 ≈
+schema), and **compare median correct-execution latency** (3–6 s / 6–10 s / 10–14 s by type).
+Components designed as peers whose latencies sit two tiers apart are wrongly grouped.
+
+⭐ **And hunt for hidden *integrative* components** — ones invisible in any single task — with
+`P(integrative) = P(hard task) ÷ P(easy task)` on paired problems. The cross-cutting skills below
+are exactly that shape.
+
 Sanity check nobody has run yet: how many graded interactions does one student actually
 produce in a semester? If it's ~300, then 100 KCs means ~3 observations each, which is
 not enough for BKT to say anything. **This calculation may force the grain coarser.**

@@ -105,6 +105,27 @@ If you read nothing else:
    literature addresses it: VanLehn says require completion; Bastani says a student holding an
    LLM will complete by copying.** → [VanLehn 2011](concepts/vanlehn-2011.md)
 
+   ⭐⭐ **And the same group wrote the other half of the argument.** Koedinger and Corbett — two of
+   the four authors of that 1995 paper — set out in **the KLI framework (2012)** what a solution
+   is *made of* and what each part needs, and their central claim is that
+   **instructional principles are properties of *knowledge components*, not of subjects:** *"A
+   hypothetical principle 'drill and practice is not effective for mathematics' is at the wrong
+   level of analysis."* A knowledge component is a `condition → response` pair classified on four
+   axes, and the decisive one is **whether it has a rationale or is a convention.**
+
+   > **Argumentation, Socratic dialogue and self-explanation only produce learning on components
+   > that have a rationale.** *"For an arbitrary association… an explanation structure cannot be
+   > used to generate or re-derive a KC."*
+
+   **You cannot reason a student into a steam-table value, and a tutor instructed to always elicit
+   reasoning will try.** Their mapping is a usable policy: **facts** (property lookups, unit
+   conversions) want **spacing, retrieval practice and timely feedback**; **variable-condition
+   rules** (model selection, assumption identification) want **feature focusing and worked
+   examples**; **principles with rationales** (the laws and when they apply) want
+   **self-explanation and argumentation** — and prompt for the *justification*, which beat
+   metacognitive prompts head-to-head. ⚠ *KLI's tables are hypotheses with partial support, not
+   effect sizes; the authors say so.* → [KLI framework](concepts/kli-framework.md)
+
 4. **The single best result for LLM tutoring is real, well-run, and explicitly does not
    claim our case.** A Harvard crossover RCT (n = 194) found **0.73–1.3 SD** greater learning
    than an excellent active-learning classroom, in **less time** (median 49 min vs. 60), with

@@ -23,7 +23,8 @@ design choice is a design choice.
 
 | Node | The thing to know |
 |---|---|
-| [Knowledge components](knowledge-components.md) | The grain problem, and the observations-per-KC budget |
+| [**KLI framework**](kli-framework.md) `[read]` | ⭐ **Instructional principles are properties of *knowledge components*, not of subjects.** Three taxonomies and the mapping between them — the decision table a tutor needs. Argumentation only works on KCs that have a rationale |
+| [Knowledge components](knowledge-components.md) | The grain problem, the observations-per-KC budget, and **two empirical tests of grain** (description length; execution latency 3–6 s / 6–10 s / 10–14 s by type) |
 | [Knowledge tracing](knowledge-tracing.md) | BKT/DKT/SAKT. Don't use an LLM for this |
 | [Spaced repetition](spaced-repetition.md) | FSRS. The forgetting half. Untested on procedural skills |
 
@@ -38,7 +39,9 @@ design choice is a design choice.
 
 Tutoring effects are real but smaller than advertised, and were largely achieved by
 1990s software that made students externalize every step — because **the active ingredient is
-the student finishing a solution they generated, not the quality of what the tutor says.** Guardrails on an LLM prevent
+the student finishing a solution they generated, not the quality of what the tutor says.**
+**What kind of help that solution needs depends on the kind of knowledge component, not on the
+subject.** Guardrails on an LLM prevent
 active harm and produce no measured gain. Grounding and verification improve outcomes far
 more than model choice or pedagogical fine-tuning. And none of it matters if students stop
 using the thing in week three.
