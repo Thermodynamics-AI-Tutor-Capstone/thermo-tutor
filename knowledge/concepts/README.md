@@ -7,8 +7,8 @@ design choice is a design choice.
 
 | Node | The thing to know |
 |---|---|
-| [Bloom's 2 sigma](blooms-two-sigma.md) | The founding claim, and why it's overstated |
-| [VanLehn 2011](vanlehn-2011.md) | Human tutoring d=0.79; step-based ITS d=0.76. **Interaction granularity beats feedback intelligence** |
+| [Bloom's 2 sigma](blooms-two-sigma.md) | The founding claim, and why it's overstated — **it was the 90% mastery threshold, not the tutor** |
+| [VanLehn 2011](vanlehn-2011.md) | Human d=0.79; step-based ITS d=0.76. **The mechanism is completion: students learn from solutions they finish themselves. Six of the eight explanations for human tutoring are dead** |
 
 ## Pedagogy
 
@@ -37,7 +37,8 @@ design choice is a design choice.
 ## The four-sentence summary
 
 Tutoring effects are real but smaller than advertised, and were largely achieved by
-1990s software that made students externalize every step. Guardrails on an LLM prevent
+1990s software that made students externalize every step — because **the active ingredient is
+the student finishing a solution they generated, not the quality of what the tutor says.** Guardrails on an LLM prevent
 active harm and produce no measured gain. Grounding and verification improve outcomes far
 more than model choice or pedagogical fine-tuning. And none of it matters if students stop
 using the thing in week three.

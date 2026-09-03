@@ -222,7 +222,7 @@ community."
 > with the largest effect size.**"
 
 **Max-over-outcomes.** Read that against
-[the proximal/distal collapse](#the-proximal-distal-collapse) below — a rule that picks the
+the proximal–distal collapse table below — a rule that picks the
 largest of several measures will systematically pick the one closest to the intervention.
 **0.76 and 0.79 are upper bounds, not central estimates.**
 
