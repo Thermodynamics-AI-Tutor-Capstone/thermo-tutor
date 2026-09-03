@@ -1,0 +1,1931 @@
+aiPlato: A Novel AI Tutoring and Stepwise
+Feedback System for Physics Homework
+Atharva Dange1, 2*, Ramon E. Lopez1 , Nimish Shah3 ,
+Louis Deslauriers3,4
+
+arXiv:2601.09965v1 [physics.ed-ph] 15 Jan 2026
+
+1
+
+Physics, University of Texas at Arlington, Arlington, 76019, Texas, USA.
+2
+Physics, Massachusetts Institute of Technology, Cambridge, 02139,
+Massachusetts, USA.
+3
+, aiPlato, San Francisco, 94501, California, USA.
+4
+Physics, Harvard University, Cambridge, 02138, Massachusetts, USA.
+
+*Corresponding author(s). E-mail(s): dange98@mit.edu;
+Contributing authors: relopez@uta.edu; nimish@aiplato.ai;
+louisdeslauriers@fas.harvard.edu;
+Abstract
+This exploratory study examines the classroom deployment of aiPlato, an AIenabled homework platform, in a large introductory physics course at the University of Texas at Arlington. Designed to support open-ended problem solving,
+aiPlato provides stepwise feedback and iterative guidance through tools such as
+Evaluate My Work and AI Tutor Chat, while preserving opportunities for productive struggle. Over four optional extra-credit assignments, the platform captured
+detailed student interaction data, which were analyzed alongside course performance and end-of-semester survey responses. We examine how students engaged
+with different feedback tools, whether engagement patterns were associated with
+performance on the cumulative final exam, and how students perceived the platform’s usability and learning value. Students who engaged more frequently with
+aiPlato tended to achieve higher final exam scores, with a mean difference corresponding to a standardized effect size of approximately 0.81 between highand low-engagement groups after controlling for prior academic performance.
+Usage patterns and survey responses indicate that students primarily relied on
+iterative, formative feedback rather than solution-revealing assistance. As a quasiexperimental pilot study, these findings do not establish causality and may reflect
+self-selection effects. Nonetheless, the results demonstrate the feasibility of integrating AI-mediated, stepwise feedback into authentic physics homework and motivate
+future controlled studies of AI-assisted tutoring systems.
+Keywords: AI in Education, Intelligent Tutoring Systems (ITS), Homework Platfroms,
+Physics Education, LLMs
+
+1 Introduction
+Homework has long served as a cornerstone of STEM education, particularly in
+physics (Bempechat, 2004; Bonham, Beichner, & Deardorff, 2001; Kontur & Terry,
+2013), where it reinforces conceptual understanding and cultivates multi-step problemsolving skills (Bempechat, 2004). Well-designed assignments help students build fluency
+with equations (Vasuki, Celestin, & Kumar, 2016), develop persistence through cognitive struggle, and transfer classroom learning into contextual problems (Dominguez,
+De La Garza, Quezada-Espinoza, & Zavala, 2023). Over the past two decades, digital
+
+1
+
+homework platforms such as WebAssign, WileyPLUS, and Expert TA have transformed
+the logistics of homework delivery by enabling scalable grading, instant feedback, and
+standardized assessments in large-enrollment courses (Basitere & Ivala, 2017; Kuo &
+Burch, 2012).
+However, despite these operational improvements, many online homework systems
+fall short of supporting deep learning. Feedback is typically correctness-based, either
+binary (right or wrong) or limited to generic hints, offering little insight into the student’s
+reasoning process or misconceptions (Buhr, 2020; Gladding, Gutmann, Schroeder, &
+Stelzer, 2015). Students often develop surface-level strategies, such as answer guessing
+or brute-force substitution, while instructors remain in the dark about how students
+are thinking, where they get stuck, or what conceptual gaps persist (Wu, 2020). These
+limitations are especially pronounced for open-ended or symbolic problems common in
+physics, where understanding the ”how” is just as critical as the ”what.”
+In response to these challenges, recent advances in AI-powered tutoring systems offer
+new possibilities for improving feedback, personalization, and formative assessment at
+scale (AlShaikh & Hewahi, 2021; Bhatia, Bhatia, & Sood, 2024; Lin, Huang, & Lu, 2023;
+Rizvi, 2023). This paper examines one such platform, aiPlato (aiPlato, 2025), which
+is designed to provide step-by-step, context-sensitive feedback on free-response physics
+problems. Drawing from a pilot deployment in a large introductory mechanics course at
+the University of Texas at Arlington, we explore how students interact with aiPlato’s
+feedback tools, whether greater engagement translates to improved learning outcomes,
+and how instructors and students perceive its value. The full statistical analyses and
+learning outcome results are presented in section 4, and this paper situates the study
+within the broader context of intelligent tutoring systems, LLM-based tutors, and the
+evolving role of AI in education.
+
+2 Intelligent Tutoring Systems (ITS) in Physics
+Education
+Intelligent Tutoring Systems (ITS) represent a major milestone in the evolution of educational technology, offering real-time, adaptive support that mimics the responsiveness of
+a human tutor (Graesser, Conley, & Olney, 2012; Nwana, 1990; VanLehn et al., 2005). In
+physics education, where conceptual reasoning and multi-step problem-solving are critical, ITS aim to diagnose student misconceptions, guide learners through complex tasks,
+and provide formative feedback during the problem-solving process itself (Albacete &
+VanLehn, 2000; Myneni, Narayanan, Rebello, Rouinfar, & Pumtambekar, 2013).
+Early ITS implementations in mathematics and computer science demonstrated
+strong potential for improving learning outcomes through personalized instruction. Systems like Andes (Schulze et al., 2000), one of the earliest ITS developed for classical
+physics, sought to support students by interpreting symbolic input, checking for logical consistency, and providing stepwise hints without immediately revealing answers
+(Akyuz, 2020). These systems used rule-based approaches grounded in domain-specific
+knowledge, enabling them to guide students through canonical physics problem types.
+However, widespread adoption of ITS in physics has been challenging, in part to the
+inherent complexity of modeling open-ended, algebraically rich reasoning pathways that
+are common in physics problem solving (Feng, Magana, & Kao, 2021). Unlike multiplechoice assessments, physics problems often allow for multiple valid approaches, varied
+intermediate steps, and symbolic answers - all of which present challenges for rigid or
+rule-based systems.
+Despite these challenges, research shows that when properly designed, ITS can
+deliver learning gains comparable to those achieved through one-on-one human tutoring
+(VanLehn, 2011). In particular, ITS that provide timely, specific, and process-oriented
+feedback, and not just correctness judgments, can help students identify misconceptions, persist through confusion, and reflect on their reasoning (Merrill, Reiser, Ranney,
+& Trafton, 1992). These systems embody the principles of formative assessment,
+emphasizing the reasoning behind student errors.
+Recent efforts have extended ITS capabilities by incorporating mastery-based
+progression (Fang, Ren, Hu, & Graesser, 2019) and simulation-driven environments
+(Wieman, Adams, Loeblein, & Perkins, 2010). In these systems, students must demonstrate conceptual understanding before advancing, while being encouraged to plan, test,
+2
+
+and revise their approaches. Studies show that this type of scaffolding improves conceptual retention, especially when combined with feedback that adapts to individual
+learning trajectories (Chang, Tarng, & Shin, 2009).
+Still, most ITS in physics remain limited in scope, constrained by the difficulty of
+encoding every possible reasoning pathway and response structure. As a result, their use
+has largely been confined to structured problems within tightly defined content areas.
+The growing interest in more flexible, AI-powered feedback mechanisms, particularly
+those leveraging natural language processing and data-driven analytics, reflects a desire
+to overcome these limitations.
+
+2.1 LLM-Based Tutors
+Recent advances in large language models (LLMs), including those based on transformer
+architectures like GPT-4, have led to widespread interest in their use as educational
+tools (Jiang & Jiang, 2024; Wang et al., 2024). These models are capable of producing human-like responses in natural language and can be deployed in a wide range of
+contexts, including tutoring in technical subjects such as physics (Razafinirina, Dimbisoa, & Mahatody, 2024; Scarlatos, Liu, Lee, Baraniuk, & Lan, 2025). Instructors and
+developers have been exploring how LLMs might assist students by providing real-time,
+conversational feedback that is scalable and widely accessible.
+One commonly cited benefit of LLM-based tutors is their ability to respond instantly
+to diverse student questions. These systems can adjust their responses based on student
+inputs and offer individualized feedback that is not limited by time or classroom constraints (Thomas et al., 2025). As a result, learners with different levels of background
+knowledge or varying schedules can receive help when they need it, which makes these
+systems attractive in asynchronous or remote learning environments (Hu, Xu, Tong, &
+Graesser, 2025).
+LLM tutors also offer potential advantages in terms of scalability. Unlike human
+instructors or teaching assistants, who are limited by time and availability, these models
+can respond to thousands of queries at once without additional staffing. Instructors may
+also benefit from using LLMs to automate repetitive tasks such as drafting feedback or
+generating quiz content (Dange & Lopez, 2025), saving time that could be redirected
+toward higher-impact instructional design.
+The interactive format of LLM-based tutors is another strength. Through a conversational interface, students can ask questions, revise their understanding, and explore
+alternate solution paths in a low-pressure environment. This type of exploratory
+engagement can increase motivation and foster greater participation in problem-solving
+activities (Aslan et al., 2025).
+However, these strengths are accompanied by notable limitations, particularly in
+subjects like physics that require stepwise reasoning and technical precision, see Fig.
+1. One of the most serious concerns is the tendency of LLMs to produce responses
+that sound correct but contain inaccurate or misleading information. This issue, often
+described as hallucination, arises when the model generates plausible content that is
+not based on verified knowledge (Ho, Ly, & Nguyen, 2024; Huang et al., 2025). In
+physics, where small errors in logic or numerical accuracy can lead to major conceptual
+misunderstandings, this risk is especially problematic (Elsayed, 2024).
+Another common challenge is that LLMs often skip intermediate reasoning steps
+or fail to clearly explain how an answer is derived. Instead of identifying a student’s
+specific error and offering targeted guidance, the model may return a complete solution
+without addressing the underlying confusion (Hahn, Navarro, De La Fuente Valentin,
+& Burgos, 2021). In physics education, where learning is often rooted in building a
+clear understanding of the process rather than just arriving at a final result, this lack
+of structure can make the feedback less useful.
+There are also concerns about the consistency and reliability of feedback. Because
+LLMs are trained on general data rather than structured domain-specific knowledge
+(Yang et al., 2023), the quality of responses can vary widely. Instructors and students
+may encounter responses that overlook key ideas, contain ambiguous reasoning, or offer
+suggestions that are difficult to apply to the original problem (Debuse & Lawley, 2016).
+Students may also come to rely on LLMs for quick answers rather than using them
+to guide their thinking. If the model provides full solutions too easily, students might
+
+3
+
+bypass productive struggle and develop superficial understanding (Zhai, Wibowo, &
+Li, 2024). In some cases, they may even accept incorrect answers without checking,
+especially if the explanation appears fluent and confident (Graham & Milan, 2025).
+
+Fig. 1: Performance comparison of GPT-3.5 and GPT-4 (with and without vision)
+across standardized exams. Notably, GPT-4 scored in the 43rd percentile on AP Calculus
+BC (column 1) and the 66th percentile on AP Physics 2 (column 10) (OpenAI et al.,
+2024)
+Training biases are additional concerns: because LLMs reflect the data they were
+trained on, they may unintentionally reinforce language patterns or content that disadvantage themselves (and their users). For instance, popular image generation repeated
+failures to generate wine glasses filled to the brim (Muratgul, 2025), or clock faces overwhelmingly display the time as 10:10 (a common marketing pose in commercial imagery
+(Karim, Lützenkirchen, Khedr, & Khalil, 2017)) rather than representing a diverse range
+of times. These examples illustrate how AI models internalize and reproduce the most
+frequently encountered patterns from their datasets, regardless of whether those patterns
+reflect the full diversity of real-world contexts. Another example, students who are not
+native English speakers or who come from different cultural or academic backgrounds
+may find the feedback less intuitive or useful (Isomidin o’g’li et al., 2025).
+More recent research has also raised questions about how these models behave when
+fine-tuned on educational data. In some cases, LLMs that are exposed to incorrect
+student reasoning during training may begin to mimic those patterns, reducing their
+reliability as instructional tools (Sonkar, Liu, & Baraniuk, 2024). While technical strategies such as prompt engineering or Application programming interface (API) integration
+(Auger & Saroyan, 2024) may help address some of these problems, they are often
+difficult to implement in real classroom settings without technical expertise.
+Given these limitations, LLM-based tutoring must be approached carefully. The flexibility and accessibility of these systems offer real value, but their effectiveness depends
+on how well they support structured reasoning, identify misconceptions, and offer reliable feedback in real time. These limitations have motivated the development of new
+approaches that aim to retain the strengths of conversational AI while addressing its
+
+4
+
+weaknesses in precision and pedagogy. While LLM-based tutors offer valuable benefits
+in terms of personalization, accessibility, and engagement, their current limitations in
+accuracy, reasoning, and feedback consistency present significant challenges in domains
+that demand precision and structure. Understanding these limitations, while preserving the strengths of conversational AI, opens the door to designing new tools that can
+support authentic learning in physics. Such tools must not only guide students through
+complex reasoning tasks but also provide instructors with reliable, easy-to-use systems
+that align with course goals and instructional workflows.
+
+2.2 Need for a Novel AI Platform for Physics Learning
+In response to the limitations of both traditional ITS and LLM-based tutors, a new
+category of systems has begun to emerge, what the authors like to call: Artificial Intelligent Tutoring Systems (AITS). These platforms combine the structured scaffolding
+of ITS with the adaptability, personalization, and real-time feedback enabled by artificial intelligence (Akintola et al., 2025). AITS are designed to support domain-specific
+reasoning, guide students through multi-step problem solving, and provide instructors
+with meaningful learning analytics (Tan, Hu, Yeo, & Cheong, 2025). Unlike correctness
+focused platforms, AITS are centered on conceptual understanding. Rather than simply
+confirming whether an answer is right or wrong, they strive to highlight misconceptions,
+acknowledge partial progress, and offer guidance tailored to the student’s approach.
+This shift from answer validation to process-oriented support is critical for promoting
+deeper, more durable learning. AITS also provide feedback during the actual process of
+problem solving, helping students reflect and revise in real time (Vermunt, 1995).
+A distinguishing feature of AITS is their focus on productive struggle (Murdoch,
+English, Hintz, & Tyson, 2020). These systems are designed to help students engage
+with challenging problems while receiving feedback that addresses the root causes of
+their mistakes (Granberg, 2016). Compared to general-purpose LLM tutors, AITS offer
+more accurate, structured, and context-sensitive feedback that aligns with instructional
+goals. They are grounded in expert verified knowledge and built to interpret symbolic
+and multi-step reasoning in ways that probabilistic text generation cannot consistently
+replicate.
+This paper presents a pilot study of one such AITS: aiPlato, developed for physics
+education. Deployed in an introductory mechanics course at the University of Texas
+at Arlington, aiPlato was used for four extra credit assignments involving open-ended
+problems, primarily derived from OpenStax (Stafford & Flatley, 2018). This study
+investigates how students interacted with aiPlato, whether that engagement supported
+learning, and how students perceived the system. This study was guided by three central
+research questions:
+1. How do students engage with aiPlato’s feedback tools, and what kinds of insights
+do their interactions provide to instructors about student thinking and learning
+progress?
+2. Is there a measurable relationship between student engagement with aiPlato and
+their performance on the cumulative final exam?
+3. What are students’ perceptions of aiPlato’s usefulness, usability, and learning value,
+based on end-of-semester survey responses and qualitative feedback?
+
+3 aiPlato: A Walkthrough
+This section provides an illustrative walkthrough of how a student interacts with the
+aiPlato platform while solving a representative physics problem. Rather than generalizing about the platform’s capabilities in abstract terms, we focus on a single example
+drawn from the aiPlato problem corpus to describe how various features are designed to
+support student reasoning. The goal is to familiarize the reader with the problem-solving
+workflow and tools available within the interface, as they are typically encountered
+during assignment use.
+The following Fig. 2 shows the general layout of the aiPlato interface as experienced
+by students during problem-solving sessions. This workspace integrates the problem
+statement, input area, equation tracking panel, and optional feedback tools into a single
+
+5
+
+screen. Students interact with this interface while constructing their responses, requesting support, or submitting final answers. In the example used here, students were asked
+to derive an expression for the gravitational force acting on a mass at a distance r¡R
+from the center of the planet.
+Next, as Fig. 3 shows, students began their solution using either typed, handwritten input, or a combination of the two in the Workspace Grid. The system parsed
+the scanned content and extracted line-by-line equations into the right-hand Equation
+Board. After Evaluate My Work, the student received targeted feedback identifying a
+conceptual error in Line 3 and 4, where surface area was mistakenly used instead of volume. The system provided not only corrective comments but also context-specific hints
+to guide revision without revealing the final answer. In addition to qualitative feedback,
+the platform automatically assigned partial credit to each step based on the logic and
+completeness of the derivation. Other research’s efforts on awarding partial credit via a
+mobile app (Hsiao, 2016) or via Microsoft Excel (Carberry, Lukeman, & Covell, 2019)
+can be convoluted, come with a learning curve or impossible for open-ended questions.
+This form of grading allowed students to receive credit not just for final answers, but
+also for intermediate reasoning, including steps that may not have been explicitly shown
+but were inferable based on the context. The total score reflected both the explicit input
+and the system’s interpretation of the student’s conceptual progression.
+
+Fig. 2: General layout of the aiPlato platform as seen by students during assignments.
+1. Problem Statement Area: Displays the physics problem, expected final answer format,
+variable definitions, and supporting diagram.
+2. Workpace Grid: Allows students to handwrite or type equations and sketches using a
+stylus, touchscreen, or mouse.
+3. Equation Board: Records submitted steps line-by-line, supports editing and evaluation
+via Evaluate My Work button.
+4. Support Tool Sidebar: Contains optional features including Hints, Show Next Step, Show
+Full Solution, AI Tutor Chat, and Ask Human Tutor. Instructors have the ability to define
+grading penalties depending on which support tools are used. In this study, accessing the
+full solution awarded only 10% credit for participation, while all other features triggered a
+uniform 25% deduction, though these settings are fully customizable per assignment.
+
+When students required further clarification, they could initiate a conversation with
+the built-in AI Tutor Chat. Fig. 4 shows an interaction in which a student asked why
+the gravitational force formula should use the enclosed spherical mass at radius r rather
+than the full mass of the planet R. The AI assistant responded with a conceptual
+explanation referencing Newton’s shell theorem, helping the student understand the
+underlying principle rather than just correcting the equation. This tool allowed for
+asynchronous exploration of reasoning, although students were encouraged to verify AI
+responses with instructors if needed.
+Research shows that almost 83% of students use email for assignment clarification
+(Weiss & Hanson-Baldauf, 2008). Many students can become frustrated when professors
+take too long to respond to their emails, while professors, in turn, may feel overwhelmed
+by the sheer volume of student queries flooding their inbox (Tatum, 2021). From the
+author’s own experience, tools like Evaluate My Work and AI Tutor Chat led to a
+noticeable reduction in the number of student emails related to homework. In prior
+
+6
+
+Fig. 3: Handwritten input with real-time feedback and partial credit per line
+Although handwriting input was available, the majority of the students like to type (Chwat,
+n.d.; Mogey, Cowan, Paterson, & Purcell, 2012): preferred the equation keyboard for speed
+and reliability. Handwriting recognition issues were common due to doodles, scribbles, and/or
+cross-outs. See Section 4.3 for further discussion on student perceptions of aiPlato.
+
+semesters, the author often received frequent messages asking for clarification on individual steps, problem setup, or whether a particular approach was valid. With aiPlato,
+many of these routine questions were addressed directly within the platform. Students
+were able to receive immediate feedback, revise their work, and ask conceptual questions
+without waiting for an instructor response. Because these tools were integrated into the
+assignment workspace, the support felt seamless, and in many cases, more accurate and
+context-sensitive than external platforms like ChatGPT .
+
+Fig. 4: aiPlato AI Tutor Chat explaining conceptual reasoning behind an error
+
+7
+
+3.1 Student Engagement and Usage Patterns
+Of the 114 students enrolled in the course, 87 students voluntarily signed the Institutional Review Board (IRB) approved informed consent form, agreeing to have their
+anonymized interaction data with aiPlato analyzed for research and publication purposes. It is important to note that no students in the class were excluded from using
+the aiPlato platform or from accessing the extra credit assignments. All students had
+equal opportunity to benefit from the system’s AI-based feedback and problem-solving
+tools; only the data from consenting students were used in the following analyses.
+This section presents descriptive patterns in student engagement and tool usage
+drawn from these 87 students. The instructor had the ability to generate and access
+detailed usage logs and learning analytics at both the assignment and problem level.
+Fig. 5 shows the number of students attempting each problem within the Extra Credit
+4 assignment. While 61 students attempted the first problem, participation gradually
+decreased across the assignment, with only 46 students attempting the final problem.
+This trend is consistent with typical patterns of student fatigue or disengagement over
+assignments. The problem of student attrition is well known (Botelho, Varatharaj, Inwegen, & Heffernan, 2019) and such assignment-level analytics, automatically provided
+by aiPlato, allow instructors to identify potential drop-off points and adjust problem
+sequencing or pacing in future iterations.
+
+Fig. 5: Number of students attempting each problem in the Extra Credit 4 assignment
+Fig. 6 displays how students interacted with different AI guidance tools in the first
+problem of the Extra Credit 4 assignment. All 61 students used the Evaluate My Work
+feature, with a total of 152 uses, indicating that most students engaged in multiple
+rounds of revision and self-correction. In contrast, more directive tools like Next Step
+were used by only 9 students, though multiple times (33 total). Tools like AI Tutor Chat
+and Hint were rarely used.
+These usage patterns support the idea that students engaged in productive struggle. Although this suggests meaningful engagement with the learning process, further
+research is needed to understand why students prefer certain modes of assistance over
+others in online homework systems and AITS platforms. Investigating the underlying
+student decision making processes, including what prompts a student to use Evaluate
+My Work versus more solution revealing tools like Next Step or AI Tutor Chat (despite
+similar penalty), remains an open question. A future study involving student interviews
+and analysis of think aloud protocols while students interacting with the platform would
+offer valuable insight into students’ cognitive strategies and motivations.
+Beyond problem/assignment level statistics, the platform also provides proficiency
+maps that allow instructors to track student learning across chapters and concepts, both
+at the individual and class level. At the individual level, the Student Proficiency Map
+aggregates a student’s performance across all instructional modules and assignments,
+enabling instructors to identify personal strengths and weaknesses. At the class level, the
+Course Proficiency Map displays aggregated mastery by topic across the class, helping
+8
+
+Fig. 6: Frequency of student interaction with AI feedback tools in problem 1 of Extra
+Credit 4
+instructors evaluate which instructional sections may need reinforcement. These visualizations can serve as diagnostic tools to understand whether instructional materials,
+homework, or in-class interventions are effectively promoting conceptual understanding
+and skill development.
+Fig. 7 illustrates the Course Proficiency Map for the PHYS 1443 Mechanics course
+at the University of Texas at Arlington, Spring 2025, with each node representing a
+chapter or instructional section. The blue ring indicates the average completion rate
+and the red ring shows the average proficiency attained by students. The blue outer
+ring represents the percentage of students who completed problems related to a specific
+topic, while the red inner ring represents the percentage of students who demonstrated
+proficiency in that topic. A node with a full blue ring but little or no red ring indicates
+that most students attempted the problems, but few solved them correctly, highlighting
+a potential conceptual gap. Conversely, a visible red ring without a significant blue ring
+suggests that although no problems were directly assigned under that topic, students
+demonstrated mastery of its underlying concepts in other contexts. aiPlato captures
+the inherent interconnectedness of physics, allowing proficiency in a given concept to be
+inferred through successful application in related topics, even when no questions were
+explicitly assigned under that node.
+
+4 Spring 2025
+This section presents the core results from the classroom-based deployment of aiPlato
+during the Spring 2025 semester of PHYS 1443: Technical Physics I at the University of
+Texas at Arlington. This was a large-enrollment, calculus-based mechanics course taught
+entirely on campus with two 80-minute lectures per week. Students attended in-person
+classes and completed weekly assignments using the traditional ExpertTA platform.
+In addition to the required homework, students were offered four optional extra-credit
+assignments on aiPlato (see Section 3).
+The goal of this section is to examine whether patterns of student engagement with
+aiPlato were associated with academic performance, particularly on the cumulative final
+exam, which constituted 20% of the course grade. Unlike standard ExpertTA homework,
+aiPlato allowed students to receive real-time feedback on open-ended problems, revise
+their work multiple times, and interact with the tools and features described in Section
+3. All students enrolled in the course had access to aiPlato; however, participation in
+the research component of the study was voluntary and conducted under IRB approval.
+Because engagement with aiPlato was not randomly assigned, the analyses presented
+in this section are associational in nature and do not support causal inference. To contextualize observed patterns, we triangulate evidence from multiple sources, including
+cumulative final exam scores, measures of prior academic performance collected before
+the introduction of aiPlato, end-of-semester course grades excluding extra-credit contributions, and qualitative survey responses. The first subsection examines the relationship
+
+9
+
+Fig. 7: Course-level proficiency map for PHYS 1443 (Spring 2025) at UT Arlington
+The node for 8.3 Conservation of Momentum (emphasized by the yellow arrow) displays both
+a red and blue ring, whereas Chapter 2: Kinematics shows only a blue ring, suggesting
+completion without demonstrated proficiency. Other nodes, like 13.6 Humidity, Evaporation
+and Boiling, with no rings, were not covered or assessed within aiPlato.
+
+between aiPlato engagement and final exam performance, the second analyzes associations between engagement and final letter grade outcomes, and the third explores
+student perceptions of aiPlato based on end-of-semester survey data (see Appendix A,
+B, and C for statistical assumption tests, Appendix D for the survey instrument, and
+Appendix E for the full dataset).
+
+4.1 Effect of aiPlato on Final Exam Scores
+To evaluate whether engagement with aiPlato influenced final exam performance, we
+first analyzed scores across three levels of platform usage: low, medium, and high
+engagement. The final exam, worth 20% of the course grade, and a mixture of multiple
+choice and free response, was administered in person on May 05, 2025, and assessed all
+major topics covered throughout the semester, including mechanics, energy, fluids, and
+thermodynamics.
+Engagement was defined as the combination of a student submitting at least one
+problem in any of the four aiPlato extra credit assignments (i.e., an “attempt”) and
+their overall usage of the platform’s feedback features (e.g., Evaluate My Work, AI Tutor
+Chat, etc.). A student’s average attempt percentage (calculated across all four aiPlato
+assignments) served as the primary metric for binning:
+
+• Low engagement: Less than 30% average attempt rate
+• Medium engagement: Between 30% and 70% average attempt rate
+• High engagement: Greater than 70% average attempt rate
+Engagement is associated with many student benefits: academic success, positive
+development and low drop out rates (Fall & Roberts, 2012; Fredricks, Blumenfeld, &
+Paris, 2004). While engagement can be measured across multiple tiers (Altuwairqi, Jarraya, Allinjawi, & Hammami, 2021), we categorized students into three categories of low,
+medium, and high engagement, to balance interpretability with sensitivity to meaningful behavioral differences, while avoiding over-fragmentation given the available sample
+size. To test the null hypothesis, a one-way Analysis of Variance (ANOVA) was conducted with final exam score as the dependent variable and engagement group (low,
+10
+
+medium, high) as the independent factor. The results of the one-way ANOVA and post
+hoc Tukey Honesty Significant Difference (HSD) tests, which compare all possible pairs
+of group means, are shown in Table 1. The ANOVA yielded a statistically significant
+result (p < 0.05), indicating that at least one engagement group differed in mean final
+exam score. Post hoc analysis revealed a statistically significant difference between the
+low- and high-engagement groups, indicating that higher levels of engagement with
+aiPlato were associated with higher final exam performance.
+While the ANOVA results indicate group-level differences, they do not account for
+prior academic performance. For example, students with higher engagement may have
+entered the course with stronger preparation or study habits, making it unclear whether
+observed differences can be attributed to engagement with aiPlato alone. To address
+this, we conducted an Analysis of Covariance (ANCOVA) to adjust for measures of prior
+performance that strictly preceded the introduction of aiPlato. The following covariates
+were included:
+
+• Exam 1 score (administered before introduction of aiPlato to the class)
+• Pre-aiPlato homework average (homework assignment 0 to 4)
+• Pre-aiPlato quiz average (Quiz 1 and 2)
+
+Table 1: One Way ANOVA and post hoc Tukey HSD Analysis for 87 students: 39
+low, 32 med and 16 high engagement level with aiPlato
+Null Hypothesis H0 : There is no significant difference in mean final exam scores among students
+with low, medium, and high engagement with aiPlato.
+One Way ANOVA
+Source
+Sum of Squares SS
+Treatment
+2,191.39
+Error
+23,368.27
+Total
+25,559.66
+
+Degrees of Freedom f
+2
+84
+86
+
+Mean Square MS
+1,095.70
+278.19
+
+F statistic
+3.94
+
+p-value
+0.0232
+
+Tukey HSD
+Pairwise Comparison
+Low vs Med
+Low vs High
+Med vs High
+
+Q statistic
+
+p-value
+
+Significance
+
+1.16
+3.96
+2.93
+
+0.67
+0.017
+0.1
+
+p > 0.05, Not Significant
+p < 0.05, Significant
+p > 0.05, Not Significant
+
+The ANCOVA results are summarized in Table 2. After adjusting for prior academic performance, engagement level remained a statistically significant predictor of
+final exam scores. Among the covariates, Exam 1 score emerged as a strong predictor of
+end-of-semester performance, consistent with established findings in physics education
+research (Jensen & Barron, 2014; Meghji et al., 2023; Pittman, Titus, & Williams, 2021).
+In contrast, pre-aiPlato homework and quiz averages were not statistically significant
+predictors.
+The limited predictive power of these early coursework measures may reflect their
+restricted scope and timing. Only a small number of assignments (Homework 0–4 and
+Quizzes 1–2) were completed prior to the introduction of aiPlato, and these covered
+a relatively narrow portion of the semester’s content. Additionally, relatively few final
+exam questions were drawn directly from these early topics, further reducing their ability
+to explain variation in final exam scores.
+Taken together, these results indicate that higher levels of engagement with aiPlato
+were associated with higher final exam performance, even after adjusting for measured
+prior academic performance. However, because engagement was not randomly assigned,
+these findings should be interpreted as associational rather than causal. More controlled
+studies, such as parallel-section or randomized designs, planned as part of the authors’
+future work.
+The mean exam scores for each group were:
+
+• Low engagement: 71.53 (n = 39)
+• Medium engagement: 74.80 (n = 32)
+11
+
+Table 2: ANCOVA for 87 students to account for prior ability
+Source
+aiPlato
+Engagement Level
+Exam 1 Score
+Pre-aiPlato
+Homework Avg
+Pre-aiPlato Quiz
+Avg
+Error
+
+Sum Sq.
+SS
+
+Df
+f
+
+Mean Sq.
+MS
+
+F
+
+p
+
+Significance
+
+1987.96
+
+2
+
+993.98
+
+4.66
+
+0.012
+
+Significant
+
+5591.14
+0.53
+
+1
+1
+
+5591.14
+0.53
+
+26.2
+0
+
+<0.001
+0.96
+
+Significant
+Not Significant
+
+24.29
+
+1
+
+24.29
+
+0.11
+
+0.737
+
+Not Significant
+
+17283.06
+
+81
+
+213.37
+
+• High engagement: 85.39 (n = 16)
+
+Fig. 8: Box plot showing final exam scores across aiPlato engagement levels. Mean and
+median showcased by dotted and solid lines respectively
+Figure 8 illustrates the distribution of final exam scores across engagement levels.
+Students in the high-engagement group scored, on average, 13.86 percentage points
+higher than students in the low-engagement group, after adjusting for prior performance by using covariates that strictly precede the aiPlato rollout (Quizzes 1–2 and
+Homework 0–4 and Exam 1). This difference was observed following four optional
+aiPlato assignments and should be interpreted as encouraging in the context of a limited
+intervention.
+To explore how observed differences might scale under broader use, we included a
+hypothetical extrapolation of exam score differences over a full-semester deployment of
+10 aiPlato assignments using a logistic growth model that reflects diminishing marginal
+returns (Bettinger et al., 2023; Shi, 2024). The observed difference of 13.86 percentage points corresponds to an effect size (Cohen’s d) of approximately 0.81 standard
+deviations over four assignments (see Appendix B for full details).
+These benchmark curves, shown in Fig. 9, are intended as illustrative projections
+rather than empirical outcomes. A linear extrapolation from four assignments would
+imply an unrealistically large gain by assignment ten; the logistic model provides a
+more conservative scenario by explicitly incorporating saturation effects. As such, these
+projections are presented to contextualize the magnitude of the observed associations
+and to motivate future controlled studies, rather than to predict instructional impact.
+Our conclusions remain educationally cautious and comparison studies with a control
+class over a full semester of aiPlato are within the scope of future work.
+
+4.2 Final Grade Categorical Analysis
+This section examines whether student engagement with aiPlato was associated with
+differences in overall course letter grades, excluding extra credit awarded for aiPlato
+participation. The goal of this analysis is to characterize the relationship between
+12
+
+Fig. 9: Learning gains extrapolated under a logistic model for aiPlato compared to
+benchmark interventions. Shaded regions reflect typical variability in learning effects
+across different instructional contexts
+1. 0.6 SD – 0.7 SD: Typical of robust interventions like collaborative learning, or deliberate
+practice (Alacapınar & Uysal, n.d.; Kagan, 2014).
+2. 0.7 SD – 0.8 SD: Associated with one-on-one tutoring and intensive formative feedback:
+Deliberate practice, classroom discussion, scaffolding, etc. (Hattie, 2011)
+3. 0.8 SD – 1.0 SD: Effect sizes in these ranges typically reflect an upper bound that is seldom
+exceeded except under highly optimized instructional contexts - such as peer instruction or
+peer-mediated interventions (Bowman-Perrott et al., 2013; Haas, Vannest, Fuller, & Ganz,
+2022; Öz, 2024).
+
+engagement and overall academic outcomes, while accounting for statistical and
+sample-size constraints.
+Students were grouped into low, medium, and high engagement categories based
+on their average attempt rate across aiPlato assignments. Final grades were binned as
+follows: High Grade (A or B) and Low Grade (C or D). Table 3 summarizes the grade
+distribution:
+
+Table 3: Distribution of Final Course Grades (removing effect of extra credit) by aiPlato
+Engagement Level.
+Engagement Level
+
+High
+Grade (A/B)
+
+Low
+Grade (C/D)
+
+Total
+
+% High Grade
+
+Low
+Medium
+High
+
+24
+25
+15
+
+15
+7
+1
+
+39
+32
+16
+
+61.5%
+78.1%
+93.8%
+
+To mitigate sparsity of data, letter grades had to be binned into a binary outcome:
+high performance (A or B) versus lower performance (C or D). This was necessary due
+to the small number of students in certain categories, particularly the high engagement
+group, where full A to D granularity resulted in high variance and low expected cell
+counts, complicating the statistical testing.
+As engagement with aiPlato increased, the proportion of students earning A or B
+grades rose while the occurrence of C and D grades declined. Notably, none of the high
+engagement students received a D, and only one received a C (see Fig. 10).
+To formally test the association between engagement level and grade outcome, a
+Fisher’s Exact Test (Freeman–Halton extension for 2×3 tables) was conducted. This test
+was chosen over the chi-square test due to the small cell counts in the high engagement
+group, which would have failed the chi-square assumptions.
+The Fisher’s Exact Test yielded an exact two-tailed p-value of 0.036, indicating a
+statistically significant association between aiPlato engagement level and the final grade
+13
+
+Fig. 10: 100% stacked bar chart showing final course grade distribution (excluding
+aiPlato extra credit) across engagement levels
+category. Students with higher engagement were significantly more likely to receive A
+or B grades compared to those with lower engagement.
+To further examine this relationship while adjusting for prior academic performance,
+we conducted a binary logistic regression predicting the likelihood of earning a high
+grade (A or B, coded as 1) versus a low grade (C or D, coded as 0). Predictors included
+aiPlato engagement level (categorical: low, medium, high) as well as Exam 1 score, preaiPlato quiz average (Quizzes 1–2), and pre-aiPlato homework average (Homework 0–4),
+consistent with Section 4.1.
+The model correctly classified 82.76% of students, with a McFadden’s pseudo-R2
+of 0.28, indicating a reasonable model fit for exploratory analysis (Hemmert, Schons,
+Wieseke, & Schimmelpfennig, 2018). Students in the high-engagement group exhibited
+a large odds ratio for earning a high grade relative to the low-engagement group; however, this estimate was accompanied by wide confidence intervals and did not reach
+statistical significance (p = 0.101). The lack of statistical significance is likely driven by
+limited sample size in the high-engagement group, which reduces estimation precision
+and statistical power.
+
+Table 4: Binary Logistic Regression Key Results
+Predictor
+Constant
+Engagement
+(medium)
+Engagement (high)
+Exam 1 score
+Pre-aiPlato HW avg
+Pre-aiPlato Quiz avg
+
+B
+
+SE
+
+z
+
+p
+
+Odds
+Ratio
+
+95% CI
+
+-18.55
+0.87
+
+6.32
+0.62
+
+2.94
+1.42
+
+.003
+.156
+
+0
+2.40
+
+0–0
+0.72 – 8.03
+
+4.12
+0.01
+0.16
+0.04
+
+2.51
+0.02
+0.06
+0.01
+
+1.64
+0.39
+2.47
+2.66
+
+.101
+.694
+.013
+.008
+
+61.82
+1.01
+1.17
+1.04
+
+0.45 – 8494.59
+0.98 – 1.04
+1.03 – 1.33
+1.01 – 1.06
+
+Interestingly, two prior performance measures, pre-aiPlato homework average (p =
+0.013) and quiz average (p = 0.008), emerged as statistically significant predictors of
+final grade category in the logistic regression analysis. This stands in contrast to the
+earlier findings in Section 4.2, where Exam 1 score was the strongest predictor of final
+exam performance. At first glance, this shift may seem contradictory, but it reflects the
+deeper logic of the course design: the final exam drew heavily from previous exams’
+content, making early test performance a good indicator of success on that specific
+assessment. However, when it comes to the overall course grade, what truly matters
+is consistent effort across time (Rieger et al., 2022). Homework and quizzes not only
+14
+
+formed a larger share of the grade but also rewarded weekly persistence over isolated
+bursts of performance. So, while doing well on exams may boost your final test score,
+what ultimately secures an A or B in the class was doing the homework and quizzes.
+This pattern reinforces a core truth in STEM education: long-term engagement, not
+one-off performance, is what drives lasting success (Bekkering & Ward, 2021; Saqr,
+López-Pernas, Helske, & Hrastinski, 2023).
+While the logistic regression model demonstrated strong overall accuracy and a substantial odds ratio for high aiPlato engagement, its associated p-value narrowly missed
+conventional significance thresholds. This suggests that although the observed effect
+may be meaningful, the current sample size, particularly within the high engagement
+group, limits our ability to draw firm conclusions. Future studies with larger and more
+balanced samples are needed to rigorously test the statistical significance of aiPlato
+engagement when controlling covariate data.
+As such, the authors exercise cautious optimism and refrain from making definitive
+claims about aiPlato’s predictive power for overall course grades. For now, we rely on the
+statistically significant association observed through Fisher’s Exact Test, which affirms a
+strong relationship between aiPlato engagement level and students’ final grade category,
+without inferring causality. This relationship merits further investigation in future work.
+
+4.3 Qualitative Analysis
+To complement the quantitative results presented in Sections 4.1 and 4.2, this section
+explores students’ perceptions of the aiPlato platform through both Likert-scale survey
+responses and open-ended feedback. The goal was to understand how students experienced the platform’s features, how they felt it supported their learning, and whether
+these subjective experiences aligned with observed performance gains (see appendix D
+for the full survey).
+Post-semester survey responses were collected (n = 87) and the survey included ten
+Likert-style statements addressing different aspects of the aiPlato experience - from
+feedback quality to usability and learning impact. Students responded on a five-point
+scale ranging from Completely Disagree to Completely Agree. The results are visualized
+in Fig. 11 to highlight both positive and negative sentiment across each question.
+
+Fig. 11: Diverging stacked bar chart showing student agreement levels with various
+aspects of the aiPlato platform, based on end-of-semester survey responses
+Overall, the responses revealed a distinctly positive reception of aiPlato. To further
+quantify student sentiment, we used the popular Top 2 Box Percentage method. Using
+this scale, we calculated a composite sentiment score for each survey item, offering a fair
+and interpretable ranking of features students found most valuable (see appendix D for
+the full ranked survey item list). This approach not only preserves the directionality of
+agreement but also emphasizes the intensity of opinion.
+The most agreeable sentiment was:
+
+• Question 1: I frequently used the Evaluate My Work feature to get step-by step
+feedback.
+15
+
+In contrast, the most disagreeable sentiments was:
+
+• Question 2: The AI Tutor Chat feature was helpful when I was stuck.
+To the interest of the authors, Question 6 (Compared to other platforms (e.g.,
+ExpertTA), aiPlato helped make problems more approachable and engaging) and Question 10 (I would recommend the use of aiPlato for future physics assignments and
+classes) emerged as the third and fourth most positively rated items, respectively. These
+results provide evidence that students not only perceived aiPlato as more accessible
+than existing platforms but also expressed a clear desire for its continued use, allowing its potential as a promising instructional tool at large universities and educational
+institutes. Such feedback directly informs future decisions regarding homework system
+adoption and supports the authors’ ongoing efforts to improve pedagogical practices
+through evidence based pilot studies.
+The survey also included two open-ended questions inviting students to share what
+they liked or disliked about aiPlato and suggest areas for improvement. Many students
+emphasized how aiPlato’s unique features made complex problems more manageable
+and improved their understanding:
+
+• Step-by-step feedback: Helped students correct mistakes in real time and understand
+where their reasoning went wrong
+• Multiple feedback options: Tools like AI Tutor Chat, Hints, and Full Solution gave
+students flexibility in how they wanted help
+• Reduced instructor reliance: Several students said they emailed the professor far less
+thanks to the built-in support tools.
+• Easier problem comprehension: Students found aiPlato more intuitive and supportive
+than traditional homework platforms, especially for multi-step derivations.
+• Representative quotes:
+– “It provided good feedbacks [sic] on incorrect answers and also gave hints for the
+problems.”
+– “It evaluated my work and allowed me to keep working on the problem until I got
+it correct, unlike ExpertTA, which just marked the question wrong and sent me to
+continue.”
+– “It was easy to use and gave feedback based on our work. The Evaluate my work
+button was helpful ”
+Among the negatives, several usability and user interface concerns surfaced in the
+open responses:
+
+• Handwriting input problems: Many students struggled with equation recognition and
+uploads, preferring keyboard entry only.
+• Slow/clunky interface: Described as slow, laggy or over-engineered, particularly on
+longer assignments or lower-end devices.
+• Unreliable AI responses: Some students reported that AI feedback was incorrect,
+vague, or misunderstood the context of their question.
+• Representative quotes:
+– “I personally was not a fan of the AI tutor. I found the hints more helpful than
+the AI tutor itself. The AI tutor would sometimes get confused or contradicted the
+feedback I would receive from the Evaluate my work.”
+– “The [hand] writing feature could be completly [sic] taken away because it takes
+to [o] long to load and it barely loads properly into the equation section.”
+– “It was laggy a lot of the times and i [t] would forget to submit my solution to the
+problem.”
+Taken together, the Likert ratings and open-ended responses offer a cohesive picture of student sentiment: aiPlato was generally well-received, especially for its detailed
+feedback and ability to support multi-step reasoning. While some features, such as its
+user interface and the AI Tutor Chat, were less favorably rated, the overall feedback
+validates aiPlato’s learning principles and reveals concrete areas for refinement.
+In the next and final section, we reflect on the broader implications of this pilot
+deployment, offer practical recommendations for instructors and developers, and outline
+directions for future research.
+
+16
+
+4.4 Limitations and Future Work
+A central limitation of classroom-based educational research is the potential for selfselection bias, whereby students who choose to engage with an intervention may differ
+systematically from those who do not (Elston, 2021). In the present study, aiPlato was
+made available to all students in the course, and extra-credit opportunities were offered
+uniformly, independent of participation in the research component. However, only a
+subset of students (n = 87) consented to have their data analyzed for research purposes.
+This quasi-experimental design reduces, but does not eliminate, the possibility that
+observed differences reflect pre-existing differences in motivation, study habits, or academic preparedness. To partially address this concern, our statistical analyses controlled
+for multiple measures of prior academic performance that preceded the introduction of
+aiPlato, including Exam 1 scores, early homework averages (Homework 0–4), and quiz
+averages (Quizzes 1–2). Nevertheless, unmeasured factors such as intrinsic motivation,
+self-regulation, or time management may still contribute to the observed associations
+(Larzelere, Kuhn, & Johnson, 2004).
+Accordingly, the results of this study should be interpreted as associational rather
+than causal. Establishing causal effects would require more rigorous designs, such as
+randomized controlled trials or parallel-section comparisons, which represent a clear
+direction for future work.
+
+4.4.1 Engagement Metrics and Behavioral Insights
+Our definition of engagement was based on platform usage logs: problem attempt rates
+and tool usage frequency. While these offer quantitative insight, they don’t capture
+how students engaged, whether thoughtfully, strategically, or superficially. To build a
+more composite engagement index in future studies, methods like think-aloud protocols
+(Wolcott & Lobczowski, 2021), student interviews, or in-platform reflection prompts
+(Menekse, Anwar, & Akdemir, 2022) will be essential. These could be paired with
+usage data to better understand the depth of engagement and how it mediates learning
+outcomes.
+
+4.4.2 Statistical Power and Model Complexity
+Although the total sample size was 87 students, certain subgroups, especially the high
+engagement cohort, were small (n = 16), limiting statistical power. The binary logistic
+regression included five variables (three covariates and two dummy-coded engagement
+levels), which may be too complex given the modest sample size. While the odds ratios
+observed were large and promising, the wide confidence intervals and marginal p-values
+(e.g., p = 0.101) reflect uncertainty. A larger-scale study with a greater and more balanced sample, particularly in the high engagement group, would enable more stable
+parameter estimates and clearer conclusions from regression models.
+
+5 Conclusion
+This study was guided by three central research questions asked at the end of Section 2.2
+: (1) How do students engage with aiPlato’s feedback tools, and what kinds of insights do
+their interactions provide to instructors about student thinking and learning progress?
+(2) Is there a measurable relationship between student engagement with aiPlato and
+their performance on the cumulative final exam? (3) What are students’ perceptions
+of aiPlato’s usefulness, usability, and learning value, based on end-of-semester survey
+responses and qualitative feedback? With the completion of our pilot deployment and
+a triangulated analysis of usage patterns, exam performance, and student feedback, we
+are now more poised to answer these questions with clarity and evidence.
+First, students engaged meaningfully with aiPlato’s feedback tools in ways that
+suggest genuine and effortful learning. Among the suite of tools, the most frequently used
+was Evaluate My Work, which students often activated multiple times per problem to
+test and revise their reasoning. This was followed by more directive tools like Show Next
+Step, which was used by a smaller group of students but often in bursts, and the AI Tutor
+Chat, which offered conceptual clarification in response to student queries. Interestingly,
+the trend across tools showed a clear preference for iterative, formative feedback rather
+
+17
+
+than answer-revealing shortcuts. These patterns, coupled with proficiency visualizations
+and instructor-facing analytics, gave instructor(s) and the authors insight not just into
+whether students were getting the right answers, but how they were thinking through
+each step. aiPlato surfaced conceptual bottlenecks, revealed partial understanding, and
+allowed instructors to infer mastery across concepts, even when those concepts were not
+directly tested.
+Second, across multiple analyses, higher levels of engagement with aiPlato were associated with stronger academic outcomes, without implying causal attribution. Students
+in the high-engagement group scored, on average, nearly 14 points higher on the cumulative final exam than students in the low-engagement group, a difference that remained
+statistically significant after adjusting for prior academic performance. Analysis of overall course grades, excluding extra credit, revealed a similar pattern: students with higher
+engagement were more likely to earn A or B grades, as indicated by a statistically significant Fisher’s Exact Test. Although logistic regression results suggested large odds
+ratios for high engagement, the associated uncertainty and marginal p-values highlight
+the limitations imposed by sample size. Collectively, these findings indicate a consistent association between sustained engagement with aiPlato and academic performance,
+without establishing causal attribution.
+Third, students rated aiPlato favorably across key dimensions of learning value and
+usability. Survey data showed strong agreement with statements praising the platform’s
+detailed, stepwise feedback and overall approachability compared to traditional systems
+like ExpertTA. While students appreciated the learning support features, they also
+provided constructive feedback about technical issues such as handwriting input glitches,
+performance issues, user interface and lag. Overall, qualitative responses confirmed that
+students found aiPlato more supportive, and engaging than other platforms, and many
+recommended its continued use in future courses.
+Taken together, this study positions aiPlato as a promising example of an AImediated homework platform that supports open-ended problem solving while generating rich data on student engagement and reasoning. Rather than demonstrating
+instructional effectiveness in a causal sense, the present work contributes empirical evidence about how such systems are used in authentic classroom settings and how patterns
+of engagement relate to performance and perception. Future research using larger samples and controlled study designs will be essential to disentangle selection effects, isolate
+causal mechanisms, and evaluate long-term learning impacts.
+This work contributes to ongoing discussions in AI-in-education research about the
+role of intelligent systems in supporting, rather than replacing, human instruction. The
+value of AI-enabled platforms may lie less in automation and more in their ability to
+extend formative feedback and inform instructional decision-making at scale, fostering
+more reflective and resilient learners (Chen & Perez, 2023; Pratama, Sampelolo, & Lura,
+2023). As AI systems become more adaptive and better aligned with educational goals,
+they offer the potential to transform classrooms into environments where every student
+receives timely and targeted support tailored to their individual learning path (Yekollu,
+Bhimraj Ghuge, Sunil Biradar, Haldikar, & Farook Mohideen Abdul Kader, 2024). The
+future of AI in education is not about automation, but about equity, and empowerment
+(Katru, 2025; Shah, 2023), and that future looks near.
+
+Declarations
+Conflict of Interest. The corresponding authors, Atharva Dange and Ramon Lopez,
+declare that they have no financial or non-financial conflicts of interest related to the
+subject matter or materials discussed in this manuscript. While aiPlato provided access
+to their platform for the purposes of this study, there was no financial arrangement
+or compensation involved. The involvement of aiPlato personnel as co-authors reflects
+their technical support and platform access, but the corresponding authors maintained
+full independence in study design, analysis, and interpretation of results.
+Funding.
+Data Availability. Data sets generated during the current study are available from
+the corresponding author(s) on reasonable request. Institutional Review Board (IRB)
+restrictions apply to the availability of these data, and so are not publicly available. .
+18
+
+Author Contributions. Atharva Dange contributed to the study’s conception and
+design. Class instruction, data collection, and analysis were performed by Atharva
+Dange. The final draft of the manuscript was contributed by all authors who commented
+on previous versions. All authors read and approved the final manuscript.
+
+19
+
+Appendix A
+
+Statistical Assumptions from 4.1
+
+To test for normality of data for Section 4.1, we conducted the Shapiro-Wilk, AndersonDarling and the Kolmogorov-Smirnov test, to varying levels of success.
+
+Table A1: Summary of normality test p-values across engagement groups
+Engagement Group
+
+Shapiro-Wilk
+p-value
+
+KolmogorovSmirnov p-value
+
+AndersonDarling p-value
+
+Low
+Med
+High
+
+0.033
+0.047
+0.20
+
+0.073
+0.01
+0.077
+
+0.05
+0.82
+0.161
+
+The Shapiro-Wilk test failed narrowly for both the low and medium engagement
+groups, whereas the both the Anderson-Darling and Kolmogorov-Smirnov tests did not
+reject normality for any of the groups. To resolve this inconsistency and further validate
+the ANOVA results, we also conducted a Kruskal-Wallis (KW) test, a non-parametric
+alternative that does not assume normality.
+
+Table A2: Non-parametric Kruskal-Wallis test result comparing final exam scores
+across aiPlato engagement groups.
+χ2
+
+Degrees of Freedom (df)
+
+p-value
+
+8.07
+
+2
+
+0.018
+
+KW produced a statistically significant result and since the ANOVA test is more
+powerful than the KW test and considered robust for moderate violation of the normality
+assumption, we concluded that the use of ANOVA (and ANCOVA) in Section 4.1 is
+statistically justified.
+
+Fig. A1: A visual summary of final exam score distributions across engagement groups,
+illustrating approximate normality in all three groups
+To evaluate the assumption of equal variances across engagement groups, we conducted Levene’s and Brown-Forsythe Test using final exam scores. The test yielded
+a p-value higher than 0.05 significance, indicating that the variances among the Low,
+Medium, and High engagement groups are not significantly different. This result supports the assumption of homogeneity of variances, thereby validating the use of ANOVA
+and ANCOVA, which both require reasonably equal group variances.
+To assess the linearity assumption required for ANCOVA, scatter plots were generated showing the relationship between final exam scores and each covariate (Exam 1,
+pre-aiPlato homework average, and pre-aiPlato quiz average), separated by engagement
+group. The regression lines were reasonably linear for Exam 1, however the quiz averages and homework average exhibited limited variability and weak predictive trends,
+suggesting that they may not have been strong indicators of final exam performance - a
+conclusion that aligns with the results of the ANCOVA model, where pre aiPlato quiz
+averages and pre aiPlato homework were not significant covariates.
+20
+
+Table A3: Results of Levene’s and Brown-Forsythe tests confirming that variances
+across engagement groups are approximately equal
+Test
+
+F-statistic
+
+df 1
+
+df 2
+
+p-value
+
+Levene’s Test (Mean)
+Brown-Forsythe
+(Median)
+
+2.77
+2.51
+
+2
+2
+
+84
+84
+
+0.068
+0.087
+
+Fig. A2: Regression plots showing the relationship between final exam scores and each
+covariate across engagement groups. Higher R² values indicate a stronger predictive
+relationship, while lower values (as seen with quiz averages) suggest limited explanatory
+power
+To test the assumption of homogeneity of regression slopes required for ANCOVA,
+interaction terms were individually introduced between each covariate (Exam 1, homework average, and quiz average) and the engagement level. In all three regression models,
+the interaction terms were statistically non-significant, indicating that the relationship
+between each covariate and the final exam score was consistent across all engagement
+groups. This supports the assumption that the regression slopes are homogeneous,
+thereby validating the use of ANCOVA in the main analysis. Furthermore, the lack of
+significant interactions confirms that none of the covariates behaved differently across
+low, medium, or high engagement groups, reinforcing the fairness and comparability of
+adjusted group means.
+
+Table A4: Summary of interaction terms between each covariate and engagement level.
+All p-values exceed the 0.05 significance threshold; the assumption of homogeneity is
+satisfied for all covariates
+Covariate
+Exam 1
+Homework Average
+Quiz Average
+
+Interaction Term
+
+p-value
+
+exam1 × engagement level
+Pre aiPlato HW avg × engagement level
+Pre aiPlato Quiz Avg × engagement level
+
+0.124
+0.168
+0.288
+
+21
+
+Appendix B
+
+Effect Sizes
+
+To quantify the strength of aiPlato’s impact on final exam scores, we computed Cohen’s
+d (Becker, 2000), a standardized measure of effect size commonly used in educational
+research . It expresses the mean difference between two groups (high vs. low engagement)
+in units of pooled standard deviation, allowing comparisons across studies regardless of
+scale.
+
+Mean Difference
+Pooled Standard Deviation
+According to the data and Section 4.2:
+d=
+
+(B1)
+
+13.7
+≈ 0.81 SD
+(B2)
+16.9
+To project how learning gains scale with the number of aiPlato assignments, we
+used a logistic saturation model (Meyer, Yung, & Ausubel, 1999; Pavlik, Eglington, &
+Harrell-Williams, 2021) that captures diminishing returns in learning:
+
+d≈
+
+G(n) = L × 1 − e−kn
+
+
+
+(B3)
+
+Where:
+
+• G(n) = Projected gain after n assignments
+• L = Maximum achievable gain (plateau), where L = 14.1
+A ceiling of 14.1 points corresponds to a Cohen’s d of 0.85, which is within the upper
+range of reported learning gains from high-impact interventions in STEM education
+(e.g., one-on-one tutoring, targeted feedback, peer instruction). Since students already
+reached 13.7 points of gain after just 4 assignments, it is reasonable to assume that
+the maximum possible improvement with continued use would be only slightly higher,
+not dramatically larger. We thus treat 14.1 as an empirically grounded, conservative
+ceiling.
+• k = Growth rate, fitted to observed data ≈ 0.89
+• n = Number of assignments in the semester = 10
+Thus,
+
+G(n) = 14.1 × 1 − e−0.89·10
+
+22
+
+
+
+(B4)
+
+Appendix C
+
+Statistical Assumptions from 4.2
+
+To evaluate the linearity of the logit assumption for continuous covariates in our logistic regression model, we conducted a post-hoc Box-Tidwell test. This test introduced
+interaction terms between each predictor and its natural logarithm. The results showed
+that the linearity assumption was satisfied for the Exam 1 score and the pre-aiPlato
+HW average but not for the pre-aiPlato quiz average. This violation likely reflects the
+limitations of the quiz variable, which was based on only two short quizzes administered
+prior to the aiPlato rollout. With such a narrow window of measurement and limited
+score variability, the variable may not exhibit a stable linear trend in predicting course
+grade outcomes. While this limitation warrants cautious interpretation of the quiz coefficient in the logistic regression, it does not undermine the validity of the overall model.
+Future studies using a larger and more diverse set of pre-intervention quizzes may offer
+clearer insights into this relationship.
+
+Table C5: Box-Tidwell test results for the linearity of the logit assumption. Only the
+quiz average term significantly violated the assumption
+Predictor
+Variable
+
+Interaction Term
+
+Coefficient B
+
+p-value
+
+Linearity
+Assumption
+
+Exam 1 Score
+
+exam1 score ×
+ln(exam 1 score)
+HW avg ×
+ln(HW avg)
+quiz avg ×
+ln(quiz avg)
+
+0.00
+
+0.425
+
+Satisfied
+
+0.03
+
+0.058
+
+Satisfied
+
+7.30
+
+0.001
+
+Violated
+
+Pre-aiPlato
+Homework Avg
+Pre-aiPlato
+Quiz Avg
+
+Assumptions of logistic regression were assessed, including linearity of the logit via
+a Box-Tidwell test. All predictors except one met this assumption. Other diagnostic
+considerations such as multicollinearity, model fit, and influential cases were not formally
+tested, as the model was used for exploratory purposes with limited covariates and
+moderate sample size.
+
+23
+
+Appendix D
+
+Survey Details from 4.3
+
+Table D6: Distribution of student responses across ten aiPlato survey questions using
+a 5-point Likert scale
+Question
+Q1
+Q2
+Q3
+Q4
+Q5
+Q6
+Q7
+Q8
+Q9
+Q10
+
+Completely
+Agree
+Agree
+30
+10
+15
+15
+9
+22
+22
+14
+10
+16
+
+32
+23
+31
+27
+35
+29
+24
+41
+36
+34
+
+Neutral
+
+Disagree
+
+Completely
+Disagree
+
+14
+31
+28
+29
+26
+17
+23
+19
+25
+21
+
+5
+16
+8
+9
+7
+14
+8
+8
+9
+6
+
+6
+7
+5
+7
+10
+5
+10
+5
+7
+10
+
+Table D7: Survey questions ranked as per the Top Two Box Percentage (T2B%)
+analysis (see Section 4.3)
+Rank
+
+Question T2B %
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+Q1
+Q8
+Q6
+Q10
+Q3
+Q9
+Q7
+Q5
+Q4
+Q2
+
+71.2
+63.2
+58.6
+57.5
+52.9
+52.9
+52.9
+50.6
+48.3
+37.9
+
+Survey Instructions for Students
+5-point Likert scale: 1 – Completely disagree | 2 – Disagree | 3 – Neutral | 4 –
+Agree | 5 – Completely agree
+• Please answer honestly based on your experience using aiPlato.
+• There are no right or wrong answers – we are looking for your genuine opinions.
+• Be honest and sincere; your feedback will help improve future versions of the platform.
+• Thank you for your time and thoughtful responses!
+1. I frequently used the Evaluate My Work feature to get step-by-step feedback.
+2. The AI Tutor Chat feature was helpful when I was stuck.
+3. I used the AI-generated hints or step-by-step help to guide my problem solving.
+4. I found aiPlato more interactive and engaging than other platforms.
+5. Using aiPlato improved my understanding of physics concepts.
+6. Compared to other platforms (e.g., ExpertTA), aiPlato helped make problems more
+approachable and engaging.
+7. aiPlato helped me stay motivated and persist longer before giving up, compared to
+traditional homework platforms.
+8. aiPlato’s step-by-step feedback helped identify my mistakes and felt tailored to my
+specific needs.
+9. Even if it occasionally made mistakes, aiPlato’s feedback was generally clear and
+helpful for learning.
+24
+
+10. I would recommend the use of aiPlato for future physics assignments and classes.
+11. What did you like or dislike most about aiPlat? (Open ended)
+12. How do you think aiPlato could be improved? (Open ended)
+
+25
+
+26
+
+
+
+
+
+
+
+
+87 Rows
+
+4570
+·
+·
+·
+4522
+4544
+·
+·
+·
+·
+·
+·
+4553
+69.23
+
+84.62
+38.46
+
+76.92
+
+Student Exam 1
+ID
+Score
+
+66.67
+
+83.33
+78.00
+
+66.67
+
+Final
+Exam
+Score
+
+52.93
+
+98.21
+86.94
+
+99.46
+
+PreaiPlato
+HW Avg
+
+100
+
+100
+100
+
+100
+
+PreaiPlato
+Quiz
+Avg
+
+0
+
+3
+0
+
+2
+
+Assign.
+Attempted
+
+7
+
+60.00
+3.75
+
+69.12
+
+low
+
+med
+low
+
+med
+
+15
+
+40
+0
+
+51
+
+1
+
+39
+3
+
+40
+
+D
+
+A
+C
+
+B
+
+aiPlato Engagement aiPlato
+aiPlato
+Final
+Avg %
+Level
+Help Help Used Grade w/o
+Total
+on x
+aiPlato
+Problems
+
+Table E8: Summary of data collected and used for the purposes of this study
+
+Appendix E
+Data
+
+References
+aiPlato (2025). aiplato website. https://aiplato.ai/.
+Akintola, A.S., Akintayo, M., Kadri, T., Oforgu, C.M., Michael, M., Nwanna, M.
+(2025, March). Adaptive AI Systems in Education: Real-Time Personalised Learning Pathways for Skill Development. Journal of Artificial Intelligence, Machine
+Learning and Data Science , 3 (1), 2489–2494, https://doi.org/10.51219/jaimld/
+akinyemi-sadeeq-akintola/534
+
+Akyuz, Y. (2020). Effects of Intelligent Tutoring Systems (ITS) on Personalized
+Learning (PL). Creative Education , 11 (06), 953–978, https://doi.org/10.4236/
+ce.2020.116069
+
+Alacapınar, F.G., & Uysal, H. (n.d.). The Effect of Cooperative Learning in Education:
+A Meta-Analysis Study.
+
+Albacete, P.L., & VanLehn, K. (2000). The conceptual helper: An intelligent tutoring
+system for teaching fundamental physics concepts. Lecture notes in computer
+science (pp. 564–573). Berlin, Heidelberg: Springer. https://doi.org/10.1007/
+3-540-45108-0 60.
+AlShaikh, F., & Hewahi, N. (2021, September). AI and Machine Learning Techniques
+in the Development of Intelligent Tutoring System: A Review. 2021 International Conference on Innovation and Intelligence for Informatics, Computing,
+and Technologies (3ICT) , 403–410,
+https://doi.org/https://doi.org/10.1109/
+3ict53449.2021.9582029
+
+Altuwairqi, K., Jarraya, S.K., Allinjawi, A., Hammami, M. (2021, January). A new
+emotion–based affective model to detect student’s engagement. Journal of King
+Saud University - Computer and Information Sciences , 33 (1), 99–109, https://
+doi.org/10.1016/j.jksuci.2018.12.008
+
+Aslan, S., Alyuz, N., Li, B., Durham, L.M., Shi, M., Sharma, S., Nachman, L. (2025,
+June). An early investigation of collaborative problem solving in conversational AI-mediated learning environments. Computers and Education: Artificial
+Intelligence , 8 , 100393, https://doi.org/10.1016/j.caeai.2025.100393
+
+Auger, T., & Saroyan, E. (2024). Overview of the OpenAI apis. Generative AI for Web
+Development: Building Web Applications Powered by OpenAI Apis and next.Js ,
+87–116, https://doi.org/10.1007/979-8-8688-0885-2 6
+
+Basitere, M., & Ivala, E.N. (2017). An evaluation of the effectiveness of the use of
+multimedia and Wiley plus web-based homework system in enhancing learning in
+the chemical engineering extended curriculum program physics course. Electronic
+Journal of e-learning , 15 (2), pp156–173,
+
+Becker, L.A. (2000). Effect size (ES). https://www.uv.es/friasnav/EffectSizeBecker
+.pdf. Colorado Springs.
+Bekkering, E., & Ward, T. (2021). Class participation and student performance: A
+follow-up study. Information Systems Education Journal , 19 (4), 77–91,
+
+27
+
+Bempechat, J. (2004, August). The Motivational Benefits of Homework: A SocialCognitive Perspective. Theory Into Practice , 43 (3), 189–196, https://doi.org/
+10.1207/s15430421tip4303 4
+
+Bettinger, E., Fairlie, R., Kapuza, A., Kardanova, E., Loyalka, P., Zakharov, A. (2023).
+Diminishing marginal returns to computer-assisted learning. Journal of Policy
+Analysis and Management , 42 (2), 552–570, https://doi.org/https://doi.org/10
+.1002/pam.22442
+
+Bhatia, A., Bhatia, P., Sood, D. (2024). Leveraging ai to transform online higher
+education: Focusing on personalized learning, assessment, and student engagement. International Journal of Management and Humanities (IJMH) Volume-11
+Issue-1 , , https://doi.org/10.2139/ssrn.4959186
+
+Bonham, S., Beichner, R., Deardorff, D. (2001, May). Online homework: Does it make
+a difference? The Physics Teacher , 39 (5), 293–296, https://doi.org/10.1119/
+1.1375468
+
+Botelho, A.F., Varatharaj, A., Inwegen, E.G.V., Heffernan, N.T. (2019). Refusing to
+try: Characterizing early stopout on student assignments. Proceedings of the 9th
+international conference on learning analytics & knowledge , 391–400, https://
+doi.org/10.1145/3303772.3303806
+
+Bowman-Perrott, L., Davis, H., Vannest, K., Williams, L., Greenwood, C., Parker, R.
+(2013, March). Academic Benefits of Peer Tutoring: A Meta-Analytic Review of
+Single-Case Research. School Psychology Review , 42 (1), 39–55, https://doi.org/
+10.1080/02796015.2013.12087490
+
+Buhr, S.P. (2020). 21st century physics homework: A mixed-methods approach evaluating how an individualized online homework platform can provide quality feedback
+and help physics students engage in self-regulated learning (Doctoral dissertation).
+University of South Carolina.
+Carberry, T.P., Lukeman, P.S., Covell, D.J. (2019, August). Bringing Nuance to
+Automated Exam and Classroom Response System Grading: A Tool for Rapid,
+Flexible, and Scalable Partial-Credit Scoring. Journal of Chemical Education ,
+96 (8), 1767–1772, https://doi.org/10.1021/acs.jchemed.8b01004
+
+Chang, M.-Y., Tarng, W., Shin, F.-Y. (2009, January). The Effectiveness of Scaffolding
+in a Web-Based, Adaptive Learning System. International Journal of Web-Based
+Learning and Teaching Technologies , 4 (1), 1–15, https://doi.org/10.4018/jwbltt
+.2009091801
+
+Chen, J.J., & Perez, C. (2023, November). Enhancing Assessment and Personalized Learning Through Artificial Intelligence. Childhood Education , 99 (6), 72–79,
+https://doi.org/10.1080/00094056.2023.2282903
+
+Chwat, C.A. (n.d.). The Impact of Technology Access, Attitudes, and Use on Student
+Typing and Writing Performance (Unpublished doctoral dissertation).
+Dange, A., & Lopez, R. (2025, March). Using generative ai to create homework problems in a modern physics course. 19th International Technology, Education and
+Development Conference , 7038–7047, https://doi.org/10.21125/inted.2025.1827
+28
+
+Debuse, J.C.W., & Lawley, M. (2016, March). Benefits and drawbacks of computerbased assessment and feedback systems: Student and educator perspectives.
+British Journal of Educational Technology , 47 (2), 294–301, https://doi.org/
+10.1111/bjet.12232
+
+Dominguez, A., De La Garza, J., Quezada-Espinoza, M., Zavala, G. (2023, December).
+Integration of Physics and Mathematics in STEM Education: Use of Modeling.
+Education Sciences , 14 (1), 20, https://doi.org/10.3390/educsci14010020
+
+Elsayed, H. (2024). The impact of hallucinated information in large language models
+on student learning outcomes: A critical examination of misinformation risks in
+AI-assisted education. Northern Reviews on Algorithmic Research, Theoretical
+Computation, and Complexity , 9 (8), 11–23, (https://northernreviews.com/index
+.php/NRATCC/article/view/2024-08-07)
+
+Elston, D.M. (2021, June). Participation bias, self-selection bias, and response bias.
+Journal of the American Academy of Dermatology , , https://doi.org/10.1016/
+j.jaad.2021.06.025
+
+Fall, A.-M., & Roberts, G. (2012, August). High school dropouts: Interactions between
+social context, self-perceptions, school engagement, and student dropout. Journal
+of Adolescence , 35 (4), 787–798, https://doi.org/10.1016/j.adolescence.2011.11
+.004
+
+Fang, Y., Ren, Z., Hu, X., Graesser, A.C. (2019, November). A meta-analysis of the
+effectiveness of ALEKS on learning. Educational Psychology , 39 (10), 1278–1292,
+https://doi.org/10.1080/01443410.2018.1495829
+
+Feng, S., Magana, A.J., Kao, D. (2021). A systematic review of literature on the effectiveness of intelligent tutoring systems in stem. 2021 IEEE frontiers in education
+conference (fie) , 1–9, https://doi.org/10.1109/fie49875.2021.9637240
+
+Fredricks, J.A., Blumenfeld, P.C., Paris, A.H. (2004, March). School Engagement:
+Potential of the Concept, State of the Evidence. Review of Educational Research ,
+74 (1), 59–109, https://doi.org/10.3102/00346543074001059
+
+Gladding, G., Gutmann, B., Schroeder, N., Stelzer, T. (2015, June). Clinical study of
+student learning using mastery style versus immediate feedback online activities.
+Physical Review Special Topics - Physics Education Research , 11 (1), , https://
+doi.org/10.1103/physrevstper.11.010114
+
+Graesser, A.C., Conley, M.W., Olney, A. (2012). Intelligent tutoring systems. American
+Psychological Association , 451–473, https://doi.org/10.1037/13275-018
+
+Graham, O., & Milan, Y. (2025, June). The Impact of ChatGPT Reliance on the
+Development of Student Critical Thinking Skills. Preprints.org , , https://doi.org/
+10.20944/preprints202506.0861.v1
+
+29
+
+Granberg, C. (2016, June). Discovering and addressing errors during mathematics
+problem-solving—A productive struggle? The Journal of Mathematical Behavior ,
+42 , 33–48, https://doi.org/10.1016/j.jmathb.2016.02.002
+
+Haas, A., Vannest, K.J., Fuller, M.C., Ganz, J.B. (2022, March). Understanding the
+Effect Size of Peer-Mediated Academic Instruction: A Meta-Analysis. Focus on
+Autism and Other Developmental Disabilities , 37 (1), 3–12, https://doi.org/10
+.1177/10883576211023329
+
+Hahn, M.G., Navarro, S.M.B., De La Fuente Valentin, L., Burgos, D. (2021). A Systematic Review of the Effects of Automatic Scoring and Automatic Feedback in
+Educational Settings. IEEE Access , 9 , 108190–108198, https://doi.org/10.1109/
+access.2021.3100890
+
+Hattie, J. (2011, August). John Hattie: Visible learning: A synthesis of over 800 metaanalyses relating to achievement. International Review of Education , 57 (1), 219–
+221, https://doi.org/10.1007/s11159-011-9198-8
+
+Hemmert, G.A.J., Schons, L.M., Wieseke, J., Schimmelpfennig, H. (2018, August).
+Log-likelihood-based Pseudo-R2 in Logistic Regression: Deriving Sample-sensitive
+Benchmarks. Sociological Methods & Research , 47 (3), 507–531, https://doi.org/
+10.1177/0049124116638107
+
+Ho, H.-T., Ly, D.-T., Nguyen, L.V. (2024, November). Mitigating Hallucinations in
+Large Language Models for Educational Application. 2024 IEEE International
+Conference on Consumer Electronics-Asia (ICCE-Asia) , 1–4, https://doi.org/
+10.1109/icce-asia63397.2024.10773965
+
+Hsiao, I.-H. (2016). Mobile Grading Paper-Based Programming Exams: Automatic
+Semantic Partial Credit Assignment Approach. Adaptive and Adaptable Learning ,
+110–123, https://doi.org/10.1007/978-3-319-45153-4 9
+
+Hu, X., Xu, S., Tong, R., Graesser, A.
+(2025, January).
+Generative AI in
+Education: From Foundational Insights to the Socratic Playground for Learning. arXiv (arXiv:2501.06682), ,
+https://doi.org/10.48550/arXiv.2501.06682
+2501.06682 [cs]
+Huang, L., Yu, W., Ma, W., Zhong, W., Feng, Z., Wang, H., . . . Liu, T. (2025, March). A
+Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions. ACM Transactions on Information Systems , 43 (2),
+1–55, https://doi.org/10.1145/3703155
+
+Isomidin o’g’li, T.I., et al. (2025). Using ai for automated language assessment: Pros and
+cons. Ta’lim innovatsiyasi va integratsiyasi , 43 (4), 112–116, (https://inlibrary
+.uz/index.php/tinnint/article/view/96032)
+
+Jensen, P.A., & Barron, J.N. (2014, November). Midterm and First-Exam Grades
+Predict Final Grades in Biology Courses. Journal of College Science Teaching ,
+44 (2), 82–89, https://doi.org/10.2505/4/jcst14 044 02 82
+
+30
+
+Jiang, Z., & Jiang, M. (2024, June). Beyond Answers: Large Language Model-Powered
+Tutoring System in Physics Education for Deep Learning and Precise Understanding. arXiv (arXiv:2406.10934), , https://doi.org/10.48550/arXiv.2406.10934
+2406.10934 [physics]
+Kagan, S. (2014). Effect size reveals the impact of kagan structures and cooperative
+learning.
+https://www.kaganonline.com/free articles/research and rationale/
+384/Effect-Size-Reveals-the-Impact-of-Kagan-Structures-and-Cooperative
+-Learning.
+Karim, A.A., Lützenkirchen, B., Khedr, E., Khalil, R. (2017, August). Why Is 10 Past
+10 the Default Setting for Clocks and Watches in Advertisements? A Psychological
+Experiment. Frontiers in Psychology , 8 , , https://doi.org/10.3389/fpsyg.2017
+.01410
+
+Katru, C.R. (2025). Building tomorrow: A data and automation-driven future for social
+equity. Advancing social equity through accessible green innovation (pp. 93–108).
+IGI Global Scientific Publishing.
+Kontur, F.J., & Terry, N.B. (2013, May). The benefits of completing homework for students with different aptitudes in an introductory physics course.
+arXiv (arXiv:1305.2213), , https://doi.org/10.48550/arXiv.1305.2213 1305.2213
+[physics]
+Kuo, Y.-J., & Burch, K. (2012). Case studies on mymathlab and webassign.
+International Conference on e-learning , 203-XIII,
+
+Larzelere, R.E., Kuhn, B.R., Johnson, B. (2004, March). The Intervention Selection Bias: An Underrecognized Confound in Intervention Research. Psychological
+Bulletin , 130 (2), 289–303, https://doi.org/10.1037/0033-2909.130.2.289
+
+Lin, C.-C., Huang, A.Y.Q., Lu, O.H.T. (2023, August). Artificial intelligence in intelligent tutoring systems toward sustainable education: A systematic review. Smart
+Learning Environments , 10 (1), , https://doi.org/10.1186/s40561-023-00260-y
+
+Meghji, A.F., Mahoto, N.A., Asiri, Y., Alshahrani, H., Sulaiman, A., Shaikh, A. (2023,
+March). Early detection of student degree-level academic performance using educational data mining. PeerJ Computer Science , 9 , e1294,
+https://doi.org/
+10.7717/peerj-cs.1294
+
+Menekse, M., Anwar, S., Akdemir, Z.G. (2022, April). How Do Different Reflection
+Prompts Affect Engineering Students’ Academic Performance and Engagement?
+The Journal of Experimental Education , 90 (2), 261–279, https://doi.org/10
+.1080/00220973.2020.1786346
+
+Merrill, D.C., Reiser, B.J., Ranney, M., Trafton, J.G. (1992, July). Effective Tutoring
+Techniques: A Comparison of Human Tutors and Intelligent Tutoring Systems.
+Journal of the Learning Sciences , 2 (3), 277–305,
+https://doi.org/10.1207/
+s15327809jls0203 2
+
+Meyer, P.S., Yung, J.W., Ausubel, J.H. (1999). A primer on logistic growth and
+substitution: the mathematics of the loglet lab software. Technological forecasting and social change , 61 (3), 247–271, https://doi.org/https://doi.org/10.1016/
+S0040-1625(99)00021-9
+
+31
+
+Mogey, N., Cowan, J., Paterson, J., Purcell, M. (2012, July). Students’ choices between
+typing and handwriting in examinations. Active Learning in Higher Education ,
+13 (2), 117–128, https://doi.org/10.1177/1469787412441297
+
+Muratgul, E. (2025). The phenomenon of “half-filled wine glass” in ai-powered visual
+generation systems and its causes. https://www.academia.edu/.
+Murdoch, D., English, A.R., Hintz, A., Tyson, K. (2020). Feeling Heard: Inclusive Education, Transformative Learning, and Productive Struggle. Educational Theory ,
+70 (5), 653–679, https://doi.org/10.1111/edth.12449
+
+Myneni, L.S., Narayanan, N.H., Rebello, S., Rouinfar, A., Pumtambekar, S. (2013,
+July). An Interactive and Intelligent Learning System for Physics Education.
+IEEE Transactions on Learning Technologies , 6 (3), 228–239, https://doi.org/
+10.1109/tlt.2013.26
+
+Nwana, HyacinthS. (1990). Intelligent tutoring systems: An overview.
+Intelligence Review , 4 (4), , https://doi.org/10.1007/bf00168958
+
+Artificial
+
+OpenAI, Achiam, J., Adler, S., Agarwal, S., Ahmad, L., Akkaya, I., . . . Zoph, B. (2024,
+March). GPT-4 Technical Report (No. arXiv:2303.08774). arXiv.
+Öz, E. (2024, October). Effects of peer instruction on academic achievement: A metaanalysis. Pedagogies: An International Journal , 19 (4), 505–522, https://doi.org/
+10.1080/1554480X.2023.2246447
+
+Pavlik, P., Eglington, L., Harrell-Williams, L. (2021, October). Logistic Knowledge
+Tracing: A Constrained Framework for Learner Modeling. IEEE Transactions
+on Learning Technologies , 14 (5), 624–639,
+https://doi.org/10.1109/tlt.2021
+.3128569
+
+Pittman, J.M., Titus, K., Williams, L. (2021, July). How Early Is Early Enough:
+Correlating Student Performance With Final Grades. Journal of Higher Education
+Theory and Practice , 21 (6), , https://doi.org/10.33423/jhetp.v21i6.4370
+
+Pratama, M.P., Sampelolo, R., Lura, H. (2023, August). Revolutionizing education:
+harnessing the power of artificial intelligence for personalized learning. Klasikal:
+Journal Of Education, Language Teaching And Science , 5 (2), 350–357, https://
+doi.org/10.52208/klasikal.v5i2.877
+
+Razafinirina, M.A., Dimbisoa, W.G., Mahatody, T. (2024). Pedagogical Alignment of
+Large Language Models (LLM) for Personalized Learning: A Survey, Trends and
+Challenges. Journal of Intelligent Learning Systems and Applications , 16 (04),
+448–480, https://doi.org/10.4236/jilsa.2024.164023
+
+Rieger, S., Göllner, R., Spengler, M., Trautwein, U., Nagengast, B., Roberts, B.W. (2022,
+August). The persistence of students’ academic effort: The unique and combined
+effects of conscientiousness and individual interest. Learning and Instruction , 80 ,
+101613, https://doi.org/10.1016/j.learninstruc.2022.101613
+
+Rizvi, M. (2023, October). Investigating AI-Powered Tutoring Systems that Adapt
+to Individual Student Needs, Providing Personalized Guidance and Assessments.
+
+32
+
+The Eurasia Proceedings of Educational and Social Sciences , 31 , 67–73, https://
+doi.org/10.55549/epess.1381518
+
+Saqr, M., López-Pernas, S., Helske, S., Hrastinski, S. (2023, July). The longitudinal
+association between engagement and achievement varies by time, students’ profiles, and achievement state: A full program study. Computers & Education , 199 ,
+104787, https://doi.org/10.1016/j.compedu.2023.104787
+
+Scarlatos, A., Liu, N., Lee, J., Baraniuk, R., Lan, A. (2025, March). Training LLM-based Tutors to Improve Student Learning Outcomes in Dialogues. arXiv (arXiv:2503.06424), , https://doi.org/10.48550/arXiv.2503.06424
+arXiv:2503.06424 [cs]
+Schulze, K.G., Shelby, R.N., Treacy, D.J., Wintersgill, M.C., Vanlehn, K., Gertner, A.
+(2000, September). Andes: An Intelligent Tutor for Classical Physics. The Journal of Electronic Publishing , 6 (1), , https://doi.org/10.3998/3336451.0006.110
+2027/spo.3336451.0006.110
+Shah, P. (2023). AI and the future of education: Teaching in the age of artificial
+intelligence. John Wiley & Sons.
+Shi, Z. (2024, May). On the Plateau Phenomenon in College English Learning. Frontiers
+in Science and Engineering , 4 (5), 37–44, https://doi.org/10.54691/zgtwpw03
+
+Sonkar, S., Liu, N., Baraniuk, R.G. (2024, October). Student Data Paradox and Curious
+Case of Single Student-Tutor Model: Regressive Side Effects of Training LLMs
+for Personalized Learning. arXiv (arXiv:2404.15156), , https://doi.org/10.48550/
+arXiv.2404.15156 2404.15156 [cs]
+Stafford, D., & Flatley, R. (2018, July). OpenStax. The Charleston Advisor , 20 (1),
+48–51, https://doi.org/10.5260/chara.20.1.48
+
+Tan, L.Y., Hu, S., Yeo, D.J., Cheong, K.H. (2025, December). Artificial intelligenceenabled adaptive learning platforms: A review. Computers and Education:
+Artificial Intelligence , 9 , 100429, https://doi.org/10.1016/j.caeai.2025.100429
+
+Tatum, N. (2021). Student Evaluations of Instructor Email Response Speed as Chronemic Expectancy Violations. Journal of Educational Technology Development and
+Exchange , 14 (1), 43–56, https://doi.org/10.18785/jetde.1401.03
+
+Thomas, D.R., Borchers, C., Bhushan, S., Gatz, E., Gupta, S., Koedinger, K.R. (2025,
+June). LLM-Generated Feedback Supports Learning If Learners Choose to
+Use It. arXiv (arXiv:2506.17006), , https://doi.org/10.48550/arXiv.2506.17006
+2506.17006 [cs]
+VanLehn, K. (2011, October). The Relative Effectiveness of Human Tutoring, Intelligent
+Tutoring Systems, and Other Tutoring Systems. Educational Psychologist , 46 (4),
+197–221, https://doi.org/10.1080/00461520.2011.611369
+
+VanLehn, K., Lynch, C., Schulze, K., Shapiro, J.A., Shelby, R., Taylor, L., . . . Wintersgill, M. (2005). The andes physics tutoring system: Lessons learned. International
+Journal of Artificial Intelligence in Education , 15 (3), 147–204, https://doi.org/
+https://doi.org/10.3233/IRG-2005-15(3)02
+
+33
+
+Vasuki, M., Celestin, M., Kumar, A.D. (2016, July–December). Curriculum design
+in mathematics: A review of effective frameworks and models. Journal of
+Engineering, Scientific Research and Applications , 2 (2), 207–222,
+
+Vermunt, J.D. (1995, December). Process-oriented instruction in learning and thinking
+strategies. European Journal of Psychology of Education , 10 (4), 325–349, https://
+doi.org/10.1007/BF03172925
+
+Wang, S., Xu, T., Li, H., Zhang, C., Liang, J., Tang, J., . . . Wen, Q. (2024, April). Large
+Language Models for Education: A Survey and Outlook. arXiv (arXiv:2403.18105),
+, https://doi.org/10.48550/arXiv.2403.18105 2403.18105 [cs]
+Weiss, M., & Hanson-Baldauf, D. (2008). E-mail in academia: Expectations, use, and
+instructional impact. Educause Quarterly , 31 (1), 42,
+
+Wieman, C.E., Adams, W.K., Loeblein, P., Perkins, K.K. (2010, April). Teaching
+Physics Using PhET Simulations. The Physics Teacher , 48 (4), 225–227, https://
+doi.org/10.1119/1.3361987
+
+Wolcott, M.D., & Lobczowski, N.G. (2021, February). Using cognitive interviews and
+think-aloud protocols to understand thought processes. Currents in Pharmacy
+Teaching and Learning , 13 (2), 181–188, https://doi.org/10.1016/j.cptl.2020.09
+.005
+
+Wu, Y.-F. (2020). Undergraduate students’ strategies on pattern recognition, cognition
+and metacognition involving small group learning in Taiwan. The University of
+Iowa.
+Yang, F., Zhao, P., Wang, Z., Wang, L., Zhang, J., Garg, M., . . . Zhang, D. (2023,
+October). Empower Large Language Model to Perform Better on Industrial
+Domain-Specific Question Answering. arXiv (arXiv:2305.11541), ,
+https://
+doi.org/10.48550/arXiv.2305.11541 arXiv:2305.11541 [cs]
+Yekollu, R.K., Bhimraj Ghuge, T., Sunil Biradar, S., Haldikar, S.V., Farook Mohideen
+Abdul Kader, O. (2024). AI-Driven Personalized Learning Paths: Enhancing
+Education Through Adaptive Systems. Algorithms for Intelligent Systems , 507–
+517, https://doi.org/https://doi.org/10.1007/978-981-97-3191-6 38
+
+Zhai, C., Wibowo, S., Li, L.D. (2024, June). The effects of over-reliance on AI dialogue
+systems on students’ cognitive abilities: A systematic review. Smart Learning
+Environments , 11 (1), , https://doi.org/10.1186/s40561-024-00316-7
+
+34
+
+

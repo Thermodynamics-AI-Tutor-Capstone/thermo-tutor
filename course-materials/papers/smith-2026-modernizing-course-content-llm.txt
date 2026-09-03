@@ -1,0 +1,878 @@
+Paper ID #51412
+
+A Methodological Framework for Modernizing Engineering Course Content
+with Large Language Models
+Dr. Katherine Smith, Old Dominion University
+Katherine Smith received Ph.D. in Modeling and Simulation, M.S. in Applied and Computational Mathematics,
+and B.S. degrees in applied mathematics and mechanical engineering from Old Dominion University. Dr.
+Smith is an Assistant Professor in the Engineering Technology Department at Old Dominion University.
+Her research interests include data science, machine learning, and artificial intelligence, systems modeling
+and network analysis with applications in supply chain and cyber physical systems, data-driven implementation
+of industry 4.0 technologies, and serious game development.
+Dr. Dalya Ismael, Old Dominion University
+Dr. Dalya Ismael holds a Doctor of Philosophy degree in Civil & Environmental Engineering from
+Virginia Tech. She is currently an Assistant Professor of Civil Engineering Technology (CET) in the
+Department of Engineering Technology at Old Dominion University, where her research focuses on
+encouraging sustainable design and construction practices through behavioral interventions and visualization
+techniques. Dr. Ismael has more than nine years of teaching and industry experience, and is a LEED Green
+Associate and an Envision Specialist.
+Dr. Otilia Popescu, Old Dominion University
+Dr. Otilia Popescu received the Engineering Diploma and M.S. degree from the Polytechnic Institute
+of Bucharest, Romania, and the PhD degree from Rutgers University, all in Electrical and Computer
+Engineering. Her research interests are in the general areas of communication systems, control theory,
+signal processing and engineering education. She is currently a Professor in the Department of Engineering
+Technology, at Old Dominion University in Norfolk, Virginia, and she served for 7 years as the Program
+Director for the Electrical Engineering Technology Program. In the past she has worked for the University
+of Texas at Dallas, University of Texas at San Antonio, Rutgers University, and Politehnica University of
+Bucharest. She is a senior member of the IEEE.
+Dr. Murat Kuzlu, Old Dominion University
+Murat Kuzlu (Senior Member, IEEE) is an Associate Professor in the Department of Engineering Technology
+at Old Dominion University in Norfolk, VA, USA. He earned his B.Sc., M.Sc., and Ph.D. degrees in
+Electronics and Communication Engineering in 2001, 2004, and 2010, respectively. Before joining
+ODU, he served as a Senior Researcher at the Scientific and Technological Research Council of Turkey
+(TUBITAK) and as a Research Assistant Professor at the Advanced Research Institute of Virginia Tech.
+His research interests include smart systems, trustworthy AI, explainable AI, agentic AI, and next-generation
+networks.
+Dr. Adel El-Shahat, Old Dominion University
+Dr. Adel El-Shahat is currently an Assistant Professor & Director of Electric Machinery and Power
+Systems Lab, Department of Engineering Technology, Frank Batten College of Engineering & Technology,
+at Old Dominion University, USA. Before that, He was an Assistant Professor - Energy Technology,
+School of Engineering Technology at Purdue University, USA. He is the Founder and Director of Advanced
+Power Units and Renewable Distributed Energy Lab (A PURDUE). He has more than 20 years of experience
+in academia and industry. He has good experience in funding grant proposals, and He got some awards
+and recognitions due to his research work. He has good experience directing research for both graduate
+and undergraduate students for funded projects. He served as principal investigator and co-investigator
+for multiple externally and internally funded proposals. He holds full-time academic positions at Purdue
+University, Georgia Southern University, the University of Illinois at Chicago, Ohio State University,
+USA, and Suez University, Egypt. He received a B.Sc. in Electrical Engineering from Zagazig University,
+Egypt, in 1999. The M.Sc. in Electrical Engineering (Power and Machines) from Zagazig University,
+©American Society for Engineering Education, 2026
+
+Paper ID #51412
+
+Egypt, in 2004, and the Ph.D. degree (Joint Supervision) from Zagazig University, Egypt, and The Ohio
+State University (OSU), Columbus, OH, USA, in 2011. His research focuses on Modeling, Design,
+Optimization, Simulation, Analysis, and Control of various aspects such as, Renewable Energy Systems;
+Smart Nano & Micro- Grids; Electric Mobility & Transportation Electrification; Wireless Charging of
+Electric Vehicles; Climate Change; Electric Vehicles; Special Purposes Electric Machines; Deep Learning
+Techniques; Distributed Generation Systems; Thermoelectric Generation; Special Power Electronics Converters;
+Power Systems; Energy Storage & Conservation; and Engineering Education. So far, He has 12 books, 6
+book chapters, 1 patent, 85 journal papers, 78 conference proceedings papers, and 114 other publications
+with his collaborators and students related to his research interests. He has more than 20 years of
+experience in academia and industry. He has experience in funding grant proposals, and He got some
+awards and recognitions due to his research work. He has several funded external and internal grant
+proposals for more than USD 1,500,000.00. He has good experience directing research for both graduate
+and undergraduate students for funded projects. He holds full-time academic positions at Purdue University,
+Georgia Southern University, the University of Illinois at Chicago, Ohio State University, USA, and
+Suez University, Egypt, along with some full-time and part-time positions in Egyptian companies as
+an electrical engineer and consultant as a professional engineer. Additionally, He has distinguished
+professional training, and He is a Senior Member in the IEEE and IRED institutions, along with 21
+professional memberships in other societies. Finally, He served as an editor for 5 textbooks, a reviewer
+for another 9 books, a journal reviewer/ member of editorial boards, and conference reviewer/ member
+of technical committees, and/ or session chair for 77 international venues. He is a guest editor and
+editor-in-chief for two international journals.
+Dr. Vukica M. Jovanovic, Old Dominion University
+Dr. Vukica Jovanovic is the Chair of the Engineering Technology Department and a Full Professor
+of Engineering Technology. She holds a Ph.D. in Mechanical Engineering Technology from Purdue
+University, with a focus on Digital Manufacturing. In addition, she earned a Magister degree (equivalent to
+Ph.D. candidacy in the United States) in Industrial Engineering and Engineering Management, specializing
+in Production Systems Design, as well as a Dipl.-Ing. (Master’s) degree in Industrial Engineering and
+Engineering Management with a concentration in Mechatronics, Robotics, and Automation. Dr. Jovanovic
+brings extensive industry experience to academia. She worked as an Industrial Engineer in the manufacturing
+of aircraft wings and nacelles for commercial aircraft models ERJ-145 and ERJ-147 (Embraer) at Gamesa
+Aeronáutica in Vitoria/Bilbao, Spain. Before her university studies, she was a certified master electrician,
+completing apprenticeships in the power industry and an aluminum mill. Her professional foundation was
+further shaped through hands-on work in her family-owned manufacturing company, which specialized
+in sheet metal forming machines and metalworking services. Before pursuing an academic career, she
+served on the faculty at the University of Novi Sad in Serbia.
+
+©American Society for Engineering Education, 2026
+
+A Methodological Framework for Modernizing Engineering Course Content
+with Large Language Models
+
+Abstract
+Rapid changes in educational technology and student expectations present challenges for
+engineering educators. Although core engineering methods often remain the same over time,
+course materials become outdated in presentation and pedagogical approach. This paper presents
+a methodological framework for using Large-Language Models (LLMs) to modernize
+engineering course content with a case study in an advanced technical analysis course. The
+methodology follows a phased approach that is designed to be repeatable and to verify the
+accuracy and completeness of the course content. During the first phase, an LLM is used to map
+outdated text-heavy content to a modern format using a LaTeX template. The second phase
+involves introducing the LLM to the Entrepreneurial Mindset (EM) developed by the Kern
+Entrepreneurial Engineering Network (KEEN), emphasizing curiosity, making connections, and
+creating value, and asking it to relate the modernized content to various engineering disciplines.
+The final phase involves human-in-the-loop review by the instructor to ensure that (1) all content
+has been successfully mapped, (2) the content is accurate, and (3) the connections are correct and
+relevant. This study demonstrates a repeatable process for content transformation that can be
+applied to modernize the wealth of legacy engineering content that exists in order to promote
+engagement with students. The process is presented as a systematic workflow with sample
+prompts to serve as a blueprint for other educators. In addition, a case study for an advanced
+technical analysis course demonstrates that the framework successfully translates complex
+technical content and code.
+Keywords
+Large-Language Models (LLMs), Course Modernization, Entrepreneurial Mindset (EM), AI in
+Education, Technology-Enhanced Learning, Content Transformation
+Introduction
+Although technology advances rapidly, instruction in engineering fundamentals, particularly
+mathematically rigorous content, tends to evolve slowly. In contrast, instructional practices and
+student expectations have undergone accelerated change in recent years. The result is content that
+is solidly based in technical rigor but pedagogically stale. As computational tools, instructional
+techniques, and student expectations evolve over time, content modernization requires careful
+
+preservation of technical rigor while updating explanations, examples, and code-based
+demonstrations. The tight coupling of visual representations of the engineering problem,
+derivation of mathematical equations, and computational workflows to arrive at a solution
+presents unique challenges for engineering educators. The time consuming process of content
+modernization is therefore more difficult to scale when revising a course manually. Until now,
+many applications of artificial intelligence in education have focused on personalized tutoring,
+automated assessment, or performance prediction [1, 2]. There are far fewer works that have
+addressed the systematic modernization of existing curricula. LLMs translate text into
+embeddings capable of capturing semantic meanings and then manipulate the latent space to
+accomplish tasks such as text generation, reasoning, and knowledge inference. Especially when
+restricting context to a set of existing content, using instructions with instructor-provided
+constraints, and providing iterative human-in-the-loop feedback, LLM becomes an enabler of
+content transformation, but not a replacement for instructor expertise.
+The main contributions of this engineering educational approach are as follows:
+1. A framework and workflow for using Artificial Intelligence (AI) to modernize engineering
+content.
+2. Development of a constraint-based mapping prompt for modernizing content and an EM
+integration prompt.
+3. An application of the framework and prompts in a technically dense, computationally
+rigorous engineering technology course.
+By focusing on a methodology that is reproducible and transferable rather than simply automated,
+this work aims to be applicable across a wide range of engineering and engineering technology
+topics.
+Background and Related Work
+Existing work in applications of AI in education shows a strong preference for applications in
+personalized tutoring, automated assessment, and predictive analytics [1, 2]. In addition, most
+studies do not support the interaction between the instructor and tool [3]. Some studies focused
+on understanding how students use AI and examining the ethical implications of these activities
+[4, 5].
+AI for Tutoring
+AI systems can adapt instruction to individual learners by identifying prior knowledge and gaps,
+adjusting difficulty levels in real time, and recommending targeted practice problems or resources
+[1]. By analyzing student behavior, the learning experience is personalized to focus on areas of
+weakness, skip content they have already mastered, and learn at their own pace [6]. A recent
+study showed higher learning gains for university physics students who engaged with an AI tutor
+than those who participated in an active lesson in class [7]. AI tutoring systems offer on demand
+availability, enabling learners to access instructional support whenever needed, and can scale
+efficiently to serve large student populations, especially non-traditional or online students who
+
+may have limited access to in person support [8]. These systems can increase the variety of ways
+that learners can interface with content by leveraging LLMs to generate alternative explanations,
+examples and multimodal representations, such as text and visual representations [9, 5].
+AI for Assessment
+AI has been used to assess student work to provide real-time feedback, understand complex
+performance data, and provide timely scoring and feedback [3, 6]. Applications have been
+developed and found to reduce the burden of grading text-heavy student responses [10]. However,
+Tobler [10] do note challenges with evaluating non-text-based content, including mathematical
+equations and images, which are usually a large part of engineering solutions. By uncovering
+patterns in student work, AI identifies misconceptions and enables early intervention [6].
+AI-supported assessment data has been proposed to monitor mastery of student learning
+outcomes and to inform continuous curricular improvement by providing insights to educators
+[3]. Some textbook publishers and educational technology providers have begun experimenting
+with these capabilities by embedding AI-driven homework systems, adaptive quizzes, and
+analytics dashboards into digital course platforms, particularly in large-enrollment STEM
+courses. These approaches could offer advantages such as scalability for large student
+populations, timely and individualized feedback, diagnostic insight into student learning, and
+reduced grading workload for instructors.
+AI for Predictive Educational Analytics
+AI learning analytics techniques have been successfully used in engineering education to analyze
+diverse data sources, with the goal of enhancing overall course attainment levels [11]. Early
+intervention in engineering is particularly valuable because learning is cumulative, so difficulties
+in foundational topics often propagate. Predictive analytics takes early intervention a step further
+by identifying students who are not yet struggling, but are likely to struggle in the future [11]. At
+the instructional level, predictive analytics has been used to inform course adjustments and
+continuous improvement by revealing patterns across cohorts and aligning evidence with learning
+outcomes [11].
+AI for Content Transformation
+Initial efforts in content transformation are promising, such as an experiment by Elidan and
+Haramaty [12], which transformed textbooks to multimodal content representations for individual
+learners. However, this educational intervention did not allow for instructor in the loop validation
+of content. Brown, Talbert, and Roberts [13] studied mapping between curriculum frameworks
+and noted that LLMs are better suited as assistants than replacements for human instructors.
+Rutecka et al. [14] mapped the curriculum and syllabi in economics and found that while LLMs
+can produce plausible course structures, they are not yet capable of creating complete and
+compliant curricula and must be used subject to human-in-the-loop oversight.
+Table 1 shows a breakdown of typical tasks that AI tools generally complete in existing
+workflows. There is a noticable gap in AI for content transformation, as there is not only limited
+work in this area, but much of it is limited to format transformation without instructor feedback.
+
+There are also limited opportunities to add connections that enable enhanced career-centered
+development skills such as EM.
+Risks and Design Considerations for AI in Engineering Education
+As LLMs still face major challenges with hallucination, bias, and lack of transparency, it is
+critical to take care when implementing these systems [15, 16]. These flaws imply the potential to
+amplify inaccuracies and propagate inequities when used over large amounts of educational
+content. A common theme in reviews of tutoring, assessment, predictive analytics, and emerging
+content transformation applications is the need for well-defined constraints and human oversight
+[3, 1, 2]. In engineering education, this includes ensuring that AI tools are scoped to well-defined
+content, provided clearly formulated constraints, and require instructor review and
+judgement.
+Table 1: Examples of typical tasks in existing work broken down by AI role to determine if AI is
+used to transform curricular artifacts.
+Role
+
+Typical Tasks
+
+Tutoring
+
+Adaptive feedback,
+step-by-step guidance,
+chatbots as tutors
+Automated scoring,
+rubric-based feedback
+
+Grader/Assessor
+
+Predictive Analytics
+
+Content
+Transformation← Proposed Contribution
+
+Performance
+prediction, risk
+identification
+Systematic updating
+and reformatting of
+existing content;
+multimodal
+transformations
+
+AI used for content
+transformation?
+Rarely; focuses on
+interaction, not content
+mapping
+No; operates on student
+work not course
+materials
+No; informs instructors
+not course materials
+Partial; many focused
+on format conversions
+or course objective
+mapping
+
+Framework for LLM-Assisted Course Content Modernization
+The LLM-assisted framework proceeds sequentially from content mapping and modernization to
+the integration of engineering mindset connections. There are also iterative revisions where the
+instructor actively makes or requests modifications to how the content is mapped. The process is
+only considered complete when the instructor is satisfied that the content is correct and
+sufficiently updated. The process can be repeated for each chapter or module in a given course
+until all content has been mapped.
+
+Phase I: Content
+Mapping &
+Modernization
+
+Phase II: Entrepreneurial
+Mindset Integration
+
+Phase III:
+Instructor
+Validation
+& Review
+
+Adjust connections
+Review content accuracy
+
+Figure 1: Content transformation framework with instructor feedback loops. Dashed arrows indicate iterative revision cycles where the instructor makes or requests modifications to content
+mapping (Phase I) or EM connections (Phase II) based on validation outcomes.
+Phase I: Content Mapping and Modernization
+The purpose of Phase I is to map the content without modifying the underlying technical scope.
+The initial input to the workflow is a set of scope-limited content along with a prompt that
+emphasized instructor provided constraints. The constraint-based mapping prompt was designed
+to ensure success in Phase I is shown below:
+Constraint-based Mapping Prompt: Map the provided instructional content into the modern
+LaTeX-based lecture format. Preserve all mathematical definitions, equations, and examples
+while reframing text-heavy explanations into worked examples, visualizations, and computational
+demonstrations where appropriate. The transformed content should remain aligned with the
+original scope and be suitable for engineering technology students using MATLAB.
+The first sentence provides the input content and output format, which limit the scope and enforce
+structural consistency, respectively. The remaining sentences provide the constraints that define
+the transformation behavior. By separating the overall task into components with distinct roles,
+the designed prompt ensures that the goals of Phase I are met.
+In particular, limiting the input scope limits the likelihood of hallucinated prerequisite topics and
+eases the human review process by limiting the content magnitude. Specifying the output format
+ensures visual and structural consistency throughout the final content. In fact, templates can be
+provided for each type of content the LLM is asked to generate. For example, a template slide
+with a mathematical or code-based example.
+Finally, the constraints provide rules for the LLM to follow while mapping the content. Critically,
+each constraint serves a different function as shown in Table 2.
+The prompt constraint-based mapping prompt specifically does not allow cross-disciplinary
+examples or extensions that enable value creation and the inspiration of creativity.
+
+Table 2: Mapping of Phase I prompt constraint to instructional functions.
+Prompt Constraint
+Preserve all mathematical definitions and examples.
+Reframe text-heavy explanations into worked examples,
+visualizations, and computational demonstrations where
+appropriate.
+Remain aligned with the original scope
+Suitable for engineering technology students
+
+Instructional Function
+Ensure content fidelity
+Modernize pedagogy
+
+Enforces curricular
+boundary
+Calibrates course focus
+for audience
+
+Phase II: Integrating the Entrepreneurial Mindset
+Moving from Phase I to Phase II, the framework allows for the relaxation of structural constraints
+and explicitly asks the LLM to introduce application-oriented examples while maintaining
+contextual and scope constraints. In order to enable this work, a general EM Integration Prompt
+was designed.
+EM Integration Prompt: Extend the modernized technical content by embedding
+application-oriented examples that encourage curiosity, make connections across engineering
+disciplines, and illustrate value creation. Applications should remain aligned with the original
+technical scope, avoid introducing new prerequisite theory, and be suitable for engineering
+technology students. Examples should be interpretable analytically and implementable
+computationally (e.g., in MATLAB), with an emphasis on interpretation rather than
+derivation.
+Table 3 shows how each part of the prompt serves to enable a unique function critical for the
+success of Phase II. Rather than explicitly defining the 3C’s from the KEEN EM, i.e., curiosity,
+connections, and creating value, they were implicitly implemented in the prompt. In addition, the
+technical scope is firmly limited to that in the output from Phase I to reduce the risk of scope
+creep. Finally, the types of examples are specified to be both analytical and computational to
+ensure that both of these broader problem types are present, matching the overall course
+objectives.
+Phase III: Human-in-the-Loop Validation and Review
+Unlike Phases I and II, Phase III shifts control to the instructor to ensure academic responsibility,
+pedagogical accountability, and ethical AI use. The instructor follows the following steps to
+validate the content modernization and mapping:
+The evaluation process focused on three primary criteria: technical accuracy, pedagogical
+alignment, and scope and relevance. Technical accuracy included verification of correct notation
+and equations, proper computational syntax and behavior, and the validity of both analytical and
+numerical results. Pedagogical alignment emphasized ensuring that course objectives were met,
+that the content was appropriate for the course timeline, and that concepts were presented in a
+logical sequence, with definitions and foundational material introduced prior to applications.
+
+Table 3: Mapping of Phase II prompt components to instructional functions.
+Prompt
+Component
+Contextualization
+
+Text from Prompt
+
+Function
+
+Embed application-oriented examples
+
+EM Integration
+
+Encourage curiosity, connections, and
+value creation
+Remain aligned with original
+technical scope
+Avoid assuming prior engineering
+theory knowledge
+Examples interpretable analytically
+and implementable computationally
+
+Shifts content from
+abstract mathematics to
+contextualized
+engineering
+Operationalizes EM
+outcomes
+Prevents topic drift and
+theory inflation
+Calibrates course focus
+for audience
+Reinforces dual
+math–computation
+workflow
+Preserves rigor while
+prioritizing understanding
+
+Scope Control
+Audience
+Control
+Analytical and
+Computational
+Exploration
+Rigor
+Preservation
+
+Emphasis on interpretation rather than
+derivation
+
+Scope and relevance considerations involved identifying and removing content drift, checking for
+the inclusion of unintroduced or unsupported theory, and ensuring alignment with the intended
+student learning outcomes.
+Once errors or inconsistencies are found, they can be handled in two ways, depending on the
+instructor’s preference. The first way is direct correction. This is most appropriate for small
+corrections that are easily fixed or sticky errors, such as LLM, which has a difficult time
+correcting. Another option is targeted regeneration. Since the output format is text-based, the
+instructor can simply paste a slide or slides to be revised along with a request for update.
+Figure 2 shows the full three-phase workflow with feedback throughout. In general, it is better to
+ask the LLM to edit content during Phases I and II when it has just mapped the slides. It is more
+difficult for the LLM to avoid scope creep when it is further removed from the mapping process.
+Then in Phase III, the instructor can fine-tune the material through detailed validation.
+Case Study: Advanced Technical Analysis Course
+Course Context and Materials
+The bachelor’s degree in the Engineering Technology (ET) programs at Old Dominion University
+requires mathematics up to Calculus I (differentiation and integration of algebraic and
+transcendental functions of one variable) and algebra-based Physics I and II, whereas regular
+engineering degrees would additionally require Calculus II (techniques of integration, polar
+coordinates, infinite series, solid geometry, vectors, lines, and planes), Calculus III (partial
+derivatives, multiple integrals, and vector calculus), and Differential Equations courses, as well as
+calculus-based physics. While the additional math concepts are still needed for the presentation of
+
+Phase I
+
+Phase II
+
+Phase III
+
+Prepare content
+
+Entrepreneurial
+Mindset Integration Prompt
+
+Detailed
+validation
+
+Constraint-based
+Mapping Prompt
+
+Generate
+discipline
+connections
+
+Map content to
+modern format
+
+Fail
+
+Review
+
+Pass
+
+Fail
+
+Review
+
+No
+
+Pass
+
+Technical
+Accuracy?
+
+Yes
+
+No
+
+Pedagogical
+Alignment?
+
+Legend
+Instructor
+Action
+
+LLM Action
+
+Yes
+
+Decision
+Point
+No
+
+Scope &
+Relevance?
+
+Yes
+
+Finalize content
+Figure 2: Detailed workflow showing instructor and LLM actions at each phase. Blue, green,
+and orange are used to represent instructor actions, LLM tasks, and decision points, respectively.
+Dashed arrows in Phases I and II indicate feedback loops where the LLM is asked to regenerate
+content. In Phase III, the instructor directly fixes any issues identified during validation.
+the engineering results, in the engineering technology courses, there is less focus on the analytical
+and derivation aspects, and the higher-level math is needed mostly for students to be able to
+understand and follow the course presentation, and not to perform rigorous math derivations. To
+introduce engineering technology students to the higher-level mathematical concepts required in
+their coursework, the ET curriculum includes a 300-level course entitled Advanced Technical
+Analysis [17, 18]. This course covers a broad range of foundational topics, including matrix
+analysis and the solution of simultaneous equations using matrices; a review of single-variable
+differential and integral calculus; the solution of differential equations using classical
+time-domain methods; the application of Laplace transforms to differential equations; an
+
+Table 4: Summarization of key features for content mapping framework.
+Goal
+
+Nature of LLM
+output
+Risk being
+managed
+Typical Artifacts
+
+Phase I
+Map content into
+modern instructional
+format
+Structurally
+constrained
+transformation
+Content loss
+
+Slides, worked
+examples,
+MATLAB code
+
+Phase II
+Contextualize
+content
+Directed expansion
+and
+contextualization
+Misalignment or
+superficial
+applications
+Application
+examples,
+discussion prompts
+
+Phase III
+Ensure accuracy,
+relevance, and
+completeness
+Reviewed,
+corrected, and
+finalized
+Technical errors or
+pedagogical
+mismatches
+Final lecture
+materials
+
+introduction to probability and statistics; curve fitting and correlation techniques; and an
+introduction to three-dimensional vector analysis. A former ET faculty member specifically
+developed a textbook for this course, covering all the mathematical topics listed above with
+MATLAB and hands-on solutions [19]. Along with math concepts, students are also introduced to
+programming through MATLAB. Basic programming concepts are taught, including if/else tests
+and for/while loops, as well as MATLAB solving of all the math-type problems presented in the
+rest of the course. Plotting is covered in detail, as visual presentation of results is essential in all
+engineering. Simulink is also introduced, with applications mostly in system modeling and
+solving differential equations. For most students, this is the first course in which they learn
+programming. Electrical engineering technology students are also exposed to programming
+through microprocessor courses (C/C++ programming).
+Application of the Framework
+While a variety of state-of-the art LLM tools would be appropriate for the application of this
+framework, this paper will present results generated by ChatGPT using the GPT-5 or GPT-4o
+[20]. The original course consisted of 23 lecture slide decks that were fragmented across textbook
+chapters and content topics. Using the proposed framework, all content was modernized and
+reorganized into 14 slide decks. Even though the total number of slides was reduced from 464 to
+305, representing a 34% reduction, there was no removal of technical content, but rather a shift
+from text-heavy explanations to worked examples, visualizations, and MATLAB scripts presented
+during instruction. This represents a clear, intentional shift toward the example-driven,
+computationally-focused instruction that the framework is designed to provide.
+The prompts for Phase I and II needed to be made specific for this course. The prompt example in
+Figure 3 shows a single instantiation of the general constraint-based mapping prompt designed for
+Phase I. Figure 4 shows slide-based content before and after the Phase I mapping process. The
+dense explanatory text has been removed to improve content accessibility. There is a noticeable
+shift from definition centric to motivation centric presentation aimed at engaging the learners.
+
+Map the content from ENGT305 Fall2023 Lecture14 starting at slide 12 into the LaTeX Beamer template
+Input
+
+Output Format
+
+we have been using. Preserve all mathematical definitions and examples.
+Constraint
+
+Replace text-heavy explanations with worked examples and MATLAB code where appropriate.
+Constraint
+
+Constraint
+
+Figure 3: A constraint-based mapping prompt labeled to show how each part represents a critical
+component, i.e., input, output format, constraints, to ensure that the task for Phase I is complete.
+
+(a) Text-heavy integral calculus definition
+
+(b) Modernized introduction with motivation
+through engineering relevance
+
+(c) Abstract presentation of indefinite and (d) Modernized presentation emphasizing indefinite integrals
+terpretation
+Figure 4: Representative before-and-after examples illustrating the transformation of abstract, textheavy instructional slides into context-driven, application-motivated material using the proposed
+LLM-assisted framework. Using Phase I of the proposed framework, mathematical scope is preserved while pedagogy is modernized.
+However, the mathematical content, learning objectives, and formal rigor are preserved in the
+modernized version of the content. This provides a good foundation for the EM examples to be
+integrated in Phase II.
+Figure 5 shows a specific example prompt that was used based on the general EM prompt. At this
+
+For the modernized lecture content, add applied engineering examples that help students
+Contextualization
+
+see where the mathematics is used. Use models from vibrations, beams, or system response
+Disciplinary Connections
+
+Provide all governing equations so prior engineering theory is not assumed.
+Rigor Preservation
+
+Keep examples aligned with the existing lecture scope and suitable for engineering technology students.
+Scope Control
+
+Audience Control
+
+Include MATLAB plots or scripts enabling parameter exploration and interpretation.
+Computational Exploration
+
+Figure 5: An example EM integration prompt labeled to show how each part represents a critical
+component that maps to a function to ensure that the task for Phase II is complete.
+stage, many of the requirements were repeated back to the LLM in iterative prompts through
+conversation to request updates to fine tune the examples. This iterative process required careful
+review of the generated output and the formulation of specific requests for refinement, including
+the explicit use and presentation of relevant engineering equations, avoidance of assumptions
+regarding prior theoretical knowledge beyond the course prerequisites, incorporation of MATLAB
+implementation and graphical visualization of the solution, and consideration of whether the
+problem could be solved both analytically by hand and computationally using MATLAB.
+Figure 6 shows example of a MATLAB exploration generated using Phase II. The definition slide
+(Figure 6a) is included for reference as the output of Phase I and the corresponding input of Phase
+II. Phase II reinforces the technical rigor without introducing any additional mathematical
+content. It stimulated curiosity by allowing students to investigate increasing the number of trials
+in an experiment in order to observe the effect on the experimental probability. This supports
+connections by enabling discussions around reliability of engineering processes. By examining
+the results of the experiment (Figure 6d) students start to ask questions about convergence,
+variance, and reliability which is an important step toward creating value by strengthening their
+ability to quantify results, while also communicating levels of certainty and confidence.
+For Phase III, all content was reviewed prior to using it with students. All code was run in
+MATLAB to ensure that it was correct and executed successfully. Mathematical formulas were
+checked to ensure factual accuracy and readability. Finally, content was reviewed to ensure that
+no content was lost and no additional content was added during the process.
+Discussion and Outcomes
+This study proposes a framework for modernizing engineering course contents, utilizing large
+language models (LLMs). According to the results, LLMs have a huge potential to be one of the
+strong AI tools for course content modernization, particularly in engineering. The proposed
+framework preserves technical content, i.e., mathematical definitions, equations, and examples,
+while enabling a pedagogical shift from text-heavy explanations to example-driven and
+visualization approaches. This is intended to provide a balance in engineering technology
+
+(a) Theoretical and experimental probability definitions.
+
+(b) Experimental probability setup.
+
+(c) MATLAB implementation used to enable parameter variation and iterative exploration.
+
+(d) Simulation results illustrating convergence of
+experimental probability with increasing trials.
+
+Figure 6: Phase II example integrating the entrepreneurial mindset into probability instruction.
+Abstract probability definitions are contextualized through computational experimentation, visualization, and interpretation without expanding mathematical scope.
+education, i.e., updating course materials without removing core technical content, and still meet
+the course outcomes and student expectations. Additionally, the framework supports
+constraint-based prompting in Phase I, which is crucial for mitigating common risks associated
+with LLMs, such as hallucinations, inappropriate responses, and assumptions.
+The integration of the EM in Phase II shows how LLMs can add more value and support
+curricular enhancement. The KEEN EM is treated as a pedagogical lens for engineering
+decision-making. The existing technical content is extended by embedding application-oriented
+examples along with the KEEN 3C’s, i.e., curiosity, connections, and creating value. One
+interesting finding from this study, when reviewing the prompts used, was that the KEEN 3C’s,
+
+curiosity, connections, and creating value, were never formally defined for the LLM. Instead, they
+were stated as encouraging curiosity, making connections, and creating value, and then
+operationalized with persistent feedback to direct the LLM to provide relevant examples as shown
+in Table 5. From a pedagogical perspective, this highlights the importance of prompt engineering
+as an instructional design activity.
+Another interesting result is the significant reduction in total slide count without loss of technical
+content coverage, i.e., 34%, by shifting from explanations into worked examples and
+visualizations. This helps both the instructor and students; instead of spending more time with
+text-heavy explanations, they focus on understanding the mathematical formulations with
+computational interpretation.
+The proposed framework also involves the human-in-the-loop validation process in Phase III.
+This allows the instructor to validate the content modernization and mapping through the
+technical accuracy, pedagogical alignment, as well as scope and relevance. The use of LLM
+makes the process more effective and reduces the initial effort required by the instructor to
+modernize legacy materials.
+Although the proposed framework provides several advantages, particularly for content
+modernization, several limitations can be considered. First, the instructor is expected to have
+expertise in both the subject and in evaluating LLM-generated outputs. While LLMs are
+becoming more widely used this does make the framework difficult to access for all instructors.
+Second, the initial validation metrics with the process are defined, but additional metrics are
+needed to evaluate the LLM uncertainty and the hallucination rate to improve the trustworthiness
+of the LLM.
+Conclusions and Future Work
+This educational intervention presents a repeatable, instructor-centered framework focused on
+transforming content rather than replacing it. The framework allows instructors to keep up with
+changing instructional methods and student expectations without sacrificing technical rigor. The
+transformation process is demonstrated using a core engineering technology course that covers
+applications of upper-level mathematics in MATLAB. This course represents a challenging test
+case, as it requires a bridge between foundational mathematics, such as functions and graphing,
+up through differential equations, incorporated computational tools, and the integration of
+examples that make connections, encourage curiosity, and create value.
+The future work includes integrating student-centered activities and assessments that incorporate
+the EM. There is evidence that mastery-based learning is effective in supporting EM
+activities.[21] indicating that mastery-based, student-centered learning activities may be a good
+target for this work. In addition, it would be prudent to study the preservation of the content in a
+quantified way. Specifically, investigating the trustworthiness of various LLMs in preserving the
+content after Phase I would be an interesting investigation.
+
+Table 5: Operationalization of the KEEN 3C’s Through Instructor Prompts and LLM Outputs
+Instructor Prompt /
+Constraint
+Integrate examples
+engaging mechanical,
+electrical, civil, and
+manufacturing ET
+students
+Stick strictly to the
+content in the provided
+PDFs
+Add poll questions to
+slides
+Show how step size
+affects numerical
+differentiation accuracy
+Include application
+problems without
+assuming engineering
+theory
+Improve organization for
+two 75-minute lectures
+Demonstrate domain and
+range using stress–strain
+data
+
+LLM Output
+Discipline-specific application
+examples embedded alongside
+mathematical methods
+
+KEEN 3C
+Supported
+Connections
+
+Scope-limited examples aligned with
+legacy material and learning
+objectives
+Prediction-based and concept-check
+questions prompting student
+exploration
+Comparative MATLAB scripts and
+plots visualizing error versus step size
+
+Creating Value
+
+Model-based problems with equations
+provided, emphasizing interpretation
+
+Creating Value
+
+Progressive sequencing from concepts
+to applications and validation
+Visualization-driven examples linking
+math behavior to physical constraints
+
+Creating Value
+
+Curiosity
+
+Curiosity
+
+Connections,
+Curiosity
+
+References
+[1] Shan Wang et al. “Artificial intelligence in education: A systematic literature review”. In:
+Expert Systems with Applications 252 (2024), p. 124167. ISSN: 0957-4174. DOI:
+https://doi.org/10.1016/j.eswa.2024.124167. URL: https://www.
+sciencedirect.com/science/article/pii/S0957417424010339.
+[2] Muhammad Yasir Mustafa et al. “A systematic review of literature reviews on artificial
+intelligence in education (AIED): a roadmap to a future research agenda”. In: Smart
+Learning Environments 11.1 (2024), p. 59.
+[3] Lehong Shi and Ikseon Choi. “A Systematic Review on Artificial Intelligence in
+Supporting Teaching Practice: Application Types, Pedagogical Roles, and Technological
+Characteristics”. In: Uses of Artificial Intelligence in STEM Education. Oxford University
+Press, Oct. 2024. ISBN: 9780198882077. DOI:
+10.1093/oso/9780198882077.003.0015. eprint:
+https://academic.oup.com/book/0/chapter/493004738/chapter-
+
+[4]
+
+[5]
+
+[6]
+[7]
+
+[8]
+
+[9]
+[10]
+[11]
+
+[12]
+
+[13]
+
+[14]
+
+[15]
+[16]
+
+[17]
+
+pdf/60529875/oso-9780198882077-chapter-15.pdf. URL:
+https://doi.org/10.1093/oso/9780198882077.003.0015.
+Griffin Pitts, Viktoria Medvedeva Marcus, and Sanaz Motamedi. “Student Perspectives on
+the Benefits and Risks of AI in Education”. In: Proceedings of the 2025 ASEE Annual
+Conference Exposition. June 2025. DOI: 10.18260/1-2--57693. URL:
+https://peer.asee.org/student-perspectives-on-the-benefitsand-risks-of-ai-in-education.
+Jonathan Álvarez Ariza, Milena Benitez Restrepo, and Carola Hernández Hernández.
+“Generative AI in Engineering and Computing Education: A Scoping Review of Empirical
+Studies and Educational Practices”. In: IEEE Access 13 (2025), pp. 30789–30810. DOI:
+10.1109/ACCESS.2025.3541424.
+Chunyi Zhao. “AI-assisted assessment in higher education: A systematic review”. In:
+Journal of Educational Technology and Innovation 6.4 (2024).
+Greg Kestin et al. “AI tutoring outperforms in-class active learning: an RCT introducing a
+novel research-based design in an authentic educational setting”. In: Scientific Reports 15.1
+(2025), p. 17458.
+Priynka Sharma and Mayuri Harkishan. “Designing an intelligent tutoring system for
+computer programing in the Pacific”. In: Education and Information Technologies 27.5
+(2022), pp. 6197–6209.
+Sghaier Guizani et al. “A systematic literature review to implement large language model
+in higher education: issues and solutions”. In: Discover Education 4.1 (2025), pp. 1–25.
+Samuel Tobler. “Smart grading: A generative AI-based tool for knowledge-grounded
+answer evaluation in educational assessments”. In: MethodsX 12 (2024), p. 102531.
+Fan Ouyang et al. “Integration of artificial intelligence performance prediction and learning
+analytics to improve student learning in online engineering course”. In: International
+Journal of Educational Technology in Higher Education 20.1 (2023), p. 4.
+Gal Elidan and Yael Haramaty. Learn Your Way: Reimagining textbooks with generative
+AI. https://research.google/blog/learn-your-way-reimaginingtextbooks-with-generative-ai/. Blog: Google Research. Sept. 2025. (Visited
+on 01/19/2026).
+Eric L Brown, Douglas A Talbert, and Jesse Roberts. “Toward the Use of LLMs to Support
+Curriculum Mapping to Established Frameworks”. In: 2025 ASEE Annual Conference &
+Exposition. 2025.
+Paulina Rutecka et al. “Generative AI in Curriculum Design: Empirical Insights into Model
+Performance and Educational Constraints”. In: IEEE Transactions on Learning
+Technologies (2025).
+Rajvardhan Patil and Venkat Gudivada. “A review of current trends, techniques, and
+challenges in large language models (llms)”. In: Applied Sciences 14.5 (2024), p. 2074.
+Fengchun Miao and Wayne Holmes. Guidance for generative AI in education and
+research. Tech. rep. UNESCO, 2023. URL:
+https://www.unesco.org/en/articles/guidance-generative-aieducation-and-research.
+William Stanley, Paul Kauffmann, and Gary Crossman. “A Matlab Based Upper Division
+Systems Analysis Course For Engineering Technology”. In: 2003 ASEE Annual
+Conference. 2003, pp. 8–67.
+
+[18] Otilia Popescu and Orlando Ayala. “Differential Equations’ Coverage in Circuits and Heat
+Transfer Courses in an Engineering Technology Curricula”. In: 49th Conference for
+Industry and Education Collaboration (CIEC). Feb. 2025.
+[19] William D. Stanley. Advanced Technical Analysis. Cengage Learning, 2009. ISBN:
+1-111-00772-1.
+[20] OpenAI. ChatGPT (GPT-5) [Large language model]. Accessed: [01 October 2025]. 2025.
+URL : https://chat.openai.com/chat.
+[21] Joshua Gargac et al. “Mastery-Based Learning Inspires Persistence and Growth Through
+Failure”. In: Proceedings of the 2025 ASEE Annual Conference Exposition. June 2025.
+DOI : 10.18260/1-2--56959. URL :
+https://peer.asee.org/mastery-based-learning-inspirespersistence-and-growth-through-failure.
+
+

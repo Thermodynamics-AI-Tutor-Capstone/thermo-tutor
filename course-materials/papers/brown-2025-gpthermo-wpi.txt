@@ -1,0 +1,439 @@
+Paper ID #46855
+
+GPThermo: An In-House Generative Artificial Intelligence Tutor for Thermodynamics
+Mr. Harrison Zimmerman Brown, Worcester Polytechnic Institute
+Harrison Brown is a Robotics and Mechanical Engineering undergraduate student at Worcester Polytechnic
+Institute. His interest in automation and thermofluid science contributed to the construction of the model
+presented.
+Dr. Reza Ebadi, Worcester Polytechnic Institute
+
+©American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+GPThermo: An In-House Generative Artificial Intelligence Tutor for
+Thermodynamics
+Abstract
+Generative artificial intelligence (GenAI) has become ubiquitous. Convincing language
+complemented by constant modifications and upgrades have made GenAI models, such as
+OpenAI’s ChatGPT, an appealing tool to address complex problems. According to a survey by
+Intelligent.com nearly a third of college students in AY 2022-2023 used ChatGPT for schoolwork
+and 77.4% of them were likely to recommend using it to study to another student. Despite their
+appeal, these models have proven flawed in answering technical prompts. Their convincing
+language may entice the user to trust the responses without verifying them. For example, the
+authors failed to retrieve accurate thermodynamics properties of some common substances from
+three publicly available models (OpenAI’s ChatGPT, Anthropic’s Claude, and Google’s Gemini).
+Notwithstanding the inaccuracy of the responses, the conversation suggested some promising
+capabilities. For instance, with instructive prompts by the user, the models were able to reduce
+their error percentages significantly.
+Thermodynamics is one of the early core courses that students in Mechanical Engineering,
+Chemical Engineering, and Aerospace Engineering, among others take. This study aims to develop
+a GPT-based model focused on thermodynamics using publicly available resources, such as
+substance properties. Once proven successful, the model can be adopted by other institutions and
+adapted to similar courses.
+Keywords
+Artificial Intelligence, Thermodynamics, AI
+1 Introduction
+Thermodynamics is one of the most challenging subjects for engineering students and
+professionals alike. It often serves as a so-called gateway course (John M Pfotenhauer, 2015; Koch,
+2017). Gateway courses are among the contributors resulting in students leaving STEM, even
+among high-performers (Koch, 2017). Thermodynamics requires high cognitive load–a primary
+factor that pushes students out–due to its heavy reliance on complex concepts, data-intensive
+calculations, and the application of intricate physical laws (Orlando M Ayala, 2017). As such, it
+is often regarded by students as difficult and abstract (Patrick Tebbe, 2007) and consistently rank
+among the most challenging in engineering programs (Derek Baker, 2000; V Ismet Ugursal, 2015).
+Beyond its complex concepts, thermodynamics presents a practical challenge: it demands constant
+lookups of property values from massive data tables. Students and engineers must flip through
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Figure 1 – A typical tabulated properties of a common substance in thermodynamics. The table is extracted
+from (Michael J Moran, 2010).
+
+these tables, find the right values, and then use them in detailed calculations. Even simple problems
+can turn into lengthy processes as each new step requires another round of table lookups and
+number crunching.
+While there exist some commercial software such as EES (F-Chart Software, 2024), REFPROP
+(NIST, 2024), CoolProp (Ian H. Bell, 2014), Interactive Thermodynamics: IT (Shapiro, 2023) and
+free calculators (IRC, 2023), the thermodynamic properties of substances are still mostly extracted
+from extensive tables often found as appendices at the back of the reference textbooks. A typical
+thermodynamics table is shown in Figure 1. With more students opting out of owning textbooks
+and not having access to the commercial software packages, the properties of substances, which
+are the building blocks of any thermodynamics analysis, remain inaccessible to many students.
+This challenge is exacerbated once the student is no longer enrolled in the course.
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Another challenge that many students in engineering fields, including thermodynamics, face is the
+unnecessarily complex calculations. The authors believe in equipping the future engineers with
+tools to comprehend and analyze complex mathematical problems. However, we find the tedious
+and repeated calculations that involve mathematical operations on data with a wide range of order
+of magnitude and fine resolutions redundant. Complex calculations can be overwhelming and
+impede understanding of underlying concepts. Alternatively, simplifying calculations through
+software tools or alternative methods can free up cognitive resources, allowing students to focus
+on grasping the key principles. When calculations are simplified, students can see the connection
+between theory and application more clearly, leading to deeper understanding and improved
+retention of knowledge. By focusing on problem-solving strategies and interpreting results rather
+than intricate calculations, students can develop valuable critical thinking and analytical skills.
+In the current era, students frequently turn to AI technologies to assist them in understanding
+difficult subjects (Juan Dempere, 2023; Libert, 2023). A recent survey discovered over 89% of
+college students have used ChatGPT to help with a homework assignment (Libert, 2023). The
+current publicly available AI models (e.g., ChatGPT, Copilot, Claude, Gemini), however, are not
+designed specifically for engineering and thermodynamics problems. Consequently, they often
+produce inaccurate or incomplete responses when applied to the specialized nature of these
+courses. The inaccuracy of the results, coupled with convincing language of large language models
+(Carrasco-Farre, 2024), pose a significant risk as students may unknowingly rely on incorrect
+information. A sample conversation between the authors and ChatGPT is documented in Appendix
+A. In this conversation, ChatGPT failed to provide a clear and accurate response to the prompt:
+“What is the temperature of water at an enthalpy of 906 kj/kg and pressure of 894 mpa?” The
+input properties (enthalpy and pressure) are deliberately chosen outside the range of normally
+published tables in textbooks (Michael J Moran, 2010), and units are incorrectly typed to mimic
+typical student submissions.
+While general-purpose AI models are becoming more available, technical communities may still
+benefit from developing their own specialized AI models to incorporate their unique domain
+expertise, terminology, methodologies, and standards. This study addresses this gap by developing
+a robust AI model designed specifically for thermodynamics. The AI model, GPThermo, is
+equipped to handle vast data tables, perform precise calculations, and provide detailed and accurate
+feedback on complex thermodynamics problems.
+2 Model Design and Development
+Training a large language model (LLM) requires a significant amount of computing power. To
+save resources, a common strategy is to start with a pre-trained foundation model and then enhance
+it to fit the needs of a specific application (Aaron Parisi, 2022). In the case of GPThermo, the key
+improvement over publicly available models like ChatGPT is its ability to work with private data
+and interact directly with code to determine substance properties and perform thermodynamics
+calculations. It builds on the GPT-4o foundation model by adding two features: tool
+augmentation and retrieval augmentation (Aaron Parisi, 2022).
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+User
+
+Conversation
+Agent
+
+Retrieval
+Agent
+
+Tool
+Calling
+
+Calculation
+Agent
+
+Figure 2 - Multi-agent Architecture of GPThermo.
+
+Tool augmentation enables the model to run custom code, such as calling a function to
+determine substance properties or a calculator function to compute thermodynamic
+properties.
+2. Retrieval augmentation allows the model to access and use private or specialized data not
+included in its original training; such as proprietary property tables or specific fluid
+identifiers.
+1.
+
+These augmentations allow GPThermo to offer domain-specific functionality without needing to
+retrain or scale up the foundation model itself. The architecture of the model is illustrated in Figure
+2 and described below:
+1.
+
+Main Conversation Agent:
+The core of the system is a conversation agent built on GPT-4o, which is configured with
+detailed instructions. These instructions define the roles of various secondary agents and
+specify the conditions under which each should be activated. Upon receiving any user
+input, the conversation agent determines whether a secondary agent needs to be engaged.
+This decision is made through an if-else logic structure that routes the input to the
+appropriate secondary agent. In certain cases (e.g., complex calculations), a secondary
+agent may delegate specific tasks to even more specialized sub-agents (not shown in the
+diagram).
+
+2.
+
+Secondary AI Agents:
+There are two secondary agents, each with its own focused role and instruction set. This
+modular setup minimizes the computational load by keeping each agent lightweight and
+task-specific:
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Figure 3 - GPThermo's response (top center) to the sample thermodynamics prompt (What is the
+temperature of water at an enthalpy of 906 kj/kg and pressure of 894 mpa?) versus the leading public AI
+models.
+•
+
+Retrieval Agent:
+Responsible for extracting information from supervised sources such as proprietary
+property tables or specific fluid identifiers.
+
+•
+
+Calculation Agent:
+Executes mathematical operations using Python-based code to provide quantitative
+outputs.
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Figure 4 - The responses of GPThermo and leading models excel on the validation questions. Correct
+answers are marked with a 1, highlighted in green, while incorrect answers are marked with a 0,
+highlighted in red.
+
+3.
+
+Output Loop and Response Generation:
+Each secondary agent returns its output to the main conversation agent. This process may
+iterate several times within a single user query to compile a complete and accurate
+response. Once all necessary information is gathered and processed, the conversation agent
+delivers a final, synthesized reply to the user.
+
+3 Validation and Results
+A benchmark test was required to validate the new model’s ability to interpret and correctly
+respond to thermodynamics questions. Twenty questions relating to fluid state and thermodynamic
+processes were tested against GPThermo. These questions were also tested against four leading
+publicly available models: OpenAI’s ChatGPT, Google’s Gemini, Anthropic’s Claude, and
+Microsoft’s Copilot. The questions were selected to have clear numerical answers, enabling a more
+precise quantitative comparison of the models. The performance of each model was then evaluated
+by measuring the accuracy of its results, considering answers correct if they fell within 1% of the
+analytical solution. The performance of GPThermo compared to the publicly available models is
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+exemplified in Figure 3. The complete comparison of the performance of the models is shown in
+Figure 4. Overall, GPThermo responded accurately to 95% of the questions, as compared to the
+15%-25% by the four other publicly available models. The performance scores have remained
+relatively consistent as the authors have improved GPThermo in response to the continuous
+evolution of public models. The full list of questions is provided in Appendix B.
+4 Boarder Impacts and Conclusions
+The proposed project has the potential to significantly advance discipline-based educational
+research, particularly in engineering fields that rely heavily on thermodynamics concepts, such as
+Mechanical, Aerospace, and Chemical Engineering. By developing GPThermo, a generative AI
+model tailored to specific engineering domains, this work contributes to the expanding field of AIassisted learning and the creation of intelligent educational tools.
+A key innovation of this project lies in the development of a subject-specific AI model alongside
+a companion validation tool, moving beyond general-purpose educational AI. It contributes to the
+fields of engineering education, AI in education, and educational technology by (1) demonstrating
+the feasibility of customizing large language models for STEM education, and (2) providing a
+framework for validating such tools rigorously.
+In particular, GPThermo offers promising benefits for underrepresented and resource-limited
+students. By providing instant, accurate, and domain-specific feedback, the model has the potential
+to fill instructional gaps often found in under-resourced learning environments. It promotes greater
+equity and accessibility by supporting self-guided learning and reducing dependency on instructor
+availability. Additionally, the lightweight, modular design of the system could make deployment
+easier for institutions with limited computational infrastructure.
+While the study notes the potential for GPThermo to be adopted at other institutions, the tool’s
+successful adoption will depend on factors such as curriculum alignment, faculty acceptance, and
+institutional support. Integrating AI into existing courses poses challenges, including the risk of
+resistance to automation and the need to train faculty on the tool’s pedagogical uses and limitations.
+Additionally, providing students with access too early in their learning process may lead to
+overreliance on the model, potentially preventing them from developing foundational skills such
+as determining thermodynamic properties or performing calculations independently.
+References
+Aaron Parisi, Y. Z. (2022). Talm: Tool augmented language models. arXiv preprint,
+arXiv:2205.12255.
+Bacher, E. V., & Smith, C. (1985). Shear Flow Control. Conf. American Institute of Aeronautics
+and Astronautics.
+Carrasco-Farre, C. (2024). Large language models are as persuasive as humans, but why? about
+the cognitive effort and moral-emotional language of llm arguments. arXiv preprint.
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Derek Baker, O. E. (2000). Thermo net: A web based learning resource for engineering
+thermodynamics. 2000 Annual Conference & Exposition.
+F-Chart
+Software.
+(2024).
+Engineering
+https://fchartsoftware.com/ees/
+
+equation
+
+solver.
+
+Retrieved
+
+from
+
+Ian H. Bell, J. W. (2014). Pure and pseudo-pure fluid thermophysical property evaluation and the
+open-source thermophysical property library coolprop. Industrial & Engineering
+Chemistry Research, 2498-2508.
+IRC. (2023). Fluid property calculator. Retrieved from https://irc.wisc.edu/properties/.
+John M Pfotenhauer, D. J. (2015). Game design and learning objectives for undergraduate
+engineering thermodynamics. 2015 ASEE Annual Conference & Exposition.
+Juan Dempere, K. M. (2023). The impact of chatgpt on higher education. Frontiers in Education,
+1206936.
+Koch, A. K. (2017). It’s about the gateway courses: Defining and contextualizing the issue. New
+Directions for Higher Education, 180, 11-17.
+Libert, K. (2023). Only 34% of educators support the decision to ban chatgpt. einpresswire.
+Michael J Moran, H. N. (2010). Fundamentals of Engineering Thermodynamics. John Wiley &
+Sons.
+NIST. (2024). Refprop. Retrieved from https://www.nist.gov/srd/refprop.
+Orlando M Ayala, O. P. (2017). Flipped classroom as blended learning in a fluid mechanics course
+in engineering technology.
+Patrick Tebbe, S. R. (2007). Promoting student engagement in thermodynamics with engineering
+scenarios. 2007 Annual Conference & Exposition.
+Shapiro, M. a. (2023). INTERACTIVE THERMODYNAMICS:
+https://www.wiley.com/college/moran/it.htm
+
+IT.
+
+Retrieved
+
+from
+
+V Ismet Ugursal, C. A. (2015). Student opinions and perceptions of undergraduate
+thermodynamics courses in engineering. European Journal of Engineering Education,
+40(6), 593-610.
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Appendix A
+A sample conversation between the authors and ChatGPT (GPT-4o)
+
+User: What is the temperature of water at an enthalpy of 906 kj/kg and pressure of 894 mpa?
+
+Assistant: To determine the temperature of water at a specific enthalpy (h) and pressure (P), we
+can use water's thermodynamic properties based on steam tables or the International Association
+for the Properties of Water and Steam (IAPWS) correlations.
+
+1. Given Data:
+- Enthalpy (h): 906 kJ/kg
+- Pressure (P): 894 MPa
+
+2. Observation: The pressure 894 MPa is extremely high and not within typical ranges of liquid
+water or saturated steam under standard conditions. At this pressure, water likely exists in a
+compressed (subcooled) liquid state or a supercritical state, depending on the temperature.
+
+3. Procedure:
+- Use thermodynamic property tables for water (e.g., IAPWS-IF97) to find the temperature
+corresponding to this enthalpy and pressure.
+- At extremely high pressures like 894 MPa, the data would likely fall in the supercritical region.
+Here, specific temperature-enthalpy relationships govern the properties.
+
+4. Calculation Tool:
+The exact answer would require specialized software or reference to detailed thermodynamic
+data tables.
+
+User: Yes.
+
+Assistant: To calculate the temperature for water at h = 906 kJ/kg and P = 894 MPa, I'll use an
+approximation based on thermodynamic principles for supercritical water.
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Here's how we'll proceed:
+
+1. Supercritical Region: Since P = 894 MPa, this is far beyond the critical pressure of water
+(P_crit = 22.064 MPa). At this pressure, the relationship between enthalpy and temperature
+requires detailed thermodynamic tables or equations of state.
+
+2. Estimation Tools: I'll use a thermodynamic calculation to narrow down the temperature range.
+
+[Error in calculating...]
+
+Assistant: I could not use the IAPWS (International Association for the Properties of Water and
+Steam) library to perform the calculation in this environment. However, I can guide you on how
+to calculate it or approximate the value using other tools.
+
+Options for Determining the Temperature
+1. Online Tools or Software:
+- Use a property calculator like Engineering Toolbox or CoolProp.
+- Tools like REFPROP or EES can also provide detailed thermodynamic property calculations.
+
+2. Approach with Thermodynamic Tables:
+- Refer to supercritical water property tables for P = 894 MPa. The enthalpy h = 906 kJ/kg will
+correspond to a unique temperature.
+
+Would you like me to look up this value for you online or guide you to an appropriate tool?
+
+User: Yes.
+
+Assistant: Given the extremely high pressure of 894 MPa (which is 8,940 times atmospheric
+pressure) and an enthalpy of 906 kJ/kg, water is in a supercritical state. In this state, the distinction
+between liquid and vapor phases disappears, and water exhibits unique properties.
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Determining the exact temperature corresponding to these conditions requires precise
+thermodynamic data. However, based on typical supercritical water behavior, an enthalpy of 906
+kJ/kg at such a high pressure suggests a temperature in the approximate range of 350°C to 450°C.
+
+For precise calculations, you can use specialized tools and resources:
+- NIST Chemistry WebBook: Provides thermophysical properties of fluid systems, including water.
+- Steam Tables Online: Offers calculators based on IAPWS formulations for water and steam
+properties.
+- Thermophysical Properties Calculator: An online tool for calculating properties of water and
+steam.
+
+These resources can help you obtain accurate thermodynamic properties for water under various
+conditions.
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+Appendix B
+The list of questions designed for the initial validation of the model. Note the questions
+intentionally include mistyped units and grammatical errors to mimic typical student submissions.
+1. What is the temperature of water at an enthalpy of 906 kj/kg and pressure of 894 mpa?
+2. Refrigerant r-134a enters a throttling valve at a temperature of 58C and pressure of .2
+mpa. Assuming the process is adiabatic and no work is done, what will be the pressure if
+the refrigerant exits at 55C?
+3. A water heater uses a heating element with a resistance of 750 ohms to raise the
+temperature of 1 kg of water from 60 to 96 degrees celcius. What is the minimum
+amperage required to achieve this in 30 seconds, assuming the process happens in an open
+container under atmospheric pressure?"
+4. what is the entropy of water at 310 K and 2 bar?
+5. A piston of area 4m^2 pushed against 400c steam with a specific volume of 990 m^3/kg.
+How much force is needed to hold the piston still?
+6. What will the change in internal energy of steam be if it is heated from 100c and 2 mpa to
+300c at a constant pressure?
+7. Natural gas enters a pipe at 300K. It is cooled to 200K at a constant pressure of 2 bar.
+What will the change in internal energy be due to this process?
+8. A piston-cylinder assembly containing 2kg of r-134a at 10c and .06mpa undergoes a
+cooling process to -20c. What is the total internal energy, in kj, of the fluid in the cooled
+state?
+9. An isothermal compression process instantly vaporizes 150c water at a quality of .3 to 1.
+What is the gain in entropy from this process?
+10. Steam is delivered to a paper plant at 550K and 4mpa. If the steam is delivered with a
+mass flow rate of 600kg/s, what is the power provided to plant?
+11. Steam enters a turbine at 545c and 6mpa. It exits as a saturated vapor at 2mpa. What is
+the work done by the turbine?
+12. Saturated steam enters a condenser at 2 mpa. How much work is required to pump the
+water leaving the condenser at 6mpa?
+13. The instructions on an MRE require it is boiled at for 8 minutes at 1atm to sufficiently
+cook the food. How long, in minutes, will it need to boil to transfer the equivalent energy
+if cooked on a mountain where the atmospheric pressure is only .8 atm?
+14. Steam undergoes isenthalpic expansion where the initial state was 9bar and 888C. After
+the process, the steam is at a pressure of 2bar. What is the temperature drop?
+
+© American Society for Engineering Education, 2025
+
+2025 ASEE Annual Conference
+
+15. What is the enthalpy of steam held at 500c and 5.64 mpa?
+16. Saturated steam enters a pipeline at a mass flow rate of 400 kg/sec. If the temperature of
+the steam is 200c and the radius of the pipe is .5 meters, determine the velocity of flow.
+17. What is the specific volume of saturated water when it has temperature of 30c?
+18. What will be the specific entropy of steam that is half vapor and half liquid at 58c?
+19. Which has a greater internal energy, steam at 400c and 2mpa, or steam at 500c and 1.5
+mpa?
+20. A rigid tank contains 2 kmol of N2 and 6 kmol of CO2 at 300 K and 15 MPA. Estimate
+the volume of the tank using the ideal gas law.
+
+© American Society for Engineering Education, 2025
+
+

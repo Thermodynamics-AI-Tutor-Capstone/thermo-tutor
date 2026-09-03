@@ -8,8 +8,11 @@ Northwestern and Oxford from 1996, with a dialogue-agent successor built at CMU.
 LLM-tutoring literature does not cite it.** Its architecture is, in outline, the one we
 independently proposed. It is downloadable and still runs.
 
-> **Status: `[read]` — the 1999 *Artificial Intelligence* paper (all 51 pp.) **and** the shipped
-> software artifact. CycleTalk and the classroom evaluations are still being read.
+> **Status: `[read]` — the 1999 *Artificial Intelligence* paper (all 51 pp.), the shipped software
+> artifact, the ITS 2006 controlled evaluation, and — since **2026-09-03** — the **AI-ED 2005
+> human-tutor study** in full. ⚠ **Reading Rosé 2005 as a primary changed what this node claims
+> about human tutoring in thermodynamics; see that section.** The IJAIED 2006 account is still
+> out of reach.
 
 ## What it is
 
@@ -625,13 +628,221 @@ Note the shape: **reflect on what the simulator just showed → elicit a consequ
 constraint that bounds it → consolidate into a principle.** It is short, it is Socratic in the
 useful sense, and every turn is anchored to something the student just *did* in the simulator.
 
-## ⚠ The evidence — read carefully, because the headline overstates it
+## ⚠⚠ The human-tutor study (Rosé et al., AI-ED 2005) — read in full, and it does not say what everybody reports
 
-**The prior human-tutor study** (Rosé et al., AI-ED 2005) compared three conditions: **S**
-(script, step-by-step written instructions), **PS** (problem-solving goals + reference material +
-a hint button), and **NPSG** (*Negotiated Problem Solving Goals* — same goals, but the student is
-free to order them and **negotiates that ordering with a human tutor**). **NPSG learned most** —
-significantly more than PS (p < .05), marginally more than S (p < .1).
+> **`[read — full text, 8 pp., 2026-09-03]`.** Local copy:
+> `course-materials/papers/rose-2005-npsg-human-tutor.pdf` (+ `.txt`). ⚠ **Table 1 is embedded as
+> an image and does not survive text extraction** — the numbers below were recovered by pulling
+> the image out of the PDF. That is why every secondhand account of this study quotes only the
+> p-values.
+
+Rosé, C. P., Aleven, V., Carey, R. & Robinson, A. (2005). *"A First Evaluation of the
+Instructional Value of Negotiable Problem Solving Goals on the Exploratory Learning Continuum."*
+**AI-ED 2005**, Carnegie Mellon (HCII + Mechanical Engineering).
+ONR grant **N000140410107**. This is the study that produced the human-tutoring corpus CycleTalk
+was built from — **not** a Wizard-of-Oz study, and not a pilot.
+
+### The design is a 3 × 2, not a three-way
+
+⚠ **This node previously described it as three conditions. It is six.**
+
+**Goal Level** (the manipulation that mattered):
+
+| Condition | What the student got |
+|---|---|
+| **S** — Script | Problem-solving goals **and** the suggested analyses, in a fixed order. Still requires means-ends analysis to follow |
+| **PS** — Problem Solving | Goals in a fixed order; the student chooses which analyses meet them. *"Help provided in the style of typical model tracing tutors"* |
+| **NPSG** — Negotiable Problem Solving Goals | Same goal list, but the student **selects and orders the goals in negotiation with a human tutor**, over VNC |
+
+**Goal Orientation** (crossed with the above): students were told either *"your goal is to learn
+as much thermodynamics as possible"* (**LO**) or *"your goal is to achieve the greatest cycle
+efficiency"* (**PO**).
+
+⭐ **Content control was unusually strict, and it is a model for our own study.** All materials —
+take-home assignment, 11-page Rankine overview, three sets of focused readings, and the identical
+pre/post test — were written by **a CMU mechanical engineering professor and three of his graduate
+students, "with minimal input from our team,"** and were **identical across all six conditions**
+except for the manipulation instructions. *"Thus, we strictly controlled for information
+presentation in all written materials."*
+
+**Procedure:** a take-home lab in week 1, then a **3-hour on-campus lab in week 2** split into 8
+timed segments — 20 min pre-test (50 points), 15 min reading, 3 × ~20–25 min of focused materials
+(**this is where the manipulation happened**), **40 min of unsupported Free Exploration** building
+the most efficient Rankine cycle they could, 20 min post-test, questionnaire.
+
+**Outcomes:** 32 multiple-choice/short-answer *analytical* items (heavy on **predicting how one
+cycle parameter changes another**), 9 open-response *conceptual* items, and **Free Exploration
+success** — did the student actually build a working optimized cycle. Test results are reported as
+**residuals from a pretest→posttest regression**, not raw gains.
+
+**Participants:** a sophomore thermodynamics course at CMU, 120 students; **67 both did the
+take-home and consented**, plus 30 who did the lab but not the take-home. The learning analysis
+has **df = 83**, so roughly 86 students across six cells.
+
+### ⭐⭐ Table 1, recovered from the image — and it is much weaker than the p-values suggest
+
+Values are **residuals** (percentage points above or below the post-test score predicted from the
+pre-test), with SD in parentheses.
+
+| Measure | **S** (script) | **PS** (pseudotutor) | **NPSG** (3 tutors) | Tutor 1 | Tutor 2 | Tutor 3 |
+|---|---:|---:|---:|---:|---:|---:|
+| **Free Exploration success** | **63%** | 58% | **63%** | **100%** | **38%** | **0%** |
+| Total test residual | 1% (9) | **−2%** (9) | 2% (10) | 3% (6) | 3% (10) | **−7%** (9) |
+| Conceptual residual | **3%** (13) | **−5%** (13) | **3%** (16) | **12%** (3) | 10% (3) | **−18%** (6) |
+| Analytical residual | −1% (11) | −1% (10) | 5% (12) | 8% (10) | 4% (9) | 3% (17) |
+
+**Read the first row before anything else. On the applied design task, human tutoring and a
+written script tie exactly at 63%, and the pseudotutor is at 58%. There is no main effect for goal
+level on Free Exploration at all.**
+
+**Read the third row next. On the conceptual test, S and NPSG are identical at 3%.** The paper
+concedes it: *"both S and NPSG were significantly better than PS (p < .05), whereas the difference
+between NPSG and S was only a trend (p = .16)."*
+
+The reported main effect — **F(2,83) = 3.81, p < .05, MSE = 20.9** — is on the total test, with
+the order **PS < S < NPSG**, and the post-hoc breakdown is:
+
+| Contrast | Result |
+|---|---|
+| **NPSG vs. PS** | **significant, p < .05** |
+| NPSG vs. S | ⚠ **marginal, p = .11** |
+| S vs. PS | a statistical trend only |
+
+⚠ *This node previously reported NPSG vs. S as "p < .1". It is **p = .11** — on the wrong side of
+even the marginal threshold.*
+
+> **So the finding is not "human tutoring wins." It is: the model-tracing-style pseudotutor lost,
+> and human tutoring was statistically indistinguishable from a well-written script.**
+
+**The magnitude is the other half of it.** NPSG's advantage over the script on the total test is
+**one to two percentage points against standard deviations of 9–10** — roughly **d ≈ 0.1–0.2**.
+The only comfortably significant contrast, NPSG over PS, is about **5 points against SD ≈ 9**,
+so **d ≈ 0.5** — and *that* is a human tutor beating a piece of software, not a design principle.
+
+### ⚠⚠⚠ One tutor of three carries the result, and a second one lost to the software
+
+This is the finding that should govern how the study is cited.
+
+| | Free Exploration success |
+|---|---:|
+| **Tutor 1** | **100%** |
+| Script (no tutor) | 63% |
+| Pseudotutor | 58% |
+| **Tutor 2** | **38%** |
+| **Tutor 3** | **0%** |
+
+Between-tutor difference within NPSG: **p < .005** (binomial logistic regression). **Tutor 2's
+students did worse than students who had no tutor at all.** Only Tutor 1 beat the software.
+
+And **Tutor 3's data was deleted from the learning-gains analysis.** The authors' description is
+worth quoting in full because it is the clearest published account of how a human tutor fails:
+
+> *"He was extremely terse and impatient with students. His transcripts contained almost no
+> conceptual discussion, and in his impatience, **he rarely let students complete their work.
+> Instead, he tended to take over and do the lab for them** through the VNC connection to their
+> simulation interface."*
+
+**Conceptual residual −18%. Free Exploration success 0%.** ⭐ **A human tutor who takes over the
+work produces the worst outcome in the study — worse than no tutor, worse than the software, and
+by a wide margin.** That is [VanLehn's completion mechanism](../concepts/vanlehn-2011.md)
+demonstrated by its violation, in our own domain, twenty years ago: the students never
+self-generated a solution, so they learned nothing.
+
+⚠ **The authors' defence of the result is that Tutor 3's badness proves it was not a "warm body"
+effect** — students did not simply benefit from having a human present. That is a fair argument
+about *mechanism*. It is not a defence of *magnitude*, and it does not address the fact that
+Tutor 2, who was kept in the analysis, underperformed both software conditions on the applied task.
+
+**How to cite this study honestly:** *three graduate-student tutors produced outcomes ranging from
+the best in the experiment to the worst, the mean was indistinguishable from a written script, and
+the only reliable finding was that all of it beat a model-tracing-style pseudotutor.*
+
+### ⭐ The one design-relevant confound
+
+**NPSG students were tutored one-on-one. PS and S students sat in group lab sessions.** So
+"negotiated goals" is confounded with "individual attention." Assignment was also **not random** —
+students were placed *"in such a way as to maximize the evenness in distribution of grade so far
+between conditions and to respect student availability during 4 lab session times."* Average
+course grade was matched across conditions, which handles the obvious confound and not
+self-selection by schedule.
+
+⚠ **VanLehn's 2011 review includes this study anyway**, in his human-vs-step-based table, despite
+listing random assignment as an inclusion criterion. See the discrepancy below.
+
+### ⭐ The goal-orientation manipulation did nothing — and that is a finding for us
+
+Students were explicitly told to prioritise **learning** or **performance**. The manipulation
+check worked: LO students picked the learning-oriented answers more often (t = 2.33, p < .05 on
+one item; t = 1.58, p = .11 on the other).
+
+**And it changed no outcome.** No main effect on the total test, the conceptual test, the
+analytical test, or Free Exploration; no interaction with goal level. The authors: *"in contrast
+to findings in McNeil & Alibali (2000), we found very little evidence of any Goal Orientation
+effect."*
+
+> ⚠ **Telling students to adopt a learning orientation demonstrably changed what they said and
+> demonstrably changed nothing they did.**
+
+**This is a direct hit on a cheap idea our project would otherwise reach for.** Framing text —
+"focus on understanding, not on getting the answer" — in a system prompt, a landing page, or an
+onboarding screen is exactly this manipulation, and it is the one thing in this study that was
+cleanly measured and cleanly null.
+→ [engagement decay](../concepts/engagement-decay.md), [guardrails](../concepts/guardrails.md)
+
+### ⭐⭐ The tutoring behaviour worth stealing, stated in our own domain
+
+The authors describe one specific, recurring, implementable intervention — and it is the only
+concrete piece of tutoring policy in this whole literature that is written in the language of
+thermodynamic cycle design:
+
+> *"One common pattern that we have observed is that **students start out with the idea that more
+> sophisticated designs will be more efficient.** Thus, students have a tendency to be drawn
+> towards the more advanced portions of the design space before they are ready to fully understand
+> how to use that sophistication to an efficiency advantage. When our tutors observe this
+> behavior, **they encourage students to keep it simple and direct them back to more basic design
+> explorations until students demonstrate a solid understanding at that basic level.**"*
+
+**Premature complexity is the named failure mode, and pulling the student back to the simple cycle
+is the named intervention.** It is detectable from simulator state alone — a student adding reheat
+and regeneration before they can predict what T-max does to steam quality — which makes it a
+**deterministic trigger, not a prompt**. → [a pedagogical policy outside the prompt](../PAPER.md),
+[our skill graph](../../research/domain/skill-graph-draft.md)
+
+⚠ **Note what it is not: it is not Socratic questioning, and it is not a hint.** It is
+**outer-loop task selection** — the tutor deciding what the student works on next. Which is
+[the hypothesis VanLehn declared dead for human tutors](../concepts/vanlehn-2011.md), turning up
+here as the thing the tutors actually did.
+
+### ⚠ Two discrepancies with VanLehn's review, both unresolved
+
+1. **VanLehn lists this study as `d = −0.07`** in Table A8, *Human Tutoring Versus Step-Based
+   Tutoring* — i.e. the step-based tutor slightly *beat* the human tutors — with the note *"Data
+   from one human tutor were excluded,"* which matches Tutor 3 exactly. **But the paper's own
+   analysis reports NPSG > PS at p < .05**, which would be a positive d of roughly 0.5. **We
+   cannot reconstruct −0.07 from any contrast in Table 1.** Either VanLehn used a measure or a
+   pairing we cannot see, or he obtained data from the authors. **Recorded as unresolved; do not
+   quote either number as though the other did not exist.**
+2. **VanLehn describes the domain as "Carnot engines."** It is **Rankine** cycles — simple, with
+   reheat, with regeneration. Small, but it is one more instance of detail drifting on the way
+   into a review.
+
+### What this study actually gives our project
+
+1. ⭐ **The strongest content control in this literature, and it is copyable.** Same professor-written
+   materials in every arm; only the interaction differs. **That is the design our own study should
+   use**, and it is the reason this null-ish result is worth more than a bigger sloppier one.
+2. ⚠ **Human tutoring in thermodynamics did not beat a good written script.** Anyone pitching an
+   AI tutor against "the tutoring effect" in this domain should know that the one controlled
+   attempt found *d ≈ 0.1–0.2 against text*, from graduate-student tutors, on a 3-hour dose.
+3. ⭐ **Tutor variance is larger than the treatment effect.** 100% / 38% / 0%. If our tutor is
+   consistent, consistency alone is a claim — a floor, not a ceiling.
+4. ⭐ **A named, detectable, domain-specific failure mode** (premature design complexity) with a
+   named intervention (pull back to the simple cycle).
+5. ⚠ **Motivational framing text does not work.** Measured, and null.
+
+---
+
+## ⚠ The evidence — read carefully, because the headline overstates it
 
 **The ITS 2006 study** replaced the human tutor with the authored dialogue agents.
 
@@ -759,6 +970,14 @@ can only recite reflection prompts attached to graph nodes.
    and it is exactly what an LLM is now good at.** It is the clearest statement anywhere of the
    gap our project could fill.
 
+   ⭐ **And the 2005 human-tutor paper names the navigation move exactly**, in cycle-design terms:
+   students *"are drawn towards the more advanced portions of the design space before they are
+   ready,"* and the tutors *"encourage students to keep it simple and direct them back to more
+   basic design explorations until students demonstrate a solid understanding at that basic
+   level."* **Premature design complexity is the failure; pulling back to the simple cycle is the
+   intervention; and both are detectable from simulator state without any language understanding
+   at all.**
+
 ## Open questions — being read now
 
 - [ ] The 1999 *Artificial Intelligence* paper: architecture, the reasoning engine, how
@@ -777,10 +996,22 @@ can only recite reflection prompts attached to graph nodes.
       **PSU library should have it.** Ask for this one by hand.
 - [ ] Tuttle & Wu, *"Intelligent Computer Assisted Instruction in Thermodynamics at the U.S. Naval
       Academy"* (QR-2001) — found in the ITS 2004 reference list. A new lead for USNA outcome data.
-- [ ] Rosé et al. (2005) AI-ED NPSG paper — confirmed on CMU KiltHub (DOI `10.1184/r1/6469769`)
-      but every download path returns a Cloudflare challenge. Design and results recovered
-      secondhand from ITS 2006 §2.
-- [ ] The goal-orientation × tutoring-style study
+- [x] ~~Rosé et al. (2005) AI-ED NPSG paper — every download path returns a Cloudflare challenge;
+      design and results recovered secondhand from ITS 2006 §2.~~ **Read in full 2026-09-03.
+      Three claims in this node were wrong: it is a 3 × 2 design not a three-way, NPSG vs. S is
+      p = .11 not p < .1, and NPSG ties a written script on both the conceptual test and the
+      applied design task.**
+- [x] ~~The goal-orientation × tutoring-style study~~ — **it is the same study.** The
+      learning-vs-performance framing manipulation **changed what students said and no outcome
+      they produced.**
+- [ ] ⚠ **Reconcile with VanLehn.** He lists this study at **d = −0.07** favouring the step-based
+      tutor; the paper reports NPSG > PS at p < .05, which is a positive d of roughly 0.5. No
+      contrast in the recovered Table 1 produces −0.07. **Ask VanLehn, or find his coding sheet.**
+- [ ] **Did the promised corpus analysis of Tutors 1, 2 and 3 ever get published?** The 2005 paper
+      says *"we are currently conducting an in-depth corpus analysis to gain deeper insights into
+      what lead to the differences in effectiveness between Tutors 1, 2, and 3."* **That analysis
+      is the single most valuable unpublished-or-unfound document in this whole line of work** —
+      it is an account of what separated a 100% tutor from a 0% tutor, in thermodynamics.
 - [ ] Does anyone in the modern LLM-tutoring literature cite this work?
 - [ ] ⚠ **Running it may not be possible.** The paper states downloaded versions *"will expire
       in about a year"* — the binaries have a time bomb, and ours is a 2001 build. Worth one
@@ -817,6 +1048,6 @@ can only recite reflection prompts attached to graph nodes.
 - "Using Articulate Virtual Laboratories in Teaching Energy Conversion at the U.S. Naval Academy," *J. Educational Technology Systems* (1998), ERIC EJ561409 `[in progress]`
 - [**Kumar, Rosé, Aleven, Iglesias & Robinson (2006). "Evaluating the Effectiveness of Tutorial Dialogue Instruction in an Exploratory Learning Context." *ITS 2006*, LNCS 4053, pp. 666–674**](https://e-archivo.uc3m.es/bitstreams/2aa325b4-2f85-4561-9860-20ed9eb3b6ab/download) `[read]` — **the controlled evaluation.** Open copy via Universidad Carlos III (`hdl.handle.net/10016/17305`); Springer's is paywalled.
 - Rosé, Aleven & Torrey. "CycleTalk: Supporting Reflection in Design Scenarios with Negotiation Dialogue." CHI workshop paper `[read]` — states the negotiation-dialogue hypothesis.
-- Rosé et al. (2005). Human-tutor study establishing the **NPSG** condition. *AI-ED 2005* `[found]` — cited in the above for the S/PS/NPSG contrast (NPSG > PS at p < .05, > S at p < .1).
+- **Rosé, Aleven, Carey & Robinson (2005). "A First Evaluation of the Instructional Value of Negotiable Problem Solving Goals on the Exploratory Learning Continuum." *AI-ED 2005*** `[read — full text, 8 pp., 2026-09-03]` — **the human-tutor study, as a primary.** Local: `course-materials/papers/rose-2005-npsg-human-tutor.pdf`. ⚠ **Table 1 is an embedded image**; extract it with `pdfimages -f 6 -l 6 -png` to get the numbers. Also indexed at [CMU KiltHub, DOI 10.1184/r1/6469769](https://doi.org/10.1184/r1/6469769) (Cloudflare-blocked).
 - Rosé et al. "CycleTalk: Toward a Dialogue Agent That Guides Design with an Articulate Simulator," ITS 2004 `[found]`
 - Funding: **ONR Cognitive and Neural Sciences Division, Grant N000140410107** — the same ONR line that funded [Andes](andes.md) and CyclePad itself.

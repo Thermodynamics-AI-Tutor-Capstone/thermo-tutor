@@ -1,0 +1,590 @@
+Paper ID #46308
+
+Applications of Artificial Intelligence in an Introductory Thermodynamics
+Course
+Lt. Col. Jason Daniel Christopher, U.S. Air Force Academy
+Lt Col Jason Christopher is an assistant professor of mechanical engineering. His research interests
+include thermal fluid sciences and pedagogical innovation. He holds a Ph.D. in mechanical engineering
+from the University of Colorado, Boulder and an M.S. in mechanical engineering from Rice University.
+He is an engineer in the U.S. Air Force and has experience acquiring space launch range systems and
+directing operational tests of multi-billion-dollar systems.
+Vincent Italo Bongioanni, United States Air Force Academy
+Prof. Lauren Scharff, U.S. Air Force Academy
+Lauren Scharff is the inaugural Director for the Scholarship of Teaching and Learning Program and
+a Professor in the Department of Behavioral Sciences and Leadership at the United States Air Force
+Academy (USAFA). Prior to working at USAFA, she was a Prof
+
+©American Society for Engineering Education, 2025
+
+Applications of Artificial Intelligence in an Introductory
+Thermodynamics Course
+
+Abstract
+As students and faculty grapple with the introduction of artificial intelligence (AI) into higher
+education, it is imperative that universities keep up with the latest trends and capabilities to equip
+their students to function beyond the classroom. In this work, we introduce a variety of AI tools
+into an introductory thermodynamics course within a mechanical engineering curriculum.
+Students are taught AI fundamentals along with basic query techniques applied to engineeringrelevant examples throughout the course. Several applications of AI are utilized during many
+lessons of the course including providing enhanced motivation for example problems, providing
+alternate explanations of course learning objectives and content, finding relevant applications of
+course concepts, as well as studying for quizzes and exams. Additionally, specific, varied AI
+concepts are applied to thermodynamic processes to understand AI’s broad use beyond generative
+large language models (LLMs) AI that permeate popular discourse. Student familiarity and
+sentiments regarding AI are collected at the start and end of class to understand how the course
+activities influenced their perceptions of AI’s utility. By exposing students to many facets of AI,
+with a focus on engineering applications, we seek to develop student capabilities utilizing AI in
+working through their academic and professional duties.
+1
+
+Introduction
+
+Technology improvements are a part of the human story from the earliest of our historical records,
+controlled fire and rolling wheels in prehistoric times, to automobiles and computers in modern
+times. Each of these changes has brought about questions about the pros and cons of a given
+technology compared to the status quo that led to that point. Tractors and sophisticated farm
+equipment like combines reduced the number of workers required to produce our agricultural
+yields needed to feed an ever growing population. Calculators shortcut our basic arithmetic skills
+and led teachers to wonder what skills and proficiencies students need to be able to succeed in
+mathematics, while Mathcad eliminated previously cumbersome steam-table lookups. 1 Today,
+artificial intelligence (AI) leads to similar questions about what skills are innately human and
+which abilities are okay to be offloaded to computer processing, freeing the human mind to
+contemplate and pursue other tasks and objectives. This paper investigates current capabilities
+within AI applied to students in an undergraduate thermodynamics course and how AI can help
+them achieve the course’s learning objectives.
+
+This effort studying AI within a mechanical engineering thermodynamics course comes as part of
+a larger effort within the United States Air Force Academy to look at how AI is being used across
+all of the curriculum to develop best practices and understand faculty perceptions regarding AI’s
+role in higher education. That effort focuses specifically on two tracks: students and faculty. The
+student focus examines AI within the classroom for learning activities to determine its influence
+on students’ sense of belonging, academic performance, and critical thinking skills. The faculty
+track examines how faculty use AI for non-teaching centric tasks as well as seeking to understand
+the faculty perceptions on the role they think AI plays within their courses, from developing
+material to helping administer and grade exams to figuring out the guardrails for allowing
+students to use AI on assignments, as well as on their professional development needs.
+The more focused effort discussed in this paper implements AI throughout the undergraduate
+thermodynamics course and evaluates student perceptions of AI within an engineering
+curriculum. The approach includes several separate AI-focused methods to create content for
+students to use. Many lessons utilized AI-generated summaries of the material or AI-generated
+images to accompany and motivate examples. Students used AI to generate example questions to
+review the material and prepare for quizzes. Lastly, diverse types of AI were shown to students in
+applications that help engineers solve tough nuclear power plant design, operational, and training
+challenges. Students completed pre- and post-course questionnaires with Likert-scale and
+open-ended questions to see how the AI activities influenced their perceptions of AI. The results
+of these surveys and identified trends are identified herein.
+2
+
+Background
+
+Tools to increase an engineer’s technical capabilities have been an important research area for
+many decades. Various improvements to calculation devices, for instance, have enabled ever
+faster and more precise results from the slide rule of the 1600s to its eventual replacement, the
+personal electronic calculator of the 1970s, and then to computer-based software and
+computational methods. Wolfram Alpha made a large step forward in the ability to solve a variety
+of problems and explain the steps to learners everywhere. 2 Now, AI, and specifically
+large-language models (LLMs) such as ChatGPT provide the next evolution in solving complex
+problems while showing detailed commentary on every step and calculation made. But AI’s
+ability to aid an engineers in their endeavor to solve the world’s technical challenges is much
+more broad. A brief review of AI’s definition, emergence, and varied types is appropriate.
+2.1
+
+Artificial Intelligence Definition
+
+A term as broad as ‘artificial intelligence’ is bound to have many definitions, most with significant
+overlap, but all with slight variations and nuances depending on the particular application and
+context. An early book on the topic by Earl B. Hunt defined AI by the topics that it sought to help
+address at the time of publishing his manuscript (1975): “theorem proving, game playing, pattern
+recognition, problem solving, adaptive programming, decision making, music composition by
+computer, learning networks, natural-language data processing, and verbal and concept
+learning.” 3 Obviously by modern standards (of 2025), this list is deficient as AI has grown so
+much (e.g. creating original artwork of many forms, not just music). The Department of Defense
+
+AI Strategy takes a much broader approach simply defining AI as “the ability of machines to
+perform tasks that normally require human intelligence.” 4 Thus, this paper will adopt this
+definition to encompass many applications that may not fall within the traditional concept of what
+AI can accomplish in a classroom.
+2.2
+
+The Rise of Artificial Intelligence in Everyday Life (i.e. why engineers need to know it
+now)
+
+Artificial Intelligence has risen in popularity the last several years with the release of ChatGPT to
+accomplish a variety of activities that were previously viewed as science fiction relegated to
+moveies and the imagination. Before this wide-spread adoption throughout may sector of society,
+however, AI had been on a steady rise as computer computational power has increased in the
+latter half of the 20th century. Alan Turing introduced the idea of talking with a computer and not
+being able to tell if it is a computer or a human, the task since dubbed a “Turing Test,” in an
+important but never published manuscript in 1948. 5 (Indeed his hypothetical capability is now
+common practice in foreign language classes so students can practice their conversational skills
+even when another person who knows that language is not present.) Computer scientists
+continued improving AI capabilities with significant milestones along the way including when
+IBM’s Deep Blue defeated the reigning chess champion of the world, Garry Kasparov, in 1997. 6
+Its growth accelerated at the start of the 21st century with life-like chatbots emerging, 7
+autonomous vehicles taking to roads, 8 vast image recognition improvements, 9 winning Jeopardy!
+in 2011 against the best human contestant ever to compete 10 , and culminating with the plethora of
+large-language model (LLM) interfaces such as OpenAI’s Chat GPT-3 and Google’s Gemini, 11 in
+addition to AI-driven image (Dall E 12,13 ) and video (Runway 14 ) generation software. With this
+infiltration of AI into many facets of our lives in recent years, it is crucial to consider what
+AI-centered skills students will need as they enter the workforce, as well as what faculty can do to
+prepare them. Indeed, some companies have already expressed a preference for AI skills over
+experience and that they will not hire a candidate without AI skills. 15
+2.3
+
+Primary Subsets of Artificial Intelligence
+
+With the recent progress in AI, it is important to understand the various types of AI currently in
+use. A clear definition of the types of AI will help provide context for what students will need to
+be familiar with in the workplace as well as what they can utilize in class to propel their learning
+of thermodynamics. Though there are many ways to categorize the main types of AI (e.g. IBM’s
+classification based on capability vs function 16 ), the breakdown by Akkio 17 is more indicative of
+what students will see in engineering practice. Akkio lists the main subsets of AI as: machine
+learning (to include deep learning, neural networks, and natural language processing), robotics,
+and genetic algorithms. 17 Machine learning uses large data sets to train and make predictions
+about other data inputs based on the training set; machine learning includes many different
+approaches to making sense of large sets of training data to include large language models such as
+ChatGPT. Robotics focuses on using AI to control physical systems such as robots or vehicles.
+Finally, genetic algorithms seek to find how well postulated solutions fit the desired outcome and
+then iterate based on the best options at each step. Note that all of these approaches to AI can be
+used and applied to different types of data from numbers, speech, images, etc. and thus have
+
+applications across engineering education.
+2.4
+
+Applications of Artificial Intelligence to Teaching Engineering
+
+AI is becoming ever more present in daily life, to include within the education domain. The
+recent book, Teaching with AI 18 provides specific guidance for how to utilize AI in the classroom
+from honor policies to quiz and exam approaches. The book, and other prominent work on
+teaching with AI ( 19 , 20 ), are generic to all disciplines, however, so it is important to focus on how
+to utilize AI effectively for engineering education, and specifically thermodynamics. Menekse
+posits some of the benefits as well as the challenges of using AI in an engineering education. 21
+Specifically, the work by Menekse highlights the personalized learning experience AI can
+provide, AI’s potential to create virtual learning laboratories, AI can provide real-time,
+individualized feedback on student work, and students can use AI to ’learn by teaching.’ 21
+Menekse’s warnings about AI focus on its potential to spread incorrect information (which
+students need to be aware of and can serve as a learning opportunity for students to identify such
+errors), privacy concerns for student data shared with software, decreasing the cognitive load for
+students which causes them to learn less (i.e. the one who does the work does the learning), and
+students are tempted to plagiarize AI outputs depending on the course policies. 21 There is very
+little research focused on using AI within thermodynamics, but Supan 22 made a large contribution
+in this area by having students analyze various applications of AI to regulate nuclear power plant
+operations. Through this effort, Supan demonstrated the power of AI in solving or optimizing
+very specific engineering tasks, helping her students understand AI’s potential within
+thermodynamics. 22 Though these works lay the foundation for teaching thermodynamics using
+AI-informed approach, the current effort seeks to build upon this foundation and identify
+additional pedagogical approaches for using AI in the classroom.
+3
+
+Research Approach
+
+Several AI-focused activities were chosen for implementation in the semester-long introductory
+thermodynamics course. The intent was to expose students to a variety of AI applications so they
+could see its relevance to their learning and to engineering applications. These activities
+complemented traditional course pedagogy including regular textbook reading assignments,
+homework, laboratory exercises, and periodic learning assessments including quizzes and exams.
+The AI exercises and exposure were ungraded but intended to be an initial exposure for students
+to explore the many ways by which AI can integrate into any engineering course, with a few of
+the activities specifically tailored toward thermodynamics-specific content.
+The specific AI-focused learning events included the following, some of which occurred nearly
+every lesson and others that occurred as needed to support key semester milestones. A large
+language model, OpenAI’s ChatGPT, was used extensively for various exercises, so students were
+first taught the fundamentals of prompting to obtain relevant results. The Prompt Engineering
+Guide 23 provided the key points for students (and faculty) to use when developing prompts. With
+this prerequisite established, the course introduced various AI-aided learning methods throughout
+the course. As part of many lessons, students reviewed AI-generated summaries of the concepts
+then attempted to critique what was present and what was missing. Students practiced for 9
+
+(a) Thermodynamics Cartoon
+
+(b) Example Problem Image
+
+Figure 1: (a) Image created by Dall-E to demonstrate thermodynamic concepts. Students considered the various types of energy transfer it portrayed and critiqued as appropriate such as it labeling
+the apparent flame as “work” instead of “heat.” Created using the following prompt: Create an introduction to thermodynamics cartoon style image with labels for ’heat’, ’work’, and ’internal
+energy.’ (b) Image created by Dall-E to make an example problem about an ’ice factory’ more
+interesting and visual to help with student retention. Created using the following prompt: Create
+an image of the interior of an ice making factory.
+different quizzes using AI-generated multiple choice questions for topics specific to each quiz
+(see Figure ). The instructor provided AI-generated images to complement and motivate
+otherwise generic example problems (see Figure 1 (b)). The course utilized AI to help elaborate
+on course concepts and provide additional examples of concepts relevant to student interests.
+Students also looked at AI-generated data, such as the image in Figure 1 (a), to determine what AI
+rendered correctly and where it missed the mark. The course also highlighted the examples from
+Supan 22 to show that in addition to simpler applications of AI to classroom exercises, the same
+techniques can be used to solve sophisticated thermodynamics applications.
+To collect data about the effectiveness of these AI-focused activities, surveys were taken at the
+beginning and the end of the course. Surveys were voluntary, results were de-identified, and
+participation counted for no points, but time during class was given for students to complete them.
+The surveys asked a variety of questions to assess several objectives, in line with the
+university-wide AI project effort. Namely, the objectives include the following:
+1. Examine the effects of AI among university students on learning outcomes and processes
+2. Evaluate how AI-driven teaching tools can be purposed for personalized and inclusive
+education
+
+Figure 2: Example fill-in-the-blank quiz created by ChatGPT to help students practice their understanding of thermodynamic concepts. Created in ChatGPT-4 using the following prompt: Generate
+20 fill in the blank questions to help me study for a thermodynamics quiz covering basic thermodynamics vocabulary and units.
+3. Explore the ethical dimensions and practical challenges of AI use
+4. Understand how the integration of AI into classroom settings alters student-teacher and
+student-student dynamics
+5. Explore and compare the perceptions of instructors and students regarding the use of AI
+A review of student responses in pre- and post-course questionnaires will enable evaluation of
+these five objectives. The questionnaires had Likert-scale questions as well as free-response
+questions. Students were given time in class to complete the voluntary questionnaires which were
+worth zero points.
+4
+
+Discussion and Results
+
+The instructor integrated AI activities into the 40-lesson semester-long thermodynamics course
+and offered pre- and post-course surveys to the students to understand their perceptions of AI
+before the experience and after the AI applications. Though the questionnaire was optional and
+worth no points, of the 23 students in the single-section course, 23 students responded to the
+pre-course questionnaire while 20 of those students responded to the post-course questionnaire.
+Despite the overall number of students being relatively small, the high participation rate (87%)
+indicates the results likely represent the class as a whole. Each questionnaire contained a
+combination of 7-point Likert scale questions and open-ended questions. For the 7-point Likert
+scale questions, the options were: Strongly disagree, Disagree, Slightly disagree,
+
+Undecided/Unsure, Slightly agree, Agree, and Strongly agree. These responses are sometimes
+described in the results section as the percentage of students who agreed or disagreed which could
+account for any of the modifiers (including strongly or slightly); for example, a reported response
+could indicate that 52% of students agreed which indicates that 52% of students selected either
+strongly agree, agree, or slightly agree. Since the questionnaires contained many (52) questions
+each, and the overall number of responses is relatively low, this discussion will highlight the
+general trends observed in students as well as responses aligned with the project’s five objectives.
+Questions not directly discussed were deemed by the authors to be inconclusive or have
+insignificant results. Figure 3 shows the results from questions described in the text below. Each
+question’s label describes if it was from the pre- or post-course questionnaire as well as which
+research objective it is connected with.
+AI technology will help me focus more on learning processes than on final outcomes. (pre, 1)
+AI technology has helped me focus more on learning processes than on final outcomes. (post, 1)
+The integration of AI in the classroom will make the learning process more interesting and engaging.
+(pre, 1)
+The integration of AI in the classroom has made the learning process more interesting and engaging.
+(post, 1)
+I believe my grades will improve as a result of using AI to better understand the course content. (pre, 1)
+I believe my grades improved as a result of using AI to better understand the course content. (post, 1)
+AI tools will provide me with resources that are directly relevant to my learning needs. (pre
+AI tools provide me with resources that are directly relevant to my learning needs. (post, 1)
+Engaging with AI technology will challenge me to think in new and different ways. (pre, 1)
+Engaging with AI technology challenges me to think in new and different ways. (post, 2)
+AI tools will enhance my interest in this subject matter. (pre, 2)
+AI tools have enhanced my interest in this subject matter. (post, 2)
+The use of AI in this course will support my learning, helping to bridge any knowledge gaps that may
+exist and understand new concepts. (pre, 2)
+The use of AI in this course has supported my learning, helping to bridge any knowledge gaps that may
+have existed and understand new concepts. (post, 2)
+AI tools will help me to make this course relevant to my interests. (pre, 2)
+AI tools have helped me to make this course relevant to my interests. (post, 2)
+The AI policy in this course makes it clear how to maintain academic integrity. (pre, 3)
+The AI policy in this course makes it clear how to maintain academic integrity. (post, 3)
+My instructor’s explanations and/or demonstrations of appropriate AI use will enhance my
+understanding and acceptance of its role in education. (pre, 3)
+My instructor’s explanations and/or demonstrations of appropriate AI use have enhanced my
+understanding and acceptance of its role in education. (post, 3)
+Comprehensive discussions about AI by my instructor will lead me to trust AI more in my learning.
+(pre, 3)
+Comprehensive discussions about AI by my instructor have led me to trust AI more in my learning.
+(post, 3)
+I will trust AI more when I see it being used effectively and responsibly by my instructor. (pre, 5)
+I trust AI more when I see it being used effectively and responsibly by my instructor. (post, 5)
+60%
+
+40%
+
+Strongly Disagree
+
+20%
+Disagree
+
+00%
+
+Slightly Disagree
+
+20%
+
+040%
+
+Undecided / Unsure
+
+060%
+
+Slightly Agree
+
+080%
+
+Agree
+
+100%
+
+Strongly Agree
+
+Figure 3: These questions are a subset of the total 52 asked in the questionnaire; these questions
+are addressed in further detail in the results section. Each question’s response is shown from the
+pre- or post-course questionnaire as indicated after the question text. The number after the text
+for each question indicates to which of the five research objectives it corresponds. Results are
+centered about 0% being the middle of the undecided band going left (orange colored) indicating
+disagreement or right (blue colored) indicating agreement.
+
+4.1
+
+Overall Student Feedback
+
+A series of questions in the post-course questionnaire asked students about their overall
+experiences using AI in the course and their impressions of it going forward. Students identified
+several primary advantages of using AI in the thermodynamics classroom, including its ability to
+enhance their understanding of class concepts and provide clarity to complex ideas through
+answers customized however one would desire; one student wrote, “AI is able to take very
+complex ideas and make them understandable at whatever level you want. If you want the process
+of air conditioning units to be explained at a 4th grade level, that is something you can do.” Thus,
+generative AI programs can align with where students are in their learning journey, reinforcing
+learning by explaining complex topics in digestible prose. AI is also helpful for explaining
+concepts in logical steps so students can follow along, unlike days of yore when textbooks would
+arrogantly state, “it is left to the reader.” Instead, AI solves problems while providing helpful
+instructions to the student to follow along; one student commented, “AI can be very helpful in
+explaining a step by step process for going through the homework.”
+Along with these advantages, however, students were keen to note some substantial difficulties
+with using AI in the classroom. Their primary concerns from the start of the semester continued
+through the semester after many examples in class that AI can have accuracy issues. It
+hallucinates to make up data at times or does calculations incorrectly. Students also had issues in
+a thermodynamics context performing problems that rely on book tables for property values,
+stating, “it was often wrong calculation-wise (especially with the table values).” Students also had
+concerns about becoming too reliant on using AI to do the work and not learning how to solve
+problems or understand the material on their own - the enduring question of open book vs closed
+book! Thus, overall, students thought AI was a useful tool to supplement learning, but expressed
+that it cannot serve as the primary source in place of instructors, textbooks, homework, etc.
+As the course progressed and students were exposed to AI more each class, they generally
+became more comfortable with using it to help understand concepts and solve problems in an
+engineering class. However, they remained skeptical of its results and continued their skepticism
+and desire to verify its outputs. One student wrote, “I trust AI a lot more than I use to because I’m
+better able to tell what’s true and what’s not. In the beginning I was more scared of honor than
+anything else.” This emphasizes the importance of clear policies by instructors and institutions
+regarding AI’s acceptable use in the classroom for learning and each assignment, as will be
+discussed more in Section 4.4.
+4.2
+
+Research objective 1: Learning Outcomes and Processes
+
+The first objective of the overarching AI study (of which this thermodynamics focused effort is a
+small part) is to understand AI’s impact on learning outcomes and processes for students. The
+survey results help provide insight into how much students thought AI could help them in the
+classroom. At the start of the course, 73% of the students thought AI would help them focus on
+learning processes, while only 60% agreed at the end of the course. This could be due to the
+emphasis in engineering of both the learning process but also the end result, which is crucial for
+planes that fly, cars that drive, and power plants that produce: the end product matters. AI’s use in
+the classroom encouraged more students to find the class material interesting with only 39%
+
+agreeing AI would make class more interesting and engaging while 47% thought it actually did at
+the course’s end. Another key metric of AI’s success is how students view its ability to impact the
+grade in a positive manner; 63% thought their grade would improve by using AI to better
+understand course content and this remained consistent through the course with 59% of
+respondents agreeing in the final survey, while only 12% reported disagreed or strongly disagreed.
+Overall, the majority of students thought AI helped them achieve learning outcomes and that it
+provided timely feedback on their work. Overwhelmingly, 76.5% agreed that AI tools provide
+students with resources that are directly relevant to their learning needs while only 12%
+disagreed. The largest shift toward negative responses was that engaging with AI technology
+challenged students to think in new and different ways; originally 59% of students thought it
+would, but in the end only 40% thought it did.
+4.3
+
+Research objective 2: Personalized and Inclusive Education
+
+The second line of inquiry for the research project was to investigate how AI is able to personalize
+the learning experience for students and foster an inclusive environment for education, which can
+increase students’ sense of belonging in the course. Many students thought AI would increase
+interest in the subject material (thermodynamics), but in the end only 35% of respondents actually
+thought AI made thermodynamics more interesting while 40% of people did not agree. Despite
+this shortcoming, 76% thought AI supported learning by bridging knowledge gaps based on their
+previous education and helped increase their understanding of new concepts. The majority agreed
+AI allowed learning to occur at their own pace and in their own style, and that it helped overcome
+their specific educational challenges and learning barriers. A large portion (37%) thought AI did
+not help make the course relevant to their interests; this could stem from a lack of emphasis from
+the instructor in helping students understand AIs potential to connect an engineering concept to an
+area they are more interested in. It is important to note that these results are not simply a summary
+of the current state of perspectives from the 20 students in a single class– the results speak to pros,
+cons, and directions that instructors can take as part of a continuous improvement process.
+4.4
+
+Research objective 3: Ethical Dimensions and Practical Challenges
+
+The third research objective peels back the mystique of AI and looks at the ethical considerations
+of using it as well as the practical challenges students face. This was not an emphasis area of the
+course as there are many topics related to the ethical use of AI including data privacy, fair access
+by all users, biases in the data, and fair accounting of who produced the answers (i.e. academic
+integrity). This latter aspect (academic integrity) was the primary ethical consideration in this
+study. Many of these ethical areas are less relevant to thermodynamics as the primary homework
+and exam questions students used AI for are focused on numerical calculations, and students all
+used free versions of the software or versions paid for by the university accessible to all students.
+In general, students reported that they started the course confident about how to use AI ethically
+and they felt their understanding was reinforced by the course. The strong majority of students
+(>70%) reported in the questionnaire that they felt like they knew the boundaries for what AI use
+was allowed based on course and school policies, were comfortable talking about AI and
+academic integrity with the instructor, and thought the instructor’s guidance helped them gain
+trust in AI’s uses for learning. This is encouraging as the university where this study occurred
+
+places a substantial emphasis on academic integrity and students take an honor oath while
+attending school. These trends indicate students are becoming comfortable integrating AI into
+their academic experiences, but more research is needed to determine whether they appreciate the
+broader ethical complexities with using AI. Primary concerns from students included the gray
+areas of how much AI assistance is permitted and them wanting more instructor-driven examples
+of proper AI use for assignments. Additionally, more efforts are needed by the university and
+faculty to ensure the other 30% understand the boundaries and appropriate uses for AI.
+As faculty determine their own fair use policy for AI, it is relevant to share the boundaries by
+which this course approached using AI on assignments. In line with the university and department
+policies, this course allowed AI on homework and laboratory assignments while requiring
+students to document its usage consistent with receiving help from another resource (such as help
+from a classmate). Each assignment type has unique limitations. Quizzes and tests, for instance,
+are individual effort so no outside help is authorized. Homework and laboratory write ups
+authorize help from other students, but the work must be primarily that of the submitter. Thus we
+require students to specifically state what they received help on for a given problem (e.g. help
+with a particular stein a problem, how to start, where to get a property) vs blanket statements such
+as receiving help for an entire problem. This fidelity of documentation both discourages academic
+integrity lapses while allowing faculty to understand where students struggle most. One of the
+most important aspects in deciding how students can utilize AI is to be clear and keep it simple so
+the student has no ambiguity when working on an assignment, perhaps late at night or under
+pressure when ethical inhibitions may be waning.
+4.5
+
+Research objective 4: Student-Teacher and Student-Student Interactions
+
+The fourth research objective sought to determine how AI impacted student-teacher and
+student-student interactions. Overall, questionnaire results changed very little between pre- and
+post-course data regarding these topics. The current study did not place a large emphasis on this
+topic so it makes sense that students’ questionnaire results did not change much due to taking the
+course. Additionally, there was an even split between those who agreed and those who did not
+agree, indicating students differed in their perspectives, including whether AI changed
+interactions with the instructor, whether they were more efficient or productive, whether they
+needed instructor time more or less, whether they would work with peers differently, whether they
+would be more productive with peers, and whether they would use AI to engage and interact with
+classmates. While AI’s use for working out problems and understanding concepts was
+widespread, its impact regarding human interactions was quite varied. Some of the students who
+found a difference regarding instructor interactions noted that they had a decreased reliance on
+instructors since they used AI for quick, simple simple questions or as a first step in
+problem-solving, which reduced their need to interact with instructors for basic queries. Indeed,
+one student commented, “AI is a great way to prepare for the instructor as it adds another step in
+problem solving method: try myself, ask AI, ask another Student, ask Instructor.” Thus, students
+use AI as a preparatory step before seeking help from instructors to refine their questions or better
+understand the material beforehand. Students noted that AI is highly accessible and convenient as
+it provides immediate responses, making it a preferred tool for initial problem-solving, especially
+for straightforward or repetitive questions. AI provides a non-judgmental space for students to ask
+
+questions they may feel uncomfortable asking instructors, particularly for topics they think they
+should already know. Despite AI’s utility, some students indicated a preference for instructor
+explanations due to their depth and alignment with course-specific nuances.
+4.6
+
+Research objective 5: Perceptions of Instructor and Students regarding use of AI
+
+The final research objective this effort seeks to address concerns how faculty and students
+perceive using AI in the classroom setting. The larger research project will span many courses
+and many instructors, but this current effort is limited to the experiences of a single instructor.
+According to this instructor’s perspective, AI was useful for creating engaging materials. It
+succinctly summarized complex topics to create quick review materials for students while
+offering them an additional resource to consult in addition to the traditional options - textbook,
+instructor, classmates, and the internet. From the students’ perspective, 71% said they trust AI
+more when instructor uses it effectively. Thus, at this juncture it is crucial to develop trust in the
+technology and appropriate usage habits among students. The majority of students agreed that it
+helps when the instructor shows how to fact check AI, combating one of their primary concerns
+about AI - whether they can trust its results. Students indicated that instructor examples helped
+them figure out how to use AI with their own problems, so instructors should focus on providing
+good use cases. Lastly, students’ comments showed that AI enhanced the quality of the
+educational content in the course. These data indicate that AI can be an effective tool to increase
+learning in thermodynamics and likely other engineering courses.
+5
+
+Limitations and Future Directions
+
+Though this research effort is able to discern important trends with using AI in the
+thermodynamics classroom, it has some limitations worth considering. First, there was only one
+section of the course offered with 23 students, so the sample size is limited. This effort was not
+able to compare students engaging with AI activities to students not using the AI activities;
+instead it relied on the students’ self-reported experience in the course and their own comparisons
+to other courses that do not use AI. Similarly, with only a single section there was only one
+instructor, so it is not possible to compare one instructor’s implementation of AI with another
+instructor to see what works well and what does not, for instance. The data used for this effort
+were student surveys instead of student grades or other more objective measures of performance.
+With multiple sections it would be helpful to compare and contrast performance, time spent on
+assignments, and time spent with faculty for extra instruction in a section that uses AI and a
+section that does not use AI to see the similarities and differences. The last major limitation of
+this effort was its focus on particular implementations of AI in the classroom, namely large
+language models through limited interface applications. It would be helpful to grow the number
+of tools demonstrated to students and have them implement different assignments using varied AI
+to best understand its multitude of real-world applications.
+6
+
+Conclusions and considerations for implementation
+
+Students enjoyed using AI in the classroom and recognized it will be an important tool moving
+forward within academia, the workforce, and throughout society. This sentiment was captured
+
+well by one student, who wrote “restricting it completely is a disservice to students as the world
+changes.” Thus, students want to be prepared to use it in conjunction with other tools. Through
+this effort it became clear that students, despite all the credit they are due for embracing new
+technology, are still learning how to use AI, so they expect instructors to provide clear, explicit
+examples of how it can help them learn, think critically, and solve problems. It’s important to note
+that some students are still resistant to using AI in the classroom; when asked about how
+instructors should best utilize AI to aid learning they simply responded “Stop” or “Please do not
+[use AI].” However, after seeing AI’s clear application in the classroom and experimenting with it
+to solve problems, understand concepts, and study for quizzes (among other tasks), the majority
+of students supported AI in the classroom as a tool to support their learning, although they
+cautioned against relying on it too much. One student asserted, “I will always consider using AI,
+however, I will always verify the information that it provides me.” Students in this course also
+stressed the importance of clear AI usage policies to empower them to use it effectively while
+avoiding honor situations. Students overwhelming reported that they plan to keep using AI in
+future classes and other life endeavors. After all, that is a foundational purpose of education – to
+empower students to think about problems and teach them tools to move forward in life. All of
+these points combine to strongly suggest that AI is an important component of a modern-day
+classroom, and that instructors ignore it at their, and their students’, peril.
+The views expressed in this presentation are those of the author and do not necessarily reflect the
+official policy or position of the United States Air Force Academy, the Air Force, the Department
+of Defense, or the U.S. Government. Approved for public release: distribution unlimited. Public
+Affairs Number: USAFA-DF-2025-268. US Air Force Academy IRB Approval:
+FAC20250011E
+
+References
+[1] Jason Christopher, Adam Parks, Vipul Sharma, and Michael Maixner. Power plant analysis with mathcad. In
+2008 Annual Conference & Exposition, pages 13–987, 2008.
+[2] Vincent E Dimiceli, Andrew SID Lang, and LeighAnne Locke. Teaching calculus with wolfram— alpha.
+International Journal of Mathematical Education in Science and Technology, 41(8):1061–1071, 2010.
+[3] Earl B Hunt. Artificial Intelligence. Academic Press, Inc., 1975.
+[4] Department of Defense. Summary of the 2018 department of defense artificial intelligence strategy: Harnessing
+ai to advance our security and prosperity, 2018.
+[5] Alan Turing. Intelligent machinery (1948). B. Jack Copeland, page 395, 2004.
+[6] Feng-hsiung Hsu. Ibm’s deep blue chess grandmaster chips. IEEE micro, 19(2):70–81, 1999.
+[7] Nuria Haristiani. Artificial intelligence (ai) chatbot as language learning medium: An inquiry. In Journal of
+Physics: Conference Series, volume 1387, page 012020. IOP Publishing, 2019.
+[8] Martin Buehler, Karl Iagnemma, and Sanjiv Singh. The DARPA urban challenge: autonomous vehicles in city
+traffic, volume 56. Springer Science & Business Media, 2009.
+
+[9] Frank Y Shih. Image processing and pattern recognition: fundamentals and techniques. John Wiley & Sons,
+2010.
+[10] John Markoff. Computer wins on ‘jeopardy!’: Trivial, it’s not. The New York Times, 16, 2011.
+[11] Nitin Rane, Saurabh Choudhary, and Jayesh Rane. Gemini versus chatgpt: applications, performance,
+architecture, capabilities, and implementation. Performance, Architecture, Capabilities, and Implementation
+(February 13, 2024), 2024.
+[12] Gary Marcus, Ernest Davis, and Scott Aaronson. A very preliminary analysis of dall-e 2. arXiv preprint
+arXiv:2204.13807, 2022.
+[13] Pengyuan Zhou, Lin Wang, Zhi Liu, Yanbin Hao, Pan Hui, Sasu Tarkoma, and Jussi Kangasharju. A survey on
+generative ai and llm for video generation, understanding, and streaming. arXiv preprint arXiv:2404.16038,
+2024.
+[14] Biying Guo, Xinyi Shan, and Jeanhun Chung. A comparative study on the features and applications of ai
+tools-focus on pika labs and runway. International Journal of Internet, Broadcasting and Communication, 16
+(1):86–91, 2024.
+[15] Rachel Wells. 71% of employers prefer ai skills above experience in 2024. Forbes, Nov 2024. URL
+https://www.forbes.com/sites/rachelwells/2024/11/05/71-of-employersprefer-ai- skills-above-experience-in-2024/.
+[16] IBM Data and AI Team. Understanding the different types of artificial intelligence, 2023.
+[17] Ekin Keserer. The six main subsets of ai: (machine learning, nlp, and more), 2023.
+[18] José Antonio Bowen and C Edward Watson. Teaching with AI: A practical guide to a new era of human
+learning. JHU Press, 2024.
+[19] David Baidoo-Anu and Leticia Owusu Ansah. Education in the era of generative artificial intelligence (ai):
+Understanding the potential benefits of chatgpt in promoting teaching and learning. Journal of AI, 7(1):52–62,
+2023.
+[20] Stefan AD Popenici and Sharon Kerr. Exploring the impact of artificial intelligence on teaching and learning in
+higher education. Research and practice in technology enhanced learning, 12(1):22, 2017.
+[21] Muhsin Menekse. Envisioning the future of learning and teaching engineering in the artificial intelligence era:
+Opportunities and challenges. Journal of engineering education, 112(3), 2023.
+[22] Karen Supan. Using artificial intelligence case studies in a thermodynamics course. In 2024 ASEE Annual
+Conference & Exposition, 2024.
+[23] Democratizing Artificial Intelligence Research Education and Technologies Group. The prompt engineering
+guide, 2024.
+
+

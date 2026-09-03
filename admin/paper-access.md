@@ -8,41 +8,51 @@ access and are blocked only by bot detection.**
 
 ---
 
-## A. Open access, blocked only by a bot check
+## What is still missing, after the 2026-09-03 acquisition audit
 
-**These are not paywalled.** Opening the link in a normal browser and hitting "download PDF" gets
-them in under a minute each. My scripted fetches get 403s because I'm not a browser.
+**113 of 124 paper-type citations are now held** (91%) — see
+[`paper-holdings.md`](paper-holdings.md) for the full inventory and the acquisition recipes that
+worked. **Eleven remain.** Of those, only these actually matter:
 
-| # | Paper | Why we want it | Link |
-|---|---|---|---|
-| A1 | ⭐ **Porto: PRISMA review of 46 AI-tutor studies in engineering education** (IEEE Access, gold OA) | **The single highest-value item on this list.** A systematic map of our exact field — it tells us what our search has been missing | [ieeexplore.ieee.org/document/11217866](https://ieeexplore.ieee.org/document/11217866) |
-| A2 | **TUM: "Less stress, better scores, same learning"** (Elsevier, gold OA) | We have the abstract; the **effect sizes, cognitive-load scales and figures are unread**. Our sixth dissociation study | [doi.org/10.1016/j.caeai.2025.100537](https://doi.org/10.1016/j.caeai.2025.100537) |
-| A3 | **bioTutor** (MDPI *Educ. Sci.*, gold OA) | Abstract only. Need the **link to its open-source repo** and what "didactically structured" means concretely | [mdpi.com/2227-7102/16/5/812](https://www.mdpi.com/2227-7102/16/5/812) |
-| A4 | **Improving Hybrid Human-AI Tutoring** (EDM 2026, Zenodo) | Human/AI role division — directly relevant, since the two best results in the field are hybrid | [zenodo.org/records/21039782](https://zenodo.org/records/21039782) |
-| A5 | **Rosé et al. 2005 — the NPSG human-tutor study** (CMU KiltHub) | The study CycleTalk was trying to replicate. We only have it secondhand | DOI `10.1184/r1/6469769` |
-| A6 | ✅ **Koedinger, Corbett & Perfetti — the KLI framework** | **Acquired 2026-09-03** (Lance). CMU KiltHub/figshare returns 403 to scripts. Held as `koedinger-2012-kli-framework.pdf` | — |
+### Needs a browser (open access, bot-blocked)
 
----
+| # | Paper | Why we want it |
+|---|---|---|
+| **1** | ⭐⭐ **Porto et al. (2025), PRISMA review of AI-driven ITS in engineering education**, *IEEE Access* — [document/11217866](https://ieeexplore.ieee.org/document/11217866), DOI `10.1109/access.2025.3626473` | **The highest-value missing item.** A systematic map of our exact field — the thing most likely to show what our search is still missing. Gold OA, but **ieeexplore is its only host** (DOAJ lists no mirror) and it returns 502/403 to scripts |
+| **2** | **Pardos et al. (2023), "OATutor," CHI 2023** — [dl.acm.org](https://dl.acm.org/doi/10.1145/3544548.3581574) | **CC-BY gold open access** and ACM still 403s the PDF path. Our [OATutor node](../knowledge/systems/oatutor-berkeley.md) is `[skimmed]`; OATutor is the forkable open-source ITS |
 
-## B. Genuinely paywalled — needs PSU library
+⚠ *A note on the first one: the paper that landed in `input/` on 2026-09-03 was a different PRISMA
+review — "…for Intelligent IS/IT Project Portfolio Dashboard." Easy mistake; the title above is the
+one we need.*
 
-Request through **PSU Libraries' article delivery / interlibrary loan**. Most arrive as a PDF by
-email, often same-day. If the library has a browser extension that surfaces "access via your
-institution" links, that handles several of these directly.
+### Needs PSU library (genuinely paywalled)
 
-| # | Paper | Why we want it | DOI |
-|---|---|---|---|
-| B1 | ⭐ **VanLehn (2011), "The Relative Effectiveness of Human Tutoring, ITS, and Other Tutoring Systems"**, *Educational Psychologist* | **We cite its numbers constantly and have never read it.** d = 0.76 / 0.79 and the step-vs-substep taxonomy underpin much of our paper | `10.1080/00461520.2011.611369` |
-| B2 | ⭐ **Kulik & Fletcher (2016), "Effectiveness of Intelligent Tutoring Systems"**, *Review of Educational Research* | Source of the famous median 0.66 **and** the 0.13 on standardized tests. We have both secondhand from a survey | `10.3102/0034654315581420` |
-| B3 | **Rosé, Kumar, Aleven, Robinson & Wu (2006), "CycleTalk: Data Driven Design…"**, *IJAIED* 16(2) | **The fullest account of the closest precedent to this project.** IOS Press blocks everything | `10.3233/irg-2006-16(2)06` |
-| B4 | **Ma, Adesope, Nesbit & Liu (2014), ITS meta-analysis** | The largest ITS meta-analysis (107 effect sizes, 73 studies). Secondhand only | search title |
-| B5 | **Roscoe & Chi (2007)** — tutor learning, knowledge-building vs knowledge-telling | Why explaining teaches the explainer; relevant to our Socratic design | `10.1007/s11251-007-9034-5` |
-| B6 | **Rosé et al. (2004), "CycleTalk: Toward a Dialogue Agent…"**, ITS 2004, LNCS 3220 | The design rationale paper. Springer; **no abstract published anywhere** | `10.1007/978-3-540-30139-4_38` |
-| B7 | ⭐ **Midkiff, Litzinger & Evans (2001)**, FIE — the **Thermodynamics Concept Inventory** origin | **Penn State authors.** The origin of the instrument we nearly adopted | IEEE FIE 2001, F2A-3 |
-| B8 | **"Assessment in CS50 with AI"** (SIGCSE TS 2025) | How Harvard changed assessment once the tutor existed | `10.1145/3641555.3705061` |
-| B9 | **NALA-Assess** (NTU) and **Eva.ai** (Aristotle) | Two more university deployments, both closed | see [institutional landscape](../knowledge/practice/institutional-landscape.md) |
+| # | Paper | Why |
+|---|---|---|
+| **3** | ⭐ **Biswas, Leelawong, Schwartz & Vye (2005), "Learning by Teaching: A New Agent Paradigm for Educational Software,"** *Applied AI* 19(3–4) | **The only genuinely paywalled paper we have tagged `[read]`** — i.e. we have made claims from it without holding it. Cited in [Betty's Brain](../knowledge/systems/bettys-brain.md). T&F 403s despite bronze OA; the Vanderbilt mirror's WAF rejects requests |
+| **4** | **Midkiff, Litzinger & Evans (2001)**, IEEE FIE — the **Penn State** Thermodynamics Concept Inventory origin | Unpaywall confirms `is_oa=false`, no repository copy anywhere. [PSU Pure record exists](https://pure.psu.edu) |
+| **5** | **"Assessment in CS50 with AI"** (SIGCSE TS 2025) | Genuinely closed |
+| **6** | **Rosé et al. (2006), IJAIED 16(2)** — the fullest CycleTalk account | IOS Press blocks entirely |
 
----
+### Not actually papers — resolve differently
+
+- **Anderson et al., "Cognitive Tutors: Lessons Learned"** — the source is a **114 KB HTML page**
+  that fetches fine and has been read in full. There is simply no PDF at that host. Nothing to
+  store; the rule doesn't apply.
+- **PhysPort TCI / TTCI-T pages** — instrument pages, not papers. The instruments sit behind
+  **PhysPort educator verification**, which is a request Lance should make since
+  [our concept-inventory node makes claims about them](../knowledge/evaluation/concept-inventories.md).
+- **D'Mello & Graesser AutoTutor affective states** (academia.edu login wall) and
+  **Goel & Polepeddi 2018** (closed Routledge chapter) — both `[found]`, low priority, and the
+  latter is **superseded by its 2024 successor which we now hold**.
+
+⚠ **One data-quality flag:** **Bloom (1984), the 2-sigma paper, is an image-only JSTOR scan** —
+its extracted text is 186 words of cover page, not the article. No OCR tooling is installed
+(`tesseract` / `ocrmypdf` absent; `brew install ocrmypdf` would fix it). **Low priority**, because
+[VanLehn's primary already establishes that Bloom's 2 sigma is a mastery-learning result rather
+than a tutoring one](../knowledge/concepts/vanlehn-2011.md) — we are citing Bloom as a historical
+claim that was corrected, not as evidence. Worth OCRing only if someone wants to quote him
+directly.
 
 ## C. The one thing that would let me do Category A myself
 

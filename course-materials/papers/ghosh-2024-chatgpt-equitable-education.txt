@@ -1,0 +1,628 @@
+Paper ID #41787
+
+ChatGPT as a Tool for Equitable Education in Engineering Classes
+Sourojit Ghosh, University of Washington
+
+©American Society for Engineering Education, 2024
+
+ChatGPT as a Tool for Equitable Education in Engineering Classes
+Sourojit Ghosh, University of Washington, Seattle
+Introduction
+2022 is set to go down in history as the year that the world met ChatGPT – a generative
+AI tool designed to accept text-based input and perform a large variety of tasks such as
+answering questions, writing text, summarizing content, generating code, and many more.
+Trained on the large language model GPT-3/3.5 [1], ChatGPT has also found its way into
+educational contexts, as high schools, colleges and universities are being faced with navigating
+the challenges that classroom usage of ChatGPT brings. Most arguments in this space have been
+that using ChatGPT for coursework veers dangerously close to academic dishonesty and brings
+up questions about plagiarism whereby students would use it to write essays and writing
+assignments for them (e.g., [2]–[6]), resulting in policies being instituted by instructors to ban
+ChatGPT in their classrooms [7].
+While I recognize the merits of this argument and other research in the field on the
+Western-centric approaches it takes, as well as the harms it causes and negative biases and
+stereotypes it propagates (e.g., [8]–[10]), I present an argument in this paper that ChatGPT is an
+important tool for creating equitable access, especially for international students or students with
+traditionally marginalized identities in engineering education. I present this from the
+positionalities of student educators in engineering courses with reading and writing components
+and as international students in the US having relied on machine translation in their own student
+experiences. Using an approach similar to Coppola and Turns [11], I draw upon findings
+gathered from interviewing other instructors of engineering courses within my department, as
+well as a reflection of my own experiences as an instructor in engineering courses. I present
+microcultures of student experiences of using ChatGPT affordances such as content
+comprehension and summarization, synthesizing a set of titles into generating paper outlines,
+using machine translation to translate English readings into other languages that they are more
+comfortable in, and many others. I conclude with recommendations on framing the conversation
+around ChatGPT usage in classes, ensuring students do not violate academic integrity while also
+having equitable access to course content.
+Background
+Inequitable Practices in Engineering Education
+The field of engineering education, like most others, is not without several practices that
+create inequitable outcomes for students. Within the US, a large portion of this pedagogy is
+designed for a student who is white, neurotypical, able-bodied, and male-identifying [12], and
+there is a substantial body of work that recognizes how engineering classrooms can be
+unwelcoming of identities outside of these. While such an unwelcoming atmosphere against a
+traditionally marginalized identity can be created when a majority of students hold a privileged
+identity (e.g., [13], [14]), this can also be the result of specific course practices or pedagogical
+trends within each field. For instance, when a design studio course heavily focuses on sketching
+practice or affinity mapping that encodes data within Post-it color, it is exclusionary towards
+
+blind and low-vision students [12]; university makerspaces not stocking hair ties or smocks
+exclude female-presenting students by design [15], instructors consciously or subconsciously
+devaluing the intellectual capabilities of students of color [16] and courses heavily reliant on
+memorizing content such as formulae or definitions disadvantage students with ADHD who
+might struggle with rote learning [17]. Therefore, students who hold one or more of these
+marginalized identities might find themselves excluded within their classrooms.
+However, even domestic students who do not hold traditionally marginalized identities
+might find themselves struggling in engineering courses at the college level, and that can be
+attributed to the differences in schooling that such students experience before they get to the
+same college classroom. Walden et al. [18], in their recommendations for stronger practices of
+equity and inclusion in engineering courses, noted how understanding students’ academic
+pathways is important towards such an endeavor, as they propose recommendations along these
+lines. For instance, they caution how a student’s lack of success in a particular discipline of
+engineering might not be indicative of their general ability to succeed in engineering, as they
+might find success in a different discipline. This is particularly important for my department and
+courses (described below), which blend elements of design and engineering, and often rely on
+larger volumes of reading than common within engineering courses.
+Another identity which faces inequitable practices in US engineering education is that of
+being an international student. While Big Tech within the US extensively rely on international
+student labor [19] which leads to a conception of them, particularly international students from
+Asian countries, as a ‘model minority’ [20], they still face substantial challenges and inequitable
+outcomes in engineering classrooms. In particular, international students who have low
+proficiency in English face what Matters et al. [21] term ‘structural exclusion’, as they fall
+behind their peers who can better digest course readings in English and perform better on writing
+assignments. Furthermore, instructors might often make references while explaining something
+to US pop culture or literature that domestic students grow up consuming, leading to a gulf in
+understanding between domestic and international students.
+Practitioners of engineering education have a responsibility to work towards alleviating
+such inequities in their classrooms through a pedagogy of care centered around a recognition of
+such practices as ableist and discriminatory against students who hold identities traditionally
+marginalized in engineering classrooms ([12], [22]). As they work towards such alleviation, they
+often leverage tools and resources that traditionally marginalized students can use to achieve
+course learning objectives at similar levels and draw more benefit from as opposed to those
+without such identities.
+In this paper, I advocate for ChatGPT being one such tool. While the focus of the
+exploration initially was on international students, I also discovered ways in which domestic
+students use ChatGPT to succeed in their classes.
+ChatGPT: Pros and Cons, and Usage in the Classroom
+ChatGPT is a conversational chatbot developed by artificial intelligence company
+OpenAI, built upon their proprietary large language models GPT-3/3.5/4 [1], and soon boasted
+the world’s largest user-base within the first three months of its launch [23]. It is designed to
+
+receive text-based prompts as user input, and returns text- or image-based outputs. ChatGPT is
+designed as an all-inclusive solution for a large range of queries, from ones with objective
+responses (e.g., math problems, trivia questions, etc.) to those necessitating a more discursive
+response (e.g., argumentative essays, summarizations, etc.).
+Given its extensive capabilities, ChatGPT has found widespread usage across a variety of
+domains, such as generating marketing materials (e.g., [24], [25]), support with programming
+tasks (e.g., [26], [27]), preliminary medical diagnoses (e.g., [28], [29]), among others. However,
+parallelly to these use cases, there has also been research on the potential harms that ChatGPT
+usage can cause. Such harms include, but are not limited to, gender bias in machine translation
+(e.g., [9], [30], [31]), propagating harmful stereotypes (e.g., [8], [32], [33]) and propagating
+mis/disinformation (e.g., [34]–[36]). Researchers in this vein have painstakingly cautioned that
+users should exercise caution with ChatGPT, acknowledging its strong potential to cause harm
+and taking extensive steps to mitigate such harms.
+Like other sectors, education has also not been immune to ChatGPT, as it has found its
+way into classrooms at all levels. This usage has brought about a strong debate on whether it
+should at all be permitted in classrooms, with some educators being of the opinion that ChatGPT
+brings ethical concerns. One major concern is in the context of academic integrity and
+plagiarism, where students can ask assignment or homework questions of ChatGPT and
+copy-paste the output while claiming it as original work (e.g., [37], [38]). ChatGPT usage can
+thus stunt student learning as it offers up the answers without demanding any intellectual labor,
+serving as a crutch that can be used across different courses and disciplines [3]. Furthermore,
+ChatGPT has been known to produce responses that are factually incorrect [39], but such
+inaccuracy is often missed by students who trust it implicitly. These factors make a strong case
+for ChatGPT being a potential detriment to student learning, and that it should be avoided.
+However, we argue that ChatGPT usage is not without its benefits, and that there is one
+particular way in which it can be a vitally beneficial tool in the classroom: equity. We believe
+that ChatGPT can be a tool for providing equitable access to course content for certain students
+who might need the extra support, and demonstrate this in this paper.
+
+Method
+Data
+I make my case for ChatGPT being a tool for equitable education in engineering classes
+based on an interview with an instructor of an engineering course at my University, as well as my
+own experiences in the same role. I present experiences over five courses, four through
+self-reflection and one from an interview, adapting an approach from Coppola and Turns [11].
+Course C1 was an undergraduate class on Introduction to User Centered Design, a
+32-student course for which I was the instructor in Fall 2022. This project-based course walked
+students through the user centered design process [40] starting from project ideation through user
+research all the way until prototyping and user testing, and was typically taken by sophomores
+and juniors having just been admitted into the major. Course C2 was an undergraduate course on
+Concepts within Human-Computer Interaction (HCI), hereafter referred to as UGCS, a
+31-student course for which I was the instructor in Fall 2023. This was a seminar-style
+
+writing-intensive course which covers the breadth of the field of HCI, with students reading 3-4
+research papers and writing 500-800 responses every week, over and above a Final Paper and an
+Annotated Bibliography due at the end of the quarter. This course was typically made up of
+seniors, and attended even from outside the major.
+Course C3 was a project-based class on Accessibility and Inclusive Design, a 37-student
+class that I was the co-instructor for in Winter 2023. This project-based course encouraged
+students to adopt participatory design approaches towards designing and testing products for a
+diverse range of users, and proceeded in a flipped classroom format based on readings and
+in-class discussions. Course C4 was on Information Visualization, a 36-student class for which I
+was the Teaching Assistant in Spring 2023. This course covered techniques for working with
+large datasets and visualizing them, where students worked in a group to create a data
+visualization project through the user-centered design process [40]. Course C5 was the
+undergraduate version of the aforementioned course on Information Visualization, a 32-person
+course taught by interviewee I1 in Fall 2023. It was set up very similarly to C4, with the only
+difference being that it involved more writing assignments than C4.
+Information on the courses is tabulated in Table 1. This approach is similar to Coppola
+and Turns [11] in the way that this too identifies instances of a phenomenon (student usage of
+ChatGPT in/for class) across different settings (course structures and goals) and explores the
+various ways in which the phenomenon played out in an equity sense. Like them, I too recognize
+that five instances/courses is not enough to make sweeping generalizations, and thus offer this as
+a proof-of-concept to produce insights for more targeted, deeper studies.
+
+Course
+
+Course Description and Level
+
+Course Type
+
+Instructor
+
+C1
+
+Introduction to User Centered Design (Bachelors)
+
+Project-based
+
+Author
+
+C2
+
+Concepts in HCI (Bachelors)
+
+Seminar-style
+
+Author
+
+C3
+
+Accessibility and Inclusive Design (Masters)
+
+Project-based
+
+Author
+
+C4
+
+Information Visualization (Masters)
+
+Project-based
+
+Author
+
+C5
+
+Information Visualization (Bachelors)
+
+Project-based
+
+I1
+
+Table 1: List of Courses covered in this paper, as well as course descriptions, level, type, and instructor.
+
+Interview/ Reflection Protocol
+The findings in this paper are presented through instructor perspectives of ChatGPT
+usage in their classrooms, all collected at the end of the respective courses. The interview/
+reflection protocol is listed below in Figure 1. Interviews were conducted over Zoom, with one
+interview per course, for 30-45 minutes each.
+Part 1: Introduction
+1. Briefly describe the course you were an instructor of. Include information about the
+course level (BS/MS), number of students, type of course, and an overall summary of
+
+course objectives.
+Part 2: ChatGPT Policies
+2. Did you address your policy of using ChatGPT for this course? What was your policy?
+3. How did the students respond to your policy? Was there any conversation or
+negotiation of ChatGPT usage in your class?
+Part 3: Student usage of ChatGPT
+4. Briefly describe some common ways in which your students used ChatGPT.
+5. Did you have any individual or collective conversations about ChatGPT usage with
+students, either for breach of policy or some other reasons?
+6. Did you suspect any instances of ChatGPT usage being potential grounds for academic
+dishonesty? If so, how did you address it?
+Part 4: ChatGPT as a Tool for Equitable Access to Education
+7. Do you consider ChatGPT usage in your classroom as a potential way to provide more
+equitable access to the class in some cases?
+8. In your observed/perceived instances of student usage of ChatGPT, were there
+moments when such usage provided equity?
+Part 5: Conclusion
+9. What role do you think instructors have to play in treating ChatGPT as a potential way
+of granting equitable access to education for certain students?
+10. Anything else you would like to share?
+Figure 1: Interview/Reflection Protocol
+
+I did not collect, nor do I present in this paper, any artefacts of student usage of ChatGPT
+in the form of screenshots or direct quotes. This decision is informed by my personal experience
+that due to the institutional implication, both at my university and others, that ChatGPT usage in
+classroom contexts can be considered academic dishonesty, that students are not keen on
+providing recorded evidence of their ChatGPT usage. The findings are driven by informal
+comments that students made to instructors, through which instructors formed ideas of student
+usage of ChatGPT in their classrooms. It is therefore important to state that this paper will
+present opinions of instructors, and not data collected formally from students.
+Author Positionality
+In the context of this paper, my positionality is that of a senior Ph.D. candidate in an
+Engineering department at an R1 university. My research is centered around generative AI
+services built upon large language models, such as ChatGPT, as I explore how the affordances of
+such tools bring benefit and cause harm, and to whom. Aside from my research, a major
+component of my Ph.D. is also in teaching and conducting pedagogical research in equity in
+engineering education. It is also pertinent to mention here that as of this writing, 24% of the
+students across the undergraduate and graduate levels in my department are international
+students to the US1.
+1
+
+https://www.hcde.washington.edu/about/demographics
+
+Case Studies: ChatGPT Usage Across 5 Courses
+Case Study 1: ChatGPT as a Machine Translation Agent
+One of the ways in which I observed ChatGPT being used as a tool to provide equitable
+access to course content was international students’ usage of it as a machine translation tool,
+across all five courses studied here.
+This was perhaps the most apparent in C2, a course which focused heavily on long
+readings and extensive writing on a weekly basis. Several of these readings were research papers
+or highly technical reports authored in the 20th century, and were written in ways that are
+different from modern writing styles in American Academic English. In C2, I observed
+international students using ChatGPT to gain a stronger understanding of the course materials.
+Students would pick up portions of readings they were having trouble with, and translate them
+into a different language that they perhaps were more comfortable with. While such translations
+would almost definitely not be 100% accurate, they were good enough to give students the gist
+of the material. They also used ChatGPT as a machine translation tool to aid their writing for C2.
+I observed students often write directly into ChatGPT for short in-class writing exercises,
+translate them into English, and then adjust the output. Particularly salient to me in this process
+was the demonstrated dedication of every student to not use ChatGPT outputs verbatim and
+claim it as their own writing, as they all took steps to avoid committing academic dishonesty.
+This usage of ChatGPT by international students as a machine translation tool both for
+reading comprehension and writing support was also true in other courses. In C3, there was one
+particular week where both readings for the week were slightly dense, and I saw international
+students lean on ChatGPT translations. In C4 and C5, two courses on the same topic which uses
+a set of foundational readings from the 1980s, the same was true. The only course where this did
+not come up in the interviews being C1, even though the course did have a few dense readings.
+Case Study 2: ChatGPT as an Ideation tool
+Beyond its utility for machine translation, ChatGPT was also used in the classes covered
+here as an ideation tool. This was true across both international and domestic students, and
+various different use cases for each course.
+In C1, in the first few weeks after the release of ChatGPT, students began using it as an
+ideation tool to generate a large volume of potential questions to include in the interview and
+testing protocols that would accompany their designed prototypes for their respective projects.
+Although ChatGPT was still in its early days at the time, students still found it to be helpful in
+providing a baseline set of ideas that they could then build upon, or rule out because of how
+trivial or inapplicable the ideas would be. A similar usage of ChatGPT was also a feature of C3,
+which also required interviews at two stages of the class, and also in C4 and C5, albeit to a lesser
+degree since these courses only require interviews at one stage of the class.
+For C1, C3, C4 and C5, students also used ChatGPT to produce a set of blue-sky [41]
+prototype ideas as potential solutions to the design challenges they were working with, where
+they generated a large number of small design ideas where most of which were inapplicable or
+half-baked. As above, students realized that ChatGPT was better at quantity than quality, and that
+
+they could use it as a brainstorming tool to either get bad ideas out of the way or receive an
+imperfect idea to workshop and improve upon.
+In particular, it is salient to mention the experiences of two student groups, in C3 and C4
+respectively. In C3, I suggested that they use ChatGPT as a tool for generating blue-sky ideas,
+and evaluate the effectiveness or feasibility of such ideas for their use case. This was a
+productive exercise, as it allowed the group to identify a few ideas which they could use as a
+baseline and improve upon, resulting in the group agreeing upon a set of design propositions to
+pursue. Another group had a similar experience in C4, where they could not determine what type
+of data visualization they could use for their specific dataset and used ChatGPT to generate a
+long list of ideas from which they could pick viable ones to build upon.
+Case Study 3: ChatGPT as a Writing Assistant
+Finally, the 3rd way in which students, both international and domestic to the US, used
+ChatGPT is as a writing assistant tool. This was most salient in C2, a course heavily focused on
+writing and reading, which had a weekly writing load of 500-800 words and an end-of-quarter
+final paper of 2500-3000 words. In this vein, students would use ChatGPT to support their
+weekly writing tasks by generating a few discussion questions or some key points around the
+readings for the week, which they would then use as a springboard for their own content. In
+some cases, students also used ChatGPT to put together outlines for their final papers, providing
+a topic idea and receiving suggestions on potential arguments they could consider or how they
+can transition between ideas. Though usage of ChatGPT was the most salient in C2, it was also
+seen in C1 and C3 when students were required to draft a final report alongside their designs.
+I highlight a specific instance of two students in C2, both of whom were struggling with
+crafting their respective final papers for the class. They worked with me to ideate on a few
+approaches they could practice, but ultimately had trouble forming outlines to pace their papers
+out. In one of our office hour sessions, I suggested that they ask ChatGPT for a potential outline,
+given the ideas they had and some points they wanted to focus on. They were mostly satisfied
+with ChatGPT’s generated outlines, though they both decided to finetune them on their own.
+ChatGPT as a Tool for Equitable Access
+Based on the aforementioned case studies, I believe that I successfully presented
+evidence of ChatGPT being leveraged by students to gain more equitable access to courses. All
+of these case studies contained evidence of instructors observing how students used ChatGPT to
+improve their individual learning and course experiences. Although this is true mostly for
+international students, I also gathered evidence of domestic students using ChatGPT to gain
+stronger access to course materials and succeed in classes. I draw upon Lalueza et al.’s [42]
+framework of educational activities constructing microcultures, and thus condense the case
+studies into two microcultures of ChatGPT usage in the classroom, one for international students
+and one for domestic students, with some overlap between the two.
+The microculture of ChatGPT usage for domestic students is created through the usage as
+an ideation tool (Case Study 2) and as a writing assistant (Case Study 3). In such cases, students
+used ChatGPT as a supportive tool in order to augment their own working processes. ChatGPT
+
+became useful as an ideation tool in C1 for students who perhaps were having difficulties coming
+up with initial ideas for their design process, which was understandable given how students
+entered C1 with varying levels of prior experience in design and the UCD process. In such
+instances, working with an ideation tool to generate blue sky ideas and build upon some or rule
+out others [43] augmented the learning experience and paved the way for them to come up with
+the design ideas they would initially use. For students who might not have had much experience
+with the UCD process prior to C1, ChatGPT served as a tool for providing them equitable access
+such that they could keep up with their more experienced peers and not fall behind the class.
+Additionally, ChatGPT was used as a writing assistant by students, especially in C2, who
+possibly were struggling with the heavy writing load that the course provided. Such a writing
+load is uncommon within the courses in our department, most of which are engineering courses
+with larger emphasis on hands-on work and designing/building, and culminating in some sort of
+project-based deliverable instead of a final essay. While some students, by virtue of their other
+majors/minors or personal proficiencies, adapted well to the writing loads, most did not. In such
+circumstances, ChatGPT being used as a writing assistant provided them equitable access to
+pathways of success in the course, as they used ChatGPT for tasks such as ideating potential
+structures for their final essays.
+The microculture of ChatGPT usage for international students was primarily constructed
+through their usage of ChatGPT as a machine translation tool (Case Study 1). This was
+especially true for students whose primary languages are not English, as they used ChatGPT as a
+machine translation tool to gain equitable access to the course material. For such students,
+ChatGPT provided incredible opportunities to access course material by allowing them to
+translate readings into English. Particularly salient instances of this phenomenon occurred in C2,
+where a lot of the readings were from the mid to late 90s, and written in a type of English
+difficult to understand and potentially inaccessible to even English-speaking students.
+Furthermore, the microculture of ChatGPT usage for international students also
+encompassed that of domestic students, as international students also used ChatGPT for the same
+cases (ideation tool from Case Study 2 and writing assistant from Case Study 3). While domestic
+students used ChatGPT perhaps mostly in cases where they did not have the same prior
+experience or the knowledge necessary for success as their peers, international students used it to
+primarily navigate the disadvantage of the mode of instruction being in English. I argue that an
+absence of ChatGPT would either have detracted from these experiences or led international
+students to consider alternative means of gaining access to course materials or acquiring the
+proficiency necessary to succeed in courses.
+Of all of these, perhaps the most interesting is international students’ usage of ChatGPT
+as a machine translation tool, especially given that there is already a well-established free and
+easy-to-use machine translation tool that is popular within such populations: Google Translate. I
+theorize this to be the case because while Google Translate might be the established tool for
+machine translation, students preferred ChatGPT in the aforementioned cases because it
+presented a one-stop shop for all of their purposes, boasting of features that products in the
+Google suite do not have. Students were also able to easily perform translations back-and-forth
+between English and other languages using the conversational nature of ChatGPT, whereas doing
+
+so on Google Translate would involve more work such as selecting languages from dropdown
+menus and copy-pasting text to translate. Finally, ChatGPT’s ability to provide alternative
+responses (using the ‘Regenerate’ button) could also have been useful, especially given how
+Google Translate typically does not provide multiple translation options for long chunks of text
+(anything more than 3-4 words). Therefore, it is important to recognize that while ChatGPT and
+Google Translate can essentially perform the same function of machine translation, students used
+ChatGPT instead of the commonly-established Google Translate possibly due to ChatGPT being
+better suited for their purposes.
+It is also important to highlight how, across the five courses, students took extra caution
+to avoid conducting academic dishonesty or plagiarizing from ChatGPT. Though instructors
+could not state for a fact that all submissions received across all courses were 100% student
+authored and did not include any ChatGPT content, it was evident how seriously students took
+this to be. While this can possibly be attributed to general student integrity or the fears of being
+caught committing acts of academic dishonesty, I believe that another contributing factor was
+how instructors across all five courses openly addressed ChatGPT usage. Both instructors openly
+addressed how they believed that explicitly banning ChatGPT would not only be a bad idea
+because of the good it can be used for, but also such a ban would not be effective since students
+could avert it with little to no avenues of being caught. Rather, instructors leaned into ChatGPT
+usage by providing, at various points during the courses, examples of how students could use
+ChatGPT to overcome an emergent barrier or improve their approach. I believe that such an
+openness to ChatGPT usage created a shared understanding and trust between students and their
+instructors, as students held themselves accountable on their personal usage of ChatGPT.
+Design Recommendations
+In this section, I highlight a few design recommendations that instructors can adopt
+towards using ChatGPT to make their classrooms more inclusive.
+Discuss ChatGPT Usage, and Co-Create Usage Norms
+In all five courses, instructors addressed their policies for ChatGPT usage in their
+classrooms. Never was ChatGPT usage explicitly banned, and the only indication of unfair usage
+was a directive to not pass off ChatGPT-authored content as their own under any circumstances.
+Instructors leaned into the fact that ChatGPT usage will be inevitable simply because of how
+easy-to-use it was and the lucrative possibilities it could bring to students.
+In this vein, I believe that instructors should consider having conversations with their
+students on the first day of class about ChatGPT usage policies in the course. Such a
+conversation should begin with the instructor explicitly stating that ChatGPT is not banned in the
+classroom, because I believe that such a ban is infeasible and impossible to enforce, and might
+only drive students to adopt clandestine methods to use ChatGPT [44]. Instructors should instead
+consider laying out some prohibited instances of usage such as plagiarism, and inviting an
+opportunity for the class to co-design norms around ChatGPT usage in class. Such a co-creation
+of group norms fosters stronger accountability within students and generates higher buy-in since
+it subverts the power dynamics of the instructor imposing norms to be followed [45].
+
+Address ChatGPT Limitations, and seek Expert Support
+While permitting the usage of ChatGPT in their classrooms, instructors must also be
+mindful of the fact that there are some very well-known limitations to ChatGPT, not least of
+which is the fact that it embeds and perpetuates negative stereotypes against traditionally
+marginalized groups (e.g., [8], [46], [47]). ChatGPT is also known to be imperfect as a machine
+translation tool [9], and can produce incorrect responses to questions ([27], [48]).
+Instructors should therefore address these limitations of ChatGPT usage in their
+classrooms, and dispel any misconceptions of it being a silver bullet [49] that can be used to
+overcome any challenges within the course. Having said that, I also recognize that not every
+instructor will be an expert on the limitations of ChatGPT usage, or fully aware of all the ways
+such usage can go wrong. Therefore, I encourage instructors to seek support in this vein, calling
+on researchers and experts in the field to equip them with the tools to have this conversation with
+students, or lead the conversations themselves. This is also where departments and institutions
+can support individual instructors in finding and getting in touch with such experts.
+Incorporate ChatGPT into Teaching Practice
+Beyond talking about ChatGPT usage and discussing norms and limitations on the first
+day of class, instructors can also model such usage by incorporating ChatGPT into their own
+teaching practices. I personally found success in demonstrating ChatGPT’s ability to list
+potential affordances to be incorporated into student design projects in C1 and C3, showing how
+ChatGPT can be used for blue-sky ideation. Similarly, I1 mentioned using ChatGPT to list
+potential visualization options given a description of a dataset, which allowed students to weigh
+which ones might be more appropriate for their own circumstances.
+In this vein, we advocate for stronger use of ChatGPT by instructors in their teaching
+practice. Instructors can consider live-sharing their screens and interacting with ChatGPT, asking
+questions and evaluating the quality of the response. Similarly, they can use ChatGPT to generate
+prompts for reading discussions or essay assignments, obtaining baseline information that they
+can refine, in similar ways as described in Case Studies 2 and 3.
+I propose these design recommendations as a start, and encourage instructors to try these
+out in their course designs while adapting them as appropriate.
+Limitations and Future Work
+A limitation of this study is that it captures instructors’ opinions of student usage of
+ChatGPT in their classrooms based on their experience observing students, and therefore might
+not be entirely representative of student opinions. While the underlying intention was to not
+make students uncomfortable by asking them about their ChatGPT usage in the classroom from
+my positionality as their former instructor and the power differential that created, I recognize
+how directly sourcing student comments could have made the findings of this study stronger.
+
+A future extension of this work can cover a larger breadth of courses, across multiple
+disciplines and instructors. I also intend to follow up on this work by integrating ChatGPT into
+my teaching practice in the aforementioned ways, and examine its impact on courses.
+Conclusion
+In this paper, I make a case for student usage of ChatGPT in engineering courses as a tool
+for providing equitable access to education, based on instructor perspectives of such usage across
+five engineering courses. Though ChatGPT usage might present challenges such as academic
+dishonesty and students have to be careful with the ways in which ChatGPT embeds biases and
+stereotypes, I outline design recommendations that instructors can pursue to guide students
+towards using ChatGPT to arrive at a more level footing to other classmates.
+At the end of the day, ChatGPT is a tool that has the potential to both do good and cause
+harm. It is up to instructors to educate and support students in leveraging it for the good it can
+bring, and avoid causing harms that it can perpetuate. Considering ChatGPT as a technology to
+be leveraged in classrooms the same way a lot of other such technology is, we can better support
+potentially disadvantaged students and curate a stronger learning experience.
+
+References
+[1] T. Brown et al., ‘Language Models are Few-Shot Learners’, Adv. Neural Inf. Process. Syst.,
+vol. 33, pp. 1877–1901, 2020.
+[2] N. Rane et al., ‘ChatGPT is not capable of serving as an author: ethical concerns and
+challenges of large language models in education’, Int. Res. J. Mod. Eng. Technol. Sci., vol.
+5, pp. 851–874, Oct. 2023 [Online]. Available: 10.56726/IRJMETS45212.
+[3] A. Blose, (2023), ‘As ChatGPT Enters the Classroom, Teachers Weigh Pros and Cons |
+NEA’, National Education Association. .
+[4] D. R. E. Cotton et al., ‘Chatting and cheating: Ensuring academic integrity in the era of
+ChatGPT’, Innov. Educ. Teach. Int., vol. 0, no. 0, pp. 1–12, 2023 [Online]. Available:
+10.1080/14703297.2023.2190148.
+[5] C. K. Lo, ‘What Is the Impact of ChatGPT on Education? A Rapid Review of the Literature’,
+Educ. Sci., vol. 13, no. 4, p. 410, Apr. 2023 [Online]. Available: 10.3390/educsci13040410.
+[6] J. G. Meyer et al., ‘ChatGPT and large language models in academia: opportunities and
+challenges’, BioData Min., vol. 16, no. 1, p. 20, Jul. 2023 [Online]. Available:
+10.1186/s13040-023-00339-9.
+[7] B. Nolan, ‘Here are the schools and colleges that have banned the use of ChatGPT over
+plagiarism and misinformation fears’, Business Insider, 2023.
+[8] T. Busker et al., ‘Stereotypes in ChatGPT: an empirical study’, in Proceedings of the 16th
+International Conference on Theory and Practice of Electronic Governance, New York, NY,
+USA, 2023, pp. 24–32 [Online]. Available: 10.1145/3614321.3614325.
+[9] S. Ghosh and A. Caliskan, ‘ChatGPT Perpetuates Gender Bias in Machine Translation and
+Ignores Non-Gendered Pronouns: Findings across Bengali and Five other Low-Resource
+Languages’, in Proceedings of the 2023 AAAI/ACM Conference on AI, Ethics, and Society,
+Montreal QC Canada, 2023, pp. 901–912.
+[10] H. Kotek et al., ‘Gender bias and stereotypes in Large Language Models’, in Proceedings
+of The ACM Collective Intelligence Conference, New York, NY, USA, 2023, pp. 12–24
+[Online]. Available: 10.1145/3582269.3615599.
+[11] S. M. Coppola and J. Turns, ‘Developing a Grounded Framework for Implementing
+Ungrading in a Disciplinary Context’, ASEE Annu. Conf. Expo., 2023.
+[12] S. Ghosh and S. Coppola, ‘This Class Isn’t Designed For Me: Recognizing Ableist
+Trends In Design Education, And Redesigning For An Inclusive And Sustainable Future’.
+arXiv, 2024.
+[13] M. Bahnson et al., ‘Inequity in graduate engineering identity: Disciplinary differences
+and opportunity structures’, J. Eng. Educ., vol. 110, no. 4, pp. 949–976, 2021 [Online].
+Available: 10.1002/jee.20427.
+[14] A. M. York et al., ‘Gender inequity in individual participation within physics and science,
+technology, engineering, and math courses’, Phys. Rev. Phys. Educ. Res., vol. 17, no. 2, p.
+020140, Dec. 2021 [Online]. Available: 10.1103/PhysRevPhysEducRes.17.020140.
+[15] W. Roldan et al., ‘University Makerspaces: Opportunities to Support Equitable
+Participation for Women in Engineering’, Int. J. Eng. Educ., vol. 34, no. B, pp. 751–768,
+2018.
+[16] E. O. McGee and D. B. Martin, ‘“You Would Not Believe What I Have to Go Through to
+Prove My Intellectual Value!” Stereotype Management Among Academically Successful
+Black Mathematics and Engineering Students’, Am. Educ. Res. J., vol. 48, no. 6, pp.
+1347–1389, Dec. 2011 [Online]. Available: 10.3102/0002831211423972.
+
+[17] A. E. Zaghi et al., ‘Unique Potential and Challenges of Students with ADHD in
+Engineering Programs’, presented at the 2016 ASEE Annual Conference & Exposition, 2016
+[Online].https://peer.asee.org/unique-potential-and-challenges-of-students-with-adhd-in-engi
+neering-programs.
+[18] S. E. Walden et al., ‘Research-based recommendations for creating an inclusive culture
+for diversity and equity in engineering education’, in 2018 IEEE Global Engineering
+Education Conference (EDUCON), 2018, pp. 1591–1597.
+[19] S. Anderson, ‘International Students Remain A Primary Source Of U.S. Tech Talent’,
+Forbes, 2021[Online].
+Availablehttps://www.forbes.com/sites/stuartanderson/2021/08/19/international-students-rem
+ain-a-primary-source-of-us-tech-talent/[Accessed: 1February2024].
+[20] E. Kim and K. C. Aquino, ‘Thwarting or embodying model minority stereotypes: An
+alternative look at adjustment of Asian international students in American higher education’,
+Mod. Soc. Impacts Model Minor. Ster., pp. 155–184, 2015.
+[21] M. Matters et al., ‘International engineering students’ resistance to isolating university
+experiences: An opportunity for greater inclusion in engineering education’, 2022 CoNECD,
+2022.
+[22] S. C. Motta and A. Bennett, ‘Pedagogies of care, care-full epistemological practice and
+“other” caring subjectivities in enabling education’, Teach. High. Educ., vol. 23, no. 5, pp.
+631–646, Jul. 2018 [Online]. Available: 10.1080/13562517.2018.1465911.
+[23] K. Hu and K. Hu, ‘ChatGPT sets record for fastest-growing user base - analyst note’,
+Reuters, Feb. 02, 2023.
+[24] J. Huh et al., ‘ChatGPT, AI Advertising, and Advertising Research and Education’, J.
+Advert., vol. 52, no. 4, pp. 477–482, Aug. 2023 [Online]. Available:
+10.1080/00913367.2023.2227013.
+[25] R. Saputra et al., ‘The Impact of Using AI Chat GPT on Marketing Effectiveness: A Case
+Study on Instagram Marketing’, Indones. J. Econ. Manag., vol. 3, no. 3, pp. 603–617, Jul.
+2023 [Online]. Available: 10.35313/ijem.v3i3.4936.
+[26] A. F. Zambrano et al., ‘From nCoder to ChatGPT: From Automated Coding to Refining
+Human Coding’, in Advances in Quantitative Ethnography, Cham, 2023, pp. 470–485
+[Online]. Available: 10.1007/978-3-031-47014-1_32.
+[27] H. Li et al., ‘Assisting Static Analysis with Large Language Models: A ChatGPT
+Experiment’, in Proceedings of the 31st ACM Joint European Software Engineering
+Conference and Symposium on the Foundations of Software Engineering, New York, NY,
+USA, 2023, pp. 2107–2111 [Online].https://dl.acm.org/doi/10.1145/3611643.3613078.
+[28] M. Balas and E. B. Ing, ‘Conversational AI Models for ophthalmic diagnosis:
+Comparison of ChatGPT and the Isabel Pro Differential Diagnosis Generator’, JFO Open
+Ophthalmol., vol. 1, p. 100005, Mar. 2023 [Online]. Available: 10.1016/j.jfop.2023.100005.
+[29] T. Kuroiwa et al., ‘The Potential of ChatGPT as a Self-Diagnostic Tool in Common
+Orthopedic Diseases: Exploratory Study’, J. Med. Internet Res., vol. 25, no. 1, p. e47621,
+Sep. 2023 [Online]. Available: 10.2196/47621.
+[30] S. Ghosh and S. Chatterjee, ‘Misgendering and Assuming Gender in Machine Translation
+when Working with Low-Resource Languages’, in Gendered Technology in Translation and
+Interpreting Centering Rights in the Development of Language Technology, Routledge, 2024.
+[31] E. Vanmassenhove, ‘Gender Bias in Machine Translation and The Era of Large Language
+Models’, in Gendered Technology in Translation and Interpreting Centering Rights in the
+
+Development of Language Technology, Routledge, 2024 [Online].
+http://arxiv.org/abs/2401.10016.
+[32] J. J. Hanna et al., ‘Assessing Racial and Ethnic Bias in Text Generation for
+Healthcare-Related Tasks by ChatGPT1’, medRxiv, p. 2023.08.28.23294730, Aug. 2023
+[Online]. Available: 10.1101/2023.08.28.23294730.
+[33] W. Li et al., ‘A Comparative Study on Discrimination Issues in Large Language Models’,
+J. Intell. Inf. Syst., vol. 29, no. 3, pp. 125–144, 2023 [Online]. Available:
+10.13088/jiis.2023.29.3.125.
+[34] C. Glorioso, (Feb. 24, 2023), ‘Fake News? ChatGPT Has a Knack for Making Up Phony
+Anonymous Sources’, NBC New York. [Online].
+Availablehttps://www.nbcnewyork.com/investigations/fake-news-chatgpt-has-a-knack-for-m
+aking-up-phony-anonymous-sources/4120307/[Accessed: 1February2024].
+[35] L. De Angelis et al., ‘ChatGPT and the rise of large language models: the new AI-driven
+infodemic threat in public health’, Front. Public Health, vol. 11, 2023 [Online].
+https://www.frontiersin.org/articles/10.3389/fpubh.2023.1166120.
+[36] J. Brewster et al., ‘Could ChatGPT Become A Monster Misinformation Superspreader?’,
+NewsGuard, 2023 [Online].
+https://www.newsguardtech.com/misinformation-monitor/jan-2023.
+[37] J. Qadir, ‘Engineering Education in the Era of ChatGPT: Promise and Pitfalls of
+Generative AI for Education’, in 2023 IEEE Global Engineering Education Conference
+(EDUCON), 2023, pp. 1–9 [Online].
+https://ieeexplore.ieee.org/abstract/document/10125121.
+[38] E. Theophilou et al., ‘Learning to Prompt in the Classroom to Understand AI Limits: A
+pilot study’, presented at the 22nd International Conference of the Italian Association for
+Artificial Intelligence, Rome, Italy, 2023 [Online]. http://arxiv.org/abs/2307.01540 .
+[39] K. Roose, ‘Don’t Ban ChatGPT in Schools. Teach With It.’, The New York Times, Jan. 12,
+2023 [Online].
+https://www.nytimes.com/2023/01/12/technology/chatgpt-schools-teachers.html.
+[40] D. Norman, The Design of Everyday Things: Revised and Expanded Edition. Basic
+Books, 2013.
+[41] C. Wrigley et al., ‘Designing new business models: blue sky thinking and testing’, J. Bus.
+Strategy, vol. 37, no. 5, pp. 22–31, Jan. 2016 [Online]. Available:
+10.1108/JBS-04-2015-0041.
+[42] J. L. Lalueza et al., ‘Education as the creation of microcultures. From the local
+community to the virtual network’, Interact. Educ. Multimed., vol. 9, pp. 16–31, 2004.
+[43] B. Hannington and B. Martins, ‘Brainstorm Graphic Organizers’, in Universal Methods
+of Design, 2012, p. 08 [Online].
+https://learning.oreilly.com/library/view/universal-methods-of/9781592537563/.
+[44] K. Paterson, ‘Machine translation in higher education: Perceptions, policy, and
+pedagogy’, TESOL J., vol. 14, no. 2, p. e690, 2023 [Online]. Available: 10.1002/tesj.690.
+[45] K. Z. Mejia et al., ‘Insights into Power Relations from the Co-designing of Classroom
+Norms between Students and Faculty’, in 2021 IEEE Frontiers in Education Conference
+(FIE), 2021, pp. 1–5 [Online].
+https://ieeexplore.ieee.org/abstract/document/9637134?casa_token=qgPAWXjZ-xgAAAAA:
+SWTr4YaiaCQxFIpnBMrunLGC_yeC-bJ7oD2I3FKetMU-U-9oeYEIRMEOy0vxK91jDM1a
+V03yBA.
+
+[46] J. E. Fischer, ‘Generative AI Considered Harmful’, in Proceedings of the 5th
+International Conference on Conversational User Interfaces, New York, NY, USA, 2023, pp.
+1–5 [Online]. https://doi.org/10.1145/3571884.3603756.
+[47] K. Wach et al., ‘The dark side of generative artificial intelligence: A critical analysis of
+controversies and risks of ChatGPT’, Entrep. Bus. Econ. Rev., vol. 11, no. 2, pp. 7–30, 2023.
+[48] J. Kocoń et al., ‘ChatGPT: Jack of all trades, master of none’, Inf. Fusion, vol. 99, p.
+101861, Nov. 2023 [Online]. Available: 10.1016/j.inffus.2023.101861.
+[49] S. Chancellor, ‘Toward Practices for Human-Centered Machine Learning’, Commun.
+ACM, vol. 66, no. 3, pp. 78–85, Mar. 2023 [Online]. Available: 10.1145/3530987.
+
+

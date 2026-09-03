@@ -1,0 +1,747 @@
+Int J Artif Intell Educ (2016) 26:350–364
+DOI 10.1007/s40593-015-0057-9
+A RT I C L E
+
+From Design to Implementation to Practice
+a Learning by Teaching System: Betty’s Brain
+Gautam Biswas 1 & James R. Segedy 1 &
+Kritya Bunchongchit 2
+
+Published online: 2 July 2015
+# International Artificial Intelligence in Education Society 2015
+
+Abstract This paper presents an overview of 10 years of research with the Betty’s
+Brain computer-based learning environment. We discuss the theoretical basis for Betty’s
+Brain and the learning-by-teaching paradigm. We also highlight our key research
+findings, and discuss how these findings have shaped subsequent research. Throughout
+the course of this research, our goal has been to help students become effective and
+independent science learners. In general, our results have demonstrated that the learning
+by teaching paradigm implemented as a computer based learning environment (specifically the Betty’s Brain system) provides a social framework that engages students and
+helps them learn. However, students also face difficulties when going about the
+complex tasks of learning, constructing, and analyzing their learned science models.
+We have developed approaches for identifying and supporting students who have
+difficulties in the environment, and we are actively working toward adding more
+adaptive scaffolding functionality to support student learning.
+Keywords Open-ended learning environments . Learning by teaching . Pedagogical
+agents . Adaptive scaffolding . Coherence analysis . Characterizing student behaviors
+
+Introduction
+Betty’s Brain was designed to make science learning an active, constructive, and
+engaging process for students (Brophy et al. 1999; Biswas et al. 2001). A primary
+innovation in our computer based learning environment was to leverage the learning by
+teaching paradigm (Bargh and Schul 1980; Benware and Deci 1984; Biswas et al.
+
+* Gautam Biswas
+gautam.biswas@Vanderbilt.Edu
+1
+
+Vanderbilt University, Nashville, TN, USA
+
+2
+
+Mahidol University, Bangkok, Thailand
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+351
+
+2005) to get students to research and construct models of science phenomena in the
+guise of teaching a virtual agent named Betty. Students actively engaged with Betty
+during the learning process by asking her questions and getting her to take quizzes that
+were provided by a mentor agent named Mr. Davis. When asked to answer questions or
+to take a quiz, Betty used simplified qualitative reasoning mechanisms to chain together
+a sequence of links and generate answers like, BIf deforestation increases, the amount
+of heat trapped by the earth will increase^ (Leelawong and Biswas 2008). Betty’s
+performance on the quizzes (i.e., an indication of which of the quiz answers were
+correct and incorrect) provided the feedback that students needed to check their map
+and come up with strategies for identifying and correcting errors and omissions in their
+maps. When asked, Betty could provide explanations for her derived answers, and this
+helped students identify and analyze the individual links that she used to generate her
+answers. Betty also provided motivational feedback by expressing happiness when her
+scores on the quiz improved, and she expressed disappointment when her quiz scores
+did not improve. Additional feedback was provided by the mentor agent in the form of
+learning strategies that students could employ when they were not performing well.
+This paper presents an overview and a reflection of the trajectory of our research with
+Betty’s Brain, from the work that led to our Bclassic^ paper (Leelawong and Biswas 2008)
+to our more recent work in understanding how students tackle the Betty’s Brain learning
+task, the difficulties they face, and approaches we have been developing to support
+students as they learn with Betty’s Brain. Results of studies we conducted in middle school
+classrooms over the years have demonstrated that the learning by teaching paradigm
+implemented as a computer based learning environment provides a social framework that
+engages students and helps them learn. However, students also face difficulties when
+going about the complex tasks of learning, constructing, and analyzing their learned
+structures that are represented as causal maps. A deeper analysis of these difficulties has
+led us to refocus our research on effective ways of scaffolding students in open-ended
+learning environments like Betty’s Brain. The goal is to engage students with differing
+capabilities and prior knowledge in the challenging task while also providing additional
+support to help them succeed in their learning and problem solving activities.
+
+The Original Betty’s Brain Learning Environment
+Our initial design and development of the Betty’s Brain system was guided by the
+social-constructivist theories of learning (e.g., Palincsar 1998), reciprocal teaching (e.g.,
+Palincsar and Brown 1984), and peer-assisted tutoring (e.g., Willis and Crowder 1974;
+Cohen et al. 1982). Researchers (e.g., Bargh and Schul 1980; Benware and Deci 1984)
+have shown that people learn more when their grade depends on their pupils’ performance instead of their own. However, unlike previous learning by teaching systems
+(e.g., Chan and Chou 1997; Michie et al. 1989; Obayashi et al. 2000; Palthepu et al.
+1991) our goal was not to make learning agents that, for instance, learn by example or
+by observing user behaviors. Instead, our design focused on creating an agent that
+students must explicitly teach. In response, the agent reasons with and can answer
+questions only on what she was taught, nothing more and nothing less.
+Therefore, the learning by teaching paradigm adopted in Betty’s Brain explicitly asks
+students to read about a science topic and develop an understanding of it by creating a
+
+352
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+shared representation (i.e., a visual causal map). This facilitates learning about science
+knowledge and applying it to problem solving processes (Biswas et al. 2005b;
+Leelawong and Biswas 2008). In addition, the shared representation also promotes a
+shared responsibility where the student teaches Betty; and Betty uses that knowledge to
+answer questions. Students may not know how to reason with the map, but they can
+(and do) learn by observing Betty (Leelawong and Biswas 2008). Ideas of shared
+responsibility were implemented in early work on reciprocal teaching (Palincsar and
+Brown 1984), socially-mediated cognition (Goos 1994), and collaborative learning
+(Dillenbourg 1999). The combination of shared representation and shared responsibility
+helps distribute the cognitive work (Arias et al. 2000) and at the same time provides a
+visual formal language for building models of science phenomena in ways that promote
+learning (Scardamalia and Bereiter 1989; Vygotsky 1978).
+In our early work on Betty’s Brain, we built up on the combined ideas of shared
+representation and shared responsibility to design a comprehensive learning by teaching system that adopted the following design principles (Biswas et al. 2005a, b): (i)
+teaching through visual representations that help organize the science content and
+reasoning structures; (ii) developing an agent that performs independently and provides
+feedback on how well it has been taught; and (iii) building on familiar teaching
+interactions (preparing to teach, asking questions, and monitoring and reflecting on
+Betty’s performance) to organize student activity. The novelty in this approach was that
+students not only got to organize their understanding in a formal representation, but
+they also learned to reason with the causal map and answer questions. We believed that
+the ability to see Betty’s approach to reasoning would support students’ ability to
+monitor and regulate their understanding of the domain knowledge they were teaching.
+The paradigm builds on research from educational psychology that has identified a tutor
+learning effect in people from diverse backgrounds, and across subject matter domains
+(Roscoe and Chi 2007). The findings state that people generally learn as a consequence of
+teaching others, and this effect has been observed in multiple tutoring formats. In effect, the
+learning by teaching paradigm leverages the power of an immersive narrative (learning by
+teaching) to motivate students. This was demonstrated both in our earlier work (Biswas
+et al. 2005a, b; Tan and Biswas 2006; Tan et al. 2006; Wagster et al. 2007) and in additional
+studies by our colleagues at Stanford University who have identified a protégé effect:
+students who constructed causal maps for the purposes of teaching Betty were more
+motivated and exerted more effort than students who constructed causal maps for themselves (Chase et al. 2009). Students who taught also associated social characteristics with
+their agents by attributing mental states and responsibility to them. The authors mused:
+BPerhaps having a TA invokes a sense of responsibility that motivates learning, provides an
+environment in which knowledge can be improved through revision, and protects students’
+egos from the psychological ramifications of failure^ (p. 334).
+The interface to the original Betty’s Brain system is shown in Fig. 1. The system was
+configured to teach middle school students about science topics such as river ecosystems and climate change. The system provided three primary functions: (1) teach Betty
+using a causal map; (2) ask Betty questions; and (3) quiz Betty. Students could seek
+help from Mr. Davis, the mentor agent, at any time by clicking on an BAsk Mr. Davis^
+button. The help Mr. Davis provided included answers to general questions like BHow
+do I build a concept map?^, BHow do I search for specific information in the
+resources?^, and BHow does Betty answer a question using the concept map?^ After
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+353
+
+Betty took a quiz, Mr. Davis graded it, and, if asked, provided specific feedback on how
+to find errors and make corrections to the map.
+To engage students in the learning by teaching narrative, we designed Betty and Mr.
+Davis to interact conversationally with the students. In addition to engaging with the
+student socially (e.g., BThanks for teaching me about climate change!^), these interactions were also designed to support students in developing and employing
+metacognitive strategies for teaching Betty (Schwartz et al. 2007; Tan and Biswas
+2006; Wagster et al. 2007). These strategies included: (1) reading the resources
+carefully to find new causal links; (2) re-reading resources in a targeted manner to
+correct erroneous links; and (3) when necessary, probing further by posing queries and
+checking explanations to find incorrect links. Additional details of the Betty’s Brain
+system and earlier experiments conducted with this system are summarized in (Biswas
+et al. 2005a, b; Leelawong and Biswas 2008).
+
+Transition into the Classroom
+Our early studies with Betty’s Brain were conducted as pull-out studies; researchers
+worked with small groups of students and were available to offer guidance and support
+when students were unsure of how to proceed. Overall, these studies demonstrated the
+
+Fig. 1 Original Betty’s Brain system showing a causal map and the query window
+
+354
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+promise of the system and its theoretical framing; we found that the learning by
+teaching approach led to better pre-post learning gains for students. Further, students
+who received feedback on metacognitive processes demonstrated more effective learning behaviors (Biswas et al. 2005a, b; Leelawong and Biswas 2008). They used more
+systematic methods for checking the correctness of their maps and made better use of
+the system’s interface features.
+Following these successes, we began focusing on integrating Betty’s Brain into
+middle school science classrooms (Wagster et al. 2008). The most consequential
+change resulting from this shift was the fact that students needed to work more
+independently on teaching Betty; we did not have enough researchers to provide the
+level of support we could in the pull-out studies. It was during these classroom
+evaluations that we noticed the wide variation in students’ learning and performance
+with Betty’s Brain (Kinnebrew et al. 2013; Segedy et al. 2014; Segedy et al. 2012a). A
+number of students struggled with understanding how to use the system productively;
+they struggled to teach Betty the correct links. Further probing and analysis of these
+students, including their log files and conversations with researchers, showed that many
+of them were unsure of how to identify causal relations as they read the text resources,
+translate those relations into the causal modeling language provided by the system, and
+use Betty’s quiz results to monitor the quality of the causal map. Overall, this led to
+perpetually low quiz scores, frustration, and disengagement for a significant proportion
+of students. For example, one study of 40 students (reported in Kinnebrew et al. 2013)
+found that 18 of the students made very little progress in teaching Betty the correct
+material. Of the remaining 22 students, 16 taught Betty a correct (or nearly correct)
+map, and 6 students made meaningful progress in their teaching. Thus, while some
+students struggled considerably, just as many students showed good understanding and
+succeeded at the task.
+We found this dichotomy intriguing, and much of our subsequent analyses went into
+understanding and contrasting how these more and less successful students used the
+system. The resulting analyses, which utilized hidden Markov models, differential
+sequence mining, and statistical analyses (Biswas et al. 2010; Kinnebrew and Biswas
+2012; Kinnebrew et al. 2013; Segedy et al. 2012a, b; 2014) were revealing. More
+successful students: (1) exhibited significantly higher science learning gains; (2) were
+more accurate in their causal map edits; and (3) performed actions that were more often
+related to their recent previous actions, suggesting that they were more focused and less
+random in their activities. This was further supported by the fact that more successful
+students were more likely to productively combine map editing, reading, and quizzing
+behaviors when compared to less successful students.
+Repeated classroom evaluations of Betty’s Brain conducted between 2009 and 2011
+consistently showed this performance dichotomy. The dichotomy persisted even as we
+designed new feedback for students to help them overcome their difficulties. This
+feedback, channeled through Mr. Davis, was designed to provide metacognitive strategy suggestions by telling students how they might be able to improve Betty’s quiz
+scores. For example, Mr. Davis would encourage students to read the resources about
+the concepts that Betty used to generate her incorrect answers in order to find mistakes
+in the links connecting these concepts. These suggestions were embedded in contextualized conversations (Segedy et al. 2013a, b). Mr. Davis contextualized his suggestions
+in Betty’s current map, her most recent quiz results, and the student’s recent activities.
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+355
+
+Moreover, he delivered the feedback through conversations that were mixed-initiative,
+back-and-forth dialogues between the student and the agent implemented as conversation trees (Adams 2010).
+As we continued to study students’ learning behaviors, particularly the behaviors of
+students who struggled to succeed in Betty’s Brain, we collected careful observations of
+how they used the system. Surprisingly, these students did not seem to pay attention to
+and try to implement suggestions and advice provided by Mr. Davis and Betty. In one
+study, we analyzed video data from students using Betty’s Brain and found that 77 % of
+the feedback delivered by Betty and Mr. Davis were ignored by students (Segedy et al.
+2012b). These observations led us to realize that students had difficulties in understanding and interpreting the importance of the strategy suggestions provided by the
+mentor agent. Additional observations seemed to imply that this could be attributed to
+underdeveloped cognitive skills that are essential to being successful in the system. For
+example, many students, when presented with a paragraph of text, struggled to identify
+the causal relationship described therein.
+This prompted us to analyze the Betty’s Brain tasks in more detail; what pre-requisite
+skills might students not possess, and how can we help students develop those skills? In
+answering these questions, we developed a task model that captures these tasks and
+their dependency relationships (Segedy et al. 2014; Kinnebrew et al. 2014). Using this
+model as a framework, we re-conceptualized and redesigned Betty’s Brain. The new
+system, presented in the next section, has allowed us to study students’ approaches to
+learning with Betty’s Brain in greater detail than was previously possible. It also
+features new approaches to scaffolding students’ learning in Betty’s Brain.
+
+The Re-Designed Betty’s Brain: Focus on Open-Ended Learning
+Environments
+In redesigning Betty’s Brain, we realized that our system shares several characteristics
+with other computer-based learning environments developed by the research community. Students are presented with a modeling task (building a causal map), provided
+with resources for learning about the science knowledge needed to build the model, and
+given tools for building and testing their causal maps. In other words, Betty’s Brain fits
+the definition of an open-ended learning environment (OELE; Clarebout and Elen
+2008; Land et al. 2012; Land 2000). OELEs are learner centered; they provide a
+learning context and a set of tools for exploring, hypothesizing, and building solutions
+to authentic and complex problems, and are typically designed Bto support thinkingintensive interactions with limited external direction^ (Land 2000; p. 62). As such,
+these environments are well-suited to prepare students for future learning (Bransford
+and Schwartz 1999) by developing their abilities to independently make choices when
+solving open-ended problems.
+Under this conceptualization, students learning with Betty’s Brain must solve the
+open-ended problem of teaching Betty the correct causal model by gaining an understanding of the science topic, translating that understanding into a causal model, and
+using the results of Betty’s quizzes as feedback to help guide subsequent learning,
+teaching, and model development activities. Our conceptual understanding of these
+tasks is shown as a hierarchical task model in Fig. 2 (Segedy et al. 2014; Kinnebrew
+
+356
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+et al. 2014). This model characterizes the tasks that are important for achieving success
+in OELEs generally and Betty’s Brain more specifically. Since the overall task is openended, students have to learn how to analyze the current state of their model and find
+combinations of the different subtasks that help them make progress toward teaching
+Betty the correct science model. In other words, students must develop and apply
+metacognitive strategies for setting goals, developing plans for achieving these goals,
+monitoring their plans as they execute them, and evaluating their progress toward their
+goals in ways that can help them make decisions on whether to continue, refine, and
+change their approach so they can continue to make progress.
+The task model (Fig. 2) defines three broad classes of OELE tasks related to: (i)
+information seeking and acquisition, (ii) solution construction and refinement, and (iii)
+solution assessment. Each of these task categories is further broken down into three
+levels that represent: (i) general task descriptions that are common across many OELEs;
+(ii) Betty’s Brain specific instantiations of these tasks; and (iii) interface features in
+Betty’s Brain that help students accomplish these tasks. The directed links in the task
+model represent dependency relations. Information seeking and acquisition depends on
+one’s ability to identify, evaluate the relevance of, and interpret information. In the
+Betty’s Brain system, primary information about the domain is provided in the form of
+hypertext resources. Feedback provided by the mentor and Betty provides students with
+additional information on how they can improve Betty’s current map. Solution construction and refinement tasks depend on one’s ability to apply information gained from
+both the information seeking tools and the solution assessment results to constructing
+and refining the solution in progress. In the Betty’s Brain system, this translates to
+building and refining the causal map structure. Finally, solution assessment tasks
+depend on one’s ability to interpret the results of solution assessments as actionable
+information that can be used to refine the solution in progress. This involves asking
+Betty to take quizzes and trying to interpret why certain questions were answered
+correctly and others were not. In order to accomplish these tasks in Betty’s Brain,
+students must understand how to perform the related Betty’s Brain specific tasks by
+utilizing the system’s interface features.
+The structure of the task model makes it easy to see why a number of students
+struggled to succeed in teaching Betty. To be successful, students must learn to perform
+a diverse set of tasks. Some students may fail because, while they are good readers,
+they are unfamiliar with (and, therefore, unable to grasp) the causal modeling language
+and reasoning mechanisms. Others may fail because they do not understand how to use
+Betty’s quiz results to determine what links in their map are correct and incorrect. To
+truly help students succeed, we need to develop accessible scaffolds that are targeted
+toward supporting students’ development of these skills. The idea, derived from the
+
+Fig. 2 Task model for OELEs
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+357
+
+learning sciences literature, implies that students will be more receptive to learning a
+new skill when they realize its importance in successfully completing a task, and
+learning the skill in context will help them operationalize it more effectively (Bransford
+et al. 1990; Bransford et al. 2000; Cobb and Bowers 1999; Lave and Wenger 1991). To
+do this, we redesigned the Betty’s Brain interface, and simultaneously began creating
+new scaffolding functions for Betty and Mr. Davis.
+Figure 3 presents the new Betty’s Brain interface. Like its predecessor, this new
+system allows students to read about a science topic, teach it to Betty, and ask her to
+answer questions and take quizzes. However, the interfaces for acquiring information,
+constructing the causal map, and testing the map by having Betty take quizzes have
+been redesigned so that at any time when the student is interacting with the system,
+only one of these interfaces is visible. This allows the program to determine more
+precisely what the student is focusing on at any time and track shifts between reading,
+teaching, and quizzing. In addition, the system includes several new tools for students
+to use while learning and teaching. The quiz interface, for example, allows students to
+click on a quiz question and immediately see the links that Betty used to generate her
+answer. This makes it easier for students to determine the set of links used in correct
+and incorrect answers on the quiz. When Betty’s answer to a quiz question is correct, all
+of the links used to answer the question are correct. Thus, this interface allows students
+to quickly view the set of links used to correctly answer a question. This, in turn, makes
+it easier for students to pay attention to incorrect links or links that may be missing from
+the causal map.
+The ability to track how students shift between resource pages, the causal map, and
+quizzes has additional advantages. It has allowed us to develop a new and more
+powerful approach to analyzing students’ problem solving processes. This approach,
+called coherence analysis (CA; Segedy et al. 2015), analyzes learner behaviors by
+combining information gleaned from sequences of student actions to produce measures
+of action coherence. Using these measures, we can characterize students’ problem-
+
+Fig. 3 New Betty’s Brain showing the quiz interface
+
+358
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+solving approaches in ways that help us better understand students’ capabilities, and,
+therefore, make more informed scaffolding decisions than in the previous versions of
+our learning environment.
+CA focuses on how students interpret and apply the information they encounter
+while working in an OELE such as Betty’s Brain. When students take actions that put
+them into contact with information that can help them improve their current solution
+(e.g., by reading about a causal relation), they have generated potential that should
+motivate and support future actions (e.g., teaching Betty that causal relation). The
+assumption is that if students can recognize relevant information in the resources and
+quiz results, then they should act on that information. If they do not, CA assumes that
+they did not recognize or understand the relevance of the information. This may stem
+from incomplete or incorrect domain knowledge (i.e., science) understanding, task
+understanding, and/or metacognitive knowledge. In addition, when students edit their
+map without encountering any information that justifies that edit, CA labels this as an
+unsupported edit and assumes that they are guessing1.
+In more detail, we have derived measures from students’ activity traces within our
+CA framework. For illustration purposes, we list them below:
+1. Edits/Annotations per Minute: The number of causal link edits and annotations
+made by the student divided by number of minutes that the student was logged
+onto the system.
+2. Unsupported edit percentage: the percentage of causal link edits and annotations
+not supported by any of the previous views (of the resources and quiz results)
+occurring within a five minute window of the edit.
+3. Information viewing time: the amount of time spent viewing either the science
+resource pages or Betty’s quizzes. Information viewing percentage is the
+percentage of the student’s time on the system classified as information
+viewing time.
+4. Potential generation time: the amount of information viewing time spent viewing
+information that could support causal map edits that would improve the map score.
+Potential generation percentage is the percentage of information viewing time
+classified as potential generation time.
+5. Used potential time: the amount of potential generation time associated with views
+that occur within a prior five minute window and support an ensuing causal map
+edit. Used potential percentage is the percentage of potential generation time
+classified as used potential time.
+6. Disengaged time: the sum of all periods of time, at least five minutes long,
+during which the student neither: (1) viewed a source of information (i.e., the
+science resources or Betty’s quiz results) for at least 30 s; nor (ii) added,
+changed, deleted, or annotated concepts or links. This metric represents
+periods of time during which the learner is not measurably engaged with
+the system. Disengaged percentage is the percentage of the student’s time on
+the system classified as disengaged time.
+1
+
+In reality, students may be applying their prior knowledge. However, the assumption is that since students
+are typically novices in the domain that they are studying, they should verify their prior knowledge before
+teaching it to Betty.
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+359
+
+Metrics one and two capture the quantity and quality of a student’s causal link edits
+and annotations, where supported edits and annotations are considered to be of higher
+quality. Metrics three, four, and five capture the quantity and quality of the student’s time
+viewing either the resources or Betty’s graded answers. These metrics speak to the
+student’s ability to identify resource pages that may help them build or refine their map
+(potential generation percentage) and then utilize information from those pages in future
+map editing activities (used potential percentage). In these analyses, a page view
+generated potential and supported edits only if it lasted at least 10 s. Similarly, students
+had to view quiz results for at least 2 s. These cut-offs helped filter out irrelevant actions
+(e.g., rapidly flipping through the resource pages without reading them).
+By characterizing behaviors in this manner, CA provides insight into students’ openended problem-solving strategies as well as the extent to which they understand the
+nuances of the learning task they are currently working on. Results of applying CA to
+data from a recent classroom study with Betty’s Brain (Segedy et al. 2015) showed: (i)
+CA-derived metrics predicted students’ task performance and learning gains; (ii) CAderived metrics correlated significantly with students’ prior skill levels, demonstrating a
+link between task understanding and effective open-ended problem solving behaviors;
+and (iii) clustering students based on their CA-derived metrics identified common
+problem-solving approaches among students in the study.
+Table 1 below includes results of clustering students according to the six measures of
+action coherence listed above while using Betty’s Brain (see Segedy et al. 2015; Segedy
+2014 for details of the analysis).
+The clustering analysis revealed 5 distinct behavior profiles among the 98 students
+in the study. Cluster 1 students (n=24) may be characterized as frequent researchers
+and careful editors; these students spent large proportions of their time (42.4 %)
+viewing sources of information and did not edit their maps very often. When they
+did edit the map, the edit was usually supported by recent activities (unsupported edit
+percentage=29.4 %). Most of the information they viewed was useful for improving
+their causal maps (potential generation percentage=71.4 %), but they often did not take
+advantage of this information (used potential percentage=58.9 %). Cluster 2 students
+(n=39) may be characterized as strategic experimenters. These students spent a fair
+proportion of their time (33.5 %) viewing sources of information, and, like Cluster 1
+Table 1 Means (and standard deviations) of coherence measures, broken down by cluster
+Cluster
+
+Unsup. Edit %
+Edits +
+Annotations/
+min
+
+Info. View %
+
+Potential
+Gen. %
+
+Used Potential %
+
+Disengaged %
+
+1. Res./Careful
+Editors (n=24)
+
+0.30 (0.11)
+
+29.4 % (16.1 %) 42.4 % (11.0 %) 71.4 % (10.6 %) 58.9 % (15.4 %) 15.7 % (9.9 %)
+
+2. Str. Exps.
+(n=39)
+
+0.60 (0.23)
+
+54.4 % (14.8 %) 33.5 % (8.3 %)
+
+58.7 % (18.9 %) 62.6 % (16.2 %) 10.9 % (7.4 %)
+
+3. Confused
+Guessers (n=5)
+
+0.21 (0.06)
+
+73.5 % (13.5 %) 58.9 % (7.7 %)
+
+45.8 % (19.4 %) 23.1 % (12.6 %) 4.8 % (5.4 %)
+
+4. Disengaged
+(n=6)
+
+0.33 (0.11)
+
+74.7 % (17.4 %) 27.0 % (9.6 %)
+
+54.9 % (9.3 %)
+
+28.0 % (8.7 %)
+
+33.6 % (8.4 %)
+
+5. Engaged/
+1.04 (0.32)
+Efficient (n=24)
+
+29.1 % (15.2 %) 35.4 % (8.6 %)
+
+76.8 % (9.5 %)
+
+82.0 % (9.0 %)
+
+3.1 % (5.0 %)
+
+360
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+students, often did not take advantage of this information (used potential percentage=
+62.6 %). Unlike Cluster 1 students, they performed several more map edits, a higher
+proportion of which were unsupported, as they tried to discover the correct causal
+model.
+Cluster 3 students (n=5) may be characterized as confused guessers. These students
+edited their maps fairly infrequently and usually without support. They spent an
+average of 58.9 % of their time viewing sources of information, but most of their time
+viewing information did not generate potential (potential generation percentage=
+45.8 %). One possibility is that these students struggled to differentiate between more
+and less helpful sources of information. Unfortunately, when they did view useful
+information, they often did not take advantage of it (used potential percentage=
+23.1 %), indicating that they may have struggled to understand the relevance of the
+information they encountered. Students in Cluster 4 (n=6) may be characterized as
+disengaged from the task. On average, these students spent more than 30 % of their
+time on the system (more than 45 min of class time) in a state of disengagement. Like
+confused guessers, disengaged students had a very high proportion of unsupported
+edits, low potential generation percentage, and low used potential percentage. In
+addition, their information viewing percentage was much lower, though their edits
+per minute were slightly higher than the confused guessers.
+Cluster 5 students (n=24) are characterized by high levels of editing and annotating
+links (just over 1 edit per minute), and most of these students’ edits (70.9 %) were
+supported. Additionally, they spent just over one third of their time viewing information, and over three fourths of this time was spent viewing information that generated
+potential. These students are distinct from students in the other four clusters in that they
+used a large majority of the potential they generated (82.0 %) and were rarely in a state
+of disengagement (3.1 %). In other words, these students appeared to be engaged and
+efficient. Their behavior is indicative of students who knew how to succeed in Betty’s
+Brain and were willing to exert the necessary effort.
+In comparing the learning and performance of students in these clusters (for additional details on these comparisons, see Segedy et al. 2015; Segedy 2014), we found that
+Cluster 5 students, who were characterized as engaged and efficient, had higher reading
+scores on skill tests and exhibited significantly higher science gains when compared to
+all other clusters. In contrast, Cluster 3 students, who were characterized as confused
+guessers, had significantly lower skill scores on both the pre-test and post-test when
+compared to most other clusters. However, this disadvantage did not measurably prevent
+them from learning the science content; their learning gains were not significantly
+different from the learning gains achieved by students in Clusters 1, 2, and 4. Additionally, strategic guessers achieved higher map scores than both the disengaged students
+and confused guessers. Frequent researchers and careful editors also achieved higher
+map scores than disengaged students. As with the learning results, engaged and efficient
+students performed significantly better than all other groups of students.
+
+Reflections and Future Directions
+Throughout the course of our research with Betty’s Brain, the goal has always been to
+help students become effective and independent science learners. To achieve this, we
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+361
+
+have developed a computer-based learning environment that is learner-centered and
+open-ended, allowing students to direct their own learning processes. In particular, we
+have focused on learning science by building and reasoning with models. As our
+research with the Betty’s Brain system has progressed, we have come to understand
+that using virtual agents assigned specific supportive roles (e.g., student, mentor) can
+engage and motivate students. But some students still face difficulties in combining
+learning, building, and checking tasks when attempting to build and reason with their
+science models. By developing coherence analysis (CA), our ability to understand the
+specific difficulties individual students face has increased significantly, and our focus
+has shifted to detecting students who struggle to succeed as they work in Betty’s Brain
+and providing them with relevant scaffolds to help them overcome their difficulties.
+We now have a framework for characterizing the tasks students need to complete to
+be successful in teaching Betty (Fig. 2 – the hierarchical task model) and a method for
+interpreting students’ problem-solving behaviors as they work in the Betty’s Brain
+environment. These greatly increase our ability to adapt to students as they use our
+system. We have started experimenting with scaffolding students who exhibit poor
+coherence. Thus far, we have focused on teaching students how to accomplish the tasks
+in the task model through guided skill practice (Segedy et al. 2013a, b). In the future,
+we will look to develop and test additional scaffolds that focus more on metacognitive
+strategies for solving complex, open-ended problems.
+An important result from our recent work in OELEs in general, and Betty’s Brain in
+particular, has been in developing the CA framework with supporting analytic measures. We have found that CA, as separate from students’ learning and performance,
+provides insight into aspects of students’ problem solving behaviors, particularly in
+OELEs. Several of the behavior profiles that we identified using cluster analysis
+exhibited similar levels of prior knowledge, prior skill levels, success in teaching Betty,
+and learning while using the system. CA helps us understand how different behaviors
+can result in the same level of performance and learning. In fact, one of the more
+interesting findings that emerged from the above-referenced study is that CA-derived
+metrics were able to distinguish groups of students with distinct behavior profiles
+beyond what was possible when only focusing on learning gains and the correctness
+of students’ causal maps. Given this, one potentially valuable application of CA in
+OELEs is presenting CA-derived metrics to classroom teachers for evaluation and
+formative assessment. Ideally, teachers could use these reports to quickly and easily: (i)
+understand learners’ problem-solving approaches; (ii) infer potential reasons for the
+levels of success achieved by students; and (iii) make predictions about students’
+learning and task understanding. Moreover, teachers could use these reports to assign
+performance and effort grades and implement classroom and homework activities that
+target the aspects of SRL and problem solving that students are struggling with. We
+plan to investigate this further in our future research.
+In the future, we will extend our scaffolding approach to provide the right combination of meta-cognitive strategy and task-specific skill feedback through our virtual
+agents in the Betty’s Brain system. We are currently working on using results from our
+work in sequence mining of students’ activity sequences (Kinnebrew et al. 2013) to
+track and interpret students’ strategy use as they work in the environment. Combining
+the sequence mining results with CA will provide a powerful framework for understanding students’ learning behaviors in the more expansive framework of strategy use,
+
+362
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+task skills, and learning performance (i.e., the ability to make progress toward building
+correct science models). This framework will help to better contextualize the feedback
+provided to students, and help students become more self-directed and independent
+learners.
+In addition, we will explore how students’ CA metrics change over time to understand how students adapt their approaches as they use the system. We will investigate
+what leads to these changes, and, depending on the change, how to encourage or
+prevent these changes. We may be able to identify Bat risk^ behavior profiles and take
+action to prevent students from disengaging from the task. Additional work will
+investigate how these changes relate to students’ affective states. We are currently
+investigating methods for incorporating affect detectors into Betty’s Brain to investigate
+how affect influences open-ended problem solving.
+Last, one of our additional goals is to help students understand the importance and
+role of scientific modeling in problem solving, especially when the problems connect
+the science models to the real world (scenarios). For example, we have run preliminary
+studies where 6th grade students, after they have successfully taught Betty a model that
+captures the impact of certain human activities on climate change, work together to
+identify scenarios in their school or their neighborhoods where the carbon footprint is
+high, and then propose solutions that will help reduce the carbon footprint. Other
+examples include designing self-sustaining eco-columns for fish, plants, and other
+living organisms, based on lessons learned from constructing a causal model of
+ecological processes in a pond ecosystem. This larger focus will also enable us to
+extend our learning environment to support and study collaborative problem solving
+(Barron 2000; Palincsar et al. 1993), and develop assessments that support preparation
+for future learning (Bransford and Schwartz 1999).
+
+References
+Adams, E. (2010). Fundamentals of game design (2nd ed.). Berkeley: New Riders Pub.
+Arias, E., Eden, H., Fischer, G., Gorman, A., & Scharff, E. (2000). Transcending the individual human
+mind—creating shared understanding through collaborative design. ACM Transactions on ComputerHuman Interaction (TOCHI), 7(1), 84–113.
+Bargh, J. A., & Schul, Y. (1980). On the cognitive benefits of teaching. Journal of Educational Psychology,
+72(5), 593–604.
+Barron, B. (2000). Achieving coordination in collaborative problem-solving groups. The Journal of the
+Learning Sciences, 9(4), 403–436.
+Benware, C. A., & Deci, E. L. (1984). Quality of learning with an active versus passive motivational set.
+American Educational Research Journal, 21(4), 755–765.
+Biswas, G., Schwartz, D., & Bransford, J. (2001). Technology support for complex problem solving: From
+SAD environments to AI. In K. D. Forbus & P. J. Feltovich (Eds.), Smart machines in education (pp. 71–
+98). Menlo Park: AAAI Press.
+Biswas, G., Leelawong, K., Belynne, K., & Adebiyi, B. (2005). Case studies in learning by teaching
+behavioral differences in directed versus guided learning. In: Proceedings of the 27th Annual
+Conference of the Cognitive Science Society (pp. 828–833). Stresa, Italy.
+Biswas, G., Leelawong, K., Schwartz, D., & Vye, N. (2005b). Learning by teaching: a new agent paradigm for
+educational software. Applied Artificial Intelligence, 19(3–4), 363–392.
+Biswas, G., Jeong, H., Kinnebrew, J., Sulcer, B., & Roscoe, R. (2010). Measuring self-regulated learning skills
+through social interactions in a teachable agent environment. Research and Practice in Technology
+Enhanced Learning, 5(2), 123–152.
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+363
+
+Bransford, J., & Schwartz, D. (1999). Rethinking transfer: a simple proposal with multiple implications.
+Review of Research in Education, 24(1), 61–101.
+Bransford, J. D., Sherwood, R. D., Hasselbring, T. S., Kinzer, C. K., & Williams, S. M. (1990). Anchored
+instruction: Why we need it and how technology can help. In D. Nix & R. J. Spiro (Eds.), Cognition,
+education, and multimedia: exploring ideas in high technology (pp. 115–141). Hillsdale: L. Erlbaum.
+Bransford, J., Brown, A., & Cocking, R. (Eds.). (2000). How People Learn. Washington, D.C.: National
+Academy Press.
+Brophy, S., Biswas, G., Katzlberger, T., Bransford, J., & Schwartz, D. (1999). Teachable agents: Combining
+insights from learning theory and computer science. In S. P. Lajoie & M. Vivet (Eds.), Artificial
+intelligence in education (pp. 21–28). Amsterdam: IOS Press.
+Chan, T. W., & Chou, C. Y. (1997). Exploring the design of computer supports for reciprocal tutoring.
+International Journal of Artificial Intelligence in Education, 8, 1–29.
+Chase, C. C., Chin, D. B., Oppezzo, M. A., & Schwartz, D. L. (2009). Teachable agents and the protégé effect:
+increasing the effort towards learning. Journal of Science Education and Technology, 18(4), 334–352.
+Clarebout, G., & Elen, J. (2008). Advice on tool use in open learning environments. Journal of Educational
+Multimedia and Hypermedia, 17(1), 81–97.
+Cobb, P., & Bowers, J. (1999). Cognitive and situated learning perspectives in theory and practice.
+Educational Researcher, 28(2), 4–15.
+Cohen, P., Kulik, J., & Kulik, C. (1982). Educational outcomes of tutoring: a meta-analysis of findings.
+American Educational Research Journal, 19(2), 237–248.
+Dillenbourg, P. (1999). What do you mean by collaborative learning? Collaborative-learning: Cognitive and
+Computational Approaches (pp. 1–19). Oxford: Elsevier.
+Goos, M. (1994). Metacognitive decision making and social interactions during paired problem solving.
+Mathematics Education Research Journal, 6, 144–165.
+Kinnebrew, J. & Biswas, G. (2012). Identifying learning behaviors by contextualizing differential sequence
+mining with action features and performance evolution. In: K. Yacef, O. Zaîane, H. Hershkovitz, M.
+Yudelson, & J. Stamper (Eds.) Proceedings of the 5th International Conference on Educational Data
+Mining (pp. 57–64). International Educational Data Mining Society.
+Kinnebrew, J., Loretz, K., & Biswas, G. (2013). A contextualized, differential sequence mining method to
+derive students’ learning behavior patterns. Journal of Educational Data Mining, 5(1), 190–219.
+Kinnebrew, J. S., Segedy, J. R., & Biswas, G. (2014). Analyzing the temporal evolution of students’ behavior
+in open-ended learning environments. Metacognition and Learning, 9(2), 187–215.
+Land, S. (2000). Cognitive requirements for learning with open-ended learning environments. Educational
+Technology Research and Development, 48(3), 61–78.
+Land, S., Hannafin, M., & Oliver, K. (2012). Student-centered learning environments: Foundations, assumptions and design. In D. Jonassen & S. Land (Eds.), Theoretical foundations of learning environments (pp.
+3–25). New York: Routledge.
+Lave, J., & Wenger, E. (1991). Situated learning: Legitimate peripheral participation. Cambridge: Cambridge
+University Press.
+Leelawong, K., & Biswas, G. (2008). Designing learning by teaching agents: The Betty’s Brain system.
+International Journal of Artificial Intelligence in Education, 18(3), 181–208.
+Michie, D., Paterson, A., & Hayes-Michie, J. (1989). Learning by Teaching. In: 2nd Scandinavian Conference
+on Artificial Intelligence 89 (pp. 307–331). Amsterdam: IOS Press.
+Obayashi, F., Shimoda, H., & Yoshikawa, H. (2000). Construction and evaluation of CAI system based on
+learning by teaching to virtual student. World Multiconference on Systemics, Cybernetics and Informatics
+(pp. 94–99). Volume 3. Orlando, Florida.
+Palincsar, A. S. (1998). Social constructivist perspectives on teaching and learning. Annual Review of
+Psychology, 49, 345–375.
+Palincsar, A. S., & Brown, A. L. (1984). Reciprocal teaching of comprehension-fostering and comprehensionmonitoring activities. Cognition and Instruction, 1, 117–175.
+Palincsar, A. S., Anderson, C., & David, Y. M. (1993). Pursuing scientific literacy in the middle grades
+through collaborative problem solving. The Elementary School Journal, 93(5), 643–658.
+Palthepu, S., Greer, J., & McCalla, G. (1991). Learning by teaching. In The Proceedings of the International
+Conference on the Learning Sciences (pp. 357–363). Charlottesville, VA: Association for the
+Advancement of Computing in Education.
+Roscoe, R., & Chi, M. (2007). Understanding tutor learning: knowledge-building and knowledge-telling in
+peer tutors’ explanations and questions. Review of Educational Research, 77(4), 534–574.
+Scardamalia, M., & Bereiter, C. (1989). Conceptions of teaching and approaches to core problems. In M. C.
+Reynolds (Ed.), Knowledge base for the beginning teacher (pp. 37–46). New York: Pergamon Press.
+
+364
+
+Int J Artif Intell Educ (2016) 26:350–364
+
+Schwartz, D. L., Blair, K. P., Biswas, G., Leelawong, K., & Davis, J. (2007). Animations of thought:
+Interactivity in the teachable agent paradigm. In R. Lowe & W. Schnotz (Eds.), Learning with animation:
+Research and implications for design (pp. 114–140). UK: Cambrige University Press.
+Segedy, J. R. (2014). Adaptive scaffolds in open-ended computer-based learning environments (Doctoral
+dissertation). Nashville: Department of EECS, Vanderbilt University.
+Segedy, J.R., Kinnebrew, J., & Biswas, G. (2012a). Relating student performance to action out-comes and
+context in a choice-rich learning environment. In: S. Cerri, W. Clancey, G. Papadourakis, & L. Panourgia
+(Eds.), Intelligent Tutoring Systems: Vol. 7315. Lecture Notes in Computer Science (pp. 505–510).
+Springer.
+Segedy, J.R., Kinnebrew, J., and Biswas, G. (2012b). Supporting student learning using conversational agents
+in a teachable agent environment. In J. van Aalst, K. Thompson, M. Jacobson, & P. Reimann (Eds.), The
+future of learning: Proceedings of the 10th international conference of the learning sciences (ICLS 2012):
+Vol. 2. Short Papers, Symposia, and Abstracts (pp. 251–255). International Society of the Learning
+Sciences.
+Segedy, J.R., Biswas, G., Blackstock, E., & Jenkins, A. (2013a). Guided skill practice as an adaptive
+scaffolding strategy in open-ended learning environments. In: H.C. Lane, K. Yacef, J. Mostow, & P.
+Pavlik, (Eds.), Artificial Intelligence in Education: Vol. 7926. Lecture Notes in Computer Science (pp.
+532–541). Springer.
+Segedy, J. R., Kinnebrew, J., & Biswas, G. (2013b). The effect of contextualized conversational feedback in a
+complex open-ended learning environment. Educational Technology Research and Development, 61(1),
+71–89.
+Segedy, J. R., Biswas, G., & Sulcer, B. (2014). A model-based behavior analysis approach for open-ended
+environments. Journal of Educational Technology & Society, 17(1), 272–282.
+Segedy, J.R., Kinnebrew, J.S., & Biswas, G. (2015). Using coherence analysis to characterize self-regulated
+learning behaviours in open-ended learning environments. Journal of Learning Analytics, 2(1), in press.
+Tan, J., & Biswas, G. (2006). The role of feedback in preparation for future learning: A case study in learning
+by teaching environments. In Intelligent Tutoring Systems: Vol. 4053. Lecture Notes in Computer Science
+(pp. 370–381). Springer.
+Tan, J., Biswas, G., & Schwartz, D. (2006). Feedback for metacognitive support in learning by teaching
+environments. In Proceedings of the 28th Annual Meeting of the Cognitive Science Society (pp. 828–
+833). Vancouver, Canada.
+Vygotsky, L. (1978). Mind in society: The development of higher psychological processes. Cambridge:
+Harvard University Press.
+Wagster, J., Tan, J., Biswas, G., & Schwartz, D. (2007). Do learning by teaching environments with
+metacognitive support help students develop better learning behaviors? In: D. McNamara & J. Trafton
+(Eds.) Proceedings of the 29th Annual Meeting of the Cognitive Science Society (pp. 695–700). Austin,
+TX: Cognitive Science Society.
+Wagster, J., Kwong, H., Segedy, J., Biswas, G., & Schwartz, D. (2008). Bringing CBLEs into classrooms:
+Experiences with the Betty's Brain system. In Proceedings of the Eighth IEEE International Conference
+on Advanced Learning Technologies (pp. 252–256). Santander, Cantabria, Spain.
+Willis, J., & Crowder, J. (1974). Does tutoring enhance the tutor’s academic learning? Psychology in the
+Schools, 11, 68–70.
+
+
